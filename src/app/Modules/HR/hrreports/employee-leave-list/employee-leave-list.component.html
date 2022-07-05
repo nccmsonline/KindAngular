@@ -1,0 +1,65 @@
+
+
+  <div class="form-group mr-2 ml-auto bd-highlight">
+      <span class="d-flex">
+              <a skipLocationChange  [routerLink]="['/hr-reports']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                  class="mdi mdi-keyboard-backspace"></i></a>
+                  &nbsp;&nbsp;
+          <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('PassedOTList.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
+          <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+            <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="exportToExcel()"  ><i class="fa fa-file-excel"></i>&nbsp;{{'export'| translate}}</button>
+        
+        </div>
+        </span>
+    </div>
+    <div>
+    <kendo-pdf-export #pdf paperSize="A4" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 10, left: 20}" [repeatHeaders]="repeatHeaders">
+      <div class="example-loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+     </div>
+        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);" align="center">
+       <div class="table-responsive"   style="width: 1000px">
+       <table class="custom-invoice-table" id="contentToConvert" > 
+           <thead>
+                  <tr><td  align="text-center"  colspan="6"><h5> {{CompanyName}}</h5></td></tr>
+                  <tr><td align="text-center" colspan="6"><b> {{Address}}</b></td></tr>
+                  <tr><td align="text-center" colspan="6"><b> {{reportHeader}}</b></td></tr>
+                  <tr><td colspan="7"><h5>&nbsp;&nbsp; </h5></td></tr>
+                  <tr class="bg-sky border-lb">
+                  <th scope="col" style="width: 100px;">Dated</th>
+                  <!-- <th scope="col" style="width: 200px;padding-left:10px;">Department</th> -->
+                  <th scope="col" style="width: 70px;">Emp No</th>
+                  <th scope="col" style="width: 180px;">Name </th>
+                  <th scope="col" style="width: 70px;text-align : right">From Date</th>
+                  <th scope="col" style="width: 70px;text-align : right">To Date</th>
+                  <th scope="col" style="width: 170px;padding-left: 10px;">{{addresscolumn}} </th>
+                  <th scope="col" style="width: 200px;">{{reason}} </th>
+  
+              </tr>
+        
+         
+            </thead>
+            <tbody class="font-sm">
+             
+            <tr *ngFor="let y of  itemDisplay">
+                
+                <td scope="col"  style="width: 70px;">{{y.DATED|date:"dd/MM/yyyy"}}</td>
+                <!-- <td scope="col"  style="width: 200px;padding-left:10px;">{{y.DEPARTMENT}}</td> -->
+                <td scope="col"  style="width: 50px;">{{y.EMPNO}}</td>
+                <td scope="col"  style="width: 180px;">{{y.NAME}}</td>
+                <td scope="col"  style="width: 90px;text-align : right">{{y.FROMDATE |date:"dd/MM/yyyy"}}</td>
+                <td  scope="col" style="width: 90px;text-align : right">{{y.TODATE |date:"dd/MM/yyyy"}}</td>
+                <td scope="col"  style="width: 200px;padding-left: 10px;">{{y.ADDRESS}}</td>
+                <td scope="col"  style="width: 200px;">{{y.REASON}}</td>
+             
+                  
+             </tr>
+             
+            </tbody>
+        </table>
+      </div>
+      </div>
+      </kendo-pdf-export>
+      </div>
+  
+  

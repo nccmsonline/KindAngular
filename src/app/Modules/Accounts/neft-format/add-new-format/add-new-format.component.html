@@ -1,0 +1,161 @@
+
+  
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  
+  <div class="page-wrapper" >
+      <div class="container-fluid" style="background:#dcdcdc;">  
+
+<div class="row">
+    <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+               </div>
+            <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+        <div class="card-body border-bottom py-2">
+            <div class="d-md-flex align-items-center justify-content-between">
+          
+                      <div class="form-row mx-0 d-flex bd-highlight w-100">
+                        <!-- <input type="file" (change)="onFileSelected($event)"> -->
+                        <!-- <input #file type="file" multiple (change)="onFileSelected(file.files)" />
+                        <button type="button" (click)="uploadfile()">upload</button> -->
+                        <h4 class="card-title m-0">Neft/RTGS</h4>
+                        
+                        <!-- <div class="form-group mx-4 mb-1"> -->
+                        <div class="col-sm-3">  
+                            <span class="d-flex">    
+                                <a skipLocationChange  [routerLink]="['/salary-neft-format']"  class="btn btn-sm rounded btn-warning mr-3" >
+                                 <i class="mdi mdi-keyboard-backspace"></i></a>
+                                     &nbsp;&nbsp; 
+                            <button *ngIf="routeID==0" type="submit" [disabled]="isLoadingResults"  class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="confirmNeft()">Save Data</button>
+                            <button *ngIf="routeID>0" type="submit" [disabled]="isLoadingResults"  class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="confirmNeft()">Update Data</button>
+                          </span>
+                          </div>
+                     
+                        <label class="col-sm-1 text-right" for="inputPassword4">Select From</label>
+                        <div class="col-sm-1 d-flex">
+                              <input type="text" class="form-control form-control-sm" name="fromamt" [(ngModel)]="newData.fromamt" [ngModelOptions]="{standalone: true}"
+                              oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" style="text-align: right">
+                        </div>
+
+                        <label class="col-sm-1 text-right" for="inputPassword4">To</label>
+                        <div class="col-sm-1 d-flex">
+                            <input type="text" class="form-control form-control-sm" name="uptoamt" [(ngModel)]="newData.uptoamt" [ngModelOptions]="{standalone: true}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" style="text-align: right">
+                        </div>
+                       
+                        <div class="col-sm-1 d-flex">
+                            <input type="text" class="form-control form-control-sm" name="percentage" [(ngModel)]="newData.percentage" [ngModelOptions]="{standalone: true}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" style="text-align: right" > %
+                        </div>
+                        <div class="form-group w-auto p-0 mr-3">
+                          <button class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="filterData()"><i class="fa fa-filter"></i></button>
+                      </div> 
+
+                </div>
+             
+        </div>
+        <div class="d-flex- row">
+           <div class="col-lg-12 tab-content m-t-10" id="pills-tabContent">
+            <div class="card-body indent-entry px-0 py-2" >
+            
+  
+             
+          <div class="col-12">
+                <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+                  <div class="w-100">
+                   
+                    <div class="card example-container " style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+                        <table mat-table [dataSource]="fieldArray" matSort class="table table-sm table-striped w-100 mb-0 mat-table" #table>
+                            <ng-container matColumnDef="TRANSDATE">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="10%">Dated </th>
+                                    <td mat-cell *matCellDef="let element"  > 
+                                    <mat-checkbox (change)="onChange($event, element)"   [(ngModel)]="element.checked"></mat-checkbox>
+                                      {{element.TRANSDATE |date:'dd-MMM-yy'}} </td>
+                                       
+                            </ng-container>
+                      
+                            <ng-container matColumnDef="NAME">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" style="width:20%"> Party Name </th>
+                                <td mat-cell *matCellDef="let element" (click)="openDialog(element)" > 
+                                    <a style="color: #0e43af !important;cursor: pointer !important;">
+                                       {{element.NAME}}</a> </td>
+                            </ng-container>
+          
+                            <ng-container matColumnDef="BANKACNO">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="20%">Bank A/c No</th>
+                              <td mat-cell *matCellDef="let element; let i = index">   
+                                  {{element.BANKACNO}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PAYMENTTYPE">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="10%">Payment</th>
+                              <td mat-cell *matCellDef="let element; let i = index">  
+                                  {{element.PAYMENTDESC}}
+                                </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="IFSC">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="10%">IFSC</th>
+                              <td mat-cell *matCellDef="let element; let i = index">  
+                                  {{element.IFSC}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="TRANAMT">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  style="width:10%;">NEFT Amount </th>
+                              <td mat-cell *matCellDef="let element"  style="text-align:center"> {{element.TRANAMT}} </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="BALANCEAMT">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  style="width:10%;">Balance Amount </th>
+                              <td mat-cell *matCellDef="let element"  style="text-align:center"> {{element.BALANCEAMT}} </td>
+                            </ng-container>
+   
+                            <ng-container matColumnDef="PASSEDAMT">
+                              <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="10%">Passed Amt </th>
+                              <td mat-cell *matCellDef="let element; let i = index">   <input type="text"
+                                  name="PASSEDAMT"   class="form-control text-right" [(ngModel)]="element.PASSEDAMT" [value]="element.PASSEDAMT" (change)="onDataChange(element)"> </td>
+                            </ng-container>
+                            
+                         
+                        
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true " class="bg-light" style="height:auto;"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngStyle]="{'background': row.COLORCODE}"  style="height:auto;"></tr>
+                        </table>
+                        <mat-paginator [length]="500"
+                        [pageSize]="500"
+                        [pageSizeOptions]="[50, 100, 250, 500]">
+                        </mat-paginator>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+                 <b> Total Amt : {{TotalAmt}}</b>
+                </div>
+            </div>
+
+              </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+    </div>
+</div>
+</div>

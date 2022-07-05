@@ -1,0 +1,929 @@
+
+    
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  
+  <div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+  <form autocomplete="off" >
+  <div class="row">
+      <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+     
+
+              <div class="col-md-12">
+                <div class="card-body border-bottom py-2">
+                    <div class="d-md-flex align-items-center justify-content-between">
+                        <div class="d-flex">
+                             <h4  *ngIf="isJobWork=='N'" class="card-title m-0">{{'purchaseorder' | translate}}</h4>
+                             <h4  *ngIf="isJobWork=='Y'" class="card-title m-0">{{'jobpurchaseorder' | translate}}</h4>
+                             
+
+                        </div>
+               
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-7">
+                    
+                  <div class="row">
+                  <div class="col-md-5">
+                        <mat-form-field class="example-full-width w-100 ">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{ponoplaceholder | translate}}</mat-label>  
+                          <input matInput placeholder="{{ponoplaceholder | translate}}" name="ORDERNO"  readonly 
+                          [(ngModel)]="newData.ORDERNO" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </mat-form-field>
+                  </div>
+                      <div class="col-md-1"> &nbsp;       
+                 </div>
+                 
+                  <div class="col-md-5" >
+                    
+                      <mat-form-field  class="w-100">
+                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{ponoplaceholder | translate}}</mat-label>  
+                          <input matInput   [matDatepicker]="pickerd" name="myDate" placeholder="{{'podate' | translate}}"  disabled
+                              [(ngModel)]='newData.ORDERDATE'  readonly  style="text-align: right;" 
+                              [ngModelOptions]="{standalone: true}">
+                          <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerd></mat-datepicker>
+                       </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-11">
+                      
+                             <mat-form-field class="example-full-width w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'partyname' | translate}}</mat-label>     
+                              <input matInput placeholder="{{'partyname' | translate}}" name="NAME" (keyup)="searchParty($event.target.value, 'S')" 
+                              [(ngModel)]="newData.NAME" [ngModelOptions]="{standalone: true}" 
+                              >
+                              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchParty(newData.NAME, 'A')">
+                                <i class="fa fa-caret-down" ></i>
+                              </button>
+    
+                            </mat-form-field>
+                            <div *ngIf="showDropDown=='PARTY'" class="search-list-supplier" style="margin-top: 5px;">
+                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of partyNameList"
+                                          (click)="onChangeOfParty(result, newData)">
+                                          <td>{{ result.NAME }}</td>
+                                          <td>{{ result.ADDRESS }}</td>
+                                          <td>{{ result.GSTNO }}</td>
+                                      </tr>
+                              </table>
+                            </div>
+
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-11">
+                           <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'address' | translate}}</mat-label>  
+                            <textarea matInput placeholder="{{'address' | translate}}" name="ADDRESS" [(ngModel)]="newData.ADDRESS" [ngModelOptions]="{standalone: true}" ></textarea>
+                          </mat-form-field>
+            
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5 d-flex">
+                          <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'state' | translate}}</mat-label>   
+                            <input matInput placeholder="{{'state' | translate}}" name="STATE" [(ngModel)]="newData.STATEDESC" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+
+                    </div>
+                        <div class="col-md-1"> &nbsp;       
+                   </div>
+                   
+                    <div class="col-md-5" >
+                 
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'gstin' | translate}}</mat-label>  
+                            <input matInput placeholder="{{'gstin' | translate}}" name="GSTNO" [(ngModel)]="newData.GSTNO" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+
+                      </div>
+                    </div>
+
+                    <!-- <div class="row">
+                        <div class="col-md-11">
+                            <h4 class="col-md-9" style="padding-left:10px;">{{'detailofitem'| translate}}</h4>
+                        </div>
+                    </div> -->
+                  
+
+                </div>
+                    <div class="col-md-5">
+                      <div class="row">
+                        <div class="col-md-5">
+                              <mat-form-field class="example-full-width w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'yourref' | translate}}</mat-label>   
+                                <input matInput placeholder="{{'yourref' | translate}}" name="REFERANCE"
+                                [(ngModel)]="newData.REFERANCE" [ngModelOptions]="{standalone: true}" >
+                              </mat-form-field>
+                        </div>
+                            <div class="col-md-1"> &nbsp;       
+                       </div>
+                       
+                        <div class="col-md-5" >
+                            <mat-form-field  class="w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'dated' | translate}}</mat-label>  
+                                <input matInput   [matDatepicker]="pickerdbill" name="REFDATE" placeholder="{{'dated' | translate}}"
+                                    [(ngModel)]='newData.REFDATE'  readonly [max]="newData.ORDERDATE" 
+                                    [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="pickerdbill"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerdbill></mat-datepicker>
+                             </mat-form-field>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-11">
+                            
+                                   <mat-form-field class="example-full-width w-100">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'dest' | translate}}</mat-label>  
+                                    <input matInput placeholder="{{'dest' | translate}}" name="DESTINATION" [(ngModel)]="newData.DESTINATION" [ngModelOptions]="{standalone: true}" >
+                                  </mat-form-field>
+                        
+                            </div>
+                        </div>
+
+                         <div class="row">
+                            <div class="col-md-11">
+                                <mat-form-field class="example-full-width w-100">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'paymentterms' | translate}}</mat-label>  
+                                  <input matInput placeholder="{{'paymentterms' | translate}}" name="DELIVERYTERMS" [(ngModel)]="newData.DELIVERYTERMS" [ngModelOptions]="{standalone: true}" >
+                                </mat-form-field>    
+                            </div>
+                         </div>
+
+                         <div class="row">
+                            <div class="col-md-11">
+                                    <mat-form-field class="example-full-width w-100" >
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'costcenter' | translate}}</mat-label>  
+                                        <input matInput placeholder="{{'costcenter' | translate}}" name="COSTCENTRE" (keyup)="searchCostCenter($event.target.value, 'S')" 
+                                        [(ngModel)]="newData.COSTCENTRE" [ngModelOptions]="{standalone: true}"  >
+                                        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchCostCenter(newData.DELIVRIEDAT, 'A')">
+                                        <i class="fa fa-caret-down"></i>
+                                        </button>
+                                    </mat-form-field>
+                                    <div *ngIf="showDropDown=='COSTCENTER'" class="search-list-supplier" style="margin-top: 5px;">
+                                        <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredCostCenterList"
+                                                    (click)="onChangeOfCostCenter(result, newData)">
+                                                    <td>{{ result.COSTCENTRE }}</td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                            </div>
+                         </div>
+                         <div class="row">
+                            <div class="col-md-11">
+                                    <mat-form-field class="example-full-width w-100" >
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'deliveryterms' | translate}}</mat-label>  
+                                        <input matInput placeholder="{{'deliveryterms' | translate}}" name="DELIVERYTERM" (keyup)="searchDeliveryTerms($event.target.value, 'S')" 
+                                        [(ngModel)]="newData.DELIVERYTERM" [ngModelOptions]="{standalone: true}"  >
+                                        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchDeliveryTerms(newData.DELIVRIEDAT, 'A')">
+                                        <i class="fa fa-caret-down"></i>
+                                        </button>
+                                    </mat-form-field>
+                                    <div *ngIf="showDropDown=='DELIVERYTERMS'" class="search-list-supplier" style="margin-top: 5px;">
+                                        <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredDeliveryTermsList"
+                                                    (click)="onChangeOfDeliveryTerms(result, newData)">
+                                                    <td>{{ result.DELIVERYTERM }}</td>
+                                                </tr>
+                                        </table>
+                                    </div>
+                            </div>
+                         </div>
+
+                    </div> 
+                </div>
+                     
+                            <div class="row">
+                                  <div class="col-md-12">
+                                    <ul class="nav nav-tabs custom-pills font-sm font-weight-sb" id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link  active show" id="item_info" data-toggle="pill" href="#iteminfo"
+                                                role="tab" aria-selected="true">Item Detail</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="terms_condition" data-toggle="pill" href="#termscondition"
+                                                role="tab" aria-selected="false">Terms and Conditions</a>
+                                        </li>
+                                    </ul>
+
+                                       <div class="table-scroll">
+                                        <div class="tab-content m-t-10" id="pills-tabContent">
+                                            <div class="tab-pane fade  active show" id="iteminfo" role="tabpanel"
+                                                aria-labelledby="item_info">
+
+                                                <div class="card-body border-top min-width purchase-order px-0">
+                                           
+                                                <table class="table table-striped custom-table custom-table-big custom-table-big tr th ">
+                                                <thead>
+                                                <tr style="background-color: #666666; color: #ffffff;">
+                                                    <th scope="col"  style="width: 150px;">{{'itemcode' | translate}}</th>
+                                                    <th scope="col"  style="width: 250px;">{{'itemname' | translate}}</th>
+                                                    <th scope="col"  style="width: 250px;">{{'description' | translate}}</th>
+                                                    <th scope="col"  style="width: 80px;" >{{'brand' | translate}}</th>
+                                                    <th scope="col"  style="width: 50px;" >{{'uom' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'qty' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'rate' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'disc%' | translate}}</th>
+                                                    <th scope="col" style="width: 100px;">{{'hsn' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'igst%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'cgst%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'sgst%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'netrate' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'total' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'deliverydate' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'arref' | translate}}</th>
+                                                    <th scope="col" style="width:15px;text-align: center;">{{'action' |translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="font-sm">
+                                              <tr>
+                                                 <td class="wi250px" style="max-width:150px  !important;">
+                                                   <ng-select
+                                                    class="form-control hsn-custom custom-slect-box error-border form-control-sm ng-select-oa itemwid150px"
+                                                    [(ngModel)]='newitem.ITEMID'
+                                                    name="ITEMID"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    [virtualScroll]="true"
+                                                    (change)="onItemChange($event,newitem )"
+                                                    [items]="itemList" bindLabel="ITEMCODE"
+                                                    bindValue="ITEMID" dropdownPosition="bottom"
+                                                    placeholder="Select item code">
+                                                    <ng-template ng-header-tmp
+                                                        class="ng-template-oa-class">
+                                                        <table>
+                                                            <tr>
+                                                                <th style="width:100px;">
+                                                                    {{'itemcode' | translate}}
+                                                                </th>
+                                                                <th style="width:400px;">
+                                                                    {{'itemname' | translate}}
+                                                                </th>
+                                                                <th
+                                                                    style="width:100px;text-align: right;">
+                                                                    {{'indentno' | translate}}
+                                                                </th>
+                                                                <th
+                                                                    style="width:100px;text-align: right;">
+                                                                    {{'dated' | translate}}
+                                                                </th>
+                                                                <th
+                                                                    style="width:100px;text-align: right;">
+                                                                    {{'qty' | translate}}
+                                                                </th>
+                                                            </tr>
+                                                            <ng-template ng-option-tmp
+                                                                let-item="item">
+                                                                <tr>
+                                                                    <td style="width:100px;">
+                                                                        {{item.ITEMCODE}}
+                                                                    </td>
+                                                                    <td style="width:400px;">
+                                                                        {{item.ITEMNAME}}
+                                                                    </td>
+                                                                    <td
+                                                                        style="width:100px;text-align: right;">
+                                                                        {{item.INDENTNO}}
+                                                                    </td>
+                                                                    <td
+                                                                        style="width:100px;text-align: right;">
+                                                                        {{item.INDENTDATE|date:'dd-MM-yyyy'}}
+                                                                    </td>
+                                                                    <td
+                                                                        style="width:80px;text-align: right;">
+                                                                        {{item.QUANTITY}}
+                                                                    </td>
+                                                                </tr>
+  
+                                                            </ng-template>
+  
+                                                        </table>
+                                                    </ng-template>
+                                                    </ng-select>
+                                                </td>
+                                                 <td class="wi250px" style="max-width: 250px !important;">
+                                                <ng-select
+                                                class="form-control hsn-custom custom-slect-box error-border form-control-sm ng-select-oa itemwid250px"
+                                                [(ngModel)]='newitem.ITEMID'
+                                                name="ITEMID"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [virtualScroll]="true"
+                                                (change)="onItemChange($event,newitem )"
+                                                [items]="itemList" bindLabel="ITEMNAME"
+                                                bindValue="ITEMID" dropdownPosition="bottom"
+                                                placeholder="Select item code">
+                                                <ng-template ng-header-tmp
+                                                    class="ng-template-oa-class">
+                                                    <table>
+                                                        <tr>
+                                                            <th style="width:100px;">
+                                                                {{'itemcode' | translate}}
+                                                            </th>
+                                                            <th style="width:400px;">
+                                                                {{'itemname' | translate}}
+                                                            </th>
+                                                            <th
+                                                                style="width:100px;text-align: right;">
+                                                                {{'indentno' | translate}}
+                                                            </th>
+                                                            <th
+                                                                style="width:100px;text-align: right;">
+                                                                {{'dated' | translate}}
+                                                            </th>
+                                                            <th
+                                                                style="width:100px;text-align: right;">
+                                                                {{'qty' | translate}}
+                                                            </th>
+                                                        </tr>
+                                                        <ng-template ng-option-tmp
+                                                            let-item="item">
+                                                            <tr>
+                                                                <td style="width:100px;">
+                                                                    {{item.ITEMCODE}}
+                                                                </td>
+                                                                <td style="width:400px;">
+                                                                    {{item.ITEMNAME}}
+                                                                </td>
+                                                                <td
+                                                                    style="width:100px;text-align: right;">
+                                                                    {{item.INDENTNO}}
+                                                                </td>
+                                                                <td
+                                                                    style="width:100px;text-align: right;">
+                                                                    {{item.INDENTDATE|date:'dd-MM-yyyy'}}
+                                                                </td>
+                                                                <td
+                                                                    style="width:80px;text-align: right;">
+                                                                    {{item.QUANTITY}}
+                                                                </td>
+                                                            </tr>
+                                                        </ng-template>
+                                                    </table>
+                                                </ng-template>
+                                                </ng-select>
+                                                 </td>
+                                                 <td ><input type="text" class="form-control" [(ngModel)]="newitem.DESCRIPTION"  [ngModelOptions]="{standalone: true}" ></td>
+                                                 <td class="wi250px" style="max-width: 100px !important;">
+                                                    <ng-select
+                                                        [(ngModel)]="newitem.BRANDID" [ngModelOptions]="{standalone: true}"
+                                                        [items]="brandlist"  (change)="onChangeOfBrand(newitem.BRANDID, newitem)"
+                                                        bindLabel="ITEMSBRAND"
+                                                        bindValue="ITEMSBRANDID"
+                                                        placeholder="Brand"
+                                                        class="form-control border-1 form-control-sm w-100 dropdownwith itemwid100px">
+                                                    </ng-select>
+                                                 </td>
+                                                 <td ><input type="text" class="form-control  readonly-disable" [(ngModel)]="newitem.UNIT"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                 <td>
+                                                  <input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.ORDERQUANTITY" (keyup)="CalculateAmount(newitem)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}">
+                                                </td>
+                                                <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.ORDERRATE"  readonly
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.DISCRATE"  readonly
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>                                                 
+                                                <td class="wi250px" style="max-width: 100px !important;">
+                                                    <ng-select class="form-control hsn-custom custom-slect-box error-border form-control-sm ng-select-oa itemwid100px"  
+                                                    [(ngModel)]='newitem.GSTID' name="GSTID"
+                                                    [ngModelOptions]="{standalone: true}" [virtualScroll]="true"
+                                                    (change)="onGSTChange($event,newitem )"  [items]="gstList" bindLabel="HSNCODE"
+                                                    bindValue="GSTID"  placeholder="Select item GST">
+                                                    <ng-template ng-header-tmp  class="ng-template-oa-class">
+                                                        <table>
+                                                            <tr>
+                                                                <th style="width:100px;">
+                                                                    {{'hsncode' | translate}}
+                                                                </th>
+                                                                <th style="width:400px;">
+                                                                    {{'gstdescription' | translate}}
+                                                                </th>
+                                                                <th style="width:100px;text-align: right;">
+                                                                    {{'igst%' | translate}}
+                                                                </th>
+                                                                <th style="width:100px;text-align: right;">
+                                                                    {{'cgst%' | translate}}
+                                                                </th>
+                                                                <th style="width:100px;text-align: right;">
+                                                                    {{'sgst%' | translate}}
+                                                                </th>
+                                                            </tr>
+                                                            <ng-template ng-option-tmp let-item="item">
+                                                                <tr>
+                                                                    <td style="width:100px;">
+                                                                        {{item.HSNCODE}}
+                                                                    </td>
+                                                                    <td style="width:400px;">
+                                                                        {{item.DESCRIPTION}}
+                                                                    </td>
+                                                                    <td style="width:100px;text-align: right;">
+                                                                        {{item.IGST}}
+                                                                    </td>
+                                                                    <td style="width:100px;text-align: right;">
+                                                                        {{item.CGST}}
+                                                                    </td>
+                                                                    <td style="width:80px;text-align: right;">
+                                                                        {{item.SGST}}
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </table>
+                                                    </ng-template>
+                                                </ng-select>
+                                                </td>
+                                                <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.IGST"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.CGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                  <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.SGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                  <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.NETRATE"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.TOTALAMOUNT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                  <!-- <td ><input type="text" class="form-control" [(ngModel)]="newitem.DLYDATE"  [ngModelOptions]="{standalone: true}" ></td> -->
+                                                  <td>
+                                                        <mat-form-field class="form-control py-1 mat-form-field-date-picker" style="width: 120px;">
+                                                            <input matInput [matDatepicker]="picker4"
+                                                                [min]="newData.ORDERDATE" name="date"
+                                                                [(ngModel)]='newitem.DLYDATE'
+                                                                [ngModelOptions]="{standalone: true}">
+                                                            <mat-datepicker-toggle matSuffix
+                                                                [for]="picker4"></mat-datepicker-toggle>
+                                                            <mat-datepicker #picker4></mat-datepicker>
+                                                        </mat-form-field>
+                                                  </td>
+                                                  
+
+                                                  <td ><input type="text" class="form-control readonly-disable" [(ngModel)]="newitem.ARREF"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                           
+                                                  <td style="width:20px;text-align: center;">
+                                                     <i (click)="additem()" class="fas fa-plus"></i>
+                                                 </td>
+                                             </tr>
+                                                <tr *ngFor="let item of items ; let i = index" (dblclick)="edititem(item.id)">
+                                                    <td  *ngIf="item.id !== edititemID">{{item.ITEMCODE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID">{{item.ITEMNAME}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" >{{item.DESCRIPTION}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" >{{item.BRAND}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" >{{item.UNIT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.ORDERQUANTITY}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.ORDERRATE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.DISCRATE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.HSNCODE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.IGST}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.CGST}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.SGST}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.NETRATE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.TOTALAMOUNT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" >{{item.DLYDATE| date:'d/M/yyyy'}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" >{{item.ARREF}}</td>
+
+                                               
+                                                    <td  *ngIf="item.id === edititemID"  class="wi250px" style="max-width: 150px !important;">
+                                                        <ng-select class="form-control hsn-custom custom-slect-box error-border form-control-sm  ng-select-oa itemwid150px" 
+                                                                [(ngModel)]='item.ITEMID' name="ITEMID"
+                                                                [ngModelOptions]="{standalone: true}" [virtualScroll]="true"
+                                                                (change)="onItemChange($event,item )"  [items]="itemList" bindLabel="ITEMCODE"
+                                                                bindValue="ITEMID"  placeholder="Select item Name">
+                                                                <ng-template ng-header-tmp  class="ng-template-oa-class">
+                                                                    <table>
+                                                                        <tr>
+                                                                            <th style="width:100px;">
+                                                                                {{'itemcode' | translate}}
+                                                                            </th>
+                                                                            <th style="width:400px;">
+                                                                                {{'itemname' | translate}}
+                                                                            </th>
+                                                                            <th style="width:100px;text-align: right;">
+                                                                                {{'indentno' | translate}}
+                                                                            </th>
+                                                                            <th style="width:100px;text-align: right;">
+                                                                                {{'dated' | translate}}
+                                                                            </th>
+                                                                            <th style="width:100px;text-align: right;">
+                                                                                {{'qty' | translate}}
+                                                                            </th>
+                                                                        </tr>
+                                                                        <ng-template ng-option-tmp let-item="item">
+            
+                                                                            <tr>
+                                                                                <td style="width:100px;">
+                                                                                    {{item.ITEMCODE}}
+                                                                                </td>
+                                                                                <td style="width:400px;">
+                                                                                    {{item.ITEMNAME}}
+                                                                                </td>
+                                                                                <td style="width:100px;text-align: right;">
+                                                                                    {{item.INDENTNO}}
+                                                                                </td>
+                                                                                <td style="width:100px;text-align: right;">
+                                                                                    {{item.INDENTDATE|date:'dd-MM-yyyy'}}
+                                                                                </td>
+                                                                                <td style="width:80px;text-align: right;">
+                                                                                    {{item.QUANTITY}}
+                                                                                </td>
+                                                                            </tr>
+                                                                        </ng-template>
+                                                                    </table>
+                                                                </ng-template>
+                                                        </ng-select>    
+                                                   </td>
+                                                  <td  *ngIf="item.id === edititemID" class="wi250px" style="max-width: 250px !important;">
+                                                      <ng-select class="form-control hsn-custom custom-slect-box error-border form-control-sm  ng-select-oa itemwid250px " 
+                                                            [(ngModel)]='item.ITEMID' name="ITEMID"
+                                                            [ngModelOptions]="{standalone: true}" [virtualScroll]="true"
+                                                            (change)="onItemChange($event,item )"  [items]="itemList" bindLabel="ITEMNAME"
+                                                            bindValue="ITEMID"  placeholder="Select item Name">
+                                                            <ng-template ng-header-tmp  class="ng-template-oa-class">
+                                                                <table>
+                                                                    <tr>
+                                                                        <th style="width:100px;">
+                                                                            {{'itemcode' | translate}}
+                                                                        </th>
+                                                                        <th style="width:400px;">
+                                                                            {{'itemname' | translate}}
+                                                                        </th>
+                                                                        <th style="width:100px;text-align: right;">
+                                                                            {{'indentno' | translate}}
+                                                                        </th>
+                                                                        <th style="width:100px;text-align: right;">
+                                                                            {{'dated' | translate}}
+                                                                        </th>
+                                                                        <th style="width:100px;text-align: right;">
+                                                                            {{'qty' | translate}}
+                                                                        </th>
+                                                                    </tr>
+                                                                    <ng-template ng-option-tmp let-item="item">
+
+                                                                        <tr>
+                                                                            <td style="width:100px;">
+                                                                                {{item.ITEMCODE}}
+                                                                            </td>
+                                                                            <td style="width:400px;">
+                                                                                {{item.ITEMNAME}}
+                                                                            </td>
+                                                                            <td style="width:100px;text-align: right;">
+                                                                                {{item.INDENTNO}}
+                                                                            </td>
+                                                                            <td style="width:100px;text-align: right;">
+                                                                                {{item.INDENTDATE|date:'dd-MM-yyyy'}}
+                                                                            </td>
+                                                                            <td style="width:80px;text-align: right;">
+                                                                                {{item.QUANTITY}}
+                                                                            </td>
+                                                                        </tr>
+                                                                    </ng-template>
+                                                                </table>
+                                                            </ng-template>
+                                                    </ng-select>       
+                                                 </td>
+                                                 
+                                                 <td  *ngIf="item.id === edititemID" ><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.DESCRIPTION"  [ngModelOptions]="{standalone: true}" ></td>
+                                                 <td *ngIf="item.id === edititemID"  class="wi250px" style="max-width: 100px !important;">
+                                                    <ng-select
+                                                        [(ngModel)]="item.BRANDID" [ngModelOptions]="{standalone: true}"
+                                                        [items]="brandlist" (onchange)="onChangeOfBrand(item.BRANDID, item)"
+                                                        bindLabel="ITEMSBRAND"
+                                                        bindValue="ITEMSBRANDID"
+                                                        placeholder="Brand"
+                                                        class="form-control border-1 form-control-sm w-100 dropdownwith itemwid100px">
+                                                </ng-select>
+                                                 </td>
+                                                 <td  *ngIf="item.id === edititemID" ><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.UNIT"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                 
+                                                 <td  *ngIf="item.id === edititemID">
+                                                  <input type="text" class="form-control w-100 text-right" [(ngModel)]="item.ORDERQUANTITY" (keyup)="CalculateAmount(item)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}">
+                                                </td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="item.ORDERRATE"  readonly
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="item.DISCRATE"  readonly
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>                                                 
+                                                <td *ngIf="item.id === edititemID" class="wi250px" style="max-width: 100px !important;">
+                                                    <ng-select class="form-control hsn-custom custom-slect-box error-border form-control-sm  ng-select-oa itemwid100px" 
+                                                            [(ngModel)]='item.GSTID' name="GSTID"
+                                                            [ngModelOptions]="{standalone: true}" [virtualScroll]="true"
+                                                            (change)="onGSTChange($event,item )"  [items]="gstList" bindLabel="HSNCODE"
+                                                            bindValue="GSTID"  placeholder="Select item GST">
+                                                            <ng-template ng-header-tmp  class="ng-template-oa-class">
+                                                                <table>
+                                                                    <tr>
+                                                                        <th style="width:100px;">
+                                                                            {{'hsncode' | translate}}
+                                                                        </th>
+                                                                        <th style="width:400px;">
+                                                                            {{'gstdescription' | translate}}
+                                                                        </th>
+                                                                        <th style="width:100px;text-align: right;">
+                                                                            {{'igst%' | translate}}
+                                                                        </th>
+                                                                        <th style="width:100px;text-align: right;">
+                                                                            {{'cgst%' | translate}}
+                                                                        </th>
+                                                                        <th style="width:100px;text-align: right;">
+                                                                            {{'sgst%' | translate}}
+                                                                        </th>
+                                                                    </tr>
+                                                                    <ng-template ng-option-tmp let-item="item">
+                                                                        <tr>
+                                                                            <td style="width:100px;">
+                                                                                {{item.HSNCODE}}
+                                                                            </td>
+                                                                            <td style="width:400px;">
+                                                                                {{item.DESCRIPTION}}
+                                                                            </td>
+                                                                            <td style="width:100px;text-align: right;">
+                                                                                {{item.IGST}}
+                                                                            </td>
+                                                                            <td style="width:100px;text-align: right;">
+                                                                                {{item.CGST}}
+                                                                            </td>
+                                                                            <td style="width:80px;text-align: right;">
+                                                                                {{item.SGST}}
+                                                                            </td>
+                                                                        </tr>
+                                                                    </ng-template>
+                                                                </table>
+                                                            </ng-template>
+                                                        </ng-select>
+                                                </td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.IGST"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                 <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.CGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                  <td  *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="item.SGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                 <td  *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.NETRATE"  [ngModelOptions]="{standalone: true}" readonly></td> 
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.TOTALAMOUNT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                  <td  *ngIf="item.id === edititemID">
+                                                      <!-- <input type="text" class="form-control " [(ngModel)]="newitem.DLYDATE"  [ngModelOptions]="{standalone: true}" > -->
+                                                      <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                        <input matInput [matDatepicker]="picker4"
+                                                            [min]="newData.ORDERDATE" name="date"
+                                                            [(ngModel)]='item.DLYDATE'
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <mat-datepicker-toggle matSuffix
+                                                            [for]="picker4"></mat-datepicker-toggle>
+                                                        <mat-datepicker #picker4></mat-datepicker>
+                                                      </mat-form-field>
+                                                  </td>
+                                                  <td  *ngIf="item.id === edititemID"><input type="text" class="form-control  readonly-disable" [(ngModel)]="newitem.ARREF"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                           
+                                                  <td>
+                                                    <div>
+                                                      <i *ngIf="item.id === edititemID" class="fas fa-check customIcon"
+                                                          (click)="updateitem(item)"></i>
+                                                      <i *ngIf="item.id !== edititemID" class="fas fa-edit customIcon"
+                                                          (click)="edititem(item.id)"></i>
+                                                      <i style="margin-left: 5px;" class="far fa-trash-alt customIcon"
+                                                          (click)="removeitem(i)"></i>
+                                                    </div>
+                                                 </td>
+                                                </tr>
+                                            </tbody>
+                                                </table>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="termscondition" role="tabpanel"
+                                            aria-labelledby="terms_condition">
+                                            <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2"
+                                                data-offset="0">
+                                                <div class="card-body border-top purchase-order px-0 py-2 table-responsive"
+                                                   >
+                                                    <table class="table table-striped custom-table">
+                                                        <thead>
+                                                            <tr style="background-color: #666666; color: #ffffff;">
+                                                                <th scope="col" style="width:5%;">{{'no' | translate}}</th>
+                                                                <th scope="col" style="width:95%;">
+                                                                    {{'termscondition' | translate}}</th>
+                                                             </tr>
+                                                        </thead>
+                                                        <tbody class="font-sm">
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION1'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION2'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION3'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>4</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION4'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>5</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION5'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>6</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION6'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>7</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION7'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>8</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION8'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>9</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION9'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>10</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION10'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>11</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION11'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>12</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION12'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>13</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION13'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>14</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION14'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>15</td>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        [(ngModel)]='newData.TERMCONDITION15'
+                                                                        [ngModelOptions]="{standalone: true}">
+                                                                </td>
+                                                            </tr>
+                                                            
+
+                                                        </tbody>
+                                                    </table>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field class="example-full-width w-100">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'remarks' | translate}}</mat-label>
+                                        <input matInput placeholder="Remarks" name="Remarks"
+                                        [(ngModel)]="newData.RGPREMARKS" [ngModelOptions]="{standalone: true}" >
+                               </mat-form-field>
+                              </div>
+                              <div class="col-md-1"> &nbsp;</div>
+                              <div class="col-md-5 d-flex">
+                                <div class="col-md-9">
+                                    &nbsp;
+                                </div>
+                               
+                               
+                               
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width w-100"  style="width: 95%;text-align: right;">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'totalamt' | translate}}</mat-label>
+                                    <input matInput placeholder="Total Amount" name="TotalAmount" readonly
+                                    [(ngModel)]="newData.TOTALAMOUNT" [ngModelOptions]="{standalone: true}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+                                  </mat-form-field>
+                                </div>
+                             </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'warranty' | translate}}</mat-label>
+                                        <input matInput placeholder="Warranty" name="Warranty"
+                                        [(ngModel)]="newData.SENTTO" [ngModelOptions]="{standalone: true}" >
+                                      </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'LoadingUnLoading' | translate}}</mat-label>
+                                        <input matInput placeholder="Loading/Un-Loading" name="Remarks"
+                                        [(ngModel)]="newData.SENTCC" [ngModelOptions]="{standalone: true}" >
+                                      </mat-form-field>
+                                </div>
+                            </div>   
+                            <div class="row ">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'PackingForwarding' | translate}}</mat-label>
+                                        <input matInput placeholder="PackingForwarding" name="Warranty"
+                                        [(ngModel)]="newData.SENTFROM" [ngModelOptions]="{standalone: true}" >
+                                      </mat-form-field>
+                                </div>
+                                
+                            </div> 
+                            <div class="row">
+                              <div class="col-md-10">
+                              </div>
+                              <div class="col-md-2">
+                                  <div class="my-1">
+                                      <button class="btn btn-sm btn-secondary rounded bg-danger" skipLocationChange  [routerLink]="['/purchase-order/'+isJobWork]">{{'cancel' | translate}}</button>
+                                      &nbsp;
+                                      <button *ngIf="routeAction == 'new'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-info rounded"
+                                          (click)="saverecord('Insert')">{{'save' | translate}}</button>
+                                      <button *ngIf="routeAction != 'new'&&newData.CONFIRMATION=='N'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-success rounded"
+                                          (click)="saverecord('update')">{{'update' | translate}}</button>    
+                                          &nbsp;
+                                      <button *ngIf="routeAction != 'new'"  type="button" class="btn btn-sm btn-secondary rounded" (click)="printPO()">{{'print'|translate}}</button>
+                                  </div>
+                              </div>
+                            </div>
+
+            </div>
+           </div>
+      </div>
+    </div>
+  </form>
+  <app-footer></app-footer>
+  </div>
+  </div>
+  </div>
+  

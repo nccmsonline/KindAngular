@@ -1,0 +1,164 @@
+<!-- <div class="preloader" style="display: none;">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+      </div>
+      <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+      <app-header></app-header>
+      <app-sidebar></app-sidebar> -->
+      
+      <!-- <div class="page-wrapper" > -->
+            <div class="form-group mr-2 ml-auto bd-highlight">
+          <div class="w-100 clearfix text-right pb-2 pr-2">
+           <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('indent-Print.pdf')"><i class="ti-download"></i>&nbsp;{{'downloadpdf'| translate}}</button>
+        </div>
+        <div>
+       <kendo-pdf-export #pdf paperSize="A4" [margin]="{top: 20, bottom: 50, right: 10, left: 10}" [repeatHeaders]="repeatHeaders">
+        <div class="row">
+          <div class="col-12">
+            <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+             
+              <div class="custom-invoice">  
+      
+                    <table class="custom-invoice-table" width="100%" cellspacing="0" cellpadding="0" border="1">
+                      <tbody>
+                        <tr>
+                          <td>
+                          <table  width="100%" cellspacing="0" cellpadding="0" border="0">
+                              <tbody>
+                                <tr align="center" >
+                                  <td colspan="2">
+                                        <h6>{{companyName}}<br/>{{Address1}}<br/>{{Address2}}</h6><br/>
+                                      <h3>{{title}}</h3>
+                                      <br/>
+                                     
+                                  </td>
+                                    
+                                </tr>
+                                <tr>
+                                   <td align="left" style="width: 50%;padding-left: 10px;"  >
+                                    <b>{{'issueslipno' | translate }}:</b>  {{ newData.REQNO }} <br> 
+                                     
+                                   </td> 
+                                   <td style="width: 50%">
+                                      <b>{{'date' | translate }}:</b>  {{ newData.REQDATE | date:'d/M/y' }}<br>  
+                                   </td>   
+                                </tr>
+                                
+                                <tr>
+                                        <td align="left" style="width: 50%;padding-left: 10px;"  >
+                                         <b>{{'department' | translate }}:</b>  {{ newData.DEPTNAME }}<br> 
+                                          
+                                        </td> 
+                                        <td style="width: 50%">
+                                           <b>{{'costcentre' | translate }}:</b>  {{ newData.COSTCENTRE }}<br> 
+                                        </td>   
+                                </tr>
+                                <tr>
+                                        <td align="left" style="width: 50%;padding-left: 10px;"  >
+                                         <b>{{'manualslipno' | translate }}:</b>  {{ newData.ACTUALSLIPNO }}<br> 
+                                        </td> 
+                                        <td style="width: 50%">
+                                          <b>{{'store' | translate }}:</b>  {{ newData.STORE }}<br> 
+                                       </td>
+                                </tr>
+                                <tr>
+                                  <td align="left" style="width: 50%;padding-left: 10px;"  >
+                                   <b>{{'ipono' | translate }}:</b>  {{ newData.IPONO }}<br> 
+                                  </td> 
+                                  <td style="width: 50%">
+                                    <b>{{'batchsize' | translate }}:</b>  {{ newData.NOOFSETS }}<br> 
+                                 </td>
+                               </tr>
+                               <tr>
+                                <td align="left" style="padding-left: 10px;" colspan="2" >
+                                 <b>{{'product' | translate }}:</b>  {{ newData.PRODUCTNAME }}<br> 
+                                </td> 
+                                
+                               </tr>
+                              </tbody>
+                            </table>
+                             
+      
+                  
+      
+                           <table style="width: 100%; " class="table table-sm custom-invoice-table table-bordered" cellspacing="0" cellpadding="0" border="0" >
+                             <thead>
+                               <th style="background-color: #E2E2E2;">{{'sr'|translate}}</th>
+                               <th style="background-color: #E2E2E2;">{{'itemcode'|translate}}</th>
+                               <th style="background-color: #E2E2E2;">{{'itemname'|translate}}</th>
+                               <th style="min-width: 50px;text-align: right;background-color: #E2E2E2;">{{'reqnqty' | translate}}</th>
+                               <th style="min-width: 50px;text-align: right;background-color: #E2E2E2;">{{'issuedqty' | translate}}</th>
+                               <th style="min-width: 50px;text-align: right;background-color: #E2E2E2;">{{'stockinhand'|translate}}</th>
+                               <th style="background-color: #E2E2E2;">{{'remarks'|translate}}</th>
+                             
+                             </thead>
+                             <tbody style="width: 100%;min-height: 400px; " >
+                               <tr *ngFor="let dtltable of DetailData">                         
+                                 <!-- <td>&nbsp;</td> -->
+                                 <td style="text-align: center;"> {{dtltable.SR}}</td>
+                                 <td>{{dtltable.ITEMCODE}}</td>
+                                 <td>{{dtltable.ITEMNAME}}</td>
+                               
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.QUANTITYREQUESTED | number:'1.2-2'}}</td>
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.QUANTITYISSUED | number:'1.2-2'}}</td>
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.STOCKINHAND | number:'1.2-2'}}</td>
+
+                                 <td>{{dtltable.REMARKS}}</td>
+                                 
+                                                                     
+                              </tr>
+                          
+                             </tbody>
+                           </table>
+
+                           <br/><br/>
+                           <table width="95%" cellspacing="0" cellpadding="0" border="0" style="margin-left:10px;margin-right:10px;">
+                             <tr> 
+                               <td>&nbsp;</td>
+                               <td style="width: 31%;"><b>Prepared By</b></td>
+                               <td>&nbsp;</td>                  
+                               <td style="width: 31%;text-align: center;"><b>Checked By</b></td> 
+                               <td>&nbsp;</td> 
+                               <td>&nbsp;</td>
+                               <td style="width: 33%; text-align: right;"><b>Authorised Signatory</b></td> 
+                               
+                            </tr>
+                            <tr> 
+                              <td>&nbsp;</td>
+                              <td style="width: 31%;">&nbsp;</td>
+                              <td>&nbsp;</td>                  
+                              <td style="width: 31%;text-align: center;">&nbsp;</td> 
+                              <td>&nbsp;</td> 
+                              <td>&nbsp;</td>
+                              <td style="width: 33%; text-align: right;">&nbsp;</td> 
+                              
+                           </tr>
+                            <tr> 
+                              <td>&nbsp;</td>
+                              <td style="width: 31%;"><b>STR-F-01</b></td>
+                              <td>&nbsp;</td>                  
+                              <td style="width: 31%;text-align: center;"><b>Issue 01</b></td> 
+                              <td>&nbsp;</td> 
+                              <td>&nbsp;</td>
+                              <td style="width: 33%; text-align: right;"><b>Dec 2000</b></td> 
+                              
+                           </tr>
+                           </table>
+                           <br/><br/>
+                          </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                   </div>
+                 </div>
+              </div>
+            </div>
+        </kendo-pdf-export>
+      
+        <!-- </div> -->
+      </div>
+      <!-- </div> -->
+      

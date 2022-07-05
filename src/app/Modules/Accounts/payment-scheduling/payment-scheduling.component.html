@@ -1,0 +1,352 @@
+
+<!-- <div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+<div class="row">
+  <div class="col-12">
+      <div class="example-loading-shade" *ngIf="isLoadingResults">
+          <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+     </div>
+  <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+        <div class="card-body py-2 mb-2">
+           <div class="d-md-flex align-items-center">
+               <div class="form-row mx-0 d-flex bd-highlight w-100">
+                    <h4 class="card-title m-0">Payment Scheduling</h4>
+                    <div class="form-group mx-4 mb-2">
+                            <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="ConfimPayments()">Confirm</button>
+                            
+                        </div>
+                      
+                    <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+                        <input type="text" class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)"  placeholder="{{'search'|translate}}">
+                    </div>
+               </div>
+           </div>
+       </div>
+   </div>
+
+
+</div>
+<div class="col-12">
+   
+    <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+      <div class="w-100">
+        <div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+          <table mat-table [dataSource]="fieldArray" matSort class="mat-elevation-z8 table-striped w-100" #table>
+                <ng-container matColumnDef="REQNO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="7%">Req No. </th>
+                        <td mat-cell *matCellDef="let element"> <mat-checkbox (change)="onChange($event, element)"  ></mat-checkbox>  
+                             {{element.REQNO}}  </td>
+                </ng-container>
+                <ng-container matColumnDef="MORE">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"></th>
+                    <td mat-cell *matCellDef="let element"> <div>
+                        <i  class="fa fa-exclamation-circle" style="font-size:20px; color:olive" (click)="openMoreDialog(element)"></i>
+                    </div> </td>
+                </ng-container>
+                <ng-container matColumnDef="REQDATE">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  width="8%">Dated</th>
+                    <td mat-cell *matCellDef="let element"> {{element.REQDATE | date:"dd-MMM-yyyy"}} </td>
+                </ng-container>
+                <ng-container matColumnDef="NAME">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" > Party Name </th>
+                    <td mat-cell *matCellDef="let element" (click)="openDialog(element)"> {{element.NAME}} </td>
+                </ng-container>
+                <ng-container matColumnDef="PASSEDAMT">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"> Passed Amt </th>
+                    <td mat-cell *matCellDef="let element"> {{element.PASSEDAMT}} </td>
+                </ng-container>
+                <ng-container matColumnDef="BALANCEAMT">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"> Balance Amt </th>
+                    <td mat-cell *matCellDef="let element"> {{element.BALANCEAMT}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="MANAGEMENTNOTES">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"> Managment Note </th>
+                  <td mat-cell *matCellDef="let element"> {{element.MANAGEMENTNOTES}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="PAYMENTMODE">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"> Payment Mode</th>
+                  <td mat-cell *matCellDef="let element">
+                             <mat-radio-group class="example-radio-group" [(ngModel)]="element.PAYMENTMODE" (ngModelChange)="openMultiplrPayment(element)">
+                                <mat-radio-button class="example-radio-button" *ngFor="let paymentMode of paymentMode" [value]="paymentMode.id">
+                                {{paymentMode.description}} 
+                                </mat-radio-button>
+                              </mat-radio-group>
+
+                  </td>
+                </ng-container> 
+
+                <ng-container matColumnDef="ISSUEDAMT">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" width="8%">Payment </th>
+                  <td mat-cell *matCellDef="let element; let i = index">   <input type="text"  style="height: 100%;width: 100%"
+                      name="ISSUEDAMT"   class="form-control  w-100 text-right" [(ngModel)]="element.ISSUEDAMT" [value]="element.ISSUEDAMT" (change)="onDataChange(element)"> </td>
+                </ng-container>
+           
+                <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true " class="bg-light" style="height:auto;"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:auto;"></tr>
+            </table>
+            <mat-paginator [length]="100"
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
+     
+  </div>
+</div>
+</div>
+</div>
+
+<app-footer></app-footer>
+</div>
+</div>
+</div> -->
+
+
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  
+  <div class="page-wrapper" >
+      <div class="container-fluid" style="background:#dcdcdc;">  
+
+<div class="row">
+    <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+               </div>
+            <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+        <div class="card-body border-bottom py-2">
+            <div class="d-md-flex align-items-center justify-content-between">
+                <div class="form-row mx-0 d-flex bd-highlight w-100">
+                    <!-- <h4 class="card-title m-0">Paymnet Confirmation</h4>
+                    <div class="form-group mx-4 mb-2">
+                          <button type="button" class="btn btn-primary" (click)="ConfimPayments()">Confirm</button>
+                        </div>
+                        <div class="form-group mx-4 mb-2">
+                               <button type="button" class="btn btn-danger" (click)="KnockedOffRPayments()">Cancel</button>
+                                
+                              </div>
+                    <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+                        <input type="text" class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)"  placeholder="{{'search'|translate}}">
+                    </div> -->
+                    <h4 class="card-title m-0">Payment Scheduling</h4>
+                    <div class="form-group mx-4 mb-2">
+                            <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="SaveSchedule()">Save</button>
+                    </div>
+                    <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+                        <input type="text" class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)"  placeholder="{{'search'|translate}}">
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+        <div class="d-flex- row">
+           <div class="col-lg-12 tab-content m-t-10" id="pills-tabContent">
+            <div class="card-body indent-entry px-0 py-2" >
+            
+  
+             
+          <div class="col-12">
+                <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+                  <div class="w-100">
+                   
+                    <div class="card example-container " style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+                       
+                        <table mat-table [dataSource]="fieldArray" matSort class="mat-elevation-z8 table-striped w-100" #table>
+                            <ng-container matColumnDef="PASS">
+                                <th mat-header-cell *matHeaderCellDef  class="py-1 font-weight-bold text-dark sticky-cell" style="width: 10px" >Pass</th>
+                                <td mat-cell *matCellDef="let element" style="width: 10px" > <mat-checkbox class="custom-checkbox-green" (change)="onCkhChange($event, element)"   [(ngModel)]="element.checked" ></mat-checkbox>  
+                                  </td>
+                        </ng-container>
+                        <ng-container matColumnDef="DEL">
+                          <th mat-header-cell *matHeaderCellDef  class="py-1 font-weight-bold text-dark sticky-cell" style="width: 10px" >Del</th>
+                          <td mat-cell *matCellDef="let element" style="width: 10px" > <mat-checkbox class="custom-checkbox-red" (change)="onDelete($event, element)"  [(ngModel)]="element.delete"  ></mat-checkbox>  
+                            </td>
+                         </ng-container>
+                            <ng-container matColumnDef="REQNO">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  style="width: 50px;text-align: right">Req No. </th>
+                                    <td mat-cell *matCellDef="let element"  style="width: 50px;text-align: right"> 
+                                         {{element.REQNO}}  </td>
+                            </ng-container>
+                        
+
+                            <ng-container matColumnDef="REQDATE">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"   style="width: 70px;text-align: right">Dated</th>
+                                <td mat-cell *matCellDef="let element" style="width: 70px;text-align: right"> {{element.REQDATE |date:'dd-MM-yy'}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="NAME">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  style="min-width: 450;" > Party Name </th>
+                                <td mat-cell *matCellDef="let element" (dblclick)="openDialog(element)"  style="min-width: 450;"> {{element.NAME}} 
+                                    <mat-radio-group  *ngIf="element.checked"  class="example-radio-group" [(ngModel)]="element.PAYMENTMODE" >
+                                        <mat-radio-button class="example-radio-button" *ngFor="let paymentMode of paymentMode" [value]="paymentMode.id">
+                                        {{paymentMode.description}} 
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                    <table class="table  tr th w-100" *ngIf="element.checked" cellspacing="0" cellpadding="0">
+                                        <thead>
+                                            <tr style="background-color: #666666; color: #ffffff;">
+                                                <th  style="width:40%;">Bank A/c</th>
+                                                <th scope="col" style="width:15%;min-width: 80; text-align:right;">Amount</th>
+                                                <!-- <th scope="col" style="width:15%;min-width: 80; ">Cheque No.</th> -->
+                                                <th scope="col" style="width:15%;min-width: 80;  text-align:right;">Dated</th>
+                                                <th scope="col" style="width:15%;min-width: 80; ">Name on Ch.</th>
+                                             
+                                                <th scope="col" style="width:4%;text-align: center;">{{'action' | translate}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="font-sm">
+                                        <tr *ngFor="let item of element.ScheduledList  ; let i = index" style="height:auto">
+                                           
+                                                <td *ngIf="i === editItemID">
+                                          
+                                                      <ngx-select class="ngx-custom-select-dropdown ngx-custom-category-select ngx-custom-select-dropdown-text-wrap" [ngModelOptions]="{standalone: true}" name="ACCOUNTID"  [allowClear]="true" [(ngModel)]="item.ACCOUNTID" (ngModelChange)="accountHeadChange($event, item)" [items]="accountHeadList" optionValueField="ACCOUNTID" optionTextField="ACCOUNTHEAD" placeholder=" Please Select account head"  >
+                                                      </ngx-select>
+                                                  
+                                                  </td>
+                                                <td *ngIf="i != editItemID" (dblclick)="editItem(i)">{{item.ACCOUNTHEAD}}</td>
+        
+                                                <td *ngIf="i == editItemID"  style="width:15%;min-width: 80px;text-align:right;"><input style="text-align:right;" (ngModelChange)="amountChnage(item)" type="text" class="w-100" [(ngModel)]='item.TRANAMT' [ngModelOptions]="{standalone: true}"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                                                <td *ngIf="i != editItemID" style="width:15%;min-width: 80px;text-align:right;" (dblclick)="editItem(i)">{{item.TRANAMT | number:'1.0-0'}}</td>
+                
+                                                <!-- <td *ngIf="i == editItemID" style="width:15%;min-width: 80px;">
+                                                        <input style="text-align:right" type="text" class="w-100" [(ngModel)]='item.CHEQUENO' [ngModelOptions]="{standalone: true}"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                   
+                                                </td> -->
+                                                <!-- <td *ngIf="i != editItemID" style="width:15%;min-width: 80px;" (dblclick)="editItem(i)">{{item.CHEQUENO}}</td> -->
+        
+                                                <td *ngIf="i == editItemID" style="width:15%;min-width: 80px;text-align:right;">
+                                                        <input type="text" class="w-100" [(ngModel)]='item.TRANSDATE' [ngModelOptions]="{standalone: true}"  (click)="openCalendarDialog(item)" [readonly]="true">
+                                                   
+                                                </td>
+                                                <td *ngIf="i != editItemID" style="width:15%;min-width: 80px;text-align:right;"  (dblclick)="editItem(i)">{{item.TRANSDATE| date:'dd-MM-yy'}}</td>
+                                                <td *ngIf="i == editItemID">
+                                                    <input type="text" class="w-100" [(ngModel)]='item.NAMEONCHEQUE' [ngModelOptions]="{standalone: true}" >
+                                               
+                                                </td>
+                                                <td *ngIf="i != editItemID" (dblclick)="editItem(i)">{{item.NAMEONCHEQUE}}</td>                                        
+                
+                                                <td style="width:60px;text-align: center;">
+                                                    <div>
+                                                        <i *ngIf="i == editItemID" class="fas fa-check customIcon" (click)="updateItem(item, element)"></i>
+                                                        <i *ngIf="i != editItemID" class="fas fa-edit customIcon" (click)="editItem(i)"></i>
+                                                        <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeItem(i)"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr style="height:auto">
+                                                <td>
+                                                        <ngx-select class="ngx-custom-select-dropdown ngx-custom-category-select ngx-custom-select-dropdown-text-wrap" [ngModelOptions]="{standalone: true}" name="ACCOUNTID"  [allowClear]="true" [(ngModel)]="element.ACCOUNTID" (ngModelChange)="accountHeadChange($event, element)" [items]="accountHeadList" optionValueField="ACCOUNTID" optionTextField="ACCOUNTHEAD" placeholder=" Please Select account head"  >
+                                                            </ngx-select>
+                                                </td>
+                                                  <td style="width:15%;min-width: 80px;text-align:right;"><input style="text-align:right" type="text" class="w-100" (ngModelChange)="amountChnage(element)" [(ngModel)]="element.TRANAMT" [ngModelOptions]="{standalone: true}"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+                                                  <!-- <td style="width:15%;min-width: 80px;">
+                                                     
+                                                        <input style="text-align:right" type="text" class="w-100" [(ngModel)]='element.CHEQUENO' [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                 </td> -->
+                                                <td style="width:15%;min-width: 80px;text-align:right;"><input type="text" class="w-100" [(ngModel)]="element.TRANSDATE" [ngModelOptions]="{standalone: true}"  (click)="openCalendarDialog(element)" [readonly]="true"></td>
+                                                <td style="width:15%;min-width: 80px;text-align:right;"><input type="text" class="w-100" [(ngModel)]="element.NAMEONCHEQUE" [ngModelOptions]="{standalone: true}" ></td>
+                                                  
+                                                
+                                                <td style="width:60px;text-align: center;">
+                                                    <i (click)="additem(element)" class="fas fa-plus"></i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr style="background-color: #666666; color: #ffffff;">
+                                               
+                                                <td><b>Total</b></td>
+                                                <td><b>{{element.TotalAmt}}</b></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                   
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    <table style="width:210px" class="table table-sm custom-invoice-table table-bordered" cellspacing="0" cellpadding="0" border="0" *ngIf="element.checked && element.ISSUEDCHQ.length>0" >
+                                      <thead>
+                                        <th style="width: 70px;text-align: right;background-color: #E2E2E2;">Cheque Date</th>
+                                        <th style="width: 70px;text-align: right;background-color: #E2E2E2;">Cheque No. </th>
+                                        <th style="width: 70px;text-align: right;background-color: #E2E2E2;">Ch Amount</th>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let ele of element.ISSUEDCHQ">                         
+                                          <td style="width: 70px;text-align: right;"> {{ele.TRANSDATE | date:'d/M/y'}}</td>
+                                          <td style="width: 70px;text-align: right;">  {{ele.CHEQUENO }} </td> 
+                                          <td style="width: 70px;text-align: right;">{{ele.TRANAMNT}}</td>
+                                       </tr>
+                                      </tbody>
+                                    </table>
+  
+                                </td>
+                            </ng-container>
+
+            
+
+                            <ng-container matColumnDef="BALANCEAMT">
+                                <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"  style="width: 90px;text-align: right;">Amount</th>
+                                <td mat-cell *matCellDef="let element"  style="width: 90px;text-align: right"> {{element.BALANCEAMT}} </td>
+                            </ng-container>
+
+                        
+                            <ng-container matColumnDef="MANAGEMENTNOTES">
+                              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"   style="width: 250;">Scheduling</th>
+                              <td mat-cell *matCellDef="let element;"  style="width: 250;"> 
+                                  
+                             
+
+                                </td>
+
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsNew ; sticky: true " class="bg-light" style="height:auto;"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsNew;" style="height:auto;vertical-align: top;"></tr>
+                        </table>
+                      
+                    </div>
+                </div>
+              </div>
+            </div>
+
+
+              </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+    </div>
+</div>
+</div>

@@ -1,0 +1,303 @@
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+<form [formGroup]="indententry" novalidate autocomplete="off">
+        <div class="row">
+        <div class="col-12">
+                <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+        <div class="card-body border-bottom py-2">
+                <div class="d-md-flex align-items-center justify-content-between">
+                    <div class="d-flex">
+                        <a skipLocationChange  [routerLink]="['/indent-entry']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i class="mdi mdi-keyboard-backspace"></i></a>
+                        <h4 class="card-title m-0">{{'indententry' | translate}}</h4>
+                    </div>
+                    
+                </div>
+            </div>
+              <div class="example-loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+              </div>
+              <div class="d-flex- row">
+                    <div class="col-lg-12 tab-content m-t-10" id="pills-tabContent">
+              <div class="card-body indent-entry px-0 py-2" >
+                  <div class="form-inline" >                     
+                      <div class="form-group row col-12 mb-1">
+                            <label *ngIf="routeAction=='new'" class="col-sm-2 text-right" for="inputPassword4">{{'lastindentno' | translate}}</label>
+                            <label *ngIf="routeAction!='new'" class="col-sm-2 text-right" for="inputPassword4">{{'indentno' | translate}}</label>
+                            <div class="col-sm-2 d-flex">
+                                <input type="text" class="form-control form-control-sm" readonly [(ngModel)]="newData.INDENTNO" [ngModelOptions]="{standalone: true}">
+                            </div>
+
+                            <label class="col-sm-2 text-right" for="inputPassword4">{{'indentdate' | translate}}</label>
+                            <div class="form-group col-sm-2">
+                                  <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                      <input matInput [matDatepicker]="picker" readonly [value]="date.value" name="INDENTDATE" [(ngModel)]="newData.INDENTDATE"  [ngModelOptions]="{standalone: true}" >
+                                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                      <mat-datepicker #picker disabled="true"></mat-datepicker>
+                                  </mat-form-field>
+                              </div>
+
+                              <label class="col-sm-2 text-right" for="inputEmail4">{{'manualslipno' | translate}}</label>
+                      <div class="col-sm-2">
+                          <input type="text" class="form-control form-control-sm" name="manualslipno" [(ngModel)]="newData.ACTUALSLIPNO" [ngModelOptions]="{standalone: true}"
+                                 oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                      </div>
+                      </div>
+      
+                      <div class="form-group row col-md-12 mb-1">
+                            <label class="col-sm-2 text-right" for="inputEmail4">{{'department' | translate}}</label>
+                            <div class="col-sm-2 ">
+                                <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="DEPTID" name="DEPTID"  [allowClear]="true" [(ngModel)]="newData.DEPTID" [items]="departmentget" optionValueField="DEPTID" optionTextField="DEPTNAME" placeholder=" Select Department"  >
+                                </ngx-select>
+                            </div>
+                            <label class="col-sm-2 text-right" for="inputEmail4">{{'jobwork' | translate}}</label>
+                          <div class="col-sm-6 d-flex">
+                            <mat-checkbox name="isjobwork" [(ngModel)]="newData.ISJOBWORK"  [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                        </div>
+                  </div>
+                  <div class="form-group row col-md-12">
+                        <label class="col-sm-2 text-right" for="inputPassword4">{{'costcentre' | translate}}</label>
+                        <div class="col-sm-2 d-flex">
+                            <ngx-select class="ngx-custom-select-dropdown"  formControlName="COSTCENTERID" name="COSTCENTERID"  [allowClear]="true" [(ngModel)]="newData.COSTCENTERID" [items]="costcentreget" optionValueField="COSTCENTERID" optionTextField="COSTCENTRE" placeholder=" Select Cost Center"  >
+                            </ngx-select>
+                        </div>
+               </div>
+                  
+      
+              </div>
+      
+                 
+              <h4 style="padding-top:10px; margin-left: 5px;">{{'itemdetails' | translate}}</h4>
+                  <div class="table-scroll mx-1">
+                       
+                  <div class="card-body border-top min-width purchase-order px-0 py-2">
+                      <!-- <div class="table-responsive"> -->
+                          <table class="table table-striped custom-table custom-table-big tr th " >
+                              <thead>
+                                  <tr style="background-color: #666666; color: #ffffff;">
+                                      <th scope="col" style="width:10%;">{{'itemcode' | translate}}</th>
+                                      <th scope="col" style="width:28%;">{{'itemdescription' | translate}}</th>
+                                      <th scope="col" style="width:10%;">{{'brand' | translate}}</th>
+                                      <th scope="col" style="width:6%;">{{'quantity' | translate}}</th>
+                                      <th scope="col" style="width:8%;">{{'issunit' | translate}}</th>
+                                      <th scope="col" style="width:20%;">{{'remarks' | translate}}</th>
+                                      <th scope="col" style="width:8%;">{{'reqdby' | translate}}</th>
+                                      <th scope="col" style="width:6%;">{{'urgent' | translate}}</th>
+                                      <!-- <th scope="col" style="width:15%;">{{'suggestedsupplier' | translate}}</th> -->
+                                      <th scope="col" style="width:4%;text-align: center;">{{'action' | translate}}</th>
+                                  </tr>
+                              </thead>
+                              <tbody class="font-sm" style="height: 100%;">
+                                    <tr>
+                                            <td class="pl-1 pr-0">
+                                                <input type="text" class="form-control w-100" [(ngModel)]="newItem.ITEMCODE"  (keyup)="searchItemCode($event.target.value, newData)"  [ngModelOptions]="{standalone: true}">
+                                                <div *ngIf="itemCodeDesc != ''" class="search-list-header">
+                                                        <div class="example-loading-shade" *ngIf="isLoadingItemCode">
+                                                            <mat-spinner  [diameter]="20" *ngIf="isLoadingItemCode"></mat-spinner>
+                                                        </div>
+                                                        
+                            
+                                                          <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                            <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                                <th style="width: 200px;height: 40px;">Item Code</th>
+                                                                <th style="width: 500px;height: 40px;">Item Name</th>
+                                                           </tr>
+                                                            <tr class="ui-menu-item" role="menuitem" *ngFor="let result of itemlistget"
+                                                              (click)="onChangeOfItemCode(result, newItem)">
+                                                              <td>{{ result.ITEMCODE }}</td>
+                                                              <td>{{ result.ITEMNAME }}</td>
+                                                              
+                                                            </tr>
+                                                          </table>
+                                                      
+                                                    </div>
+                                            </td>
+                                            <td class="pl-1 pr-0">
+                                                <input type="text" class="form-control w-100" [(ngModel)]="newItem.ITEMNAME"  (keyup)="searchItemName($event.target.value, newData)"  [ngModelOptions]="{standalone: true}">
+                                                <div *ngIf="itemNameDesc != ''" class="search-list-header">
+                                                        <div class="example-loading-shade" *ngIf="isLoadingItemName">
+                                                            <mat-spinner  [diameter]="20" *ngIf="isLoadingItemName"></mat-spinner>
+                                                        </div>
+                                                        
+                            
+                                                          <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                            <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                                <th style="width: 200px;height: 40px;">Item Code</th>
+                                                                <th style="width: 500px;height: 40px;">Item Name</th>
+                                                           </tr>
+                                                            <tr class="ui-menu-item" role="menuitem" *ngFor="let result of itemlistget"
+                                                              (click)="onChangeOfItemName(result, newItem)">
+                                                              <td>{{ result.ITEMCODE }}</td>
+                                                              <td>{{ result.ITEMNAME }}</td>
+                                                              
+                                                            </tr>
+                                                          </table>
+                                                      
+                                                    </div>
+                                            </td>
+                                            <td class="pl-1 pr-0"> 
+                                                      <ngx-select class="ngx-custom-select-dropdown" [ngModelOptions]="{standalone: true}"  name="ITEMSBRANDID"  
+                                                      [allowClear]="true" [(ngModel)]="newItem.ITEMSBRANDID" [items]="brandlistget" optionValueField="ITEMSBRANDID" 
+                                                      optionTextField="ITEMSBRAND" placeholder=" Select Brand" (ngModelChange)="brandChange($event, newItem)" >
+                                                      </ngx-select>
+                                            </td>
+                                            <td class="pl-1 pr-0"><input type="text" class="form-control w-100" [(ngModel)]="newItem.QUANTITY" [ngModelOptions]="{standalone: true}"></td>
+                                            <td class="pl-1 pr-0">
+                                                  <input type="text" class="form-control w-100" [(ngModel)]="newItem.UOM" [ngModelOptions]="{standalone: true}">
+                                            </td>
+                                            <td class="pl-1 pr-0"><input type="text" class="form-control w-100" [(ngModel)]="newItem.REMARKS" [ngModelOptions]="{standalone: true}"></td>
+                                            
+                                            <td class="pl-1 pr-0">
+                                              <div class="form-group" style="min-width:100px">
+                                                  <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                      <input matInput [matDatepicker]="picker1" readonly [min]="WorkingDate" [(ngModel)]="newItem.EXPECTEDDATE" [ngModelOptions]="{standalone: true}">
+                                                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                      <mat-datepicker #picker1></mat-datepicker>
+                                                  </mat-form-field>
+                                              </div>
+                                            </td>
+                                            <td class="pl-1 pr-0">
+                                                    <mat-checkbox name="isjobwork" [(ngModel)]="newData.ISEMERGENCY" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                            </td>
+                                            <!-- <td><input type="text" class="form-control w-100" [(ngModel)]="newItem.ifurgent" [ngModelOptions]="{standalone: true}"></td> -->
+                                            <!-- <td><input type="text" class="form-control w-100" [(ngModel)]="newItem.suplid" [ngModelOptions]="{standalone: true}"></td> -->
+                                            
+                                            <td style="text-align: center;" class="pl-1 pr-0">
+                                                <i (click)="additem(newItem)" class="fas fa-plus"></i>
+                                            </td>
+                                        </tr>
+                              <tr *ngFor="let item of items ; let i = index" (dblclick)="editItem(item.id)">
+                                      <td *ngIf="item.id === editItemID">
+                                          <input type="text" class="form-control w-100" [(ngModel)]='item.ITEMCODE'  (keyup)="searchItemCode($event.target.value, item)" [ngModelOptions]="{standalone: true}">
+                                          <div *ngIf="itemCodeDesc != ''" class="search-list-header">
+                                                <div class="example-loading-shade" *ngIf="isLoadingItemCode">
+                                                    <mat-spinner  [diameter]="20" *ngIf="isLoadingItemCode"></mat-spinner>
+                                                </div>
+                                                
+                    
+                                                  <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                    <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                        <th style="width: 200px;height: 40px;">Item Code</th>
+                                                        <th style="width: 500px;height: 40px;">Item Name</th>
+                                                   </tr>
+                                                    <tr class="ui-menu-item" role="menuitem" *ngFor="let result of itemlistget"
+                                                      (click)="onChangeOfItemCode(result, item)">
+                                                      <td>{{ result.ITEMCODE }}</td>
+                                                      <td>{{ result.ITEMNAME }}</td>
+                                                      
+                                                    </tr>
+                                                  </table>
+                                              
+                                            </div>
+                                       </td>
+                                      <td *ngIf="item.id !== editItemID" >{{item.ITEMCODE}}</td>
+      
+                                      <td *ngIf="item.id === editItemID">
+                                            <input type="text" class="form-control w-100" [(ngModel)]='item.ITEMNAME'  (keyup)="searchItemName($event.target.value, item)" [ngModelOptions]="{standalone: true}">
+                                            <div *ngIf="itemNameDesc != ''" class="search-list-header">
+                                                    <div class="example-loading-shade" *ngIf="isLoadingItemName">
+                                                        <mat-spinner  [diameter]="20" *ngIf="isLoadingItemName"></mat-spinner>
+                                                    </div>
+                                                    
+                        
+                                                      <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                        <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                            <th style="width: 200px;height: 40px;">Item Code</th>
+                                                            <th style="width: 500px;height: 40px;">Item Name</th>
+                                                       </tr>
+                                                        <tr class="ui-menu-item" role="menuitem" *ngFor="let result of itemlistget"
+                                                          (click)="onChangeOfItemName(result, item)">
+                                                          <td>{{ result.ITEMCODE }}</td>
+                                                          <td>{{ result.ITEMNAME }}</td>
+                                                          
+                                                        </tr>
+                                                      </table>
+                                                  
+                                                </div>
+                                      </td>
+                                      <td *ngIf="item.id !== editItemID" >{{item.ITEMNAME}}</td>
+                                      <td *ngIf="item.id === editItemID">
+                                            <ngx-select class="ngx-custom-select-dropdown" [ngModelOptions]="{standalone: true}"  
+                                            name="ITEMSBRANDID"  [allowClear]="true" [(ngModel)]="item.ITEMSBRANDID" [items]="brandlistget" optionValueField="ITEMSBRANDID" 
+                                            optionTextField="ITEMSBRAND" placeholder=" Select Brand" (ngModelChange)="brandChange($event, item)"  >
+                                            </ngx-select>
+                                      </td>
+                                      <td *ngIf="item.id !== editItemID" >{{item.ITEMSBRAND}}</td>
+      
+                                      <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.QUANTITY' [ngModelOptions]="{standalone: true}"></td>
+                                      <td *ngIf="item.id !== editItemID" style="text-align: right;" >{{item.QUANTITY | number:'0.000'}}</td>
+      
+                                      <td *ngIf="item.id === editItemID">
+                                            <input type="text" class="form-control w-100" [(ngModel)]='item.UOM' [value]='UOM' [ngModelOptions]="{standalone: true}">
+                                      </td>
+                                      <td *ngIf="item.id !== editItemID">{{item.UOM | titlecase}}</td>
+      
+                                      <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.REMARKS' [ngModelOptions]="{standalone: true}"></td>
+                                      <td *ngIf="item.id !== editItemID" >{{item.REMARKS | titlecase}}</td>
+                                     
+                                      <td *ngIf="item.id === editItemID">
+                                          <div class="form-group" style="width:100px">
+                                              <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                  <input matInput [matDatepicker]="picker" [(ngModel)]='item.EXPECTEDDATE' readonly [min]="WorkingDate" [ngModelOptions]="{standalone: true}">
+                                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                  <mat-datepicker #picker></mat-datepicker>
+                                              </mat-form-field>
+                                          </div>
+                                      </td>
+                                      <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.EXPECTEDDATE | date:'d/M/y'}}</td>
+                                      <td class="pl-1 pr-0">
+                                            <mat-checkbox name="isjobwork" [(ngModel)]="newData.ISEMERGENCY" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                      </td>
+
+                                     
+                                      <td style="width:60px;text-align: center;">
+                                          <div>
+                                              <i *ngIf="item.id === editItemID" class="fas fa-check customIcon" (click)="updateItem(item)"></i>
+                                              <i *ngIf="item.id !== editItemID" class="fas fa-edit customIcon" (click)="editItem(item.id)"></i>
+                                              <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeItem(i)"></i>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  
+                                
+                              </tbody>
+                          </table>
+                      <!-- </div> -->
+                  </div>
+                   </div>
+
+
+                  </div>
+                  </div>
+                </div>
+
+                
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary rounded" skipLocationChange routerLink="/indent-entry">{{'cancel'|translate}}</button>
+                    <!-- <button *ngIf="isConfirmed=='N'" type="button" class="btn btn-sm btn-info rounded" (click)="validateDetail(newData)" [disabled]="indententry.pristine || indententry.invalid">{{'save'|translate}}</button> -->
+                    <button *ngIf="routeAction == 'new'" type="button" class="btn btn-sm btn-info rounded" (click)="validateAll(newData, 'Insert')">{{'save'|translate}}</button>
+                    <button *ngIf="routeAction == 'edit' && newData.ISCONFIRM!='Y'" type="button" class="btn btn-sm btn-info rounded" (click)="validateAll(newData, 'Update')">{{'update'|translate}}</button>
+                    <button *ngIf="routeAction == 'edit'"  type="button" class="btn btn-sm btn-secondary rounded" (click)="printIndnet()">{{'print'|translate}}</button>
+                </div>
+              </div>
+            </div>
+        </div>
+           
+          </form> 
+ 
+          <app-footer></app-footer>
+        </div>
+        </div>
+</div>
+ 

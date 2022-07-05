@@ -1,0 +1,358 @@
+<!-- <div class="row">
+        <div class="col-12">
+<div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+<div class="card-body py-2 mb-2">
+<div class="col-md-12">
+        <div class="row">
+        
+            
+                    <div class="row m-1">
+                            <div class="col-md-6" style="text-align: center">
+                                <h3>Payment Voucher</h3>
+                            </div>
+                    </div>
+                    <div class="row m-1">
+                            <div class="col-md-6"  style="text-align: center">
+                                <h6>{{companyName}}</h6>
+                            </div>
+                    </div>
+                    <div class="row m-1">
+                            <div class="col-md-6"  style="text-align: center">
+                                <h6>{{Address1}}</h6>
+                            </div>
+                    </div>
+                    <div class="row m-1">
+                            <div class="col-md-6"  style="text-align: center">
+                                <h6>{{Address2}}</h6>
+                            </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-6" >
+                                        <div class="col-md-6" >
+                                <div class="col-md-6"  style="text-align: left">
+                                        <h6>Voucher No. ..........</h6>
+                                </div>
+                                <div class="col-md-6"  style="text-align: right">
+                                        <h6>Voucher Date..........</h6>
+                                </div>
+                                        </div>
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                            <div class="col-md-6">
+                                <table border="1" style="width: 100%">
+                                        <tr><td rowspan="3" style="width: 20%"><b class="rotate"> Signature </b></td>
+                                            <td style="width: 60%"><h6>Debit </h6>  {{name}}</td>
+                                            <td  style="width: 20%; text-align: right;vertical-align:middle;"><b>Rs</b></td>
+                                            </tr>
+                                            
+                                    <tr style="height: 200px">
+                                    <td style="width: 60%; vertical-align: top;"> {{description}}</td>
+                                    <td style="width: 20%; text-align: right; vertical-align: top;">{{amount}}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>{{amountinword}}</td>
+                                    <td style="text-align: right; vertical-align: middle;"> <b>{{amount}}</b> </td>   
+                                    </tr>
+                                </table>
+                            </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-6" >
+                                        <div class="col-md-12" >
+                                <div class="col-md-4"  style="text-align: left">
+                                        <h6>Accountant</h6>
+                                </div>
+                                <div class="col-md-4"  style="text-align:center;">
+                                        <h6>Account Officer</h6>
+                                </div>
+                                <div class="col-md-4"  style="text-align: right">
+                                        <h6>Manager</h6>
+                                </div>
+                                        </div>
+                        </div>
+                    </div>
+              </div>
+         </div>
+         </div>
+</div>
+</div>
+</div> -->
+
+
+
+
+<div >
+        <kendo-pdf-export #pdf paperSize="A4" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 10, left: 100}" [repeatHeaders]="repeatHeaders">  
+
+
+          <div *ngIf="flag=='V'">
+                <div class="row">
+                                <div class="col-12" style="padding-left: 50px;">
+          <div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3);" align="center">
+         
+                        <div class="row">
+                                        <div class="col-12">
+                <div class="row m-1">
+                        <div class="col-md-11" style="text-align: center">
+                            <h3>Payment Voucher</h3>
+                        </div>
+                </div>
+                <div class="row m-1">
+                        <div class="col-md-11"  style="text-align: center">
+                            <h6>{{companyName}}</h6>
+                        </div>
+                </div>
+                <div class="row m-1">
+                        <div class="col-md-11"  style="text-align: center">
+                            <h6>{{Address1}}</h6>
+                        </div>
+                </div>
+                <div class="row m-1">
+                        <div class="col-md-11"  style="text-align: center">
+                            <h6>{{Address2}}</h6>
+                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11" >
+                               
+                        <div class="col-md-12" >
+                                        <div class="row">
+                            <div class="col-md-6" style="text-align: left;" >
+                                  <h6>Voucher No. ________</h6> 
+                            </div>
+                            <div class="col-md-6" style="text-align: right ;">
+                                <h6>
+                                                Voucher Date_________________
+                                </h6>
+                                    
+                            </div>
+                               </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row m-1">
+                        <div class="col-md-11">
+                            <table border="1" style="width: 100%">
+                                    <tr><td rowspan="4" style="width: 7%; vertical-align: bottom;border-right: none; "  ><b style="writing-mode:vertical-rl;"> Signature </b></td>
+                                        <td rowspan="4" style="width: 5%; vertical-align: top;border-right: none;" border="0"><b style="writing-mode:vertical-rl;"> On Account of ___________________________________________ </b></td>
+                                        <td rowspan="4" style="width: 5%; vertical-align: top;border-right: none;"  border="0"><b style="writing-mode:vertical-rl;"> Received the sum of Rs _______{{amount}}________________ </b></td>
+                                        <td style="width: 73%;"><h6>Debit </h6>  {{name}}</td>
+                                        <td  style="width: 10%; text-align: right;vertical-align:middle;"><b>Rs</b></td>
+                                        </tr>
+                                        
+                                <tr style="height: 300px">
+                                <td style="width: 69%; vertical-align: top;"> {{description}}</td>
+                                <td style="width: 10%; text-align: right; vertical-align: top;">{{amount}}</td>
+                                </tr>
+                                <tr>
+                                <td>{{amountinword}}</td>
+                                <td style="text-align: right; vertical-align: middle;"> <b>{{amount}}</b> </td>   
+                                </tr>
+                                <tr style="height: 50px;vertical-align: middle;">
+                                        <td colspan="3">
+                                                        <div class="col-md-12" >
+                                                                        <div class="row">
+                                                            <div class="col-md-3"  style="text-align: left">
+                                                                    <b>Accountant</b>
+                                                            </div>
+                                                            <div class="col-md-3"  style="text-align:center;">
+                                                                    <b>Acctt.Officer</b>
+                                                            </div>
+                                                            <div class="col-md-3"  style="text-align: center">
+                                                                    <b>Manager</b>
+                                                            </div>
+                                                            <div class="col-md-3"  style="text-align: right">
+                                                                        <b>Mg.Director</b>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                        </td>
+                                </tr>
+                            </table>
+                        </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-md-11" >
+                    </div>
+                </div>
+        </div>
+        </div>
+      
+        </div>
+    
+
+</div>
+</div>
+      
+</div>
+
+
+
+<div class="row"  *ngIf="flag=='R'">
+<div class="col-md-12">
+        <div class="row">
+            <div class="col-md-6" style="padding: 50px;">
+                                  
+                                <div class="row m-1">
+                                        <div class="col-md-12"  align="center">    
+                                                          <h3>{{companyName}}</h3>
+                                                          <h5>{{Address1}}</h5>
+                                                          <h5>{{Address2}}</h5>
+                                                          <h4>Application for Advance</h4> 
+                                        </div>
+                                </div>
+                                <!-- <div class="row">
+                                        <div class="col-md-12"  align="center">    
+                                                        <h5>{{Address1}}</h5>
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col-md-12"  align="center">    
+                                                        <h5>{{Address2}}</h5>
+                                        </div>
+                                </div>
+                                <div class="row m-1">
+                                                <div class="col-md-12" align="center">    
+                                                                <h4>Application for Advance</h4> 
+                                                </div>
+                                            </div> -->
+                               
+                                <div class="row m-1">
+                                                <div class="col-md-6">
+                                                         &nbsp;
+                                                </div>
+                                </div>                                             
+                <div class="row m-2">
+                    <div class="col-md-6">
+                        &nbsp;
+                    </div>
+                    <div class="col-md-6" align="right">
+                        Dated___{{dated}}___
+                    </div>
+                </div>
+                    <div class="row m-2">
+                        <div class="col-md-4">    
+                                <b>Emp No.</b> 
+                        </div>        
+                        <div class="col-md-8">
+                                        {{empno}}
+                        </div>
+                    </div>
+                    <div class="row m-2">
+                              
+                                        <div class="col-md-4">
+                                                <b>Name</b> 
+                                        </div>
+                                        <div class="col-md-8">
+                                                {{name}}
+                                        </div>
+                                
+                        </div>
+                
+                        <div class="row m-2">
+                                
+                                        <div class="col-md-4">
+                                            <b>Designation</b> 
+                                        </div>
+                                        <div class="col-md-8">
+                                                {{designation}}
+                                        </div>
+                                
+                        </div>
+                        <div class="row m-2">
+                                
+                                        <div class="col-md-4">
+                                            <b>Advance Requirement</b> 
+                                        </div>
+                                        <div class="col-md-3">
+                                            {{reqamount}} <b *ngIf="reqamount>0">Rs</b>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <b>Installment</b>    
+                                        </div>
+                                        <div class="col-md-2">
+                                             {{installment}} <b *ngIf="installment>0">Rs</b>
+                                        </div>
+                                
+                        </div>
+                        <div class="row m-2">
+                                
+                                        <div class="col-md-4">
+                                                <b>Reason for Advance</b> 
+                                        </div>
+                                        <div class="col-md-8">
+                                                {{description}}
+                                        </div>
+                                
+                        </div>
+                        <div class="row m-2">
+                               
+                                        <div class="col-md-4">
+                                             <b>Previous advance if any</b> 
+                                        </div>
+                                        <div class="col-md-8">
+                                                {{advancebalance}}
+                                        </div>
+                               
+                        </div>
+                        <div class="row m-2">
+                               
+                                                <div class="col-md-4">
+                                                        <b>Approval or Rejected</b> 
+                                                </div>
+                                                <div class="col-md-8">
+                                                        {{amount}} <b *ngIf="amount>0">Rs</b>
+                                                </div>
+                               
+                                </div>
+         
+                                <div class="row m-2">
+                                                <div class="col-md-6">
+                                                         &nbsp;
+                                                </div>
+                                </div>
+                                <div class="row m-2">
+                                                <div class="col-md-6">
+                                                   <b>Department Incharge</b> 
+                                                   <br> ({{depthead}})
+                                                </div>
+                                                <div class="col-md-6" align="right">
+                                                        <b> Signature of Applicant</b>
+                                                </div>
+                                </div>
+                                <div class="row m-2">
+                                                <div class="col-md-6">
+                                                         &nbsp;
+                                                </div>
+                                </div>
+               
+                                <div class="row m-2">
+                                                <div class="col-md-6">
+                                                    &nbsp;
+                                                </div>
+                                                <div class="col-md-6" align="right">
+                                                        <b> Authorised By</b>
+                                                        <br> {{LoginUser}}
+                                                </div>
+                                </div>
+                               
+                                <div class="row m-2">
+                                        <div class="col-md-12">
+                                            &nbsp;
+                                        </div>
+                                </div>
+                                <div class="row m-2">
+                                        <div class="col-md-12" align="center">
+                                                -:**This is the system generated copy there is no requirement for stamp & sign.**:-
+                                        </div>
+                                </div>
+
+            </div>
+    
+        </div>
+      </div>
+</div>  
+</kendo-pdf-export>
+</div>

@@ -1,0 +1,561 @@
+<form  [formGroup]="customerForm" novalidate>
+  <div class="modal-header primary-bg py-2">
+    <h5 *ngIf="action == 'new'" class="modal-title text-white" id="exampleModalLabel">New Customer</h5>
+    <h5 *ngIf="action == 'edit'" class="modal-title text-white" id="exampleModalLabel">Edit Customer</h5>
+    <button class="close text-white" mat-dialog-close >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="height:400px;overflow-y:scroll;padding:0;max-width:950px;">
+     
+
+        <nav id="navbar-example2" class="navbar navbar-light border-bottom py-0 bg-light sticky-top" style="top:0;left:0;z-index:10;width: calc(100% - 0);/*width: calc(100% - 18px);*/">
+            <ul class="nav nav-pills justify-content-end font-sm w-100 txt">
+              <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('section1')">
+                  <span class="position-relative" style="z-index: 1;"><ng-container >Customer Info.</ng-container></span>
+                  <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='section1'"></a>
+              </li>
+              <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('section2')">
+                  <span class="position-relative" style="z-index: 1;"><ng-container >Contact Info.</ng-container></span>
+                  <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='section2'"></a>
+              </li>
+              <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('section3')">
+                  <span class="position-relative" style="z-index: 1;"><ng-container >Bank Info.</ng-container></span>
+                  <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='section3'"></a>
+              </li>
+              <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('section4')">
+                  <span class="position-relative" style="z-index: 1;"><ng-container >License Info.</ng-container></span>
+                  <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='section4'"></a>
+              </li>
+              <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('section5')">
+                  <span class="position-relative" style="z-index: 1;"><ng-container >Non GST Info.</ng-container></span>
+                  <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='section5'"></a>
+              </li>
+            </ul>
+          </nav>
+
+        
+        <div  class="scroll-spy px-3 pb-3" style="height:500px;overflow-y: scroll;" id="parentDiv" scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
+        <h4 style="padding-top:20px;">Customer Info.</h4> 
+        <div id="section1" class="card-body border-top customer-master px-0 py-2" >
+            <div class="form-inline">
+                <div class="form-group row col-12 mb-2 required">
+                    <label  class="col-sm-4 text-right">Customer Category</label>
+                    <div class="col-sm-3">
+                        <!-- <select class="select2 form-control form-control-sm custom-select" name="categoryid" [(ngModel)]="newData.categoryid" formControlName="categoryid">
+                                <option *ngFor="let prod of customercategory" [value]='prod.id' value='{{prod.id}}'>{{prod.categoryname}} </option>
+                        </select> -->
+                        <!-- (remove)="remove($event)" (change)="onOAChange($event)" -->
+                        <ng-select
+                        class="form-control custom-slect-box error-border form-control-sm w-100 "
+                        [(ngModel)]='newData.categoryid' name="oaid"
+                        formControlName="categoryid"
+                        [virtualScroll]="false" [multiple]="true"
+                        [searchable]="true" 
+                        [closeOnSelect]="false" 
+                        [items]="customercategory" bindLabel="categoryname" bindValue="oaid"
+                        placeholder="Select O.A.">
+                        <ng-template ng-header-tmp>
+                                <ng-template ng-option-tmp let-item="item">
+                                            {{item.categoryname}}
+                                </ng-template>
+                        </ng-template>
+                    </ng-select>
+
+                    </div>
+                    <label class="col-sm-2 text-right" for="inputPassword4">Vendor Code</label>
+                        <div class="col-sm-3 d-flex">
+                            <input type="text" class="form-control form-control-sm" name="vendorcode" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" [(ngModel)]="newData.vendorcode" formControlName="vendorcode" placeholder="Vendor Code">
+                        </div>
+                </div>
+                
+                <div class="form-group row col-md-12 mb-2 required">
+                        <label class="col-sm-4 text-right" for="inputPassword4">Business Segement</label>
+                        <div class="col-sm-8" >
+                        
+                                <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="segmentid" name="segmentid"  [allowClear]="true" [(ngModel)]="newData.segmentid" [items]="bussinessList" optionValueField="id" optionTextField="businesssegementname"  (select)="doSelect7($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                                </ngx-select>
+                                </div>
+
+                    </div>
+
+                    <div class="form-group row col-12 mb-2 required">
+                        <label class="col-sm-4 text-right" for="inputPassword4">Title</label>
+                        <div class="col-sm-8 d-flex">
+                            <input type="text" class="form-control form-control-sm" name="title" [(ngModel)]="newData.title" formControlName="title" placeholder="Title">
+                        </div>
+                    </div>
+                <div class="form-group row col-12 mb-2 required">
+                    <label class="col-sm-4 text-right" for="inputPassword4">Customer Name</label>
+                    <div class="col-sm-8 d-flex">
+                        <input type="text" class="form-control form-control-sm" name="name" [(ngModel)]="newData.name" formControlName="name" placeholder="Customer Name">
+                    </div>
+                </div>
+               
+
+                <div class="form-group row col-12 required">
+                    <label class="col-sm-4 text-right" >Address</label>
+                    <div class="col-sm-8"
+                    ><textarea class="form-control form-control-sm mb-2" rows="1" placeholder="Address" name="address1" [(ngModel)]="newData.address1" formControlName="address1" style="height:30px;"></textarea>
+                </div>
+                </div>
+                <div class="form-group row col-12 mb-2">
+                    <label class="col-sm-4 text-right" >&nbsp;</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control form-control-sm" rows="1" placeholder="Address" name="address2" [(ngModel)]="newData.address2" formControlName="address2" style="height:30px;"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row col-md-12 required">
+                        <label class="col-sm-4 text-right" >Country</label>
+                        <div class="col-sm-3 d-flex">
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="country" name="country"  [allowClear]="true" [(ngModel)]="newData.country" [items]="GetAllCountryList" optionValueField="id" optionTextField="countryname" placeholder=" Select Country" (select)="doSelect($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                            </ngx-select>
+                            <button type="button" (click)="countryFunction()" class="btn btn-add waves-effect waves-light ml-1">+
+                                </button>
+                        </div>
+
+                        <label class="col-sm-2 text-right" >Zone</label>
+                        <div class="col-sm-3 d-flex">
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="zone" name="zone"  [allowClear]="true" [(ngModel)]="newData.zone" [items]="GetZoneList" optionValueField="id" optionTextField="Zonename" placeholder=" Select Zone" (select)="doSelect3($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                            </ngx-select>
+                            
+                            
+                        </div>
+                </div>
+                <div class="form-group row col-md-12 mb-2"> 
+                        <label class="col-sm-4 text-right" ></label>
+                        <div class="col-sm-3 d-flex mt-1" id="countryID" style="display: none !important;">
+                            <input type="text" class="form-control form-control-sm" name="newCountry" [(ngModel)]="newData.newCountry" formControlName="newCountry" placeholder="Country">
+                            
+                        </div>
+                </div>
+
+                <div class="form-group row col-md-12 required">
+
+                        <label class="col-sm-4 text-right" >State</label>
+                        <div class="col-sm-3 d-flex">
+                           
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="state" name="state"  [allowClear]="true" [(ngModel)]="newData.state" [items]="GetStateList" optionValueField="id" optionTextField="statename" placeholder=" Select State" (select)="doSelect1($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                            </ngx-select>
+                                <button type="button" (click)="stateFunction()" class="btn btn-add waves-effect waves-light ml-1">+
+                                    </button>
+                            </div>
+                   
+                    <label class="col-sm-2 text-right" >Region</label>
+                    <div class="col-sm-3 d-flex">
+                       
+                        <!-- <ngx-select-dropdown class="ngx-custom-select-dropdown" (change)="regionChange($event)" [multiple]="false" [config]="config4" [options]="GetRegionList" ></ngx-select-dropdown> 
+                            <input type="hidden" formControlName="state" name="region"  [(ngModel)]="newData.region"> -->
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="region" name="region"  [allowClear]="true" [(ngModel)]="newData.region" [items]="GetRegionList" optionValueField="id" optionTextField="regionname" placeholder=" Select Region" (select)="doSelect4($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                            </ngx-select>
+                        </div>
+                </div>
+                <div class="form-group row col-md-12 mb-2">
+
+                        <label class="col-sm-4 text-right" ></label>
+                        <div class="col-sm-3 d-flex mt-1" id="stateID" style="display: none !important;">
+                            <input type="text" class="form-control form-control-sm" name="newState" [(ngModel)]="newData.newState" formControlName="newState" placeholder="State">
+                        </div>
+                </div>
+
+                <div class="form-group row col-md-12 required">
+                    
+                    <label class="col-sm-4 text-right" >City</label>
+        <div class="col-sm-3 d-flex">
+           
+          
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="city" name="city"  [allowClear]="true" [(ngModel)]="newData.city" [items]="AllCityList" optionValueField="id" optionTextField="cityname" placeholder=" Select City" (select)="doSelect2($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                            </ngx-select>
+            <button type="button" (click)="cityFunction()" class="btn btn-add waves-effect waves-light ml-1">+
+                </button>
+        </div>
+
+        <label class="col-sm-2 text-right" >Area</label>
+        <div class="col-sm-3 d-flex">
+            
+            <!-- <ngx-select-dropdown class="ngx-custom-select-dropdown" (change)="areaChange($event)" [multiple]="false" [config]="config5" [options]="GetAreaList" ></ngx-select-dropdown> 
+            <input type="hidden" formControlName="area" name="area"  [(ngModel)]="newData.area"> -->
+            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="area" name="area"  [allowClear]="true" [(ngModel)]="newData.area" [items]="GetAreaList" optionValueField="id" optionTextField="areaname" placeholder=" Select Area" (select)="doSelect5($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+            </ngx-select>
+        </div>
+                </div>
+                <div class="form-group row col-md-12 mb-2">
+        <label class="col-sm-4 text-right" ></label>
+            <div class="col-sm-3 d-flex mt-1" id="cityID" style="display: none !important;">
+                <input type="text" class="form-control form-control-sm" name="newCity" [(ngModel)]="newData.newCity" formControlName="newCity" placeholder="City">
+            </div>
+            </div>
+                <div class="form-group row col-md-12 mb-2 required">
+                        
+                    <label class="col-sm-4 text-right" >Phone Number</label>
+                    <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="phone_number" [(ngModel)]="newData.phone_number" formControlName="phone_number" placeholder="Phone Number"
+                        maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"></div>
+
+                    <label class="col-sm-2 text-right" for="inputPassword4">Mobile Number</label>
+                        <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="mobile_number" [(ngModel)]="newData.mobile_number" formControlName="mobile_number" placeholder="Mobile Number"
+                            maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"></div>
+                </div>
+               
+                <div class="form-group row col-12 mb-2 required">
+                    <label class="col-sm-4 text-right" for="inputPassword4">GSTIN</label>
+                    <div class="col-sm-3 d-flex">
+                        <input class="form-control form-control-sm" name="gsTin" [(ngModel)]="newData.gsTin" formControlName="gsTin" placeholder="GSTIN" type="text">
+                    </div>
+                    <label class="col-sm-2 text-right" >PAN</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-sm" name="pan" [(ngModel)]="newData.pan" formControlName="pan" placeholder="PAN">
+                        </div>
+                </div>
+
+                <div class="form-group row col-md-12 mb-2 ">
+                        <label class="col-sm-4 text-right required1" >PIN</label>
+                        <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="pin" [(ngModel)]="newData.pin" formControlName="pin" placeholder="PIN"
+                            maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"></div>
+                        <label class="col-sm-2 text-right" for="inputPassword4">FAX</label>
+                        <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="fax" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" [(ngModel)]="newData.fax" formControlName="fax" placeholder="FAX"></div>
+                    </div>
+               
+
+                    <div class="form-group row col-md-12 mb-2 ">
+                            <label class="col-sm-4 text-right required1" >E-mail</label>
+                            <div class="col-sm-3"><input type="email" class="form-control form-control-sm" name="email" [(ngModel)]="newData.email" formControlName="email" placeholder="E-mail">
+                                <span *ngIf="customerForm.controls.email.hasError('pattern') && customerForm.controls.email.touched" style="color:red">
+                                    Please enter the correct email, this email not valid.
+                                  </span>
+                            </div>
+                            <label class="col-sm-2 text-right" for="inputPassword4">Website</label>
+                            <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="website" [(ngModel)]="newData.website" formControlName="website" placeholder="Website"></div>
+                        </div>
+
+
+                        <div class="form-group row col-md-12 mb-2 required">
+                            <label class="col-sm-4 text-right" >Currency Preference</label>
+                            <div class="col-sm-3">
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="currency_preference" name="currency_preference"  [allowClear]="true" [(ngModel)]="newData.currency_preference" [items]="CurrencyList" optionValueField="name" optionTextField="name" placeholder=" Select Currency" (select)="doSelect6($event)" (remove)="doRemove($event)" (selectionChanges)="doSelectOptions($event)">
+                            </ngx-select>
+                            </div>
+                        </div>
+                        <div class="form-group row col-md-12 mb-2 ">
+                            <label class="col-sm-4 text-right" for="inputPassword4">Credit Limit (in Rs.)</label>
+                            <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="credit_limit" [(ngModel)]="newData.credit_limit" formControlName="credit_limit" placeholder="Credit Limit"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"></div>
+
+                            <label class="col-sm-2 text-right" for="inputPassword4">Credit Days</label>
+                            <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="credit_days" [(ngModel)]="newData.credit_days" formControlName="credit_days" placeholder="Credit Days"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"></div>
+                        </div>
+                            <div class="form-group row col-md-12 mb-2">
+                                <label class="col-sm-4 text-right" >TDS Applicable</label>
+                                <div class="col-sm-3">
+                                    <div class="bootstrap-switch-on bootstrap-switch-normal bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate" style="width: 96px;">
+                                        <div class="bootstrap-switch-container" style="width: 141px; margin-left: 0px;">
+                                            <span class="bootstrap-switch-handle-on bootstrap-switch-success" style="width: 47px;">Yes</span>
+                                            <span class="bootstrap-switch-label" style="width: 47px;">&nbsp;&nbsp;</span>
+                                            <mat-checkbox name='tds_applicable'  #tds_applicable (change)="0" [(ngModel)]="newData.tds_applicable" formControlName="tds_applicable"></mat-checkbox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label *ngIf="tds_applicable.checked" class="col-sm-2 text-right" for="inputPassword4">TDS Rate</label>
+                                <div class="col-sm-3">
+                                    <input *ngIf="tds_applicable.checked" class="form-control form-control-sm" name="tds_rate" [(ngModel)]="newData.tds_rate" formControlName="tds_rate">
+                                </div>
+                            </div>
+
+                            <div class="form-group row col-md-12 mb-2">
+                            <label class="col-sm-4 text-right" for="inputPassword4">TCS Applicable</label>
+                                <div class="col-sm-3">
+                                    <div class="bootstrap-switch-on bootstrap-switch-normal bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate" style="width: 96px;">
+                                        <div class="bootstrap-switch-container" style="width: 141px; margin-left: 0px;">
+                                            <span class="bootstrap-switch-handle-on bootstrap-switch-success" style="width: 47px;">Yes</span>
+                                            <span class="bootstrap-switch-label" style="width: 47px;">&nbsp;&nbsp;</span>
+                                            <mat-checkbox name='tcs_applicable' #tcs_applicable (change)="0" [(ngModel)]="newData.tcs_applicable" formControlName="tcs_applicable"></mat-checkbox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label *ngIf="tcs_applicable.checked" class="col-sm-2 text-right" for="inputPassword4">TCS Rate</label>
+                                <div class="col-sm-3">
+                                    <input class="form-control form-control-sm" *ngIf="tcs_applicable.checked" name="tcs_rate" [(ngModel)]="newData.tcs_rate" formControlName="tcs_rate">
+                                </div>
+                            </div>
+                        
+                        
+            </div>
+
+            
+            </div>
+            
+           
+
+
+            <h4 style="padding-top:20px;">Contact Info.</h4>
+            <div id="section2" class="card-body border-top customer-master px-0 py-2">
+                <div class="table-wrapper-scroll-y">
+                    <table class="table table-striped custom-table">
+                        <thead>
+                            <tr style="background-color: #666666; color: #ffffff;">
+                                <th scope="col">{{'name' | translate}}</th>
+                                <th scope="col">{{'phonenumber' | translate}}</th>
+                                <th scope="col">{{'email' | translate}}</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">{{'Designation' | translate}}</th>
+                               
+                                <th scope="col" style="width:5%;text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-sm">
+                            <tr *ngFor="let contact of contacts ; let i = index">
+                                <td *ngIf="contact.id === editContactID"><input type="text" class="form-control w-100" [(ngModel)]='contact.name' [ngModelOptions]="{standalone: true}"></td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">{{contact.name}}</td>
+
+                                <td *ngIf="contact.id === editContactID"><input type="text" class="form-control w-100" [(ngModel)]='contact.mobile' [ngModelOptions]="{standalone: true}"></td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">{{contact.mobile}}</td>
+
+                                <td *ngIf="contact.id === editContactID"><input type="text" class="form-control w-100" [(ngModel)]='contact.email' [ngModelOptions]="{standalone: true}"></td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">{{contact.email}}</td>
+
+                                <td *ngIf="contact.id === editContactID">
+                                        <select class="select2 form-control form-control-sm custom-select" [(ngModel)]='contact.fax' [ngModelOptions]="{standalone: true}">
+                                                <option value="Select">Select</option>
+                                                <option value="Drug Licence">Drug Licence</option>
+                                                <option value="Manufacturing">Manufacturing</option>
+                                        </select>
+                                </td>
+                        <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">{{contact.fax}}</td>
+
+                                <td *ngIf="contact.id === editContactID"><input type="text" class="form-control w-100" [(ngModel)]='contact.position' [ngModelOptions]="{standalone: true}"></td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">{{contact.position | titlecase}}</td>
+                                
+                                <td style="width:60px;text-align: center;">
+                                    <div>
+                                        <i *ngIf="contact.id === editContactID" class="fas fa-check customIcon" (click)="updateContact(contact)"></i>
+                                        <i *ngIf="contact.id !== editContactID" class="fas fa-edit customIcon" (click)="editContact(contact.id)"></i>
+                                        <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeContact(i)"></i>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td><input type="text" class="form-control w-100" [(ngModel)]="newContact.name" [ngModelOptions]="{standalone: true}"></td>
+                                <td><input type="email" class="form-control w-100" [(ngModel)]="newContact.mobile" [ngModelOptions]="{standalone: true}"></td>
+                                <td><input type="text" class="form-control w-100" [(ngModel)]="newContact.email" [ngModelOptions]="{standalone: true}"></td>
+                                <td>
+                                        <select class="select2 form-control form-control-sm custom-select" [(ngModel)]="newContact.fax" [ngModelOptions]="{standalone: true}">
+                                                <option value="Select">Select</option>
+                                                        <option value="Drug Licence">Drug Licence</option>
+                                                        <option value="Manufacturing">Manufacturing</option>
+                                                    </select>
+                                                </td>
+                                <td>
+                                    <input type="text" class="form-control w-100" [(ngModel)]="newContact.position" (keyup.enter)="addContact()" [ngModelOptions]="{standalone: true}">
+                                </td>
+                               
+                                <td style="width:60px;text-align: center;">
+                                    <i (click)="addContact()" class="fas fa-plus"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <h4 style="padding-top:20px;">Bank Info.</h4>
+
+            <div id="section3" class="card-body border-top customer-master px-0 py-2">
+                <div class="card-body border-top customer-master px-0 py-2">
+                    <div class="table-wrapper-scroll-y">
+                        <table class="table table-striped custom-table">
+                            <thead>
+                                <tr style="background-color: #666666; color: #ffffff;">
+                                    <th scope="col" width="15%">Banker</th>
+                                    <th scope="col" width="15%">Bank A/c No.</th>
+                                    <th scope="col" width="25%">Branch</th>
+                                    <th scope="col" width="10%">IFSC</th>
+                                    <th scope="col" style="width:5%;text-align: center;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-sm">
+                                <tr *ngFor="let otherinfo of otherinfobank ; let i = index">
+                                    <td *ngIf="otherinfo.id === editOtherInfoID">
+                                        <select class="select2 form-control form-control-sm custom-select" name="bankname" [(ngModel)]="otherinfo.bankname" [ngModelOptions]="{standalone: true}">
+                                            <option>Select</option>
+                                            <option *ngFor="let prod of bankArray" value='{{prod.ID}}'>{{prod.bankname}} </option>  
+                                        </select>
+                                    </td>
+                                    <td *ngIf="otherinfo.id !== editOtherInfoID" (dblclick)="editOtherInfo(otherinfo.id)">{{otherinfo.bankname}}</td>
+    
+                                    <td *ngIf="otherinfo.id === editOtherInfoID"><input type="text" class="form-control form-control-sm" name="bankacno" [(ngModel)]="otherinfo.bankacno" [ngModelOptions]="{standalone: true}"></td>
+                                    <td *ngIf="otherinfo.id !== editOtherInfoID" (dblclick)="editOtherInfo(otherinfo.id)">{{otherinfo.bankacno}}</td>
+
+                                    <td *ngIf="otherinfo.id === editOtherInfoID"><input type="text" class="form-control form-control-sm" name="branch" [(ngModel)]="otherinfo.branch" [ngModelOptions]="{standalone: true}"></td>
+                                    <td *ngIf="otherinfo.id !== editOtherInfoID" (dblclick)="editOtherInfo(otherinfo.id)">{{otherinfo.branch}}</td>
+    
+                                    <td *ngIf="otherinfo.id === editOtherInfoID"><input type="text" class="form-control form-control-sm" name="ifsc" [(ngModel)]="otherinfo.ifsc" [ngModelOptions]="{standalone: true}"></td>
+                                    <td *ngIf="otherinfo.id !== editOtherInfoID" (dblclick)="editOtherInfo(otherinfo.id)">{{otherinfo.ifsc}}</td>
+    
+                                    <td style="width:60px;text-align: center;">
+                                        <div>
+                                            <i *ngIf="otherinfo.id === editOtherInfoID" class="fas fa-check customIcon" (click)="updateOtherInfo(otherinfo)"></i>
+                                            <i *ngIf="otherinfo.id !== editOtherInfoID" class="fas fa-edit customIcon" (click)="editOtherInfo(otherinfo.id)"></i>
+                                            <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeOtherInfo(i)"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <select class="select2 form-control form-control-sm custom-select" name='bankname' [(ngModel)]="newOtherInfo.bankname" [ngModelOptions]="{standalone: true}">
+                                                <option *ngFor="let prod of bankArray" value='{{prod.ID}}'>{{prod.NAME}} </option>
+                                            </select>
+                                    </td>
+                                    <td><input type="text" class="form-control w-100" name='bankacno' [(ngModel)]="newOtherInfo.bankacno" [ngModelOptions]="{standalone: true}"></td>
+                                    <td><input type="text" class="form-control w-100" name='branch' [(ngModel)]="newOtherInfo.branch" [ngModelOptions]="{standalone: true}"></td>
+                                    <td><input type="text" class="form-control w-100" name='ifsc' [(ngModel)]="newOtherInfo.ifsc" [ngModelOptions]="{standalone: true}"></td>
+                                   
+                                    <td style="width:60px;text-align: center;">
+                                        <i (click)="addOtherInfo(newOtherInfo)" class="fas fa-plus"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+              </div>
+
+            <h4 style="padding-top:20px;">Licenses Info.</h4>
+            <div id="section4" class="card-body border-top customer-master px-0 py-2">
+                <div class="table-wrapper-scroll-y">
+                    <table class="table table-striped custom-table">
+                        <thead>
+                            <tr style="background-color: #666666; color: #ffffff;">
+                                <th scope="col">{{'licenceType' | translate}}</th>
+                                <th scope="col">{{'licencenumber' | translate}}</th>
+                                <th scope="col" width="1%">{{'valid' | translate}}</th>
+                                <th scope="col">{{'Concerned Authority' | translate}}</th>
+                                <th scope="col" style="width:5%;text-align: center;">{{'action' | translate}}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-sm">
+                            <tr *ngFor="let licence of licences ; let i = index">
+                                <td *ngIf="licence.id === editLicenceID">
+                                    <select class="select2 form-control form-control-sm custom-select" [(ngModel)]='licence.licensetype' [ngModelOptions]="{standalone: true}">
+                                            <option>Select</option>
+                                            <option value="Drug Licence">Drug Licence</option>
+                                            <option value="Manufacturing">Manufacturing</option>
+                                        </select>
+                                </td>
+                                <td *ngIf="licence.id !== editLicenceID" (dblclick)="editLicence(licence.id)">{{licence.licensetype}}</td>
+
+                                <td *ngIf="licence.id === editLicenceID"><input type="text" class="form-control w-100" [(ngModel)]='licence.licenseno' [ngModelOptions]="{standalone: true}"></td>
+                                <td *ngIf="licence.id !== editLicenceID" (dblclick)="editLicence(licence.id)">{{licence.licenseno}}</td>
+
+                                <td *ngIf="licence.id === editLicenceID"> <div class="form-group">
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                        <input matInput [matDatepicker]="picker" name="validtill" [(ngModel)]="licence.validtill" [ngModelOptions]="{standalone: true}">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div></td>
+                                <td *ngIf="licence.id !== editLicenceID" (dblclick)="editLicence(licence.id)">{{licence.validtill | date:'d/M/y'}}</td>
+
+                                <td *ngIf="licence.id === editLicenceID"><input type="text" class="form-control w-100" [(ngModel)]='licence.authentication' [ngModelOptions]="{standalone: true}"></td>
+                                <td *ngIf="licence.id !== editLicenceID" (dblclick)="editLicence(licence.id)">{{licence.authentication | titlecase}}</td>
+                                
+                                <td style="width:60px;text-align: center;">
+                                    <div>
+                                        <i *ngIf="licence.id === editLicenceID" class="fas fa-check customIcon" (click)="updateLicence(licence)"></i>
+                                        <i *ngIf="licence.id !== editLicenceID" class="fas fa-edit customIcon" (click)="editLicence(licence.id)"></i>
+                                        <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeLicence(i)"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <select class="select2 form-control form-control-sm custom-select" [(ngModel)]="newlicence.licensetype" [ngModelOptions]="{standalone: true}">
+                                        <option>Select</option>
+                                        <option value="Drug Licence">Drug Licence</option>
+                                        <option value="Manufacturing">Manufacturing</option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control w-100" [(ngModel)]="newlicence.licenseno" [ngModelOptions]="{standalone: true}"></td>
+                                <td>
+                                    <!-- <input type="date" class="form-control w-100" [(ngModel)]="newlicence.valid_up_to_date" [ngModelOptions]="{standalone: true}" style="border-radius:3px;"> -->
+                                    <div class="form-group">
+                                            <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                <input matInput [matDatepicker]="picker1" [(ngModel)]="newlicence.validtill" [ngModelOptions]="{standalone: true}">
+                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control w-100" [(ngModel)]="newlicence.authentication" (keyup.enter)="addLicence(newlicence)" [ngModelOptions]="{standalone: true}">
+                                </td>
+                                <td style="width:60px;text-align: center;">
+                                    <i (click)="addLicence(newlicence)" class="fas fa-plus"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h4 style="padding-top:20px;">Non GST Info.</h4>
+            <div id="section5" class="card-body border-top customer-master px-0 py-2" style="min-height:390px;">
+                <div class="form-inline">
+                    <div class="form-group row col-12 ">
+                        <label  class="col-sm-4 text-right">VAT No.</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-sm" name="vat_number" [(ngModel)]="newData.vat_number" formControlName="vat_number" placeholder="VAT Number">
+                        </div>
+                            <label  class="col-sm-2 text-right">Dated</label>
+                            <div class="form-group col-sm-3 my-2">
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                        <input matInput [matDatepicker]="picker2" name="vat_date" [(ngModel)]="newData.vat_date" formControlName="vat_date" >
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                    </div>
+                    
+                </div>
+                <div class="form-inline">
+                    <div class="form-group row col-md-12 mb-2 ">
+                        <label class="col-sm-4 text-right" for="inputPassword4">Excise Regn. No.</label>
+                        <div class="col-sm-3">
+                                <input type="text" class="form-control form-control-sm" name="excise_regn_no" [(ngModel)]="newData.excise_regn_no" formControlName="excise_regn_no">
+                        </div>
+                        <label class="col-sm-2 text-right" for="inputPassword4">Commissionerate</label>
+                        <div class="col-sm-3">
+                                <input type="text" class="form-control form-control-sm" name="excise_commissionerate" [(ngModel)]="newData.excise_commissionerate" formControlName="excise_commissionerate">
+                        </div>
+                        
+                    </div>
+                    <div class="form-group row col-md-12 mb-2 ">
+
+                            <label class="col-sm-4 text-right" for="inputPassword4">Excise Division</label>
+                            <div class="col-sm-3">
+                                    <input type="text" class="form-control form-control-sm" name="excise_division" [(ngModel)]="newData.excise_division" formControlName="excise_division">
+                            </div>
+                           
+                            
+                            <label class="col-sm-2 text-right" for="inputPassword4">Excise Range</label>
+                        <div class="col-sm-3">
+                                <input type="text" class="form-control form-control-sm" name="excise_range" [(ngModel)]="newData.excise_range" formControlName="excise_range">
+                        </div>
+                        </div>
+                </div>
+               
+            </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button class="btn btn-sm btn-secondary rounded" (click)="closeDialog()">Cancel</button>
+            <button *ngIf="action == 'new'" type="button" class="btn btn-sm btn-info rounded" (click)="saveCustomer(newData)" [disabled]="customerForm.pristine || customerForm.invalid">Save</button>
+            <button *ngIf="action == 'edit'" type="button" class="btn btn-sm btn-info rounded" (click)="updateCustomMaster(newData)" [disabled]="customerForm.pristine || customerForm.invalid" >Update</button>
+        </div>
+    </form>

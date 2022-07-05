@@ -1,0 +1,145 @@
+<!-- 
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;"> -->
+<form >
+  <div class="modal-header primary-bg py-2">
+
+    <button class="close text-white" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+      <div class="modal-body" style="height:500px;overflow-y:scroll;padding:0;max-width:950px;">
+        <div class="table-scroll mx-1">
+          <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="print()"  >{{'print'| translate}}</button>
+          <div  id="ravinderpal">
+
+            <!-- style="padding-left: 30px; margin-right: 20px; " -->
+          <div class="custom-invoice"  style="padding-left: 15px; " id="ravinderpal">
+          <div class="card-body border-top supplier-master px-0 py-2" style="background: #ffffcf;">
+            <!-- <div class="header">
+              <h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Statement of Account</h6>
+              <h6>{{PartyName}}</h6>
+            </div> -->
+            <!-- <div class="col-md-12"><B> {{PartyName}} </B> </div> -->
+            
+            <table class="custom-invoice-table w-100">
+              <thead >
+                <tr>
+                  <td colspan="6">
+                    <h4>{{companyName}}</h4>
+                    <h6>Statement of Account from {{fstartDate}} to {{fendDate}}</h6>
+                    <h6>{{PartyName}}</h6>
+                  </td>
+                </tr>
+                <tr  style="border-top: thin solid; border-bottom: thin solid; padding-top: 10px; padding-bottom: 10px; height: 40px;vertical-align: middle;">
+                  <th style="width: 80px;">Dated</th>
+                  <th style="width: 100px; text-align: center;">Voucher No.</th>
+                  <th >Description</th>
+                  <th style="text-align:right;width: 100px;">Debit</th>
+                  <th style="text-align:right;width: 100px;">Credit</th>
+                  <th style="text-align:right;width: 150px;">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-weight-sm"> </td>
+                  <td> </td>
+                  <td>Opening Balance as on {{fstartDate}}</td>
+                  <td class="text-right"><em *ngIf="openingDrCr=='Dr'">{{YearOpeningBalance}}</em></td>
+                  <td class="text-right"><em  *ngIf="openingDrCr=='Cr'">{{YearOpeningBalance}}</em></td>
+                  <td ></td>
+                </tr>
+                <tr *ngFor="let staff of accountStatement" >
+                  <td class="font-weight-sm"> {{staff.VOUCHERDATE | date:"dd/MM/yyyy"}}</td>
+                  <td  style="width: 100px; text-align: center;"> {{staff.VOUCHERNO}}</td>
+                  <td> {{staff.DESCRIPTION}}</td>
+                  <td class="text-right" *ngIf="staff.DRAMT!=0" >{{staff.DRAMT|number:'0.2-2'}}</td>
+                  <td class="text-right" *ngIf="staff.DRAMT==0" ></td>
+                  <td class="text-right"  *ngIf="staff.CRAMT!=0" >{{staff.CRAMT|number:'0.2-2'}}</td>
+                  <td class="text-right"  *ngIf="staff.CRAMT==0" ></td>
+                  <td class="text-right">{{staff.BALANCE}}</td>
+                </tr>
+                <!-- <em></em> -->
+                <tr style="border-top: thin solid; border-bottom: thin solid; padding-top: 15px; height: 40px;vertical-align: middle;">
+                  <td class="font-weight-sm"></td>
+                  <td></td>
+                  <td></td>
+                  <td  style="text-align:right;width: 100px;">{{totalDr|number:'0.2-2'}} </td>
+                  <td  style="text-align:right;width: 100px;">{{totalCr|number:'0.2-2'}} </td>
+                  <td  style="text-align:right;width: 150px;">{{ClosingBalance}}{{ClosingDrCr}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="isCheques" class="col-md-12"><B> List of Issued Payments </B></div>
+            <table *ngIf="isCheques" class="table table-striped custom-table tr th">
+             
+                <tr>
+                  <th style="width: 80px;">Cheque No.</th>
+                  <th style="width: 100px;">Dated</th>
+                  <th style="width: 400px;">Bank Name</th>
+                  <th style="text-align:right;width: 100px;">Status</th>
+                  <th style="text-align:right;width: 100px;"> Amount</th>
+                  
+                </tr>
+                <tr *ngFor="let staff1 of listCheque">
+                  <td> {{staff1.CHEQUENO}}</td>
+                  <td class="font-weight-sm"> {{staff1.TRANSDATE | date:"dd/MM/yyyy"}}</td>
+                  <td><em style="width:130px;"> {{staff1.BANKNAME}}</em></td>
+                  <td class="text-right"><em>{{staff1.STATUS}}</em></td>
+                  <td class="text-right"><em>{{staff1.TRANAMT}}</em></td>
+                </tr>
+             
+            </table>
+            <div *ngIf="isPayments" class="col-md-12"><B> List of Passed Payments </B></div>
+            <table *ngIf="isPayments" class="table table-striped custom-table tr th">
+                <tr>
+                  <th style="width: 80px;">Req No.</th>
+                  <th style="width: 100px;">Dated</th>
+                  <th style="width: 400px;">Remarks</th>
+                  <th style="text-align:right;width: 100px;">Passed</th>
+                  <th style="text-align:right;width: 100px;">Balance Amt</th>
+                  
+                </tr>
+             
+                <tr *ngFor="let staff of listPassedPayment">
+                  <td> {{staff.REQNO}}</td>
+                  <td class="font-weight-sm"> {{staff.REQDATE | date:"dd/MM/yyyy"}}</td>
+                  <td><em style="width:130px;"> {{staff.REMARKS}}</em></td>
+                  <td class="text-right"><em>{{staff.PASSEDAMT}}</em></td>
+                  <td class="text-right"><em>{{staff.BALANCEAMT}}</em></td>
+                </tr>
+             
+            </table>
+          </div>
+          <footer>
+            <hr>
+          </footer>
+          </div>
+          </div>
+        </div>
+        <!-- <div  *ngIf="isCheques" class="table-scroll mx-1">
+          <div class="card-body border-top supplier-master px-0 py-2" style="background: #ffffcf;">
+          
+            
+
+          </div>
+        </div> -->
+        <!-- <div *ngIf="isPayments" class="table-scroll mx-1">
+          <div class="card-body border-top supplier-master px-0 py-2" style="background: #ffffcf;">
+          
+            
+          
+          </div>
+        </div> -->
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-5"><B>  Closing Balance :   {{ClosingBalance}} {{ClosingDrCr}}</B></div>
+     
+      </div>
+    </form>
+    <!-- <app-footer></app-footer>
+    </div>
+</div> -->

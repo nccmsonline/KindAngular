@@ -1,0 +1,25 @@
+/* .alertsContainer .alertsRow.error {background: #d80202;}
+.alertsContainer .alertsRow .iconpanel {height: 100%;}
+.alertsContainer .alertsRow .messagepanel {height: auto;} */
+
+
+
+
+.ng-select.ng-select.form-control.ng-select-single {
+    height: 28px;
+    width: 451px !important;
+ 
+  }
+
+  .ngx-select__choices{
+    width: 451px !important;
+  }
+
+  .ng-select.form-control.ng-select-single{
+    max-width: 260px;
+  }
+
+.upDownClass:hover{
+  cursor: pointer;
+}
+ 

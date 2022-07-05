@@ -1,0 +1,110 @@
+
+    <div class="main-wrapper">
+        <div class="preloader" style="display: none;">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+     
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/MyERPBack.jpg) no-repeat center center;background-size:cover;background-position: bottom center;min-height:100vh !important;">
+            <div class="auth-box on-sidebar" style="background: rgba(255,255,255,0.7);">
+                <div id="loginform">
+                        <div style="height:50px">
+                        </div>
+                    <div class="logo" >
+                        <span class="db">
+                            <img src="assets/images/AsterisksInfo-logo-img-dark.png" alt="logo">
+                            <!-- <img src="assets/images/astri.gif" alt="logo"> -->
+                        </span>
+                        <h5 class="font-medium m-b-20">Sign in</h5>
+                    </div>
+                    <div style="height:50px">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <form class="form-horizontal m-t-20" id="loginform" [formGroup]="loginForm" novalidate>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon4"><i class="ti-server"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" name="companyname" [(ngModel)]="newData.companyname" (click)="onCompanyClick()" 
+                                    formControlName="companyname" placeholder="Company Name" readonly aria-label="Username" aria-describedby="basic-addon1" style="color:#666;">
+                                    <div *ngIf="isCompanyList != ''" class="search-list-supplier" style="margin-top: 2px;">
+                                        <ul id="selectedValue" class="custom-customer-order-list"  >
+                                            <li class="ui-menu-item" role="menuitem" *ngFor="let result of companyList" (click)="onCompanySelect(result, newData)">
+                                                <a>
+                                                    {{result.COMPANYNAME}}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- <ngx-select class="form-control form-control-lg"  formControlName="companyname" name="companyname"  [allowClear]="true" [(ngModel)]="newData.companyname" [items]="companyname" optionValueField="COMPANYID" optionTextField="COMPANYNAME"  >
+                                    </ngx-select> -->
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" name="UserName" [(ngModel)]="newData.UserName" formControlName="UserName" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" style="color:#666;">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control form-control-lg" name="Password" [(ngModel)]="newData.Password" formControlName="Password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" style="color:#666;">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                            <label class="custom-control-label" for="customCheck1">Remember me</label>
+                                            <a href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i class="fa fa-lock m-r-5"></i> Forgot pwd?</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group text-center">
+                                    <div class="col-xs-12 p-b-20">
+                                        <button class="btn rounded btn-block btn-lg btn-info" type="submit" (click)="login(newData)"  [disabled]="currentLesson !== '1'" >Log In</button>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        &nbsp;
+                                    </div>
+                                </div>    
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        &nbsp;
+                                    </div>
+                                </div>       
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <a (click)="supplierProfile()" id="to-recover" class="text-dark float-right"><i class="fa fa-add m-r-5"></i> Supplier Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+  
+    <script>
+    $('[data-toggle="tooltip"]').tooltip();
+    $(".preloader").fadeOut();
+ 
+    $('#to-recover').on("click", function() {
+        $("#loginform").slideUp();
+       // $("#recoverform").fadeIn();
+    });
+    </script>
+   

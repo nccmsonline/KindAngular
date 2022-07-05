@@ -1,0 +1,438 @@
+
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+  <div class="container-fluid" style="background:#dcdcdc;">
+<form autocomplete="off" >
+<div class="row">
+    <div class="col-12">
+          <div class="example-loading-shade" *ngIf="isLoadingResults">
+                  <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+            <div class="card-body border-bottom py-2">
+              <div class="col-md-12">
+                   <div class="row">
+                      <div class="col-sm-2">
+                         
+                          <h4 class="card-title m-0">Finishing BOM</h4>
+                          
+                        <!-- <button *ngIf="!isAddNew" type="submit" (click)="addNewOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" > Add New</button>&nbsp; -->
+                        <!-- <button *ngIf="isAddNew" type="submit" (click)="validateDetail('add')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Save</button>
+                        <button *ngIf="!isAddNew" type="submit" (click)="validateDetail('update')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Update</button>
+                         -->
+  
+                      </div>
+                      <div class="col-sm-1"  style="width: 50px;">
+                      <a skipLocationChange  [routerLink]="['/finishing-bom']" class="btn btn-sm rounded btn-warning mr-3" title="Back to BOM List"><i
+                        class="mdi mdi-keyboard-backspace"></i></a>
+                      </div>
+                    <div class="col-sm-1" style="width: 100px;">
+                      <button *ngIf="routeAction=='new'" [disabled]="isLoadingResults" type="submit" (click)="validateDetail('add')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Save</button>
+                    <button *ngIf="routeAction!='new'" [disabled]="isLoadingResults" type="submit" (click)="validateDetail('update')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Update</button>
+                  </div>  
+                  <div class="col-sm-1"  style="width: 100px;">   
+                    <button type="submit" [disabled]="isLoadingResults"  (click)="refresh()"  class="btn btn-purple rounded btn-sm waves-effect waves-light" >Referesh</button>      
+                  </div>
+                     
+                    
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row m-1">
+                    <div class="col-md-5">
+                        <mat-form-field class="example-full-width w-100" >
+                       
+                          <input matInput placeholder="Product Code" name="ITEMCODE"
+                          [(ngModel)]="newData.ITEMCODE" [ngModelOptions]="{standalone: true}" (keyup)="searchTermProductCode($event.target.value, newData)" >
+                        </mat-form-field>
+                       
+                        <div *ngIf="arrayItemProductDesc != ''" class="search-list-header">
+                            <div class="example-loading-shade" *ngIf="isLoadingProductList">
+                                <mat-spinner  [diameter]="20" *ngIf="isLoadingProductList"></mat-spinner>
+                            </div>
+                            
+
+                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                    <th style="width: 200px;height: 40px;">Item Code</th>
+                                    <th style="width: 500px;height: 40px;">Item Name</th>
+                               </tr>
+                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of itemlistget"
+                                  (click)="onChangeOfProductDesc(result, newData)">
+                                  <td>{{ result.ITEMCODE }}</td>
+                                  <td>{{ result.ITEMNAME }}</td>
+                                  
+                                </tr>
+                              </table>
+                          
+                        </div>
+    
+                  </div>
+                  <div class="col-md-1"> &nbsp;  </div>
+                  
+                  <div class="col-md-1" >
+                      <mat-form-field class="example-full-width" style="width: 100px;">
+                        <input matInput placeholder="Batch Size" name="BATCHSIZE"
+                        [(ngModel)]="newData.BATCHSIZE" [ngModelOptions]="{standalone: true}" style="text-align: right; width: 100px;"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                      </mat-form-field>
+                  </div>
+              </div>
+              <div class="row">
+             
+                  <div class="col-md-6">
+                    <!-- <div class="row m-1">
+                            <div class="col-md-12">
+                                    <div class="card-body border-bottom py-2">
+                                            <div class="col-md-12">
+                                             
+                                            </div>
+                                          </div>
+
+                           </div>
+                    </div> -->
+                <div class="row m-1">
+                <div class="col-md-5">
+                      <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Actual Stampings Used" name="STAMPINGSIZE"
+                        [(ngModel)]="newData.STAMPINGSIZE" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                      </mat-form-field>
+                </div>
+                    <div class="col-md-1"> &nbsp;       
+               </div>
+               <div class="col-md-5" >
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Stamping Weight" name="STAMPINGWEIGHT"
+                    [(ngModel)]="newData.STAMPINGWEIGHT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                  </mat-form-field>
+                  </div>
+                </div>
+                <div class="row m-1">
+                  <div class="col-md-5">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Waste Stamping" name="WASTESTAMPING"
+                          [(ngModel)]="newData.WASTESTAMPING" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </mat-form-field>
+                  </div>
+                      <div class="col-md-1"> &nbsp;       
+                 </div>
+                 <div class="col-md-5" >
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Waste Stamping Weight" name="WASTESTAMPINGWT"
+                      [(ngModel)]="newData.WASTESTAMPINGWT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                    </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="row m-1">
+                   <div class="col-md-5">
+                      <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Metal Grade" name="METALGRADEDESC"  (keyup)="filterMetalList($event.target.value, newData)"
+                          [(ngModel)]="newData.METALGRADEDESC" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                        <div *ngIf="isGradefiltered != ''" class="search-list-supplier" style="margin-top: 2px;">
+                            <ul id="selectedValue" class="custom-customer-order-list"  >
+                                <li class="ui-menu-item" role="menuitem" *ngFor="let result of filteredGrade" (click)="onChangeMetal(result, newData)">
+                                    <a>
+                                        {{ result.METALGRADEDESC }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- <div *ngIf="isGradefiltered!=''" class="search-list-header">
+                            <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                <tr class="ui-menu-item" role="menuitem">
+                                    <th >Grade</th>
+                               </tr>
+                              <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredGrade"
+                                (click)="onChangeMetal(result, newData)">
+                                <td>{{ result.METALGRADEDESC }}</td>
+                              </tr>
+                            </table>
+                        
+                       </div> -->
+                   </div>
+                   <div class="col-md-1"> &nbsp;       
+                   </div>
+                   <div class="col-md-5" >
+                      &nbsp;
+                    </div>
+                    </div>
+                    <div class="row m-1">
+                      <div class="col-md-10">
+                       
+                            <mat-form-field class="example-full-width w-100">
+                              <input matInput placeholder="Party Name" name="CUSTOMERNAME"  (keyup)="filterSupplierList($event.target.value, newData)"
+                              [(ngModel)]="newData.CUSTOMERNAME" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
+                            <div *ngIf="isSupplierfiltered!=''" class="search-list-header">
+                                <table id="selectedValue" class="table table-condensed table-striped table-hover" >
+                                  <tr class="ui-menu-item" role="menuitem">
+                                      <!-- <th style="width: 200px;">Name</th>
+                                      <th style="width: 500px;">Address</th> -->
+                                      <th >Name</th>
+                                      <th >Address</th>
+                                 </tr>
+                                  <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredSuppliers"
+                                    (click)="onChangeSupplier(result, newData)">
+                                    <td>{{ result.NAME }}</td>
+                                    <td>{{ result.ADDRESS }}</td>
+                                    
+                                  </tr>
+                                </table>
+                            
+                           </div>
+                      </div>
+                      </div>
+                      <div class="row m-1">
+                        <div class="col-md-10">
+                          <mat-form-field class="example-full-width w-100" >
+                       
+                            <input matInput placeholder="Cleat Code" name="CLEATEITEMNAME"
+                            [(ngModel)]="newData.CLEATEITEMNAME" [ngModelOptions]="{standalone: true}" (keyup)="searchCleateCode($event.target.value, newData)" >
+                          </mat-form-field>
+                         
+                          <div *ngIf="cleateItemDesc != ''" class="search-list-header">
+                              <div class="example-loading-shade" *ngIf="isLoadingProductList">
+                                  <mat-spinner  [diameter]="20" *ngIf="isLoadingProductList"></mat-spinner>
+                              </div>
+                              
+  
+                                <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                  <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                      <th style="width: 200px;height: 40px;">Item Code</th>
+                                      <th style="width: 500px;height: 40px;">Item Name</th>
+                                 </tr>
+                                  <tr class="ui-menu-item" role="menuitem" *ngFor="let result of cleateItemList"
+                                    (click)="onChangeOfCleateDesc(result, newData)">
+                                    <td>{{ result.ITEMCODE }}</td>
+                                    <td>{{ result.ITEMNAME }}</td>
+                                    
+                                  </tr>
+                                </table>
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row m-1">
+                        <div class="col-md-5">
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="Cleat Size (MM)" name="CLEATSIZE"
+                                [(ngModel)]="newData.CLEATSIZE" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                              </mat-form-field>
+                        </div>
+                       <div class="col-md-1"> &nbsp; </div>
+                       <div class="col-md-5" >
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Cleat Weight" name="CLEATWEIGHT"
+                            [(ngModel)]="newData.CLEATWEIGHT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                          </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row m-1">
+                          <div class="col-md-5">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Cleat Wastage" name="CLEATWASTAGE"
+                                  [(ngModel)]="newData.CLEATWASTAGE" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </mat-form-field>
+                          </div>
+                         <div class="col-md-1"> &nbsp;</div>
+                         
+                          <div class="col-md-5" >
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Cleat Wastage Weight" name="CLEATWASTAGEWT"
+                              [(ngModel)]="newData.CLEATWASTAGEWT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                            <div class="col-md-10">
+                              <mat-form-field class="example-full-width w-100" >
+                           
+                                <input matInput placeholder="Rivet Code" name="RIVETITEMNAME"
+                                [(ngModel)]="newData.RIVETITEMNAME" [ngModelOptions]="{standalone: true}" (keyup)="searchRivitCode($event.target.value, newData)" >
+                              </mat-form-field>
+                             
+                              <div *ngIf="rivetItemDesc != ''" class="search-list-header">
+                                  <div class="example-loading-shade" *ngIf="isLoadingProductList">
+                                      <mat-spinner  [diameter]="20" *ngIf="isLoadingProductList"></mat-spinner>
+                                  </div>
+                                  
+      
+                                    <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                      <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                          <th style="width: 200px;height: 40px;">Item Code</th>
+                                          <th style="width: 500px;height: 40px;">Item Name</th>
+                                     </tr>
+                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of rivieItemList"
+                                        (click)="onChangeOfRivitDesc(result, newData)">
+                                        <td>{{ result.ITEMCODE }}</td>
+                                        <td>{{ result.ITEMNAME }}</td>
+                                        
+                                      </tr>
+                                    </table>
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                            <div class="col-md-5">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Rivet Size (MM)" name="RIVETSIZE"
+                                    [(ngModel)]="newData.RIVETSIZE" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                  </mat-form-field>
+                            </div>
+                           <div class="col-md-1"> &nbsp;  </div>
+                            <div class="col-md-5" >
+                              <mat-form-field class="example-full-width">
+                                <input matInput placeholder="RIVET Weight" name="RIVETWEIGHT"
+                                [(ngModel)]="newData.RIVETWEIGHT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                              </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row m-1">
+                              <div class="col-md-5">
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Rivet Wastage" name="RIVETWASTAGE"
+                                      [(ngModel)]="newData.RIVETWASTAGE" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                    </mat-form-field>
+                              </div>
+                              <div class="col-md-1"> &nbsp;  </div>
+                               <div class="col-md-5" >
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Rivet Wastage Weight" name="RIVETWASTAGEWT"
+                                  [(ngModel)]="newData.RIVETWASTAGEWT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </mat-form-field>
+                               </div>
+                            </div>
+
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                      <div class="col-md-6">
+                        <b> Tig Welding</b> 
+                      </div>
+                  </div>
+
+                  <div class="row m-1">
+                      <div class="col-md-5">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Electricity Consumption" name="TIGELECTERICITYCONSUMP"
+                              [(ngModel)]="newData.TIGELECTERICITYCONSUMP" [ngModelOptions]="{standalone: true}" 
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </mat-form-field>
+                      </div>
+                          <div class="col-md-1"> &nbsp;       
+                     </div>
+                     <div class="col-md-5" >
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Gass Consumption" name="TIGGASSCONSUMP"
+                          [(ngModel)]="newData.TIGGASSCONSUMP" [ngModelOptions]="{standalone: true}" 
+                          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                            <b> Mig Welding</b> 
+                          </div>
+                      </div>
+    
+                      <div class="row m-1">
+                          <div class="col-md-5">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Electricity Consumption" name="MIGELECTERICITYCONSUMP"
+                                  [(ngModel)]="newData.MIGELECTERICITYCONSUMP" [ngModelOptions]="{standalone: true}" 
+                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </mat-form-field>
+                          </div>
+                              <div class="col-md-1"> &nbsp;       
+                         </div>
+                         <div class="col-md-5" >
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Co2 Consumption" name="MIGCO2CONSUMP"
+                              [(ngModel)]="newData.MIGCO2CONSUMP" [ngModelOptions]="{standalone: true}" 
+                              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                            <div class="col-md-10">
+                              <mat-form-field class="example-full-width w-100" >
+                           
+                                <input matInput placeholder="Steel Wire Code" name="STEELWIREITEMNAME"
+                                [(ngModel)]="newData.STEELWIREITEMNAME" [ngModelOptions]="{standalone: true}" (keyup)="searchSteelWireCode($event.target.value, newData)" >
+                              </mat-form-field>
+                             
+                              <div *ngIf="steelWireItemDesc != ''" class="search-list-header">
+                                  <div class="example-loading-shade" *ngIf="isLoadingProductList">
+                                      <mat-spinner  [diameter]="20" *ngIf="isLoadingProductList"></mat-spinner>
+                                  </div>
+                                  
+      
+                                    <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                      <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                          <th style="width: 200px;height: 40px;">Item Code</th>
+                                          <th style="width: 500px;height: 40px;">Item Name</th>
+                                     </tr>
+                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of steelWireItemList"
+                                        (click)="onChangeOfItemCode(result, newData)">
+                                        <td>{{ result.ITEMCODE }}</td>
+                                        <td>{{ result.ITEMNAME }}</td>
+                                        
+                                      </tr>
+                                    </table>
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                              <div class="col-md-5">
+                                     <mat-form-field class="example-full-width">
+                                       <input matInput placeholder="Steel wire Consumption" name="STEELWIRE"
+                                       [(ngModel)]="newData.STEELWIRE" [ngModelOptions]="{standalone: true}" 
+                                       oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                     </mat-form-field>
+                              </div>
+                              <div class="col-md-1"> &nbsp;       
+                              </div>
+                              <div class="col-md-5" >
+                                 &nbsp;
+                               </div>
+                          </div>
+                </div>
+                
+              </div>
+          </div>
+         </div>
+    </div>
+  </div>
+</form>
+<app-footer></app-footer>
+</div>
+</div>
+</div>

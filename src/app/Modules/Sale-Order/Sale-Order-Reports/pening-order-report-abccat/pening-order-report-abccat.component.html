@@ -1,0 +1,88 @@
+<div class="form-group mr-2 ml-auto bd-highlight">
+  <span class="d-flex">
+          <!-- <a skipLocationChange  [routerLink]="['/customer-order-reports']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+              class="mdi mdi-keyboard-backspace"></i></a>
+              &nbsp;&nbsp; -->
+      <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="print()">{{'print'| translate}}</button>
+      &nbsp;        
+      <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('Recieived Customer Orders.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
+      <div class="form-group mr-2 mb-2 ml-auto bd-highlight d-flex">
+        <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"  mat-dialog-close>
+          <span aria-hidden="true"> &nbsp;&times; &nbsp;</span>
+        </button>
+      </div>
+ </span>
+</div>
+<div>
+<kendo-pdf-export #pdf paperSize="A4" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 10, left: 20}" [repeatHeaders]="repeatHeaders" >
+        <div  id="ravinderpal">
+        <div class="example-loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+             </div>
+            
+             <h5> {{CompanyName}}</h5>
+             <b> {{Address}}</b>
+             <b> {{mydata}}</b>
+             <br>
+             <b > <div style="background-color:#FF9966;" class="col-sm-1" >A Class</div> 
+                <div style="background-color:#FFFF99;" class="col-sm-1" >B Class</div> 
+                <div style="background-color:#99FF99;" class="col-sm-1" >C Class</div> 
+                <div style="background-color:#9999FF;" class="col-sm-1" >D Class</div> 
+
+             </b>
+
+        <div class="custom-main-loop" *ngFor="let order of orderData">
+                <!-- <h4 class="text-center">{{companyname}}{{" : "}}  {{unitname}}   {{"  ::  Cash Book For  ::"}} {{satement.cdate | date:'dd-MM-yyyy'}}</h4> -->
+              
+            <table class="table table-sm table-striped table-custom custom-table-main w-100 mb-0" id="contentToConvert"> 
+               
+                <thead>
+                  <tr  class="bg-sky">
+                        <th scope="col" style="width: 500px;">Product Code </th>
+                        <th scope="col" style="width: 100px;text-align : right">Ordered Qty</th>
+                        <th scope="col" style="width: 100px;text-align : right">Qty Balanced</th>
+                        <th scope="col" style="width: 150px;text-align : right">Rate</th>
+                        <th scope="col" style="width: 150px;text-align : right">Comm Dep dt</th>
+                   </tr>
+                </thead>
+                <tbody class="font-sm">
+                        <tr><td colspan="5"><h6>{{order.NAME}}</h6></td> </tr>
+                        <tr><td colspan="5"><b>Order No : </b>{{order.ORDERREFNO}} &nbsp;&nbsp;  <b>Order Dt : </b>{{order.ORDERDATE  }}&nbsp;&nbsp;  <b>Customer PO : </b>{{order.CUSTOMERPO}}</td> </tr>
+                        <tr  *ngFor="let x of  order.DETAIL">
+                            <td *ngIf="order.ABCCLASS=='A'" bgcolor="FF9966" scope="col"  style="width: 500px;">{{x.ITEMNAME}} </td>
+                            <td *ngIf="order.ABCCLASS=='B'" bgcolor="FFFF99" scope="col"  style="width: 500px;">{{x.ITEMNAME}} </td>
+                            <td *ngIf="order.ABCCLASS=='C'" bgcolor="99FF99" scope="col"  style="width: 500px;">{{x.ITEMNAME}} </td>
+                            <td *ngIf="order.ABCCLASS=='D'" bgcolor="9999FF" scope="col"  style="width: 500px;">{{x.ITEMNAME}} </td>
+              
+                            <td *ngIf="order.ABCCLASS=='A'" bgcolor="FF9966" scope="col" style="width: 100px;text-align : right">{{x.PCS}}</td>
+                            <td *ngIf="order.ABCCLASS=='B'" bgcolor="FFFF99" scope="col" style="width: 100px;text-align : right">{{x.PCS}}</td>
+                            <td *ngIf="order.ABCCLASS=='C'" bgcolor="99FF99" scope="col" style="width: 100px;text-align : right">{{x.PCS}}</td>
+                            <td *ngIf="order.ABCCLASS=='D'" bgcolor="9999FF" scope="col" style="width: 100px;text-align : right">{{x.PCS}}</td>
+              
+                            <td *ngIf="order.ABCCLASS=='A'" bgcolor="FF9966" scope="col" style="width: 100px;text-align : right">{{x.BALANCEPCS}}</td>
+                            <td *ngIf="order.ABCCLASS=='B'" bgcolor="FFFF99" scope="col" style="width: 100px;text-align : right">{{x.BALANCEPCS}}</td>
+                            <td *ngIf="order.ABCCLASS=='C'" bgcolor="99FF99" scope="col" style="width: 100px;text-align : right">{{x.BALANCEPCS}}</td>
+                            <td *ngIf="order.ABCCLASS=='D'" bgcolor="9999FF" scope="col" style="width: 100px;text-align : right">{{x.BALANCEPCS}}</td>
+              
+                            <td *ngIf="order.ABCCLASS=='A'" bgcolor="FF9966" scope="col" style="width: 150px;text-align : right">{{x.RATE  | number:'1.2-2'}}</td>
+                            <td *ngIf="order.ABCCLASS=='B'" bgcolor="FFFF99" scope="col" style="width: 150px;text-align : right">{{x.RATE  | number:'1.2-2'}}</td>
+                            <td *ngIf="order.ABCCLASS=='C'" bgcolor="99FF99" scope="col" style="width: 150px;text-align : right">{{x.RATE  | number:'1.2-2'}}</td>
+                            <td *ngIf="order.ABCCLASS=='D'" bgcolor="9999FF" scope="col" style="width: 150px;text-align : right">{{x.RATE  | number:'1.2-2'}}</td>
+              
+                            <td *ngIf="order.ABCCLASS=='A'" bgcolor="FF9966" scope="col" style="width: 150px;text-align : right">{{x.COMMITTEDDESPATCHDATE  }}</td>
+                            <td *ngIf="order.ABCCLASS=='B'" bgcolor="FFFF99" scope="col" style="width: 150px;text-align : right">{{x.COMMITTEDDESPATCHDATE  }}</td>
+                            <td *ngIf="order.ABCCLASS=='C'" bgcolor="99FF99" scope="col" style="width: 150px;text-align : right">{{x.COMMITTEDDESPATCHDATE}}</td>
+                            <td *ngIf="order.ABCCLASS=='D'" bgcolor="9999FF" scope="col" style="width: 150px;text-align : right">{{x.COMMITTEDDESPATCHDATE }}</td>
+                            
+              
+                        </tr>
+                </tbody>
+            </table>
+          
+          
+       
+  
+  </div>
+</div>
+  </kendo-pdf-export>
+  </div> 

@@ -1,0 +1,137 @@
+
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+
+  <div class="page-wrapper" >
+      <div class="container-fluid" style="background:#dcdcdc;">
+  <div class="row">
+    <div class="col-12">
+     <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+
+    <div class="scroll-spy px-3 pb-3" style="height:400px; width: 800px">
+      <div class="example-loading-shade" *ngIf="isLoadingResults">
+          <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+     </div>
+
+        <div class="card-body border-top item-master px-0 py-2">
+        <div class="form-inline">
+            <!-- <div class="form-group row col-12 mb-2 required"> -->
+                <div class="form-group row col-12 mb-2 ">  
+                    <div class="col-sm-3 ">
+                        <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="onNoClick()">Save</button>
+                    </div>
+                    <div class="col-sm-1 ">
+                     <b>Bank</b>  
+                    </div>
+                    <div class="col-sm-6">
+                        <ngx-select class="ngx-custom-select-dropdown ngx-custom-category-select ngx-custom-select-dropdown-text-wrap" 
+                        [ngModelOptions]="{standalone: true}" name="BANKNAME"  [allowClear]="true" [(ngModel)]="newData.BANKNAME"  (ngModelChange)="showNeftFormat($event)"
+                        [items]="bankList" optionValueField="BANKNAME" optionTextField="BANKNAME" placeholder=" Please Select Bank"  >
+                        </ngx-select>
+                    </div>
+                  </div>
+                 
+
+            <div class="form-group row col-12 mb-2 ">  
+           
+              <div class="table-scroll mx-1">
+                     
+                  <div class="card-body border-top indent-entry px-0 py-2">
+                     
+                          <table class="table table-striped custom-table tr th w-100" style="height:300px">
+                              <thead>
+                                  <tr style="background-color: #666666; color: #ffffff;">
+                                      <th  style="width:20%;">Value From</th>
+                                      <th scope="col" style="width:38%; ;">Title</th>
+                                      <th scope="col" style="width:38%;">Static Value</th>
+                                      
+                                      <th scope="col" style="width:4%;text-align: center;">{{'action' | translate}}</th>
+                                  </tr>
+                              </thead>
+                              <tbody class="font-sm">
+                              <tr *ngFor="let item of NeftFormatList ; let i = index">
+                            
+                                      <td *ngIf="i === editItemID">
+                                
+                                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-category-select ngx-custom-select-dropdown-text-wrap" 
+                                            [ngModelOptions]="{standalone: true}" name="VALUEFROM"  [allowClear]="true" [(ngModel)]="item.VALUEFROM"  
+                                            [items]="ColumnList" optionValueField="ColumnName" optionTextField="ColumnName" placeholder=" Please Select Column"  >
+                                            </ngx-select>
+                                        
+                                        </td>
+                                      <td *ngIf="i != editItemID" (dblclick)="editItem(i)">{{item.VALUEFROM}}</td>
+
+                                      <td *ngIf="i == editItemID">
+                                        <input style="text-align:left" type="text" class="form-control w-100" [(ngModel)]='item.TITLE'
+                                         [ngModelOptions]="{standalone: true}">
+                                      </td>
+                                      <td *ngIf="i != editItemID" style="text-align:left" (dblclick)="editItem(i)">{{item.TITLE}}</td>
+      
+                                      <td *ngIf="i == editItemID">
+                                              <input style="text-align:left" type="text" class="form-control w-100" [(ngModel)]='item.FIXEDVALUE' [ngModelOptions]="{standalone: true}">
+                                         
+                                      </td>
+                                      <td *ngIf="i != editItemID" (dblclick)="editItem(i)">{{item.FIXEDVALUE}}</td>
+
+                                      
+                                      <td style="width:60px;text-align: center;">
+                                          <div>
+                                              <i *ngIf="i == editItemID" class="fas fa-check customIcon" (click)="updateItem(item)"></i>
+                                              <i *ngIf="i != editItemID" class="fas fa-edit customIcon" (click)="editItem(i)"></i>
+                                              <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeItem(i)"></i>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  
+                                  <tr style="height:auto">
+                                     
+                                      <td>
+                                        <ngx-select class="ngx-custom-select-dropdown ngx-custom-category-select ngx-custom-select-dropdown-text-wrap" 
+                                        [ngModelOptions]="{standalone: true}" name="VALUEFROM"  [allowClear]="true" [(ngModel)]="newItem.VALUEFROM" 
+                                        [items]="ColumnList" optionValueField="ColumnName" optionTextField="ColumnName" placeholder=" Please Select Column"  >
+                                        </ngx-select>
+                                      </td>
+           
+                                      <td>  
+                                        <input style="text-align:left" type="text" class="form-control w-100" [(ngModel)]='newItem.TITLE'
+                                        [ngModelOptions]="{standalone: true}">
+                                      </td>
+                                 
+                                      <td>
+                                          <input style="text-align:left" type="text" class="form-control w-100" [(ngModel)]='newItem.FIXEDVALUE' [ngModelOptions]="{standalone: true}">
+                                    </td>
+                                        
+                                      
+                                      <td style="width:60px;text-align: center;">
+                                          <i (click)="additem()" class="fas fa-plus"></i>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                              
+                          </table>
+
+                  
+                  </div>
+                   </div>
+          </div>
+
+           
+      </div>
+    </div>
+    </div>
+  
+  </div>
+
+           
+</div>
+</div>
+</div>

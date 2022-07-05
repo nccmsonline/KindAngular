@@ -1,0 +1,171 @@
+<form >
+    <div class="modal-header primary-bg py-2">
+     <h5 style="color:white">Bill Detail</h5> 
+        <button class="close text-white" mat-dialog-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+      <div class="scroll-spy px-3 pb-3" style="width: 1100px">
+        <div class="card-body purchase-order px-0 py-2 custom-card-order">   
+          <div class="form-inline">
+              <div class="form-row w-100">
+          <div class="form-group row col-12 mb-1 ">  
+              <div class="col-sm-7">
+                 <h4>Basic Information</h4>
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-3 text-right ">Bill No.</label>
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm" name="BILLNO"
+                          [(ngModel)]="newData.BILLNO"  [ngModelOptions]="{standalone: true}" >
+                      </div>
+                      <label class="col-sm-3 text-right ">Bill Date</label>
+                      
+                      <div class="col-sm-3  w-100">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="picker4" name="BILLDATE"
+                                [(ngModel)]='newData.BILLDATE'
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
+                         </mat-form-field>
+                      </div>
+                  </div>
+                  
+                  <div class="form-group row col-12 mb-1">
+                      <label class="col-sm-3 text-right ">Inward No</label>
+                     
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="INWARDNO"
+                          [(ngModel)]="newData.INWARDNO"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                      <label  class="col-sm-3 text-right ">Inward Date</label>
+                     
+                      <div class="col-sm-3  w-100">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker  readonly-disable">
+                            <input matInput [matDatepicker]="picker5" name="INWARDDATE"
+                                [(ngModel)]='newData.INWARDDATE'
+                                [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                            <mat-datepicker #picker5  disabled="true"></mat-datepicker>
+                         </mat-form-field>
+
+                          <!-- <input style="text-align:right" type="text" class="form-control form-control-sm" name="INWARDDATE"
+                          [(ngModel)]="newData.INWARDDATE"  [ngModelOptions]="{standalone: true}" readonly> -->
+                      </div>
+
+                  </div>
+                  
+                  <div class="form-group row col-12 mb-1">
+                      <label class="col-sm-3 text-right ">Voucher No</label>
+                     
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="VOUCHERNO"
+                          [(ngModel)]="newData.VOUCHERNO"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+
+                      <label  class="col-sm-3 text-right ">Voucher Date</label>
+                     
+                      <div class="col-sm-3  w-100">
+                           <mat-form-field class="form-control py-1 mat-form-field-date-picker readonly-disable">
+                            <input matInput [matDatepicker]="picker6" name="PVDATE"
+                                [(ngModel)]='newData.PVDATE'
+                                [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+                            <mat-datepicker #picker6  disabled="true"></mat-datepicker>
+                         </mat-form-field>
+
+                          <!-- <input style="text-align:right" type="text" class="form-control form-control-sm" name="VOCHERDATE"
+                          [(ngModel)]="newData.VOCHERDATE"  [ngModelOptions]="{standalone: true}" readonly> -->
+                      </div>
+                       <!-- <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="picker7" name="INWARDDATE"
+                                [(ngModel)]='newData.INWARDDATE'
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="picker7"></mat-datepicker-toggle>
+                            <mat-datepicker #picker7></mat-datepicker>
+                         </mat-form-field> -->
+
+                  </div>
+   
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-3 text-right ">Taxable</label>
+                    
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="TAXABLE"
+                          [(ngModel)]="newData.TAXABLE"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                      <label  class="col-sm-3 text-right ">IGST</label>
+                     
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="IGST"
+                          [(ngModel)]="newData.IGST"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                    <label  class="col-sm-3 text-right ">SGST</label>
+                  
+                    <div class="col-sm-3  w-100">
+                        <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="SGST"
+                        [(ngModel)]="newData.SGST"  [ngModelOptions]="{standalone: true}" readonly>
+                    </div>
+                    <label  class="col-sm-3 text-right ">CGST</label>
+                   
+                    <div class="col-sm-3  w-100">
+                        <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="CGST"
+                        [(ngModel)]="newData.CGST"  [ngModelOptions]="{standalone: true}" readonly>
+                    </div>
+                </div>
+                <div class="form-group row col-12 mb-1">
+                    <label  class="col-sm-3 text-right ">Bill Amount</label>
+                    <div class="col-sm-3  w-100">
+                        <input style="text-align:right" type="text" class="form-control form-control-sm readonly-disable" name="BILLAMOUNT"
+                        [(ngModel)]="newData.BILLAMOUNT"  [ngModelOptions]="{standalone: true}" readonly>
+                    </div>
+                
+                </div>
+
+              </div>
+              <div class="col-sm-5 border-left">
+                  <h4>Bills found in Return</h4>
+                  <div class="form-group row col-12 mb-1">
+                    <table style="width:100%" class="table table-sm custom-invoice-table table-bordered" cellspacing="0" cellpadding="0" border="0"  >
+                        <thead>
+                            <th style="width: 70px;text-align: right;background-color: #E2E2E2;"> Inv No.</th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;"> Date</th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;">Taxable </th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;">IGST</th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;">SGST</th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;">CGST</th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;">Inv Amt</th>
+                          <th style="width: 70px;text-align: right;background-color: #E2E2E2;">Month</th>
+                        </thead>
+
+                        <tbody>
+                          <tr *ngFor="let ele of returndata">                  
+                            <td style="width: 70px;text-align: right;">{{ele.INVOICENO}}</td>         
+                            <td style="width: 70px;text-align: right;"> {{ele.INVOICEDATE | date:'d/M/y'}}</td>
+                            <td style="width: 70px;text-align: right;"> {{ele.TAXABLEAMT }} </td> 
+                            <td style="width: 70px;text-align: right;">{{ele.IGST}}</td>
+                            <td style="width: 70px;text-align: right;">{{ele.SGST}}</td>
+                            <td style="width: 70px;text-align: right;">{{ele.CGST}}</td>
+                            <td style="width: 70px;text-align: right;">{{ele.TOTALINVOICEVALUE}}</td>
+                            <td style="width: 70px;text-align: right;">{{ele.RET_PERIOD}}</td>
+                         </tr>
+                        </tbody>
+                      </table>
+                  </div>
+            </div>
+
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="updateInvoice(data)" mat-dialog-close>Update Inv No</button>
+          <button type="button" class="btn btn-primary" (click)="updateInvDate(data)" mat-dialog-close>Update Inv Date</button>
+          <button type="button" class="btn btn-primary" mat-dialog-close>Ok</button>
+      </div>
+    </form>

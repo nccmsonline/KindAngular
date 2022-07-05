@@ -1,0 +1,254 @@
+
+       <div class="w-100 clearfix text-right pb-2 pr-2" id="printPageButton">
+        <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="print()">{{'print'| translate}}</button>
+        <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('Die-Planning-Print.pdf')"  ><i class="ti-download"></i>&nbsp;{{'downloadpdf'| translate}}</button>
+        <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"  mat-dialog-close>
+        <span aria-hidden="true"> &nbsp;&times; &nbsp;</span>
+        </button>
+     </div>
+     <div class="example-container mat-elevation-z8">
+      <div class="example-loading-shade"
+           *ngIf="isLoadingResults ">
+         <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner> 
+        </div>
+      </div>
+      <div class="example-loading-shade" *ngIf="isLoadingResults ">
+          <mat-spinner [diameter]="60" *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+     <kendo-pdf-export #pdf paperSize="A4" [scale]="0.6" [margin]="{top: 20, bottom: 50, right: 10, left: 10}" [repeatHeaders]="repeatHeaders">
+                  
+      <div class="row" id="ravinderpal">
+
+        <div class="col-12">
+           <div class="card" >
+                <div class="custom-invoice" >
+
+                <header style="width: 100%;">
+                 <table style="width: 100%;" >
+                  <tr>
+                     <td colspan="2" style="font-size: 16pt;font-weight: 700;">
+                      <b>{{companyName}}</b>
+                     </td> 
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="font-size: 13pt;font-weight: 700;">
+                     <b>{{Address1}}</b>
+                    </td> 
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="font-size: 13pt;font-weight: 700;">
+                     <b>{{Address2}}</b>
+                    </td> 
+                  </tr>
+                   <tr>
+                    <td colspan="2" style="font-size: 13pt;font-weight: 700;">
+                      <b>Inward Gate Pass</b>
+                     </td> 
+                   </tr>
+                 </table>
+               </header>
+               <hr style="border-top: 1px solid">
+               
+             <table class="w-100"  cellspacing="0" cellpadding="0" >
+              <tbody>
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Gate Inward Sr. </b> 
+                  </td>
+                  <td style="width: 150px; text-align: left;">
+                    : {{newData.GINNO}}
+                  </td>
+                  <td style="width: 550px;"> 
+                    <table style="width: 100%;">
+                      <tr>
+                        <td style="width: 50%;">
+                          <b>Dated : </b> {{newData.GINDT| date:'d/M/y'}}
+                        </td>
+                        <td style="width: 50%;">
+                          <b>Time : </b> {{newData.GINTIME|date:'HH:mm'}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Item Category </b> 
+                  </td>
+                  <td colspan="2">
+                    : {{newData.GROUPNAME}}
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Supplier </b> 
+                  </td>
+                  <td colspan="2">
+                    : {{newData.NAME}}
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Address </b> 
+                  </td>
+                  <td colspan="2">
+                    : {{newData.ADDRESS1}}
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    &nbsp; 
+                  </td>
+                  <td colspan="2">
+                    {{newData.ADDRESS2}}
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    &nbsp; 
+                  </td>
+                  <td colspan="2">
+                    {{newData.CITYDESC}}
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Bill No. </b>
+                  </td>
+                  <td style="width: 150px;">
+                    : {{newData.BILLNO}}
+                  </td>
+                  <td >
+                   <b>Dated :</b>  {{newData.BILLDT| date:'d/M/y'}}
+                  </td>
+                </tr>
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Challan No.  </b>
+                  </td>
+                  <td style="width: 150px;">
+                    : {{newData.CHALLANNO}}
+                  </td>
+                  <td >
+                   <b>Dated :</b>  {{newData.CHALLANDT| date:'d/M/y'}}
+                  </td>
+                </tr>
+
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>Vehicle </b> 
+                  </td>
+                  <td style="width: 150px; text-align: left;">
+                    : {{newData.VECHICLETYPE}}
+                  </td>
+                  <td style="width: 550px;">
+                    <table style="width: 100%;">
+                      <tr>
+                        <td style="width: 35%;">
+                          <b>Veh. Regn. No : </b> {{newData.VEHICLENO}}
+                        </td>
+                        <td style="width: 65%;">
+                          <b>Driver/Person Name : </b> {{newData.RIVERNAME}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr> 
+                  <td style="width: 150px;">
+                    <b>G.R.No.  </b>
+                  </td>
+                  <td style="width: 150px;">
+                    : {{newData.GRNO}}
+                  </td>
+                  <td >
+                   <b>G.R.Date :</b>  {{newData.GRDATE| date:'d/M/y'}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 100%;" colspan="3">
+                    <hr style="border-top: 1px solid">
+                  </td>
+                </tr> 
+                <tr>
+                  
+                  <td style="width: 100%;" colspan="3">
+                    <table style="width: 100%;">
+                      <td style="width: 60%;">
+                          <table style="width: 100%;">
+                            <tr style="border-bottom: thin solid;;">
+                              <td style="width: 80%;">
+                                Sheet Grade
+                              </td>
+                              <td style="width: 20%; text-align: right;">
+                                Weight
+                              </td>
+                            </tr>
+                            <tr height="150px">
+                              <td colspan="2">
+                                &nbsp;
+                              </td>
+                            </tr>
+                            <tr style="border-top:thin solid;;">
+                              <td colspan="2">
+                                &nbsp;
+                              </td>
+                            </tr>
+
+                          </table>
+                      </td>
+                      <td style="width: 40%;text-align: center; vertical-align: top;">
+                        for {{companyName}}
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        Authorised Signatory
+                      </td>
+                    </table> 
+                  </td>
+                </tr>
+                <!-- <tr>
+                  <td style="width: 100%;" colspan="3">
+                    <hr style="border-top: 1px solid">
+                  </td>
+                </tr>  -->
+
+                <tr style="border-bottom: thin solid;border-top: thin solid;">
+                  <td style="width: 100%;" colspan="3">
+                    <table style="width: 100%;">
+                      <tr>
+                        <td style="width: 33%;">
+                          RST-F-01
+                        </td>
+                        <td style="width: 33%;text-align: center;">
+                          Issue-01
+                        </td>
+                        <td style="width: 33%;text-align: right;">
+                          Sep-2009
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr> 
+                <!-- <tr>
+                  <td style="width: 100%;" colspan="3">
+                    <hr style="border-top: 1px solid">
+                  </td>
+                </tr>  -->
+              </tbody>
+            </table>
+
+ 
+                
+                   
+               
+            </div>
+       
+        </div>
+        </div>
+      </div>
+      </kendo-pdf-export>
+    
+
