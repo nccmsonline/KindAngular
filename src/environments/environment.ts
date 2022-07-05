@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  baseUrl:'https://localhost:44398/api'
- //  baseUrl: 'https://kind.org.in:8081/api'
+  // baseUrl:'https://localhost:44398/api'
+  baseUrl: 'https://kind.org.in:8081/api'
 };
 
 export const environmentNotification = {
   production: false,
-  // baseUrl: 'http://112.196.6.170:8081/api'
-  baseUrl:'https://localhost:44398'
+  baseUrl: 'http://112.196.6.170:8081/api'
+  // baseUrl:'https://localhost:44398'
 };
 
 /*
