@@ -1,0 +1,218 @@
+<!-- 
+   <div class="form-group mr-2 ml-auto bd-highlight">
+        <div> -->
+          <div class="preloader" style="display: none;" id="printPageButton2" >
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+          </div>
+          
+          <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+            data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full" >
+          <app-header></app-header>
+          <app-sidebar></app-sidebar>
+          
+          <div class="page-wrapper" >
+            <div class="container-fluid" style="background:#dcdcdc;" style="padding-top: 0px;">
+          
+ 
+          <div class="w-100 clearfix text-right pb-2 pr-2" id="printPageButton">
+            <a (click)="backToView()" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i class="mdi mdi-keyboard-backspace"></i></a>
+            <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="print()"  >{{'print'| translate}}</button>
+            <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('MRIR-Print.pdf')"  ><i class="ti-download"></i>&nbsp;{{'downloadpdf'| translate}}</button>
+           </div>
+      
+       <kendo-pdf-export #pdf paperSize="A4" [scale]="0.6" [margin]="{top: 20, bottom: 50, right: 10, left: 10}" [repeatHeaders]="repeatHeaders">
+           
+        <div class="row" id="ravinderpal">
+          <div class="col-12">
+            <div class="card" >
+              <div style="height: 30px;"  id="printPageButton1"> <!--  this is used for Blank Space -->
+                &nbsp;
+              </div>   
+              <div class="custom-invoice" style="padding-left: 30px; margin-right: 20px; ">  
+      
+                    <table class="custom-invoice-table" width="100%" cellspacing="0" cellpadding="0"  >
+                      <tbody>
+                        <tr>
+                          <td align="left" style="padding-left: 15px;" >
+                            <table  width="100%" cellspacing="0" cellpadding="0" border="0">
+                              <tr>
+                                <td align="left" style="width: 75%; border-right: 1px solid #cdd0d4;" >
+                                  <h3>{{companyName}} </h3>
+                                  <h4> {{Address1}} {{Address2}}</h4> 
+                                  <h5>Phones : {{telephone}}</h5>
+                                  <h5>Fax : {{fax}}</h5>
+                                  <!-- <h5>Email : {{email}}</h5> -->
+                                </td>
+                                <td style="width: 25%;padding-left: 10px;text-align: right;">
+                                  <h5>GSTIn : {{GSTIn}}</h5>
+                                  <h5>PAN No. : {{pan}}</h5>
+                                </td>
+                              </tr>
+                            </table>
+                                
+                          </td>
+            
+                        </tr>
+                        <tr>
+                          <td>
+                            <h6>MRIR Category : {{newData.GROUPNAME}}</h6>
+                          </td>
+                        </tr>
+                        <tr style=" border-top: 2px solid #cdd0d4;">
+                          <td>
+                          <table  width="100%" cellspacing="0" cellpadding="0" border="0">
+                              <tbody>
+                               
+                                <tr>
+                                   <td rowspan="4" align="left" style="width: 50%;padding-left: 10px; border-right: 1px solid #cdd0d4;"  >
+                                      <table>
+                                        <tr>
+                                          <td rowspan="3" style="width: 100px;vertical-align: top;"> <b>Supplier: </b></td>
+                                          <td>{{newData.NAME}}</td>
+                                        </tr>
+                                        <tr>
+                                          <td>{{newData.ADDRESS1}}</td>
+                                        </tr>
+                                        <tr>
+                                          <td>{{newData.ADDRESS2}}</td>
+                                        </tr>
+                                        <tr>
+                                          <td style="width: 100px;"> <b>State: </b></td>
+                                          <td>{{newData.STATE}} <b>GSTIn: </b> {{newData.GSTNO}}</td>
+                                        </tr>
+                                        <tr>
+                                          <td><b>RR/GR: </b></td>
+                                          <td></td>
+                                        </tr>
+                                        <tr>
+                                          <td><b>Vehicle No: </b></td>
+                                          <td></td>
+                                        </tr>
+                                      </table>
+                                     
+                                   </td> 
+                                   <td style="width: 50%;padding-left: 10px;">
+                                    <table>
+                                      <tr>
+                                        <td style="width: 150px;"> <b>MRIR No. </b></td>
+                                        <td>{{newData.INWARDNO}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td style="width: 100px;"> <b>Dated </b></td>
+                                        <td>{{newData.INWARDDATE | date:'d/M/y'}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td style="width: 100px;"> <b>Bill\Challan No. </b></td>
+                                        <td> {{newData.DOCNO}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td style="width: 100px;"> <b>Bill\Challan Date </b></td>
+                                        <td> {{newData.DOCDATE | date:'d/M/y'}}</td>
+                                      </tr>
+                                      <tr>
+
+                                        <td style="width: 100px;"> <b>Bill Amount </b></td>
+                                        <td>{{newData.BILLAMOUNT}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td style="width: 100px;"> <b>Gate Entry No. </b></td>
+
+                                        <td>{{newData.GATEINWARDNO}}</td>
+                                      </tr>
+                                    </table>
+                                   </td>   
+                                </tr>
+                              </tbody>
+                            </table>
+                              <br>
+                          </td>                       
+                          
+                          </tr>  
+                          <tr style="height: 700px;vertical-align: top;">
+                          <td>
+                           <table style="width: 100%;" class="table table-sm custom-invoice-table table-bordered" cellspacing="0" cellpadding="0" border="1" >
+                             <thead>
+                             
+                             </thead>
+                             <tbody  >
+                                <tr border="1">
+                                  <td rowspan="2" style="background-color: #E2E2E2;vertical-align: middle;"><b> {{'sr'|translate}}</b></td>
+                                  <td rowspan="2"  style="background-color: #E2E2E2;vertical-align: middle;"><b>{{'itemname'|translate}}</b></td>
+                                  <td rowspan="2"  style="background-color: #E2E2E2;vertical-align: middle;"><b>{{'uom'|translate}}</b></td>
+                                  <td colspan="5"  style="background-color: #E2E2E2;text-align: center;"><b>&lt;---------------------Quantity-----------------------&gt;</b></td>
+                                  <td  rowspan="2" style="min-width: 100px;text-align: right;background-color: #E2E2E2;vertical-align: middle;"><b>{{'PO No.& Dt.'|translate}}</b></td>
+                                </tr>
+                                <tr>
+                                  <td style="min-width: 50px;text-align: right;background-color: #E2E2E2;"><b>{{'Billed Qty' | translate}}</b></td>
+                                  <td style="min-width: 50px;text-align: right;background-color: #E2E2E2;"><b>{{'Received Qty' | translate}}</b></td>
+                                  <td style="min-width: 50px;text-align: right;background-color: #E2E2E2;"><b>{{'Breakag/ Rejected'|translate}}</b></td>
+                                  <td style="min-width: 50px;text-align: right;background-color: #E2E2E2;"><b>{{'Accepted'|translate}}</b></td>
+                                  <td style="min-width: 50px;text-align: right;background-color: #E2E2E2;"><b>{{'Last Pur. Rate'|translate}}</b></td>
+                                  
+                                </tr>
+                               <tr *ngFor="let dtltable of DetailData;let i = index" >                         
+                                 <!-- <td>&nbsp;</td> -->
+                                 <td style="text-align: center;"> {{i+1}}</td>
+                                 <td>{{dtltable.ITEMCODE}}-{{dtltable.ITEMNAME}}</td>
+                                 <td>{{dtltable.UNIT}}</td>
+                               
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.QUANTITYBILLED | number:'1.2-2'}}</td>
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.QUANTITYRECEIVED | number:'1.2-2'}}</td>
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.QUANTITYBREAKAGE | number:'1.2-2'}}</td>
+                                 <td style="min-width: 50px;text-align: right;">{{dtltable.ACCEPTQTY | number:'1.2-2'}}</td>
+                                 <td style="min-width: 50px;text-align: right;"><a *ngIf="dtltable.PONO>0"> {{dtltable.LASTPURRATE | number:'1.2-2'}}</a></td>
+                                 <td style="min-width: 50px;text-align: right;"><a *ngIf="dtltable.PONO>0"> {{dtltable.PONO}}/ {{dtltable.ORDERDATE| date:'d-M-y'}}</a></td>
+                                
+                                 
+                                                                     
+                              </tr>
+                          
+                             </tbody>
+                           </table>
+                          </td>
+                          </tr>  
+                         
+                     </tbody>
+                  </table>
+          
+          
+                   </div>
+                   
+                   <footer style="width: 95%;">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-left:10px;margin-right:10px;">
+                      <tr> 
+                        <td style="width: 20%;"><b>Prepared By</b></td>
+                        <td style="width: 20%;text-align: center;"><b>Approved by User</b></td> 
+                        <td style="width: 20%;text-align: center;"><b>HOD Store</b></td> 
+                        <td style="width: 20%;text-align: center;"><b>Purchase Dept.</b></td> 
+                        <td style="width: 20%; text-align: right;"><b>Authorised by QC Dept</b></td> 
+                     </tr>
+                     <tr> 
+                       <td colspan="5">&nbsp;</td>
+                     </tr>
+                     <tr style=" border-top: 1px solid #cdd0d4;"> 
+                       <td colspan="5">
+                         <table style="width: 100%;">
+                           <td style="width: 31%;"><b>PUR-F-08</b></td>
+                           <td style="width: 31%;text-align: center;"><b>Issue 01</b></td> 
+                           <td style="width: 33%; text-align: right;"><b>Apr 2002</b></td> 
+                         </table>
+                       </td>
+                    </tr>
+                    </table>
+                   </footer>
+                   <div  class="footer">
+                   
+                  </div>
+                 </div>
+              </div>
+            </div>
+        </kendo-pdf-export>
+      
+        </div>
+      </div>
+      </div>
+      

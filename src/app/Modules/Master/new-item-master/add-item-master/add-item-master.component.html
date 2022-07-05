@@ -1,0 +1,202 @@
+<form autocomplete="off">
+    <div class="modal-header primary-bg py-2">
+        <h5 *ngIf="action == 'new' " class="modal-title text-white" id="exampleModalLabel">New Item</h5>
+        <h5 *ngIf="action == 'edit' " class="modal-title text-white" id="exampleModalLabel">Edit Item</h5>
+        <button class="close text-white" mat-dialog-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <div class="example-loading-shade" *ngIf="isLoadingResults ">
+        <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div class="modal-body" style="width: 900px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row mb-1">
+                        <label class="col-sm-4 text-right error-control-label required" for="inputPassword4">Main Category</label>
+                        <div class="col-sm-8 ">
+                            <ng-select [(ngModel)]="newData.GROUPID" [ngModelOptions]="{standalone: true}"
+                                [items]="mainCategory" bindLabel="CATEGORY" bindValue="CATEGORYID"
+                                placeholder="Select Main Category" (change)="catgchange(newData.GROUPID)"
+                                class="form-control border-1 form-control-sm w-100">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-sm-4 text-right error-control-label required" for="inputPassword4">Item Code</label>
+                        <div class="col-sm-8 d-flex">
+                            <input class="form-control form-control-sm" name="ITEMCODE" [(ngModel)]="newData.ITEMCODE" 
+                            type="text" [ngModelOptions]="{standalone: true}" [disabled]="codedisable">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="row mb-1">
+                        <label class="col-sm-4 text-right error-control-label required" for="inputPassword4">Belongs To</label>
+                        <div class="col-sm-8 d-flex">
+                            <ng-select [(ngModel)]="newData.BELONGSTOID" [ngModelOptions]="{standalone: true}"
+                                [items]="belongto" bindLabel="CATEGORY" bindValue="CATEGORYID"
+                                placeholder="Select Belongs To Category"
+                                class="form-control border-1 form-control-sm w-100">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="row mb-1">
+                        <label class="col-sm-4 text-right error-control-label required" for="inputPassword4">Sub Category</label>
+                        <div class="col-sm-8 d-flex">
+                            <ng-select [(ngModel)]="newData.SUBGROUPID" [ngModelOptions]="{standalone: true}"
+                                [items]="subFilterCategory" bindLabel="SUBCATEGORY" bindValue="SUBCATEGORYID"
+                                placeholder="Select Sub Category"
+                                class="form-control border-1 form-control-sm w-100">
+                            </ng-select>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-2 text-right error-control-label required" for="inputPassword4">Item Name</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" name="ITEMNAME" [(ngModel)]="newData.ITEMNAME"
+                    type="text" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <label class="col-sm-2 text-right" for="inputPassword4">Item Description</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" name="ITEMDESCRIPTION" [(ngModel)]="newData.ITEMDESCRIPTION"
+                        type="text" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-sm-2 text-right error-control-label required" for="inputPassword4">Unit</label>
+                <div class="col-sm-4 d-flex">
+                    <ng-select [(ngModel)]="newData.UNIT" [ngModelOptions]="{standalone: true}"
+                        [items]="unitArrayList" bindLabel="UNIT" bindValue="UNITID"
+                        placeholder="Select Rect Unit"
+                        class="form-control border-1 form-control-sm w-100">
+                    </ng-select>
+                </div>
+                <label class="col-sm-2 text-right error-control-label required" for="inputPassword4">ABC Class</label>
+                <div class="col-sm-1">
+                    <input class="form-control form-control-sm" name="ABCCLASS" style="width: 20px;"
+                        [(ngModel)]="newData.ABCCLASS" type="text" maxlength="1" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-sm-2 text-right error-control-label required" for="inputPassword4">GST Type</label>
+                <div class="col-sm-4 d-flex">
+                    <!-- <ng-select [(ngModel)]="newData.GSTID" [ngModelOptions]="{standalone: true}"
+                    [items]="gstArray" bindLabel="DESCRIPTION" bindValue="GSTID"
+                     placeholder="Select GST Type"
+                    class="form-control border-1 form-control-sm w-100">
+                </ng-select> -->
+                <ng-select id="ipo" #ipo  class="custom-new-item-master-class ngx-custom-select-dropdown-text-wrap custom-material-ng-container"
+                [(ngModel)]="newData.GSTID" [ngModelOptions]="{standalone: true}"  style="width: 100% !important;"
+                name="ipo" [virtualScroll]="true" [items]="gstArray" bindLabel="DESCRIPTION" bindValue="GSTID"
+                placeholder="Select GST Type" >
+                <ng-template ng-header-tmp class="ng-template-oa-class">
+                    <table > 
+                        <tr>
+                          <th style="width: 200px;"> {{'code' | translate}} </th>
+                          <th style="width: 80px;"> {{'description' | translate}} </th>
+                        </tr>
+                        <ng-template ng-option-tmp let-item="item" style="max-height: 160px !important;">
+                            <tr>
+                              <td style="width:200px"> {{item.CODE}} </td>
+                              <td style="width: 80px;"> {{item.DESCRIPTION }} </td>
+                            </tr>
+                        </ng-template>
+                    </table>
+                </ng-template>
+              </ng-select>
+                </div>
+                <label class="col-sm-2 text-right error-control-label required" for="inputPassword4">Location</label>
+                <div class="col-sm-4 d-flex">
+                    <input class="form-control form-control-sm" name="LOCATION" [(ngModel)]="newData.LOCATION"
+                        type="text" style="width: 100px;text-align: left;" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+
+            <div class="row mb-1">
+
+                <div class="col-sm-3" style="text-align: left;">
+                    <mat-checkbox [(ngModel)]="newData.VATINPUT" [ngModelOptions]="{standalone: true}"> Include In VAT
+                        Input</mat-checkbox>
+                </div>
+                <div class="col-sm-3" style="text-align: left;">
+                    <mat-checkbox [(ngModel)]="newData.EXCISEINPUT" [ngModelOptions]="{standalone: true}"> Include In
+                        EXCISE Input</mat-checkbox>
+                </div>
+
+                <label class="col-sm-2 text-right" for="inputPassword4">Min. Level</label>
+                <div class="col-sm-1 pr-0">
+                    <input class="form-control form-control-sm" name="MINIMUMLEVEL" style="width: 20px;"
+                        [(ngModel)]="newData.MINIMUMLEVEL" type="text" maxlength="4" [ngModelOptions]="{standalone: true}">
+
+                </div>
+
+
+
+                <label class="col-sm-2 text-right" for="inputPassword4">Max. Level</label>
+                <div class="col-sm-1 pl-0">
+                    <input class="form-control form-control-sm" name="MAXIMUMLEVEL" style="width: 20px;"
+                        [(ngModel)]="newData.MAXIMUMLEVEL" type="text" maxlength="4" [ngModelOptions]="{standalone: true}">
+                </div>
+
+            </div>
+
+
+            <div class="row mb-1">
+
+                <div class="col-sm-3" style="text-align: left;">
+                    <mat-checkbox [(ngModel)]="newData.CAPGOODSITEM" [ngModelOptions]="{standalone: true}"> Capital Goods
+                        Item</mat-checkbox>
+                </div>
+
+                <div class="col-sm-3" style="text-align: left;">
+                    <mat-checkbox [(ngModel)]="newData.ISPRDNITEM" [ngModelOptions]="{standalone: true}"> Is Production
+                        Item</mat-checkbox>
+                </div>
+
+
+                <label class="col-sm-2 text-right" for="inputPassword4">Reorder Level</label>
+                <div class="col-sm-1 pr-0">
+                    <input class="form-control form-control-sm" name="REORDERLEVEL" style="width: 20px;"
+                        [(ngModel)]="newData.REORDERLEVEL" type="text" maxlength="4"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+
+
+                <label class="col-sm-2 text-right" for="inputPassword4">Reorder Qty</label>
+                <div class="col-sm-1 pl-0">
+                    <input class="form-control form-control-sm" name="REORDERQTY" style="width: 20px;"
+                        [(ngModel)]="newData.REORDERQTY" type="text" maxlength="4"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+
+        </div>
+        <div class="row mb-1" style="margin-left: 0px;">
+
+            <div class="col-sm-3" style="text-align: left;">
+                <mat-checkbox [(ngModel)]="newData.STOCKABLE" [ngModelOptions]="{standalone: true}"> Stockable
+                </mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        <button type="button" class="btn btn-sm btn-danger rounded" mat-dialog-close>Cancel</button>
+        <button *ngIf="action == 'new'" [disabled]="isLoadingResults" type="button"
+        class="btn btn-sm btn-info rounded {{canCreateCommonClass}}"
+        (click)="validateBeforeSave(newData , 'Insert')">{{'save'|translate}}</button>
+    <button *ngIf="action == 'edit'" [disabled]="isLoadingResults" type="button"
+        class="btn btn-sm btn-info rounded {{canEditCommonClass}}"
+        (click)="validateBeforeSave(newData , 'Update')">{{'update'|translate}}</button>    </div>
+</form>

@@ -1,0 +1,120 @@
+<div *ngIf="userRightCheck.canview == 'True'" class="w-100 d-md-flex p-2">
+    <a id="printPageButton1" (click)="backclick()" class="btn btn-sm rounded btn-warning mr-3"
+      title="Back to Maintenance Reports"><i class="mdi mdi-keyboard-backspace"></i></a>
+    <div style="position: absolute; right: 0;">
+      <button id="printPageButton" class="btn btn-sm rounded btn-warning mr-3 {{canPrintCommonClass}}"
+        (click)="print()"><i class="fa fa-print"></i>&nbsp;{{'print'| translate}}</button>
+      <button id="printPageButton2"
+        class="btn btn-primary btn-sm rounded waves-effect waves-light customButton {{canPrintCommonClass}}"
+        (click)="pdf.saveAs('Machine-History-Detail.pdf')"><i
+          class="ti-download"></i>&nbsp;{{'downloadpdf'| translate}}</button>&nbsp;
+      <button id="printPageButton3" type="submit"
+        class="btn btn-sm rounded btn-info waves-effect waves-light {{canExportCommonClass}}" (click)="exportToExcel()"><i
+          class="fa fa-file-excel"></i>&nbsp;{{'export'| translate}}</button>
+    </div>
+  </div>
+  
+  <kendo-pdf-export #pdf paperSize="A4" [scale]="0.6" [repeatHeaders]="true"
+    [margin]="{top: 20, bottom: 50, right: 10, left: 10}">
+    <div class="card" *ngIf="isLoadingResults">
+      <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+    <div class="card " style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+  
+      <h4 class="text-center"> {{reportname}} :: From {{fromdate | date:'dd/MM/yyyy'}} To
+        {{todate | date:'dd/MM/yyyy'}}</h4>
+  
+      <div class="custom p-2">
+  
+        <div class="card " style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+          <table mat-table [dataSource]="detail" class="table table-sm table-striped w-100 mb-0 mat-table" #table>
+  
+            <ng-container matColumnDef="srno">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'sr'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element ;let i=index" style="width: 5%;"> {{i+1}} </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="MachineName">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'machinename'| translate}}<br>{{'srno'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element" style="width: 16%;"> {{element.MachineName}}<br> <strong>{{element.mcsrno}}</strong> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                  <a style="color: #0e43af !important; ">{{'location'| translate}}</a> </th>
+                <td mat-cell *matCellDef="let element" style="width: 10%;padding-left: 5px;"> {{element.location}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="mtno">
+                <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                  <a style="color: #0e43af !important; ">{{'mtno'| translate}}<br>{{'date'| translate}}</a> </th>
+                <td mat-cell *matCellDef="let element" style="width: 7%;padding-left: 5px;"> {{element.mtno}} <br>{{element.mtdate | date:'dd/MM/yyyy'}}</td>
+              </ng-container>
+
+            <ng-container matColumnDef="mono">
+                <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                  <a style="color: #0e43af !important; ">{{'mono'| translate}}<br>{{'date'| translate}}</a> </th>
+                <td mat-cell *matCellDef="let element" style="width: 7%;padding-left: 5px;"> {{element.mono}} <br>{{element.modate | date:'dd/MM/yyyy'}}</td>
+              </ng-container>
+  
+            <ng-container matColumnDef="mtproblem">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'faultdetail'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element" style="width: 10%;padding-left: 5px;">
+                {{element.mtproblem}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="rootcause">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'rootcause'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element" style="width: 10%;padding-left: 5px;">
+                {{element.rootcause}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="teamname">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'team'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element" style="width: 13%;padding-left: 5px; "> {{element.teamname}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="moteamremarks">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'actiontaken'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element" style="width: 10%;padding-left: 5px;">
+                {{element.moteamremarks}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="parts">
+              <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell ">
+                <a style="color: #0e43af !important; ">{{'partschanged'| translate}}</a> </th>
+              <td mat-cell *matCellDef="let element" style="width: 12%;padding-left: 5px;"> {{element.parts}} </td>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true " class="bg-light" style="height:auto; ">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:auto;"></tr>
+          </table>
+        </div>
+  
+      </div>
+  
+      <ng-template kendoPDFTemplate let-pageNum="pageNum" let-totalPages="totalPages">
+        <div class="pageNum"> Page {{ pageNum }} of {{ totalPages }} </div>
+      </ng-template>
+    </div>
+  
+  </kendo-pdf-export>
+  <!-- </div> -->
+  
+  
+  <div *ngIf="userRightCheck.canview == 'False'" class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body">
+          {{'youhavenotpermission' | translate}}
+        </div>
+      </div>
+    </div>
+  </div>

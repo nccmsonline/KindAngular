@@ -1,0 +1,141 @@
+<form>
+    <!-- <div class="example-loading-shade" *ngIf="isLoadingResults ">
+        <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+      </div> -->
+      
+    <div class="modal-header primary-bg py-2">
+      <h5  class="modal-title text-white" id="exampleModalLabel">{{'viewreminders'|translate}}</h5> 
+      <button class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="card" style="-bottom: 5px;">
+            <div class="card-body border-bottom py-2 m-b-2 pl-0">
+                
+                <div class="d-flex mb-2">
+                    <!-- <div class="form-group row col-md-4 mb-2"> -->
+                        <label
+                            class="col-md-1 text-right error-control-label required p-0">{{'category'
+                            |translate}}</label>
+                        <div class="col-md-2">
+                            <ngx-select
+                                class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap "
+                                [ngModelOptions]="{standalone: true}" name="deptid"
+                                [allowClear]="true" [(ngModel)]="newData.group"
+                                [items]="groupArray" optionValueField="ID"
+                                optionTextField="GROUPNAME" (select)="catgChange($event)"
+                                placeholder="{{'pleaseselect' | translate}}" (remove)="catgRemove()">
+                            </ngx-select>
+                        </div>
+                  
+                            <div class="col-sm-2">
+                            <select class="form-control form-control-sm w-100" (change)="onChangefilter($event.target.value)">
+                                <option value="1">Today</option>
+                                <option value="2">Weekly</option>
+                                <option value="3">Monthly</option>
+                                <option value="4">Yearly</option>
+                                <option value="5">Customize</option>
+                            </select>
+                        </div>
+                    <label class="col-sm-1 p-0 text-right error-control-label required" *ngIf="showdatefilter">{{'fromdate'|translate}}</label>
+                    <div class="col-sm-2 d-flex" *ngIf="showdatefilter">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="startdate" name="startdate" [(ngModel)]="newData.fromdate"
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                            <mat-datepicker #startdate ></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <label class="col-sm-1 text-right error-control-label required" *ngIf="showdatefilter">{{'todate'|translate}}</label>
+                    <div class="col-sm-2 d-flex" *ngIf="showdatefilter">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="enddate" [min]="newData.fromdate" name="enddate" [(ngModel)]="newData.todate"
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+                            <mat-datepicker #enddate></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light ml-2" (click)="ClearDateFilter()">X</button>
+                    <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light ml-2" (click)="filterDate()"><i class="fa fa-filter"></i></button>
+                    <!-- <div class="col-7" *ngIf="!showdatefilter"></div> -->                               
+                </div>
+            </div>
+            </div>
+        <p style="color: red;  margin-bottom: 2px;"> *Double Click on Category/Activity to edit Activity</p>
+        </div>
+
+    <div class="modal-body" style="height:360px;overflow-y:scroll;padding:0;width:1070px;max-width: 1070px;">
+        <div  id="parentDiv" >
+            <div class="example-loading-shade" *ngIf="isLoadingResults ">
+                <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+    <div class="card-body border-top supplier-category-master px-0 py-0">
+        <div >
+    
+            <table class="table table-striped custom-table tr th">
+                <thead>
+                    <tr style="background-color: #666666; color: #ffffff;">
+                        <th scope="col" style="width:5%;">{{'sr' | translate}}</th>
+                        <th scope="col" style="width:9%;">{{'category' | translate}}</th>
+                        <th scope="col" style="width:20%;">{{'activity' | translate}} </th>
+                        <th scope="col" style="width:9%;">{{'refno' | translate}}</th>
+                        <th scope="col" style="width:9%;">{{'actiondueon' | translate}} </th>
+                        <th scope="col" style="width:9%;"> {{'toremindon' | translate}} </th>
+                        <th scope="col" style="width:9%;"> {{'kindattn' | translate}} </th>
+                        <th scope="col" style="width:20%;">{{'remarks' | translate}} </th>
+                    </tr>
+                </thead>
+                <tbody class="font-sm">
+                   
+                    <tr *ngFor="let contact of contacts ; let i = index" >
+
+                        <td  style="width:5%;"  >
+                            {{i+1}}</td>
+
+                            <td style="width:9%;" (dblclick)="openGroup(contact.GROUPID,contact.GROUPNAME)"> {{contact.GROUPNAME}}  </td>
+    
+                        <td style="width:20%;" (dblclick)="openGroup(contact.GROUPID,contact.GROUPNAME)" matTooltip="{{contact.ACTIVITY}}"><span class="limittext">
+                            {{contact.ACTIVITY}} </span></td>
+        
+                        <td style="width:9%;"  >
+                            {{contact.REFERENCENO}}</td>
+    
+                        <td style="width:9%;" >
+                            {{contact.DUEDATE | date:'dd/MM/yyyy'}}</td>
+    
+                        <td style="width:9%;"  >
+                            {{contact.REMINDERDATE | date:'dd/MM/yyyy'}}</td>
+
+                        <td style="width:9%;"  >
+                            {{contact.KINDATTN}} </td>
+    
+                        <td style="width:20%;" matTooltip="{{contact.REMARKS}}"><span class="limittext">
+                         {{contact.REMARKS}} </span></td>
+
+                     
+                        <!-- <td style="width:8%;" *ngIf="contact.id !== editContactID">
+                         {{contact.mtstatus}}</td> -->
+    
+                     
+    
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+       
+       
+
+  
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button  class="btn btn-sm btn-secondary rounded bg-danger" mat-dialog-close>{{'cancel' | translate}}</button>
+     
+    </div>
+  </form>

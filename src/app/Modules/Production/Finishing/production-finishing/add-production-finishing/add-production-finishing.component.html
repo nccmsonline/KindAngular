@@ -1,0 +1,425 @@
+<!-- used for font weight 600 as per user requirement  -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,300&display=swap"
+    rel="stylesheet">
+<!-- end -->
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+    <div class="page-wrapper">
+        <div class="container-fluid" style="background:#dcdcdc;">
+            <form [formGroup]="requisitionform" novalidate>
+                <div class="example-loading-shade" *ngIf="isLoadingResults ">
+                    <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+                            <div class="card-body border-bottom py-2 d-flex">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <div class="col-md-8 d-md-flex align-items-center justify-content-between">
+                                            <div class="d-flex">
+                                                <a [routerLink]="['/die-master']"
+                                                    class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                                                        class="mdi mdi-keyboard-backspace"></i></a>
+
+                                                <h4 class="modal-title " id="exampleModalLabel">{{'productionfinishing'
+                                                    | translate}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex- row">
+                                <div class="col-md-12 tab-content m-t-10" id="pills-tabContent">
+
+
+                                    <div class="card-body border-bottom purchase-order px-0 py-2">
+                                        <!-- <h4 class="modal-title " style="margin-left: 16px;margin-bottom: 8px;"
+                                            id="exampleModalLabel">{{'masterinformation'
+                                            | translate}}</h4> -->
+                                        <div class="form-inline">
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required ">{{'srno'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm readonly-disable"
+                                                        oninput="this.value = this.value.toUpperCase()"
+                                                        name="manualslipno" [(ngModel)]="newData.catg" maxlength="5"
+                                                        [ngModelOptions]="{standalone: true}" maxlength="5" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 ">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'date'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <mat-form-field
+                                                    class="form-control w-100 mat-form-field-date-picker">
+                                                    <input matInput [matDatepicker]="rdate" 
+                                                        name="reqndate"
+                                                        [(ngModel)]="newData.reqndate"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                    <mat-datepicker-toggle matSuffix [for]="rdate">
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #rdate></mat-datepicker>
+                                                </mat-form-field>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2 ">
+                                                <label
+                                                    class="col-md-5 text-right error-control-label required ">{{'iopono'
+                                                    |translate}}</label>
+                                                <div class="col-md-7">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap "
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.dietype"
+                                                        [items]="toolTypeArray" optionValueField="id"
+                                                        optionTextField="name"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                                </div>
+
+                                            
+
+                                            <div class="form-group row col-md-8 mb-2 pr-4" style="text-align: left;">
+                                                <label
+                                                    class="col-md-3 text-right error-control-label required">{{'machine'
+                                                    | translate}}</label>
+                                                <div class="col-md-9 pl-2 pr-3">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap "
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.dietype"
+                                                        [items]="toolTypeArray" optionValueField="id"
+                                                        optionTextField="name"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                               
+                                            </div>
+
+                                            <div class="form-group row col-md-8 mb-2 pr-4" style="text-align: left;">
+                                                <label
+                                                    class="col-md-3 text-right error-control-label required">{{'frameno'
+                                                    | translate}}</label>
+                                                <div class="col-md-9 pl-2 pr-3">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap "
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.dietype"
+                                                        [items]="toolTypeArray" optionValueField="id"
+                                                        optionTextField="name"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <!-- <label
+                                                    class="col-md-6 text-right error-control-label required">{{'catg/series'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        oninput="this.value = this.value.toUpperCase()"
+                                                        name="manualslipno" [(ngModel)]="newData.catg" maxlength="5"
+                                                        [ngModelOptions]="{standalone: true}" maxlength="5">
+                                                </div> -->
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2" style="text-align: left;">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'operator'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap "
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.dietype"
+                                                        [items]="toolTypeArray" optionValueField="id"
+                                                        optionTextField="name"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'grade'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        oninput="this.value = this.value.toUpperCase()"
+                                                        name="manualslipno" [(ngModel)]="newData.catg" maxlength="5"
+                                                        [ngModelOptions]="{standalone: true}" maxlength="5">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                              
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 ">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'shift'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.frame"
+                                                        [items]="delayReason" optionValueField="id"
+                                                        optionTextField="name" maxlength="3"
+                                                        placeholder="{{'pleaseselect' | translate}}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2 ">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'from'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <input [owlDateTime]="dt1" 
+                                                    [(ngModel)]="newData.RECDTIME"
+                                                    class="form-control form-control-sm w-100"
+                                                    [ngModelOptions]="{standalone: true}" readonly>
+                                                <button type="button" class="fas fa-clock custom-clock-class"
+                                                    [owlDateTimeTrigger]="dt1"></button>
+                                                <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+                                                </div>
+                                            
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'to'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input [owlDateTime]="dt2" 
+                                                    [(ngModel)]="newData.RECDTIME"
+                                                    class="form-control form-control-sm w-100"
+                                                    [ngModelOptions]="{standalone: true}" readonly>
+                                                <button type="button" class="fas fa-clock custom-clock-class"
+                                                    [owlDateTimeTrigger]="dt2"></button>
+                                                <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time> 
+
+                                                </div>
+                                            </div>
+
+                                           </div>
+                                    </div>
+
+
+
+                                    <div class="card-body border-bottom purchase-order px-0 py-2">
+                                        <h4 class="modal-title " style="margin-left: 16px;margin-bottom: 8px;"
+                                            id="exampleModalLabel">{{'production'
+                                            | translate}}</h4>
+                                        <div class="form-inline">
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'stackht'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.materialused"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'availablepcs'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                    name="manualslipno" [(ngModel)]="newData.processused"
+                                                    maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'finished'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.processused"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'actualwtkg'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.processused"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'rejwtkg'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.processused"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'rejectionreason'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <ngx-select
+                                                    class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                    [ngModelOptions]="{standalone: true}" name="deptid"
+                                                    [allowClear]="true" [(ngModel)]="newData.status"
+                                                    [items]="storeInchargeArray" optionValueField="id"
+                                                    optionTextField="name"
+                                                    placeholder="{{'pleaseselect' | translate}}">
+                                                </ngx-select>
+                                                </div>
+                                            </div>
+                                          
+                                        
+
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body border-bottom purchase-order px-0 py-2">
+                                        <h4 class="modal-title " style="margin-left: 16px;margin-bottom: 8px;"
+                                            id="exampleModalLabel">{{'operationdetail'
+                                            | translate}}</h4>
+                                        <div class="form-inline">
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'target'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.materialused"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'production'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 ">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                    name="manualslipno" [(ngModel)]="newData.processused"
+                                                    maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'average'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.processused"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-8 mb-2 pr-4">
+                                                <label
+                                                    class="col-md-3 text-right ">{{'remarks'|
+                                                    translate}}</label>
+                                                <div class="col-md-9 pl-1 pr-3">
+                                                    <textarea name="itemid" [(ngModel)]='newData.REMARKS'
+                                                        [ngModelOptions]="{standalone: true}" style="height: 50px;"
+                                                        autocomplete="off"
+                                                        class="w-100 form-control error-border form-control-sm"
+                                                        maxlength="5">
+                                                </textarea>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-5 text-right error-control-label required">{{'hours'
+                                                    |translate}}</label>
+                                                <div class="col-md-2 pr-0 pl-3">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.strokesmadesofar"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                                <label
+                                                class="col-md-2 text-right error-control-label required p-0">{{'minutes'
+                                                |translate}}</label>
+
+                                                <div class="col-md-2 pr-0 pl-3">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.strokesmadesofar"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            
+
+                                          
+
+                                           
+
+
+                                           
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary rounded bg-danger"
+                                    [routerLink]="['/die-master']">{{'cancel'|translate}}</button>
+                                <button *ngIf="action == 'new'" [disabled]="isLoadingResults" type="button"
+                                    class="btn btn-sm btn-info rounded {{canCreateCommonClass}}"
+                                    (click)="validateBeforeSave(newmachine , 'insert')">{{'save'|translate}}</button>
+                                <button *ngIf="action == 'edit'" [disabled]="isLoadingResults" type="button"
+                                    class="btn btn-sm btn-info rounded {{canEditCommonClass}}"
+                                    (click)="validateBeforeSave(newmachine , 'Update')">{{'update'|translate}}</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <app-footer></app-footer>
+        </div>
+    </div>
+</div>

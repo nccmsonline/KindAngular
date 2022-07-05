@@ -1,0 +1,172 @@
+<form [formGroup]="singleMaster" novalidate>
+    <div class="example-loading-shade" *ngIf="isLoadingResults ">
+      <mat-spinner  [diameter]="60" *ngIf="isLoading"></mat-spinner>
+    </div>
+    <div class="modal-header primary-bg py-2">
+      <h5  class="modal-title text-white">{{header}}</h5>
+      <button class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div  class="modal-body" >
+      <div class="form-inline">
+        <div class="form-group row col-md-12 mb-2">
+          <div class="col" *ngIf="showfilter1">
+            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" name="country" 
+            [allowClear]="true"  formControlName="FILTERID1" [(ngModel)]="newData.FILTERID1"   [ngModelOptions]="{standalone: true}"
+            [items]="filterlist1" optionValueField="ID" optionTextField="NAME" placeholder="{{filterlabel1}}"
+             (select)="doSelectfilter1($event)">
+           </ngx-select>
+          </div>
+          <div class="col" *ngIf="showfilter2">
+            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" name="country" 
+            [allowClear]="true"  formControlName="FILTERID2" [(ngModel)]="newData.FILTERID2"   [ngModelOptions]="{standalone: true}"
+            [items]="newfilterlist2" optionValueField="ID" optionTextField="NAME" placeholder="{{filterlabel2}}"
+             (select)="doSelectfilter2($event)">
+           </ngx-select>
+          </div>
+          <div class="col" *ngIf="showfilter3">
+            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" name="country" 
+            [allowClear]="true" formControlName="FILTERID3" [(ngModel)]="newData.FILTERID3"   [ngModelOptions]="{standalone: true}"
+            [items]="filterlist3" optionValueField="ID" optionTextField="NAME" placeholder="{{filterlabel3}}"
+             (select)="doSelectfilter3($event)">
+           </ngx-select>
+          </div>
+       
+      
+      </div>
+        <!-- Name -->
+        <div class="form-group row col-md-12 mb-4" >     
+          <div class="col-md-6" *ngIf="showdatepicker==false && actionGet!='teamppc'">    
+          <mat-form-field class="example-full-width w-100">
+            <input type="text" placeholder="Add Name" name="name" [(ngModel)]="newData.NAME" formControlName="name" aria-label="Number" matInput 
+            [formControl]="myControl" [matAutocomplete]="auto" oninput="this.value = this.value.toUpperCase()"  [ngModelOptions]="{standalone: true}">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions| async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>                
+          <ng-container *ngIf="show == true">
+            <p style="margin-left: 10px;"> <span style="color:red;"> {{errorMsg}} {{'alreadyexists' | translate}}.</span></p>
+          </ng-container>
+        </div>
+        <div class="col-md-8" *ngIf="showdatepicker==false && actionGet=='teamppc'">    
+          <mat-form-field class="example-full-width w-100">
+            <input type="text" placeholder="Add Name" name="name" [(ngModel)]="newData.NAME" formControlName="name" aria-label="Number" matInput 
+            [formControl]="myControl" [matAutocomplete]="auto" oninput="this.value = this.value.toUpperCase()">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions| async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>                
+          <ng-container *ngIf="show == true">
+            <p style="margin-left: 10px;"> <span style="color:red;"> {{errorMsg}} {{'alreadyexists' | translate}}.</span></p>
+          </ng-container>
+        </div>
+        <div class="col-md-6" *ngIf="showdatepicker">
+          <mat-form-field class="example-full-width w-100">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [formControl]="myControl" [(ngModel)]="newData.NAME"  (click)="picker.open()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <ng-container *ngIf="show == true">
+            <p style="margin-left: 10px;"> <span style="color:red;"> {{errorMsg}} {{'alreadyexists' | translate}}.</span></p>
+          </ng-container>
+        </div>
+        <div class="col-md-6" *ngIf="showmasterfordropdownbtn">
+          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" name="ddlmstid" 
+          [allowClear]="true" [defaultValue]="filterid4" formControlName="filterid4" [(ngModel)]="newData.filterid4"   [ngModelOptions]="{standalone: true}"
+          [items]="dropdownmstlist" optionValueField="ID" optionTextField="NAME" placeholder="{{filterlabel4}}"
+           (select)="doSelectfilter4($event)">
+         </ngx-select>
+        </div>
+        <div class="col-md-6" *ngIf="showmasterforradiobtn">
+          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" name="radiobtnmstid" 
+          [allowClear]="true" [defaultValue]="filterid5" formControlName="filterid5" [(ngModel)]="newData.filterid5"   [ngModelOptions]="{standalone: true}"
+          [items]="radiobtnmstlist" optionValueField="ID" optionTextField="NAME" placeholder="{{filterlabel5}}"
+           (select)="doSelectfilter5($event)">
+         </ngx-select>
+        </div>
+        <!-- Code -->
+        <div class="col-md-6" *ngIf="showshortname && typeCategory!='teamppc' && typeCategory!='shiptype' && typeCategory!='milestone'">
+          <mat-form-field class="example-full-width w-100">
+            <input #code class="w-100" type="text" maxlength="50" placeholder="Add Short Name" name="code" 
+            [(ngModel)]="newData.code" formControlName="code" matInput oninput="this.value = this.value.toUpperCase()">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="showshortname && (typeCategory=='shiptype' || typeCategory=='milestone')">
+          <mat-form-field class="example-full-width w-100">
+            <input #code class="w-100" type="text" maxlength="50" placeholder="Add Value" name="code" 
+            [(ngModel)]="newData.code" formControlName="code" matInput  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="typeCategory=='ppcmajorstages' && typeCategory!='milestone'">
+          <input [value]="newData.code" name="name2" type="text" placeholder="Select Color" class="form-control" (colorPickerChange)="onChangeColor($event)"
+          [cpCancelButton]="true" [style.background]="newData.code" [(colorPicker)]="colorcode" formControlName="code" [(ngModel)]="newData.code" 
+          maxlength="10">
+        </div>
+        <div class="col-md-4" *ngIf="showshortname && typeCategory=='teamppc'">
+          <mat-form-field class="example-full-width w-100">
+            <input #code class="w-100" type="text" maxlength="2" placeholder="Add No.of Helpers" name="code" 
+            [(ngModel)]="newData.code" formControlName="code" matInput (keyup)="validnoofhelper($event.target.value)"
+            oninput="this.value =this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+          </mat-form-field>
+          <ng-container *ngIf="shownoofhelper == true">
+            <p style="margin-left: 10px;"> <span style="color:red;"> {{errorMsgnoofhelper}}</span></p>
+          </ng-container>
+        </div>
+        <div class="col-md-4" *ngIf="showshortname && typeCategory!='milestone'">
+          <mat-form-field class="example-full-width w-100">
+            <input #code class="w-100" type="text" maxlength="2" placeholder="Add No.of Days" name="code" 
+            [(ngModel)]="newData.code" formControlName="code" matInput (keyup)="validnoofhelper($event.target.value)"
+            oninput="this.value =this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+          </mat-form-field>
+          <ng-container *ngIf="shownoofhelper == true">
+            <p style="margin-left: 10px;"> <span style="color:red;"> {{errorMsgnoofhelper}}</span></p>
+          </ng-container>
+        </div>
+        <div class="col-md-6" *ngIf="!showcalenderreqd && showcol3">
+          <mat-form-field class="example-full-width w-100">
+            <input #code class="w-100" type="text" maxlength="50" placeholder="Add col3" name="col3" 
+            [(ngModel)]="newData.col3" formControlName="col3" matInput oninput="this.value = this.value.toUpperCase()">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 mt-1" *ngIf="showcalenderreqd">
+          <span>
+            <mat-checkbox [(ngModel)]="newData.col3" style="padding-right: 3px !important"
+            formControlName="col3">
+              {{'calendarreqd'| translate }}</mat-checkbox>
+          </span>
+        </div>
+        <div class="col-md-6 mt-1" *ngIf="showpaidcheckbox">
+          <span>
+            <mat-checkbox [(ngModel)]="newData.col3" style="padding-right: 3px !important"
+            formControlName="col3">
+              {{'Ispaid'| translate }}</mat-checkbox>
+          </span>
+        </div>
+        <div class="col-md-6 mt-1" *ngIf="showcolumn4">
+          <span>
+            <mat-checkbox [(ngModel)]="newData.COLUMNNAME4" style="padding-right: 3px !important"
+            formControlName="columnname4">
+              {{'Ask Site'| translate }}</mat-checkbox>
+          </span>
+        </div>
+        <div class="col-md-6" *ngIf="showcolumn5">
+          <input [value]="newData.COLUMNNAME5" name="name2" type="text" placeholder="Select Color" class="form-control" (colorPickerChange)="onChangeColor($event)"
+          [cpCancelButton]="true" [style.background]="newData.COLUMNNAME5" [(colorPicker)]="colorcode" formControlName="columnname5" [(ngModel)]="newData.COLUMNNAME5" 
+          maxlength="10">
+        </div>
+      </div>  
+      </div>  
+    </div>
+  
+    <div class="modal-footer">
+      <button class="btn btn-sm btn-secondary rounded bg-danger" mat-dialog-close>{{'cancel'|translate}}</button>
+      <button *ngIf="action == 'new'" [disabled]="isLoading" type="button" class="btn btn-sm btn-info rounded {{canCreateCommonClass}}" (click)="saveData(newData, actionGet, 'Insert')">{{'save'|translate}}</button>
+      <button *ngIf="action == 'edit'" [disabled]="isLoading" type="button" class="btn btn-sm btn-info rounded {{canEditCommonClass}}" (click)="saveData(newData, actionGet, 'Update')">{{'update'|translate}}</button>
+    </div>
+  </form>

@@ -1,0 +1,14 @@
+.custom-editor{
+    width: 100%;
+}
+
+.error-control-label.required:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 5px;
+  }
+  
+  .has-error .error-border{
+    border-color: #bb0303 !important;
+  }

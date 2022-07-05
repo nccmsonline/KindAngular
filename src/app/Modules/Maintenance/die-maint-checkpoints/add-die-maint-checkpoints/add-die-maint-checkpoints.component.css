@@ -1,0 +1,20 @@
+.error-control-label.required:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 5px;
+  }
+
+
+  .table-scroll{
+    overflow-y: scroll;
+    max-height:400px;
+}
+
+.custom-table-big tbody tr td {
+    font-weight: 600 !important;
+}
+
+.form-inline label {
+    font-weight: 700;
+}

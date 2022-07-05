@@ -1,0 +1,115 @@
+
+
+.has-error .error-border{
+    border-color: #bb0303 !important;
+}
+.error-control-label.required:after {
+    color: #d00;
+    content: "*";
+    position: relative !important;
+    margin-left: 5px;
+}
+.select{
+    max-height: 24px !important ;
+}
+.ng-select.custom {
+    border:0px;
+    height: 24px !important;
+    border-radius: 0;
+}
+.ng-select.custom .ng-select-container  {            
+    min-height: 24px !important;
+    border-radius: 0;
+    height: 24px !important;
+}
+.ng-select.custom .ng-select-container .ng-value-container {
+    overflow: hidden !important;
+    flex-wrap: nowrap !important;
+}
+.select-custom-height{
+    max-height:24px !important ;
+}
+
+.search-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.search-list > ul {
+    margin: 0;
+    padding: 0;
+    
+}
+
+.search-list ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    /* margin: 0 0 4px; */
+    padding: 2px;
+    width: 370px;
+}
+
+.search-list ul li a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+}
+.search-list ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.search-list ul li:hover {
+    background-color: #d4d9de;
+}
+.disable-page{
+    pointer-events: none;
+}
+.transport{
+max-height: 24px;
+}
+.mat-date-custom {
+    padding: 0px 5px 0 !important;
+    height: 24px !important;
+    width: 110px !important;
+  }
+  
+  .custom-mat-picker{
+    padding: 0px 5px 0 !important;
+    height: 24px !important;
+    width: 120px !important;
+  } 
+
+  table#selectedValue {font-size: 13px;}
+  table#selectedValue tr td {
+    padding: 2px 5px;
+  }
+  .table th, .table thead th{
+    padding-left: 5px !important;
+  }
+
+  .error-control-label.required:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 5px;
+  }
+
+
+  .table-scroll{
+    overflow-y: scroll;
+    max-height:400px;
+}
+
+.custom-table-big tbody tr td {
+    font-weight: 600 !important;
+}
+
+.form-inline label {
+    font-weight: 700;
+}

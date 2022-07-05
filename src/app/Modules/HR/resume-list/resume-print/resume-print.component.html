@@ -1,0 +1,212 @@
+<div class="container-fluid" style="background:#dcdcdc;">
+    <div class="d-md-flex col-md-12">
+        <div class="col-md-6 p-2 pl-4">
+            <a id="printPageButton1" (click)="back()" class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                    class="mdi mdi-keyboard-backspace"></i></a>
+        </div>
+
+        <div class=" col-md-6 p-2 pl-4 text-right">
+            <button *ngIf="emailid!=''" id="printPageButton" class="btn btn-sm rounded btn-warning mr-3"
+                (click)="sendEmail()"><i class="fa fa-email"></i>&nbsp;{{'sendmail'| translate}}</button>
+
+            <button id="printPageButton" class="btn btn-sm rounded btn-warning mr-3" (click)="print()"><i
+                    class="fa fa-print"></i>&nbsp;{{'print'| translate}}</button>
+            <!-- <button id="printPageButton2" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"
+                (click)="pdf.saveAs('Resume Print.pdf')"><i class="ti-download"></i>&nbsp;{{'downloadpdf'|
+                translate}}</button> -->
+        </div>
+    </div>
+
+    <kendo-pdf-export #pdf paperSize="A4" [scale]="0.5" [margin]="{top: 20, bottom: 50, right: 10, left: 20}"
+        allPages=true>
+        <table class="table table-sm custom-invoice-table table-bordered mb-0" width="100%" border="0" cellspacing="0"
+            cellpadding="0" style="border-bottom: 1px solid #000; background-color: #fff;">
+            <div class="example-loading-shade" *ngIf="isLoadingResults ">
+                <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+            <tbody>
+                <tr>
+                    <td colspan="14" style="font-size: 16pt;font-weight: 700; text-align: center;">
+                     <h3>{{companyName}}</h3><br>
+                     <h5>{{Address}}</h5>
+                    </td> 
+                 </tr>
+                <tr *ngFor="let Detail of postAppliedArray; let i=index">
+                    <td colspan="14" style="text-align:left">
+                        <h5 class="mb-0"><b>Application for the Post of:- {{Detail.NAME}}</b></h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="7" style=" border: solid 1px #ccc;max-width: 350px;">
+                        <p  class="mb-0">
+                            <b>Name : </b>{{HeaderData.NAME}}<br>
+                            <b>F/Husband Name :</b>{{HeaderData.FATHERNAME}}<br>
+                            <b>Permanent Address : </b>{{HeaderData.COMMADDRESS}}<br>
+                            <b>Present Address : </b>{{HeaderData.CURRENTLOCATION}}<br>
+                        </p>
+                    </td>
+                    <td colspan="5">
+                        <p  class="mb-0">
+                            <b>Date Of Birth : </b>{{HeaderData.DOB | date:"dd/MM/yyyy"}}<br>
+                            <b>Mobile No : </b>{{HeaderData.PHONE}}<br>
+                            <b>Emergency Contact No : </b>{{HeaderData.OTHERCONTACTNO}}<br>
+                            <b>Aadhaar No : </b>{{HeaderData.AADHARNO}}<br>
+                            <b>PAN No : </b>{{HeaderData.PANNO}}<br>
+                        </p>
+                    </td>
+                    <td colspan="2">
+                        <p  class="mb-0">
+                          
+                        </p>
+                    </td>
+                </tr>
+                <!-- Family Table -->
+                <tr style="text-align: left;">
+                    <td colspan="14"><b>Details of Family:</b></td>
+                </tr>
+                <tr class="header-tr-class" style="font-size: small;">
+                    <td colspan="2"> {{'No' | translate}}</td>
+                    <td colspan="3"> {{'name' | translate}}</td>
+                    <td colspan="3">{{'relation' | translate}}</td>
+                    <td colspan="2">{{'age' | translate}}</td>
+                    <td colspan="4">Whether stays with you</td>
+                </tr>
+                <tr *ngFor="let Detail of family; let i=index">
+                    <td colspan="2">{{i+1}}</td>
+                    <td colspan="3">{{Detail.NAME}}</td>
+                    <td colspan="3">{{Detail.NAME1}}</td>
+                    <td colspan="2">{{Detail.ADDRESS}}</td>
+                    <td colspan="4"></td>
+                </tr>
+                <!-- Physical Data -->
+                <tr style="text-align: left;">
+                    <td colspan="14"><b>Physical Data</b></td>
+                </tr>
+                <tr style="font-size: small;" >
+                   <td  colspan="14"><p>
+                    1.	Height: <b>{{HeaderData.HEIGHT}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       2. Weight: <b>{{HeaderData.WEIGHT}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Blood Group:<b>{{HeaderData.BLOODGROUP}}</b>	<br>
+                    4.	If Vision is corrected, Power of lens: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Left Eye:<b> {{HeaderData.POWERLENSLEFT}}</b>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Right Eye:<b>{{HeaderData.POWERLENSRIGHT}}</b> <br>
+                    5.	Do you suffer from any physical impairments : <b> {{HeaderData.PHYSICALIMPAIRMENTS}}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    6. Are you a Smoker :<b>{{HeaderData.SMOKER}}</b>	<br>
+                    7.	Did you undergo any major surgery or any serious illness? If yes, please give details :<b>{{HeaderData.MAJORILLNESS}}</b>	<br>
+                    8.	Identification Marks :<b> {{HeaderData.IDENTIFICATIONMARKS}}</b>	<br>
+                    
+                   </p></td>
+                </tr>
+                   <!-- Qualification Table -->
+                <tr style="text-align: left;">
+                    <td colspan="14"><b>EDUCATIONAL QUALIFICATION</b></td>
+                </tr>
+                <tr class="header-tr-class" style="font-size: small;">
+                    <td colspan="2"> {{'No' | translate}}</td>
+                    <td colspan="3">Board/College/University</td>
+                    <td colspan="3">Exam Pass</td>
+                    <td colspan="2">Yr. Of Passing</td>
+                    <td colspan="4">Grade/Division</td>
+                </tr>
+
+                <tr *ngFor="let Detail of Qualifiaction; let i=index">
+                    <td colspan="2">{{i+1}}</td>
+                    <td colspan="3">{{Detail.INSTITUE}}</td>
+                    <td colspan="3">{{Detail.QUALIFICATION}}</td>
+                    <td colspan="2">{{Detail.PASSINGYEAR}}</td>
+                    <td colspan="4">{{Detail.GRADES}}</td>
+                </tr>
+                <!-- Experience table -->
+                <tr style="text-align: left;">
+                    <td colspan="14"><b>PROFESSIONAL EXPERIENCE (Start with last job)</b></td>
+                </tr>
+                <tr class="header-tr-class" style="font-size: small;">
+                    <td colspan="2"> {{'No' | translate}}</td>
+                    <td colspan="3">Organization</td>
+                    <td colspan="3">Designation</td>
+                    <td colspan="2">From &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   To</td>
+                    <td colspan="4" style="text-align: right;">Salary Drawn</td>
+                </tr>
+                <tr *ngFor="let Detail of Experience; let i=index">
+                    <td colspan="2">{{i+1}}</td>
+                    <td colspan="3">{{Detail.ORGANIZATION}}</td>
+                    <td colspan="3">{{Detail.POSITIONHELD}}</td>
+                    <td colspan="2">{{Detail.EXPFROM  | date:"dd/MM/yyyy"}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{Detail.EXPTO | date:"dd/MM/yyyy"}}</td>
+                    <td colspan="4"  style="text-align: right;">{{HeaderData.CURRENTSALARY | number : '1.2-2'}}</td>
+                </tr>
+                <tr *ngFor="let Detail of Experience">
+                    <td colspan="2"></td>
+                    <td colspan="3"></td>
+                    <td colspan="3">Total Exp.&nbsp; (Year-Month)</td>
+                    <td colspan="2" style="text-align: center;">{{Detail.TOTEXPMM}} - {{Detail.TOTEXPYY}}</td>
+                    <td colspan="4"></td>
+                </tr>
+                <tr style="text-align: left;">
+                    <td colspan="14"><p><b>Carrier Achievements:-</b><br><br></p></td>
+                </tr>
+                <tr style="text-align: left;">
+                    <td colspan="14">Your Strength :- <b>{{HeaderData.STRENGTH}} </b></td>
+                </tr>  
+                 <tr style="text-align: left;">
+                    <td colspan="14">Your Weakness :- <b>{{HeaderData.WEEKNESS}}</b></td>
+                </tr> 
+                  <tr style="text-align: left;">
+                    <td colspan="14">Area of Interest :-<b>{{HeaderData.INTERESTAREA}}</b></td>
+                </tr>  
+                 <tr style="text-align: left;">
+                    <td colspan="14">Reason for leaving previous Organisation:-<b>{{HeaderData.REASONLEAVING}}</b></td>
+                </tr>
+
+                <!-- <tr style="text-align: left;">
+                    <td colspan="14">Reason for leaving previous Organisation:-{{HeaderData.YOURSTRENGTH}}</td>
+                </tr> -->
+                <tr style="text-align: left;">
+                    <td colspan="14"><p>Salary Expected Rs.<b>{{HeaderData.EXPECTEDSALARY | number : '1.2-2'}}</b>&nbsp;&nbsp;&nbsp;&nbsp;P.M. 
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+                         Period required for joining KAPSONS :- <b>{{HeaderData.JOININGPERIOD}}</b></p></td>
+                </tr>  
+                <tr style="text-align: left;" *ngFor="let Detail of editSkillArray; let i=index">
+                    <td colspan="14"><p>Knowledge, Skill and details of Training Undergone:- ,{{Detail.NAME}}	<br><br></p></td>
+                </tr>
+                <tr style="text-align: left;">
+                    <td colspan="14"><b>Reference Checks : </b></td>
+                </tr>
+                <tr style="text-align: left;">
+                    <td colspan="14"><p> 				
+                        1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Name and Address :{{HeaderData.REFERENCES}}	<br><br>	
+                                        
+                         2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Contact No : {{HeaderData.REFERENCESCONTACT}}<br><br><br>
+                         &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		
+                        <b>Date :</b>	
+                        &nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <b>Signature of Candidate</b> 	
+                        </p></td>
+                </tr>
+            </tbody>
+        </table>
+    </kendo-pdf-export>
+</div>

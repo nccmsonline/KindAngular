@@ -1,0 +1,329 @@
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+  <div class="container-fluid" style="background:#dcdcdc;">
+
+          <form  novalidate>
+          <div class="example-loading-shade" *ngIf="isLoadingResults ">
+            <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+         </div>
+          <div class="example-loading-shade" *ngIf="isLoadingResults ">
+          <mat-spinner  [diameter]="60" *ngIf="isLoadingResults"></mat-spinner>
+         </div>
+  <div class="row">
+      <div class="col-12">
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);" (click)="dropdownHide()">
+              <div class="card-body border-bottom py-2">
+                  <div class="d-md-flex align-items-center">
+                      <div class="form-row mx-0 d-flex bd-highlight w-100">
+                          <a skipLocationChange  [routerLink]="['/payment-requirment']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                                  class="mdi mdi-keyboard-backspace"></i></a>
+                          <h4 class="card-title m-0">{{'Payment Requirment' | translate}}</h4>
+                        
+                      </div>
+                  </div>
+              </div>
+              <div class="d-flex- row">
+                  <div class="col-lg-7 tab-content m-t-10" id="pills-tabContent">
+                      <div class="card-body purchase-order px-0 py-2">
+                          <div class="form-inline">
+                              <div class="form-group row col-12 mb-1">
+                                  <label  *ngIf="routeAction == 'new'"  for="inputEmail4" class="col-sm-3 text-right">{{'Last Req No' | translate}}</label>
+                                  <label  *ngIf="routeAction != 'new'" for="inputEmail4" class="col-sm-3 text-right">{{'Req No' | translate}}</label>
+                                  <div class="col-sm-2">
+                                      <input type="text" class="form-control form-control-sm tdAlign readonly-disable" name="reqno"
+                                          [(ngModel)]="newData.REQNO" [ngModelOptions]="{standalone: true}"  readonly="true">
+                                  </div>
+                                  <label class="col-sm-3 text-right">{{'Date' | translate}}</label>
+                                  <div class=" col-sm-4">
+                                      <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                          <input matInput [matDatepicker]="picker"  name="REQDATE" [(ngModel)]="newData.REQDATE" [ngModelOptions]="{standalone: true}" readonly>
+                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                      </mat-form-field>
+                                  </div>
+                              </div>
+                            
+                   
+                              <div class="form-group row col-12 mb-1">
+                                  <label class="col-sm-3 text-right error-control-label required" for="inputPassword4">{{'supplier' | translate}}</label>
+                                  <div class="col-sm-9 d-flex pr-0">
+                                      <input (keyup)="searchTermSupplier($event.target.value)" name="NAME" [ngModelOptions]="{standalone: true}" [(ngModel)]='newData.NAME' [value]="newData.NAME || ''" autocomplete="off" class="w-100 form-control error-border form-control-sm">
+                                      <button class="close-icon" (click)="reset(newData)"></button>
+                                      <div *ngIf="arrayItemSupplier != ''" class="search-list-supplier" style="margin-top: 24px;">
+                                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                      <tr class="ui-menu-item" role="menuitem">
+                                                          <th>{{'name' | translate}}</th>
+                                                          <th>{{'address' | translate}}</th>
+                                                      </tr>
+                                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of supplierlist"
+                                                          (click)="onChangeOfSupplier(result, newData)">
+                                                          <td>{{ result.NAME }}</td>
+                                                          <td>{{ result.ADDRESS }}, {{ result.CITYDESC }}, {{ result.STATEDESC }},{{result.GSTIN}}</td>
+                                                      </tr>
+                                              </table>
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                              <div class="form-group row col-12 mb-1">
+                                  <label class="col-sm-3 text-right" for="inputPassword4">{{'address'|translate}}</label>
+                                  <div class="col-sm-9 d-flex">
+                                      <input class="form-control form-control-sm readonly-disable" name="ADDRESS" [readonly]="true"
+                                          [(ngModel)]="newData.ADDRESS" type="text"
+                                          [ngModelOptions]="{standalone: true}">
+                                  </div>
+                              </div>
+                              <div class="form-group row col-12 mb-1">
+                                  <label class="col-sm-3 text-right" for="inputPassword4">{{'City'|translate}}</label>
+                                  <div class="col-sm-3 d-flex">
+                                      <input class="form-control form-control-sm readonly-disable" name="CITYDESC" [readonly]="true"
+                                          [(ngModel)]="newData.CITYDESC" type="text" [ngModelOptions]="{standalone: true}">
+                                  </div>
+
+                                  <div class="col-sm-3">
+                                      <input class="form-control form-control-sm readonly-disable" name="STATEDESC" [readonly]="true"
+                                          [(ngModel)]="newData.STATEDESC" [ngModelOptions]="{standalone: true}">
+                                  </div>
+
+                                  <div class="col-sm-3 d-flex">
+                                      <input class="form-control form-control-sm readonly-disable" name="country" [readonly]="true"
+                                          [(ngModel)]="newData.COUNTRY" type="text" [ngModelOptions]="{standalone: true}">
+                                  </div>
+                              </div>
+                              <div class="form-group row col-12 mb-1">
+                                <label class="col-sm-3 text-right" for="inputPassword4">{{'Due Amount'|translate}}</label>
+                                <div class="col-sm-3 d-flex">
+                                    <input class="form-control form-control-sm readonly-disable" name="DUEAMT" [readonly]="true"  style="text-align: right;"
+                                        [(ngModel)]="newData.DUEAMT" type="text" [ngModelOptions]="{standalone: true}">
+                                </div>
+
+                                <label class="col-sm-3 text-right error-control-label required" for="inputPassword4">{{'amount'|translate}}</label>
+
+                                <div class="col-sm-3 d-flex">
+                                    <input class="form-control form-control-sm" name="AMOUNTTOPAY" style="text-align: right;" (keyup)="onTopayAmtChanged(newData.AMOUNTTOPAY)"
+                                        [(ngModel)]="newData.AMOUNTTOPAY" type="text" [ngModelOptions]="{standalone: true}">
+                                </div>
+                             </div>
+                             
+                             <div class="form-group row col-12 mb-1">
+                              <label class="col-sm-3 text-right" for="inputPassword4">{{'For'|translate}}</label>
+                              <div class="col-sm-9 d-flex">
+                                 <mat-radio-group mat-radio-group class="mat-radio-label d-flex align-items-center" name="PAYMENTTYPE" [(ngModel)]="newData.PAYMENTTYPE" (change)="radioChange()" [ngModelOptions]="{standalone: true}"    aria-label="Select an option">
+                                  <mat-radio-button class="example-margin h6 mx-3" value="C" checked>{{'Current Out-Standing' | translate}} </mat-radio-button>
+                                  <mat-radio-button class="example-margin h6 mx-3" value="A">{{'Advance' | translate}} </mat-radio-button>
+                                 </mat-radio-group>
+                                
+                                </div>
+                             </div>
+                             <!-- <div class="form-group row col-12 mb-1">
+                              <label class="col-sm-3 text-right" for="inputPassword4">{{'banker'|translate}}</label>
+                              <div class="col-sm-3 d-flex">
+                                <input class="form-control form-control-sm" name="banker" (click)="onBankerClick()" readonly
+                                    [(ngModel)]="newData.banker" type="text" [ngModelOptions]="{standalone: true}">
+                                    <div *ngIf="isBankList != ''" class="search-list-supplier" style="margin-top: 2px;">
+                                     
+                                      <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                        <tr class="ui-menu-item" role="menuitem">
+                                            <th>{{'banker' | translate}}</th>
+                                            <th>{{'bankaccno' | translate}}</th>
+                                            <th>{{'IFSC' | translate}}</th>
+                                        </tr>
+                                        <tr class="ui-menu-item" role="menuitem" *ngFor="let result of bankList"
+                                            (click)="onBankerSelect(result, newData)">
+                                            <td>{{ result.BANKNAME }}</td>
+                                            <td>{{ result.BANKACNO }} </td>
+                                            <td>{{ result.IFSC }} </td>
+                                        </tr>
+                                      </table>
+                                  </div>
+
+                              </div>
+                              <label class="col-sm-3 text-right" for="inputPassword4">{{'branch'|translate}}</label>
+                              <div class="col-sm-3 d-flex">
+                                <input class="form-control form-control-sm readonly-disable" name="branch" [readonly]="true" 
+                                    [(ngModel)]="newData.branch" type="text" [ngModelOptions]="{standalone: true}">
+                              </div>
+                            </div>
+                             <div class="form-group row col-12 mb-1">
+                                  <label class="col-sm-3 text-right" for="inputPassword4">{{'bankaccno'|translate}}</label>
+                                  <div class="col-sm-3 d-flex">
+                                    <input class="form-control form-control-sm readonly-disable" name="BANKACNO" [readonly]="true" 
+                                        [(ngModel)]="newData.BANKACNO" type="text" [ngModelOptions]="{standalone: true}">
+                                  </div>
+
+                                  <label class="col-sm-3 text-right error-control-label required" for="inputPassword4">{{'IFSC'|translate}}</label>
+
+                                  <div class="col-sm-3 d-flex">
+                                    <input class="form-control form-control-sm  readonly-disable" name="IFSC" style="text-align: right;" [readonly]="true" 
+                                        [(ngModel)]="newData.IFSC" type="text" [ngModelOptions]="{standalone: true}">
+                                  </div>
+                             </div> -->
+
+                            <div class="form-group row col-12 mb-1">
+                                                <label class="col-sm-3 text-right "
+                                                                    for="REMARKS">{{'Special Remarks if any' | translate}}</label>
+                                                                <div class="col-sm-9 d-flex"  style="height: 30px;" >
+                                                                    <textarea style="height: 30px;" name="REMARKS"  [(ngModel)]="newData.REMARKS"  [ngModelOptions]="{standalone: true}"
+                                                                        class="w-100 text-left form-control error-border form-control-sm">
+                                                                      </textarea>
+                      
+                                                                </div>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="table-scroll mx-1" >
+                        <div class="card-body border-top supplier-master px-0 py-2" >
+                           <table class="table table-striped custom-table tr th" *ngIf="newData.PAYMENTTYPE!='A'">
+                            <thead>
+                              <tr>
+                                <th style="width: 20px;"></th>
+                                <th style="width: 100px;">Dated</th>
+                                <th style="width: 120px;">Bill No.</th>
+                                <th style="width: 100px;">Bill Date</th>
+                                <th  class="text-right" style="width: 100px;">Bill Amount</th>
+                                <th  class="text-right" style="width: 100px;">Due Amount</th>
+                                <th  class="text-right" style="width: 100px;">Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let staff of pendingBills">
+                                <td><mat-checkbox (change)="onBillNoChecked($event, staff)"  [(ngModel)]="staff.CHECKED" [ngModelOptions]="{standalone: true}" ></mat-checkbox> </td>
+                                <td class="font-weight-sm"> {{staff.INWARDDATE | date:"dd/MM/yyyy"}}</td>
+                                <td> {{staff.BILLNO}}</td>
+                                <td> {{staff.BILLDATE | date:"dd/MM/yyyy"}}</td>
+                                <td class="text-right"><em>{{staff.BILLAMOUNT}}</em></td>
+                                <td class="text-right"><em>{{staff.DUEAMOUNT}}</em></td>
+                                <td class="text-right"><em>{{staff.AMOUNT}}</em></td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <table class="table table-striped custom-table tr th" *ngIf="newData.PAYMENTTYPE=='A'">
+                            <thead>
+                              <tr>
+                                <th style="width: 20px;"></th>
+                                <th style="width: 100px;">Dated</th>
+                                <th style="width: 120px;">Order No.</th>
+                                <th  class="text-right" style="width: 100px;">Order Amount</th>
+                                
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let staff of orderList">
+                                <td><mat-checkbox (change)="onOrderChecked($event, staff)"  [(ngModel)]="staff.CHECKED" [ngModelOptions]="{standalone: true}" ></mat-checkbox> </td>
+                                <td class="font-weight-sm"> {{staff.ORDERDATE | date:"dd/MM/yyyy"}}</td>
+                                <td> {{staff.ORDERNO}}</td>
+                                <td class="text-right"><em>{{staff.AMOUNT}}</em></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        
+                      </div>
+                  </div>
+
+                  <div class="col-lg-5">
+                    <div class="table-scroll mx-1" style="height: 570px;">
+                      <div class="card-body border-top supplier-master px-0 py-2" style="background: #ffffcf;">
+                        <h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Statement of Account</h6>
+                        
+                        <div class="col-md-12"><B>  Opening Balance :{{YearOpeningBalance}} {{openingDrCr}} &nbsp;&nbsp;&nbsp;&nbsp;  Closing Balance :   {{ClosingBalance}} {{ClosingDrCr}}</B></div>
+                        <table class="table table-striped custom-table tr th">
+                          <thead>
+                            <tr>
+                              <th style="width: 80px;">Dated</th>
+                              <th style="width: 100px;">Voucher No.</th>
+                              <th style="width: 400px;">Description</th>
+                              <th style="text-align:right;width: 100px;">Debit</th>
+                              <th style="text-align:right;width: 100px;">Credit</th>
+                              <th style="text-align:right;width: 100px;">Balance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let staff of accountStatement">
+                              <td class="font-weight-sm"> {{staff.VOUCHERDATE | date:"dd/MM/yyyy"}}</td>
+                              <td> {{staff.VOUCHERNO}}</td>
+                              <td><em style="width:130px;"> {{staff.DESCRIPTION}}</em></td>
+                              <td class="text-right"><em>{{staff.DRAMT}}</em></td>
+                              <td class="text-right"><em>{{staff.CRAMT}}</em></td>
+                              <td class="text-right"><em>{{staff.BALANCE}}</em></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <table *ngIf="isCheques" class="table table-striped custom-table tr th">
+                          <thead>
+                            <tr>
+                              <th style="width: 80px;">Cheque No.</th>
+                              <th style="width: 100px;">Dated</th>
+                              <th style="width: 400px;">Bank Name</th>
+                              <th style="text-align:right;width: 100px;">Status</th>
+                              <th style="text-align:right;width: 100px;"> Amount</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let staff1 of listCheque">
+                              <td> {{staff1.CHEQUENO}}</td>
+                              <td class="font-weight-sm"> {{staff1.TRANSDATE | date:"dd/MM/yyyy"}}</td>
+                              <td><em style="width:130px;"> {{staff1.BANKNAME}}</em></td>
+                              <td class="text-right"><em>{{staff1.STATUS}}</em></td>
+                              <td class="text-right"><em>{{staff1.TRANAMT}}</em></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <table  *ngIf="isPayments" class="table table-striped custom-table tr th">
+                          <thead>
+                            <tr>
+                              <th style="width: 80px;">Req No.</th>
+                              <th style="width: 100px;">Dated</th>
+                              <th style="width: 400px;">Remarks</th>
+                              <th style="text-align:right;width: 100px;">Passed</th>
+                              <th style="text-align:right;width: 100px;">Balance Amt</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let staff of listPassedPayment">
+                              <td> {{staff.REQNO}}</td>
+                              <td class="font-weight-sm"> {{staff.REQDATE | date:"dd/MM/yyyy"}}</td>
+                              <td><em style="width:130px;"> {{staff.REMARKS}}</em></td>
+                              <td class="text-right"><em>{{staff.PASSEDAMT}}</em></td>
+                              <td class="text-right"><em>{{staff.BALANCEAMT}}</em></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                    </div>
+                  </div>
+
+              </div>
+              <div class="col-lg-12">
+                
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-sm btn-secondary rounded bg-danger" routerLink="/payment-requirment" >{{'cancel' | translate}}</button> &nbsp;
+                  <button *ngIf="routeAction == 'new'" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded" (click)="saveData(newData, 'Insert')" [disabled]="isLoadingResults">{{'save' | translate}}</button>
+                  <button *ngIf="routeAction == 'edit'" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded" (click)="saveData(newData, 'Update')" [disabled]="isLoadingResults">{{'update' | translate}}</button>
+                  <!-- 
+
+                  <button *ngIf="routeAction == 'followup'" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded" (click)="followupUpdate()">{{'followupupdate' | translate}}</button> -->
+              </div>
+          </div>
+      </div>
+  </div>
+</form>
+<app-footer></app-footer>
+  </div>
+</div>
+</div>

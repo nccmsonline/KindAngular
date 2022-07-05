@@ -1,0 +1,565 @@
+
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+<form autocomplete="off" >
+  <div class="row">
+      <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+              <div class="card-body border-bottom py-2">
+                  <div class="d-md-flex align-items-center justify-content-between">
+                      <div class="d-flex">
+                          <a skipLocationChange  [routerLink]="['/customer-order']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                                  class="mdi mdi-keyboard-backspace"></i></a>
+                          <h4 class="card-title m-0">Customer Order</h4>
+                      </div>
+                      <div class="col-md-2">
+                        
+                        <button *ngIf="!isAddNew" type="submit" (click)="addNewOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" > Add New</button>&nbsp;
+                        <button *ngIf="isAddNew" type="submit" (click)="saveSaleOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" [disabled]="isLoadingResults" >Save</button>
+                        <button *ngIf="isEditable" type="submit" (click)="updateSaleOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" [disabled]="isLoadingResults">Update</button>
+                        <button *ngIf="routeAction != 'new'"  type="button" class="btn btn-sm btn-secondary rounded" (click)="printOrder()">{{'print'|translate}}</button> 
+                    </div>
+                  </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                <div class="col-md-7">
+                    <div class="row m-1">
+                    <div class="col-md-3">
+                    <b *ngIf="routeAction=='new'"> Last Order No</b> 
+                    <b *ngIf="routeAction!='new'"> Order No</b> 
+                    </div>
+                    <!-- <label class="col-sm-3 text-right error-control-label required">New Order No</label> -->
+                    <div class="col-md-1">
+                            <button type="submit" (click)="previousOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" ><i class="ti-minus"></i></button>
+                   </div>
+                    <div class="col-md-2">
+                        
+                        <input style="text-align:right" type="text" class="form-control form-control-sm" name="ORDERREFNO"
+                        [(ngModel)]="newData.ORDERREFNO" [ngModelOptions]="{standalone: true}"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                     
+                    </div>
+                            <!-- <div>
+                               
+                            </div> -->
+                    <div class="col-md-1">
+                            <button type="submit" (click)="NextOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" ><i class="ti-plus"></i></button>
+                       </div>
+                    <div class="col-md-2">
+                      <b>Date</b> 
+                      </div>
+                      <div class="col-md-3">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm" name="ORDERDATE"
+                          [(ngModel)]="newData.ORDERDATE" [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b> Customer</b> 
+                        </div>
+                        <div class="col-md-9">
+                            <!-- <ng-select 
+                            [items]="cities"
+                                     bindLabel="name"
+                                     placeholder="Select city"
+                                     [(ngModel)]="selectedCity">
+                          </ng-select> -->
+                          <!-- <ng-select class="form-control border-0 form-control-sm w-100 custom-supplier-control"
+                          name="CUSTOMERID" [allowClear]="true" (ngModelChange)="onCustomerChange(newData, $event)"
+                           [(ngModel)]="newData.CUSTOMERID"  [ngModelOptions]="{standalone: true}"
+                           [items]="customerList" optionValueField="CUSTOMERID" optionTextField="NAME"  [disabled]="disableDropDown"
+                           placeholder="Select Customer">
+                       </ng-select> -->
+
+                           <ng-select
+                            [(ngModel)]="newData.CUSTOMERID" [ngModelOptions]="{standalone: true}"
+                            [items]="customerList"
+                                bindLabel="NAME"
+                                bindValue="CUSTOMERID"
+                                placeholder="Select Customer"
+                                (ngModelChange)="onCustomerChange(newData, $event)"  [disabled]="disableDropDown"
+                                class="form-control border-1 form-control-sm w-100">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b> Bill to Customer</b> 
+                        </div>
+                        <div class="col-md-9">
+                                <!-- <ngx-select class="ngx-custom-select-dropdown "
+                                name="BILLCUSTOMERID" [allowClear]="true"
+                                 [(ngModel)]="newData.BILLCUSTOMERID"  [ngModelOptions]="{standalone: true}"
+                                 [items]="customerList" optionValueField="CUSTOMERID" optionTextField="NAME" [disabled]="disableDropDown"
+                                 placeholder="Select Bill to  Customer"></ngx-select> -->
+                                 <ng-select
+                                 [(ngModel)]="newData.BILLCUSTOMERID" [ngModelOptions]="{standalone: true}"
+                                 [items]="customerList"
+                                     bindLabel="NAME"
+                                     bindValue="CUSTOMERID"
+                                     placeholder="Select Bill to  Customer"
+                                      [disabled]="disableDropDown"
+                                     class="form-control border-1 form-control-sm w-100">
+                                 </ng-select>
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b>Customer PO</b> 
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-sm" name="CUSTOMERPO" 
+                            [(ngModel)]="newData.CUSTOMERPO" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row m-1">
+                            <div class="col-md-4">
+                             
+                              <b> Amend No.</b>
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="AMENDMENTNO"  tabindex="-1"
+                                [(ngModel)]="newData.AMENDMENTNO" [ngModelOptions]="{standalone: true}" readonly>
+                            </div>
+                            <div class="col-md-3">
+                             <b>IPO No.</b>   
+                              </div>
+                              <div class="col-md-3">
+                                  <input style="text-align:right" type="text" class="form-control form-control-sm" name="IPONO"  tabindex="-1"
+                                  [(ngModel)]="newData.IPONO" [ngModelOptions]="{standalone: true}" readonly >
+                              </div>
+                        </div>
+                        <div class="row m-1">
+                            <div class="col-md-4">
+                                <b> Bill Type</b> 
+                            </div>
+                            <div class="col-md-8">
+                                    <!-- <ngx-select class="ngx-custom-select-dropdown "
+                                    name="BILLSERIESID" [allowClear]="true" (ngModelChange)="onBillSeriesChange($event)"
+                                     [(ngModel)]="newData.BILLSERIESID"  [ngModelOptions]="{standalone: true}"  [disabled]="disableDropDown"
+                                     [items]="billseriesList" optionValueField="BILLSERIESID" optionTextField="BILLSERIESDESC"
+                                     placeholder="Select Bill Series">
+                                 </ngx-select> -->
+                                 <ng-select
+                                 [(ngModel)]="newData.BILLSERIESID" [ngModelOptions]="{standalone: true}"
+                                 [items]="billseriesList" (ngModelChange)="onBillSeriesChange($event)"
+                                     bindLabel="BILLSERIESDESC"
+                                     bindValue="BILLSERIESID"
+                                     placeholder="Select Bill Series"
+                                      [disabled]="disableDropDown"
+                                     class="form-control border-1 form-control-sm w-100">
+                                 </ng-select>
+                            </div>
+                        </div>
+                        <div class="row m-1">
+                            <div class="col-md-4">
+                                <b>Transport Mode</b> 
+                            </div>
+                            <div class="col-md-8">
+                                    <!-- <ngx-select class="ngx-custom-select-dropdown "
+                                    name="TRANSPORTMODEID" [allowClear]="true" 
+                                     [(ngModel)]="newData.TRANSPORTMODEID"  [ngModelOptions]="{standalone: true}"  [disabled]="disableDropDown"
+                                     [items]="transportModeList" optionValueField="TRANSPORTMODEID" optionTextField="TRANSPORTMODEDESC"
+                                     placeholder="Select Mode of Transport">
+                                 </ngx-select> -->
+                                 <ng-select
+                                 [(ngModel)]="newData.TRANSPORTMODEID" [ngModelOptions]="{standalone: true}"
+                                 [items]="transportModeList" 
+                                     bindLabel="TRANSPORTMODEDESC"
+                                     bindValue="TRANSPORTMODEID"
+                                     placeholder="Select Mode of Transport"
+                                      [disabled]="disableDropDown"
+                                     class="form-control border-1 form-control-sm w-100">
+                                 </ng-select>
+                            </div>
+                        </div>
+                        <div class="row m-1">
+                            <div class="col-md-4">
+                                <b> TCS@</b> 
+                            </div>
+                            <div class="col-md-3">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="TCSRATE"
+                                [(ngModel)]="newData.TCSRATE" [ngModelOptions]="{standalone: true}" readonly
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                
+            
+
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-md-9 myborder">
+                      <div class="col-md-12">
+                      <div class="row  m-1"> 
+                        <div class="col-md-2">
+                            <b>Product Code</b> 
+                        </div>
+                        <div class="col-md-7">
+                                <!-- <ngx-select class="ngx-custom-select-dropdown "
+                                name="ITEMID" [allowClear]="true" (ngModelChange)="onProductChange(rowDetail, $event)"
+                                 [(ngModel)]="rowDetail.ITEMID"  [ngModelOptions]="{standalone: true}"
+                                 [items]="productCodeList" optionValueField="ITEMID" optionTextField="ITEMCODE"
+                                 placeholder="Select Product Code">
+                             </ngx-select> -->
+                             <ng-select
+                             [(ngModel)]="rowDetail.ITEMID" [ngModelOptions]="{standalone: true}"
+                             [items]="productCodeList" name="ITEMID"
+                                 bindLabel="ITEMCODE"
+                                 bindValue="ITEMID" (ngModelChange)="onProductChange(rowDetail, $event)"
+                                 placeholder="Select Product Code"
+                                 class="form-control border-1 form-control-sm w-100">
+                             </ng-select>
+                        </div>
+                        <div class="col-md-1" style="text-align:right;">
+                            <b>Prd Id</b> 
+                        </div>
+                        <div class="col-md-2">
+                            <input style="text-align:right" type="text" class="form-control form-control-sm" name="PRODUCTID"
+                            [(ngModel)]="rowDetail.PRODUCTID" [ngModelOptions]="{standalone: true}"  (ngModelChange)="onProductIdChange(rowDetail)"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </div>
+                      </div>
+                      <div class="row  m-1"> 
+                            <div class="col-md-2">
+                                <b>Product Name</b> 
+                            </div>
+                            <div class="col-md-7">
+                                <!-- <ngx-select class="ngx-custom-select-dropdown "
+                                name="ITEMID" [allowClear]="true" (ngModelChange)="onProductChange(rowDetail, $event)"
+                                 [(ngModel)]="rowDetail.ITEMID"  [ngModelOptions]="{standalone: true}"
+                                 [items]="productNameList" optionValueField="ITEMID" optionTextField="ITEMNAME"
+                                 placeholder="Select Product Name">
+                             </ngx-select> -->
+                             
+                             <ng-select
+                             [(ngModel)]="rowDetail.ITEMID" [ngModelOptions]="{standalone: true}"
+                             [items]="productCodeList" name="ITEMID"
+                                 bindLabel="ITEMNAME"
+                                 bindValue="ITEMID" (ngModelChange)="onProductChange(rowDetail, $event)"
+                                 placeholder="Select Product Name"
+                                 class="form-control border-1 form-control-sm w-100">
+                             </ng-select>
+                            </div>
+                    
+                      </div>
+                      <div class="row  m-1"> 
+                            <div class="col-md-2">
+                                <b>Quantity</b> 
+                            </div>
+                            <div class="col-md-1">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="ORDERQTYPCS"
+                                [(ngModel)]="rowDetail.ORDERQTYPCS" [ngModelOptions]="{standalone: true}"   (ngModelChange)="wtCalculate(rowDetail)"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-1">
+                                <b>Weight</b> 
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="ORDERQTYKGS"
+                                [(ngModel)]="rowDetail.ORDERQTYKGS" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-1">
+                                <b>Rate</b> 
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="RATE"
+                                [(ngModel)]="rowDetail.RATE" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-3">
+                                    <mat-radio-group class="example-radio-group" [(ngModel)]="rowDetail.UOM"  [ngModelOptions]="{standalone: true}" style="font-size:13px">
+                                        <mat-radio-button class="example-radio-button" *ngFor="let datetype of datetype" [value]="datetype.id">
+                                        {{datetype.description}} 
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                            </div>
+
+                      </div>
+                      <div class="row  m-1"> 
+                            <div class="col-md-2">
+                                <b>Stamping Rate</b> 
+                            </div>
+                            <div class="col-md-1">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="STAMPINGRATE"
+                                [(ngModel)]="rowDetail.STAMPINGRATE" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-1"  >
+                                    <font size="1.5pt">     </font> 
+                                    <p style="line-height: normal;"> <b>Process Charges</b></p> 
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="PROCESSCHRG"
+                                [(ngModel)]="rowDetail.PROCESSCHRG" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-1">
+                                    <p style="line-height: normal;"> <b>Allu Rate</b></p> 
+                               <!-- <font size="2pt">   <p style="line-height: normal;"> </p>    </font>  -->
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="ALLUMINIUMRATE"
+                                [(ngModel)]="rowDetail.ALLUMINIUMRATE" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            
+
+                      </div>
+                      <div class="row  m-1"> 
+                            <div class="col-md-2">
+                                <b>Pair Code</b> 
+                            </div>
+                            
+                            <div class="col-md-7">
+                           
+                                <!-- <ngx-select  class="ngx-custom1-select-dropdown error-border ngx-custom-select-dropdown-text-wrap w-100"
+                               name="RSID" [allowClear]="true" [(ngModel)]="rowDetail.RSID"  [ngModelOptions]="{standalone: true}"
+                                [items]="pairProductList" optionValueField="RSID" optionTextField="PAIRINGCODE" 
+                                (ngModelChange)="onPairChange(rowDetail, $event)" >
+                                  <ng-template ngx-header-tmp>
+                                    <table> 
+                                        <tr >
+                                           <th  style="max-width:100px;" >Pair Code</th>
+                                           <th   style="max-width:100px;">Name</th>
+                                        </tr>
+                                    </table>
+                                </ng-template>
+                                <ng-template ngx-select-option ngx-select-option-selected let-option let-text="text">
+                                    <table >
+                                        <tr style="">
+                                           <td style="border-right: thin solid; border-top: thin solid; border-bottom: thin solid;width:200px;">{{option.data.PAIRINGCODE}}</td>
+                                           <td style="border-right: thin solid; border-top: thin solid; border-bottom: thin solid;width:200px;">{{option.data.ITEMCODE}}</td>
+                                       </tr>
+                                    </table>
+                                </ng-template>
+                                </ngx-select> -->
+
+                                <ng-select
+                                [(ngModel)]="rowDetail.RSID" [ngModelOptions]="{standalone: true}"
+                                [items]="pairProductList" name="RSID"
+                               
+                                    bindLabel="PAIRINGCODE"
+                                    bindValue="RSID" (ngModelChange)="onPairChange(rowDetail, $event)" 
+                                    placeholder="Select Product Pair"
+                                    class="form-control border-1 form-control-sm w-100">
+                                    <!-- <ng-template ngx-header-tmp>
+                                        <table> 
+                                            <tr >
+                                               <th  style="max-width:100px;" >Pair Code</th>
+                                               <th   style="max-width:100px;">Name</th>
+                                            </tr>
+                                        </table>
+                                    </ng-template> -->
+                                    <ng-template ng-option-tmp let-item="item">
+                                        <table >
+                                            <tr>
+                                               <td style="border-right: thin solid; border-top: thin solid; border-bottom: thin solid;width:200px;">{{item.PAIRINGCODE}}</td>
+                                               <td style="border-right: thin solid; border-top: thin solid; border-bottom: thin solid;width:200px;">{{item.ITEMCODE}}</td>
+                                           </tr>
+                                        </table>
+                                    </ng-template>
+                                </ng-select>
+
+                            </div>
+                            <div class="col-md-1" style="text-align:right;">
+                                <b>Pair Id</b> 
+                            </div>
+                          
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="PAIRRSID"
+                                [(ngModel)]="rowDetail.RSID" [ngModelOptions]="{standalone: true}"  (ngModelChange)="onPairChange(rowDetail, $event)"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                      </div>
+                      <div class="row  m-1"> 
+                            <div class="col-md-2">
+                                <b>Stamping Weight</b> 
+                            </div>
+                            <div class="col-md-1">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="STAMPINGWT"
+                                [(ngModel)]="rowDetail.STAMPINGWT" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-1"  >
+                                    <font size="2pt">   <p style="line-height: normal;"> <b>Allu Wt</b></p>    </font> 
+                    
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="ALLUMINUMWT"
+                                [(ngModel)]="rowDetail.ALLUMINUMWT" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            <div class="col-md-1">
+                              
+                               <font size="2pt">   <p style="line-height: normal;"> <b>MUF</b></p>    </font> 
+                            </div>
+                            <div class="col-md-2">
+                                <input style="text-align:right" type="text" class="form-control form-control-sm" name="UFO"
+                                [(ngModel)]="rowDetail.UFO" [ngModelOptions]="{standalone: true}"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </div>
+                            
+                        
+                            <div class="col-md-3">
+                                    <mat-form-field class="col-md-12">
+                                            <input matInput 
+                                              [matDatepicker]="matToDatepicker" placeholder="Delivery date" 
+                                              [(ngModel)]="rowDetail.DELIVERYDATEREQUESTED"
+                                              [ngModelOptions]="{standalone: true}"
+                                              >
+                                            <mat-datepicker-toggle matSuffix [for]="matToDatepicker"></mat-datepicker-toggle>
+                                            <mat-datepicker #matToDatepicker></mat-datepicker>
+                                          </mat-form-field>
+                            </div>
+                          
+                      </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 mycolor">
+                            <div class="row  m-1"> &nbsp; </div>
+                        <div class="row  m-1"> 
+                                <div class="col-md-4">
+                                        <b>HSN</b> 
+                                </div>
+                                <div class="col-md-6">
+                                        <input style="text-align:right" type="text" class="form-control form-control-sm" name="HSN" tabindex="-1"
+                                        [(ngModel)]="rowDetail.HSN" [ngModelOptions]="{standalone: true}" readonly>
+                                </div>
+                        </div>    
+                        <div class="row  m-1"> 
+                                <div class="col-md-4">
+                                        <b>IGST</b> 
+                                </div>
+                                <div class="col-md-6">
+                                        <input style="text-align:right" type="text" class="form-control form-control-sm" name="IGST" tabindex="-1"
+                                        [(ngModel)]="rowDetail.IGST" [ngModelOptions]="{standalone: true}" readonly>
+                                </div>
+                        </div>  
+                        <div class="row  m-1"> 
+                                <div class="col-md-4">
+                                        <b>CGST</b> 
+                                </div>
+                                <div class="col-md-6">
+                                        <input style="text-align:right" type="text" class="form-control form-control-sm" name="CGST" tabindex="-1"
+                                        [(ngModel)]="rowDetail.CGST" [ngModelOptions]="{standalone: true}" readonly>
+                                </div>
+                        </div>  
+                        <div class="row m-1"> 
+                                <div class="col-md-4">
+                                        <b>SGST</b> 
+                                </div>
+                                <div class="col-md-6">
+                                        <input style="text-align:right" type="text" class="form-control form-control-sm" name="SGST" tabindex="-1"
+                                        [(ngModel)]="rowDetail.SGST" [ngModelOptions]="{standalone: true}" readonly>
+                                </div>
+                        </div> 
+                        <div class="row m-1"> 
+                            &nbsp;
+                        </div>       
+                        <div class="row m-2"> 
+                        <div class="col-md-1">  &nbsp;</div>
+                                <div class="col-md-1" style="text-align:right;">
+                                        <button type="submit" (click)="addItemDetail(rowDetail)"  class="btn btn-sm rounded btn-info waves-effect waves-light" ><i class="ti-plus"></i>&nbsp;List</button>
+                                    </div>
+        
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-scroll">
+                                    <div class="tab-content m-t-10" id="pills-tabContent">
+                                            <!-- <div class="tab-pane fade active show" id="iteminfo" role="tabpanel" aria-labelledby="item_info"> -->
+
+                                    <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2"    data-offset="0">
+                                        <div class="card-body border-top min-width purchase-order px-0">
+                                            <table class="table table-striped custom-table custom-table-big custom-table-big tr th ">
+                                                <thead>
+                                                    <tr style="background-color: #666666; color: #ffffff;">
+                                                        <th scope="col" style="width: 10px; text-align:center;">Sr</th>
+                                                        <th scope="col" style="width:250px">Product Code</th>
+                                                        <th scope="col" style="width:10px">R/S</th>
+                                                        <th scope="col" style="width:250px"> Pair Code</th>
+                                                        <th scope="col" style="width:60px; text-align:right;"> Thick -ness</th>
+                                                        <th scope="col" style="width:60px; text-align:right;"> Coil Width</th>
+                                                        <th scope="col" style="width:60px; text-align:right;">Stack Height</th>
+                                                        <th scope="col" style="width:60px; text-align:right;"> Quantity</th>
+                                                        <th scope="col" style="width:80px; text-align:right;">Weight</th>
+                                                        <th scope="col" style="width:70px; text-align:right;">Rate </th>
+                                                        <th scope="col" style="width:50px; text-align:center; "> Rate Per</th>
+                                                        <th scope="col" style="width:50px; text-align:right;"> Stamping Rate</th>
+                                                        <th scope="col" style="width:50px; text-align:right;"> Process Charges</th>
+                                                        <th scope="col" style="width:50px;text-align: right;"> Alluminium Rate</th>
+                                                        <th scope="col" style="width:80px; text-align: right;">Stamping Weight</th>
+                                                        <th scope="col" style="width:80px;text-align: right;"> Alluminium Wt</th>
+                                                        <th scope="col" style="width:50px; text-align:right;"> MUF</th>
+                                                        <th scope="col" style="width:100px; text-align:right;"> Delivery Date</th>
+                                                        <th scope="col" style="width:50px; text-align:right;">HSN</th>
+                                                        <th scope="col" style="width:50px; text-align:right;">Action</th>
+                                                    </tr>
+                                                   
+                                                </thead>
+                                                <tbody class="font-sm">
+                                                        <tr  *ngFor="let orderDetail of orderDetail ; let i = index" (dblclick)="ShowRowDetail(orderDetail)">
+                                                                <td> {{orderDetail.ROWNO}}</td>
+                                                                <td> {{orderDetail.ITEMCODE}}</td>
+                                                                <td> {{orderDetail.PRODUCTTYPE}}</td>
+                                                                <td> {{orderDetail.PAIRCODE}}</td>
+                                                                <!-- <td> {{orderDetail.COILTHICKNESS}}</td> -->
+                                                                <td style="width:60px; text-align:right;"> {{orderDetail.COILTHICKNESS}}</td>
+                                                                <td style="width:60px; text-align:right;"> {{orderDetail.SHEETWIDTH}}</td>
+                                                                <td style="width:60px; text-align:right;"> {{orderDetail.PRODUCTHEIGHT}}</td>
+
+                                                                <td style="width:60px; text-align:right;"> {{orderDetail.ORDERQTYPCS}}</td>
+                                                                <td style="width:80px; text-align:right;"> {{orderDetail.ORDERQTYKGS}}</td>
+                                                                <td style="width:70px; text-align:right;"> {{orderDetail.RATE}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.UOM}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.STAMPINGRATE}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.PROCESSCHRG}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.ALLUMINIUMRATE}}</td>
+                                                                <td style="width:80px; text-align:right;"> {{orderDetail.STAMPINGWT}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.ALLUMINUMWT}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.UFO}}</td>
+                                                                <td style="width:100px; text-align:right;"> {{orderDetail.DELIVERYDATEREQUESTED | date:'d/M/y'}}</td>
+                                                                <td style="width:50px; text-align:right;"> {{orderDetail.HSN}}</td>
+                                                                <td style="width:50px; text-align:right;"> 
+                                                                    <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeItem(orderDetail)"></i></td>
+                                                         </tr>
+                                                </tbody>
+                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                </div>
+              </div>
+           </div>
+      </div>
+    </div>
+</form>
+<app-footer></app-footer>
+</div>
+</div>
+</div>

@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+
+  .mat-elevation-z8 {
+    box-shadow: 0 0px 0px 0px rgba(0,0,0,0), 0 0px 0px 0px rgba(0,0,0,0), 0 0px 0px 0px rgba(0,0,0,0);
+}

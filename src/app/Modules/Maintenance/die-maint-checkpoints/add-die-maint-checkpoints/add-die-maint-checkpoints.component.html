@@ -1,0 +1,524 @@
+<!-- used for font weight 600 as per user requirement  -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
+<!-- end -->
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+    <div class="page-wrapper">
+        <div class="container-fluid" style="background:#dcdcdc;">
+            <form [formGroup]="requisitionform" novalidate>
+                <div class="example-loading-shade" *ngIf="isLoadingResults ">
+                    <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+                            <div class="card-body border-bottom py-2 d-flex">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <div class="col-md-5 d-md-flex align-items-center justify-content-between">
+                                            <div class="d-flex">
+                                                <a [routerLink]="['/die-maint-checkpoints']"
+                                                    class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                                                        class="mdi mdi-keyboard-backspace"></i></a>
+
+                                                <h4 class="modal-title " id="exampleModalLabel">{{'diemaintcheckpoints'
+                                                    | translate}}</h4>
+                                            </div>
+
+                                        </div>
+                                        <div *ngIf="showReport" class="form-group col-md-7">
+                                            <label >{{'fromdate' | translate}}</label>&nbsp;<span></span>
+                                          <!-- </div> -->
+                                          <div class="form-group mr-1 col-md-3">
+                                            <mat-form-field class="form-control py-1 mat-form-field-date-picker" style="width: 105px;">
+                                              <input matInput [matDatepicker]="picker"  [max]="myDate"
+                                                [(ngModel)]="newData.fromdate" [ngModelOptions]="{standalone: true}" readonly>
+                                              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                              <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+                                          </div>
+                        
+                                          <!-- <div class="form-group mr-1"> -->
+                                            <label class="col-md-2">{{'todate' | translate}}</label>&nbsp;<span></span>
+                                          <!-- </div> -->
+                                          <div class="form-group mr-1 col-md-3">
+                                            <mat-form-field class="form-control py-1 mat-form-field-date-picker" style="width: 105px;">
+                                              <input matInput [matDatepicker]="picker1" [min]="newData.fromdate" [max]="myDate"
+                                                [(ngModel)]="newData.todate" [ngModelOptions]="{standalone: true}" readonly>
+                                              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                              <mat-datepicker #picker1></mat-datepicker>
+                                            </mat-form-field>
+                                          </div>
+                                          <div class="form-group w-auto p-0 mr-3 col-md-2">
+                                            <button class="btn btn-sm rounded btn-info waves-effect waves-light"
+                                              (click)="report(newData)">{{'diehistory' | translate}}</button>
+                                          </div>
+                                    </div> 
+                                        <!-- <div class="form-group row col-md-4 mb-2">
+                                            <label *ngIf="action == 'new'" class="col-md-8 text-right">{{'srno' | translate}}</label>
+                                            <label *ngIf="action != 'new'"  class="col-md-8 text-right">{{'lastsrno' | translate}}</label>
+                                            <div class="col-md-4 pr-3">
+                                                <input class="form-control w-100  form-control-sm readonly-disable text-right"
+                                                    name="srno" [readonly]="true" [(ngModel)]="newData.SRNO"
+                                                    [ngModelOptions]="{standalone: true}">
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex- row">
+                                <div class="col-md-12 tab-content m-t-10" id="pills-tabContent">
+                                    <div class="card-body purchase-order px-0 py-2">
+
+                                        <div class="form-inline">
+
+                                          
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'toolname'
+                                                    | translate}}</label>
+                                                <div class="col-md-6">
+                                                    <!-- <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.DIEID"
+                                                        [items]="toolNoArray" optionValueField="DIEID"
+                                                        optionTextField="DIENAME" (select)="dieChange($event, newData)"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select> -->
+                                                    <ng-select class="custom-tool-class ngx-custom-select-dropdown-text-wrap custom-material-ng-container"
+                                                    [(ngModel)]="newData.DIEID" [ngModelOptions]="{standalone: true}" (change)="dieChange(newData.DIEID, newData)" style="width: 100% !important;"
+                                                    name="machineid" [virtualScroll]="true" [items]="toolNoArray" bindLabel="DIENAME" bindValue="DIEID"
+                                                    placeholder="Select Tool">
+                                                    <ng-template ng-header-tmp class="ng-template-oa-class">
+                                                        <table > 
+                                                            
+                                                            <ng-template ng-option-tmp let-item="item">
+                                                                <tr>
+                                                                  <td style="width:350px"> {{item.DIENAME}} </td>
+                                                                  
+                                                                </tr>
+                                                            </ng-template>
+                                                        </table>
+                                                    </ng-template>
+                                                  </ng-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right error-control-label required">{{'tooltype'
+                                                    |
+                                                    translate}}</label>
+                                                <div class="col-md-6">
+                                                    <ngx-select class="ngx-custom-select-dropdown"
+                                                        [ngModelOptions]="{standalone: true}" name="costcentreid"
+                                                        [allowClear]="true" [(ngModel)]="newData.DIETYPEID"
+                                                        [items]="toolTypeArray" optionValueField="DIETYPEID"
+                                                        optionTextField="DIETYPEDESC"  (select)="changeDieType(newData.DIETYPEID)"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right error-control-label required">{{'date' |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <mat-form-field
+                                                        class="form-control w-100 mat-form-field-date-picker">
+                                                        <input matInput [matDatepicker]="rdate" 
+                                                            name="reqndate"
+                                                            [(ngModel)]="newData.EDATE"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <mat-datepicker-toggle matSuffix [for]="rdate">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #rdate></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right ">{{'receivedfrom'|
+                                                    translate}}</label>
+                                                <div class="col-md-6">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="storeid"
+                                                        [allowClear]="true" [(ngModel)]="newData.RECEIVEDFROMID"
+                                                        [items]="receivedArray" optionValueField="EMPID" optionTextField="NAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 ">
+                                                <label class="col-md-6 text-right error-control-label required">{{'receivedon' |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <mat-form-field
+                                                        class="form-control w-100 mat-form-field-date-picker">
+                                                        <input matInput [matDatepicker]="date2" 
+                                                            name="reqndate"
+                                                            [(ngModel)]="newData.SENDFORMAINTENANCEDT"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <mat-datepicker-toggle matSuffix [for]="date2">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #date2></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right">{{'receivedat' |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input [owlDateTime]="dt1" 
+                                                        [(ngModel)]="newData.RECDTIME"
+                                                        class="form-control form-control-sm w-100"
+                                                        [ngModelOptions]="{standalone: true}" readonly>
+                                                    <button type="button" class="fas fa-clock custom-clock-class"
+                                                        [owlDateTimeTrigger]="dt1"></button>
+                                                    <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right">{{'expecteddlytime'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input [owlDateTime]="dt4" 
+                                                        [(ngModel)]="newData.EXPTTIME"
+                                                        class="form-control form-control-sm w-100"
+                                                        [ngModelOptions]="{standalone: true}" readonly>
+                                                    <button type="button" class="fas fa-clock custom-clock-class"
+                                                        [owlDateTimeTrigger]="dt4"></button>
+                                                    <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right">{{'deliveredon' |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <mat-form-field
+                                                        class="form-control w-100 mat-form-field-date-picker">
+                                                        <input matInput [matDatepicker]="date3" [min]="newData.SENDFORMAINTENANCEDT"
+                                                            name="reqndate"
+                                                            [(ngModel)]="newData.MAINTENANCECOMPLETEDT"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <mat-datepicker-toggle matSuffix [for]="date3">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #date3></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right">{{'deliveredat' |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input [owlDateTime]="dt2" 
+                                                        [(ngModel)]="newData.SENDTIME"
+                                                        class="form-control form-control-sm w-100"
+                                                        [ngModelOptions]="{standalone: true}" readonly>
+                                                    <button type="button" class="fas fa-clock custom-clock-class"
+                                                        [owlDateTimeTrigger]="dt2"></button>
+                                                    <owl-date-time [pickerType]="'timer'" #dt2></owl-date-time>
+                                                </div>
+                                            </div>
+
+
+
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right error-control-label required">{{'grindingsinoneday'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.STROCKESAVAILABLE"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'reasonofgrinding'| translate}}</label>
+                                                <div class="col-md-5 pr-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="storeid"
+                                                        [allowClear]="true" [(ngModel)]="newData.REASONID"
+                                                        [items]="reasonArray" optionValueField="ID" optionTextField="NAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-add waves-effect waves-light" type="button" (click)="resonPopup(newData)">+
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right ">{{'reasonfordelay'|
+                                                    translate}}</label>
+                                                <div class="col-md-5 pr-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="storeid"
+                                                        [allowClear]="true" [(ngModel)]="newData.DELAYREASONID"
+                                                        [items]="delayReason" optionValueField="ID" optionTextField="NAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-add waves-effect waves-light" type="button" (click)="delayresonPopup(newData)">+
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'maintdoneby'|
+                                                    translate}}</label>
+                                                <div class="col-md-6">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="storeid"
+                                                        [allowClear]="true" [(ngModel)]="newData.MAINTDONEID"
+                                                        [items]="maintOfficerArray" optionValueField="EMPID" optionTextField="NAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'inchargetoolroom'|
+                                                    translate}}</label>
+                                                <div class="col-md-6">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="storeid"
+                                                        [allowClear]="true" [(ngModel)]="newData.INCHARGEID"
+                                                        [items]="storeInchargeArray" optionValueField="EMPID" optionTextField="NAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                class="col-md-6 text-right error-control-label required">{{'authorisedby'|
+                                                translate}}</label>
+                                            <div class="col-md-6">
+                                                <ngx-select
+                                                    class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                    [ngModelOptions]="{standalone: true}" name="storeid"
+                                                    [allowClear]="true" [(ngModel)]="newData.AUTHORISEDBY"
+                                                    [items]="storeInchargeArray" optionValueField="EMPID" optionTextField="NAME"
+                                                    placeholder="{{'pleaseselect' | translate}}">
+                                                </ngx-select>
+                                            </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right ">{{'plannedstrokes'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm readonly-disable"
+                                                        name="manualslipno" [(ngModel)]="newData.PLANNEDSTROKES"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}" readonly >
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right ">{{'strokesmade'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm readonly-disable"
+                                                        name="manualslipno" [(ngModel)]="newData.STROKESMADE"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right ">{{'availablestrokes'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm readonly-disable"
+                                                        name="manualslipno" [(ngModel)]="newData.AVAILABLESTROKES"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}" readonly>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-12 mb-2">
+                                                <label
+                                                    class="col-md-2 text-right pr-3">{{'maintenanceworkdetail'|
+                                                    translate}}</label>
+                                                <div class="col-md-10 pl-1 pr-5">
+                                                    <textarea name="itemid" [(ngModel)]='newData.MAINTENACEDETAIL'
+                                                        [ngModelOptions]="{standalone: true}" style="height: 40px;"
+                                                        autocomplete="off"
+                                                        class="w-100 form-control error-border form-control-sm"
+                                                        maxlength="200">
+                                                </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-12 mb-2">
+                                                <label
+                                                    class="col-md-2 text-right pr-3">{{'remarks'|
+                                                    translate}}</label>
+                                                <div class="col-md-10 pl-1 pr-5">
+                                                    <textarea name="itemid" [(ngModel)]='newData.REMARKS'
+                                                        [ngModelOptions]="{standalone: true}" style="height: 40px;"
+                                                        autocomplete="off"
+                                                        class="w-100 form-control error-border form-control-sm"
+                                                        maxlength="200">
+                                                </textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <h4 style="margin-left: 5px;">{{'Check Points'| translate}}</h4>
+                                    <div class="table-scroll mx-1">
+                                        <div class="card-body border-top store-requisition px-0 py-2">
+                                            <table
+                                                class="table table-striped custom-table custom-table-big custom-table-big tr th ">
+                                                <thead>
+                                                    <tr style="background-color: #666666; color: #ffffff;">
+                                                        <th scope="col" style="width:4%; text-align: center;">{{'sr' |  translate}}</th>
+                                                        <th scope="col" style="width:4%;">{{'' | translate}}</th>
+                                                        <th scope="col" style="width:22%;">{{'checkpoint' | translate}}</th>
+                                                        <th scope="col" style="width:7%;">{{'observedvalue1' |  translate}}</th>
+                                                        <th scope="col" style="width:7%;">{{'observedvalue2' |  translate}}</th>
+                                                        <th scope="col" style="width:7%;">{{'observedvalue3' |  translate}}</th>
+                                                        <th scope="col" style="width:7%;">{{'observedvalue4' |  translate}}</th>
+                                                        <th scope="col" style="width:7%;">{{'standarddvalue' | translate}} </th>
+                                                        <th scope="col" style="width:10%; text-align: center;"> {{'status' | translate}}</th>
+                                                        <th scope="col" style="width:23%;">{{'remarks' | translate}}  </th>
+                                                    </tr>
+
+                                                    
+                                                </thead>
+                                                <tbody class="font-sm">
+                                                    <tr *ngFor="let contact of contacts ; let i = index">
+                                                        <td style=" text-align: center;">{{i+1}}</td>
+                                                        <td>
+                                                            <mat-checkbox name="bomexist" [(ngModel)]="contact.CHECKPOINTVALE"
+                                                                [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                                        </td>
+
+                                                        <td>
+                                                            {{contact.NAME}}
+                                                        </td>
+
+                                                    
+                                                        <td>
+                                                            <input name="OBSVALUE" [(ngModel)]='contact.OBSVALUE'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm"
+                                                                maxlength="6"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                        </td>
+                                                        <td>
+                                                            <input name="OBSVALUE1" [(ngModel)]='contact.OBSVALUE1'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm"
+                                                                maxlength="6"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                        </td>
+                                                        <td>
+                                                            <input name="OBSVALUE2" [(ngModel)]='contact.OBSVALUE2'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm"
+                                                                maxlength="6"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                        </td>
+                                                        <td>
+                                                            <input name="OBSVALUE3" [(ngModel)]='contact.OBSVALUE3'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm"
+                                                                maxlength="6"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                        </td>
+                                                        <td>
+                                                            <input name="itemid" [(ngModel)]='contact.STVALUE'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm"
+                                                                maxlength="6"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                        </td>
+
+                                                        <td style="text-align: center;">
+                                                            <mat-slide-toggle [color]="color"
+                                                                [(ngModel)]="contact.STATUS" [checked]="contact.STATUS"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                (change)="statusChange(contact.STATUS, contact)">
+                                                                {{contact.statusName}}</mat-slide-toggle>
+                                                            <!-- <mat-label>&nbsp;{{contact.statusName}}&nbsp;</mat-label> -->
+                                                        </td>
+                                                        <td>
+                                                            <textarea name="itemid" [(ngModel)]='contact.REMARKS'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm"
+                                                                maxlength="100"  matTooltip="{{ contact.REMARKS }}">
+                                                        </textarea>
+                                                        </td>
+
+
+                                                    </tr>
+
+
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary rounded bg-danger"
+                                [routerLink]="['/die-maint-checkpoints']">{{'cancel' |
+                                    translate}}</button>
+                                &nbsp;
+
+                                <button [disabled]='isLoadingResults' 
+                                 *ngIf="action == 'new'"  type="button" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded "
+                                    (click)="validateBeforeSave(newData, 'Insert')">{{'save' | translate}}</button>
+                                <button *ngIf="action == 'edit'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-info rounded " 
+                                (click)="validateBeforeSave(newData, 'Update')">{{'update'|translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <!-- <div *ngIf="userRightCheck.canview == 'False'" class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        {{'youhavenotpermission' | translate}}
+                    </div>
+                </div>
+            </div>
+        </div> -->
+            <app-footer></app-footer>
+        </div>
+    </div>
+</div>

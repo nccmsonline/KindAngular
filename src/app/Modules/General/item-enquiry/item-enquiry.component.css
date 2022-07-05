@@ -1,0 +1,9 @@
+.txt:hover {
+    cursor: pointer;
+    color:#666;
+    text-decoration: underline;
+}
+
+.form-inline label {
+    font-size: 14px;
+}

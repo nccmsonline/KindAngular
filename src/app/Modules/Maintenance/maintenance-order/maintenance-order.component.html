@@ -1,0 +1,269 @@
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+    </div>
+  </div>
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+  
+    <div class="page-wrapper">
+      <div class="container-fluid" style="background:#dcdcdc;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+              <div class="card-body border-bottom py-2">
+                <div class="d-md-flex align-items-center">
+                  <h4 class="card-title m-0">{{'maintenanceorder'| translate}}</h4>
+                  <div class="form-group row col-md-8 mx-4 mb-1">
+                    <div class="col-md-3 ml-2">
+                      <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" name="enqtype"
+                        (select)="changefilter()" [(ngModel)]="enqtype" [ngModelOptions]="{standalone: true}"
+                        [items]="filterarray" optionValueField="id" optionTextField="name"
+                        (selectionChanges)="enqTypeChangeFunction($event)">
+                      </ngx-select>
+                    </div>
+  
+                    <div *ngIf="enqtype=='maintorderno'" class=" d-flex col-md-4  ">
+  
+                      <input type="text" class="form-control form-control-sm search-box" [(ngModel)]="name"
+                        [ngModelOptions]="{standalone: true}" placeholder="Order No."
+                        (ngModelChange)="clearFilter($event)" (keyup.enter)="applyFilter(name)"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')">
+  
+  
+                      <button class="close-icon" style="padding-top: 20px;position: absolute;" *ngIf="showreset==true" (click)="reset('name')"></button>
+                    </div>
+                    <div *ngIf="enqtype=='name'" class=" d-flex col-md-4 ">
+  
+                      <input type="text" class="form-control form-control-sm search-box" [(ngModel)]="productname"
+                        [ngModelOptions]="{standalone: true}" placeholder="Machine Name"
+                        (ngModelChange)="clearFilter($event)" (keyup.enter)="applyFilter(productname)">
+  
+                      <button class="close-icon" style="padding-top: 20px;position: absolute;" *ngIf="showreset==true" (click)="reset('productname')"></button>
+  
+                    </div>
+                    <div *ngIf="enqtype=='maintticketno'" class=" d-flex col-md-4  ">
+  
+                      <input type="text" class="form-control form-control-sm search-box" [(ngModel)]="ticketname"
+                        [ngModelOptions]="{standalone: true}" placeholder="Ticket No."
+                        (ngModelChange)="clearFilter($event)" (keyup.enter)="applyFilter(ticketname)"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1')">
+                      <button class="close-icon" style="padding-top: 20px;position: absolute;" *ngIf="showreset==true" (click)="reset('name')"></button>
+                    </div>
+  
+                    <div class="col-md-2">
+                      <span class="d-flex ">
+  
+                        <button *ngIf="enqtype=='maintorderno'" type="submit"
+                          class="btn btn-sm rounded btn-info waves-effect waves-light ml-1" style="overflow: visible;"
+                          (click)="applyFilter(name)">{{'search'|translate}}</button>
+                        <button *ngIf="enqtype=='name'" type="submit"
+                          class="btn btn-sm rounded btn-info waves-effect waves-light ml-1" style="overflow: visible;"
+                          (click)="applyFilter(productname)">{{'search'|translate}}</button>
+                        <button *ngIf="enqtype=='maintticketno'" type="submit"
+                          class="btn btn-sm rounded btn-info waves-effect waves-light ml-1" style="overflow: visible;"
+                          (click)="applyFilter(ticketname)">{{'search'|translate}}</button>
+                      </span>
+                    </div>
+                    <div class="col-md-2">
+                      <span class="d-flex mb-2">
+                          <mat-checkbox  [(ngModel)]="exteam"
+                              (change)="changeexteam()" [ngModelOptions]="{standalone: true}">
+                              {{'showonlyext' | translate}}</mat-checkbox>
+                      </span>
+                  </div>
+                  </div>
+  
+                </div>
+              </div>
+              <div class="row">
+                <div class="card-body border-bottom py-2 mb-2 ml-1">
+                  <form class="form-inline mx-0">
+  
+                    <div class="form-group mr-4 ">
+                      <mat-radio-group mat-radio-group class="mat-radio-label d-flex align-items-center "
+                        (change)="changetype($event)" aria-label="Select an option">
+                        <mat-radio-button value="P">{{'pendingmt' | translate}}</mat-radio-button>&nbsp;&nbsp;
+                        <mat-radio-button value="open" checked>{{'open' | translate}}</mat-radio-button>&nbsp;&nbsp;
+                        <mat-radio-button value="closed">{{'closed' | translate}}</mat-radio-button>&nbsp;&nbsp;
+                        <mat-radio-button value="">{{'all' | translate}} </mat-radio-button>&nbsp;&nbsp;
+                      </mat-radio-group>
+                    </div>
+  
+                    <div class="form-group mr-1">
+                      <label>{{'fromdate' | translate}}</label>&nbsp;<span></span>
+                    </div>
+                    <div class="form-group mr-1">
+                      <mat-form-field class="form-control py-1 mat-form-field-date-picker" style="width: 105px;">
+                        <input matInput [matDatepicker]="picker"  [max]="fyenddate"
+                          [(ngModel)]="newData.fromdate" [ngModelOptions]="{standalone: true}">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+  
+                    <div class="form-group mr-1">
+                      <label>{{'todate' | translate}}</label>&nbsp;<span></span>
+                    </div>
+                    <div class="form-group mr-1">
+                      <mat-form-field class="form-control py-1 mat-form-field-date-picker" style="width: 105px;">
+                        <input matInput [matDatepicker]="picker1" [min]="newData.fromdate" [max]="fyenddate"
+                          [(ngModel)]="newData.todate" [ngModelOptions]="{standalone: true}">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-group w-auto p-0 mr-3">
+                      <button class="btn btn-sm rounded btn-info waves-effect waves-light"
+                        (click)="applydateFilter(newData)"><i class="fa fa-filter"></i></button>
+                    </div>
+  
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col-md-12">
+            <!-- column -->
+            <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+              <div class="w-100">
+                <div class="example-loading-shade" *ngIf="isLoadingResults ">
+                  <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+                </div>
+                <div class="card example-container" style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+                  <table mat-table [dataSource]="moArray" matSort [matSortDisableClear]="true"
+                    class="table table-sm table-striped w-100 mb-0 mat-table" #table>
+  
+                    <!-- MONO Column -->
+                    <ng-container matColumnDef="MONO">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell"
+                        style="width:1%;white-space: nowrap; text-align:center;"> <a
+                          style="color: #0e43af !important">{{'MONO'|translate}}</a> </th>
+                      <td mat-cell *matCellDef="let element" style="text-align:center"> {{element.MONO}} </td>
+                    </ng-container>
+  
+                    <!-- MODATE Column -->
+                    <ng-container matColumnDef="MODATE">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell" style="width:6%;text-align:center;"> <a
+                          style="color: #0e43af !important">{{'dated'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:center;padding-right: 12px;">
+                        {{element.MODATE | date:'dd/MM/yyyy'}} </td>
+                    </ng-container>
+  
+                    <!-- MTNO Column -->
+                    <ng-container matColumnDef="MTNO">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell"
+                        style="width:1%;white-space: nowrap;text-align:center;"> <a
+                          style="color: #0e43af !important">{{'mtno'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:center"><a [routerLink]="['/add-maintenance-ticket/'+element.ID+'/orderlist']"> {{element.MTNO}} </a></td>
+                    </ng-container>
+  
+                    <!-- MTDATE Column -->
+                    <ng-container matColumnDef="MTDATE">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell"
+                        style="width: 6%;padding-left: 25px;text-align:center;"> <a
+                          style="color: #0e43af !important">{{'dated'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:center;width: 10%;">
+                        {{element.MTDATE | date:'dd/MM/yyyy'}}</td>
+                    </ng-container>
+  
+                    <!-- Mt type column -->
+                    <ng-container matColumnDef="MAINTTYPE">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell"
+                        style="width: 6%;padding-left: 25px;text-align:center;"> <a
+                          style="color: #0e43af !important">{{'mainttype'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:center;width: 10%;"> {{element.MAINTTYPE}}</td>
+                    </ng-container>
+  
+                    <!-- MACHINENAME Column -->
+                    <ng-container matColumnDef="MACHINENAME">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell" style="width: 300px;text-align:left;"> <a
+                          style="color: #0e43af !important">{{'asset'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:left;padding-right: 5px;"> {{element.MACHINENAME}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="MCSRNO">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell" style="width: 6%;text-align:left;"> <a
+                          style="color: #0e43af !important">{{'srno'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:left;padding-right: 5px;"> {{element.MCSRNO}} </td>
+                    </ng-container>
+                    <!-- MTASSETLOCATION Column -->
+                    <ng-container matColumnDef="MTASSETLOCATION">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell" style="width:10%;text-align:left;"> <a
+                          style="color: #0e43af !important">{{'location'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:left;padding-right: 5px;" matTooltip="{{element.MTASSETLOCATION}}"><span class="limittext">{{element.MTASSETLOCATION}}</span></td>
+                    </ng-container>
+  
+                    <!-- moassignedteam Column -->
+                    <ng-container matColumnDef="TEAMNAME">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="py-1 font-weight-bold text-dark sticky-cell" style="width: 210px;text-align:left;"> <a
+                          style="color: #0e43af !important">{{'firstteamassigned'|translate}} </a></th>
+                      <td mat-cell *matCellDef="let element" style="text-align:left;" matTooltip="{{element.TEAMNAME}}"><span class="limittext"> {{element.TEAMNAME}}</span> </td>
+                    </ng-container>
+  
+                    <!-- mtstatus Column -->
+                    <ng-container matColumnDef="MOSTATUS">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header
+                        class="pl-2 py-1 font-weight-bold text-dark sticky-cell" style="width: 100px;text-align:left;"><a
+                          style="color: #0e43af !important">{{'status'|translate}}</a> </th>
+                      <td mat-cell *matCellDef="let element" class="pl-2" style="text-align:left;">
+                        {{element.TICKETSTATUS}} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="QUEUE">
+                      <th mat-header-cell *matHeaderCellDef
+                        class="pl-2 py-1 font-weight-bold text-dark sticky-cell" style="text-align:center;"><a
+                          style="color: #0e43af !important">{{'Q'|translate}}</a> </th>
+                      <td mat-cell *matCellDef="let element" class="pl-2" >
+                        <i class="fas fa-eye custom-book-class text-center" (click)="setposition(element)"></i></td> 
+                    </ng-container>
+  
+                    <ng-container matColumnDef="PRINT">
+                      <th mat-header-cell *matHeaderCellDef  class="py-1 font-weight-bold text-dark sticky-cell nowrap text-center" >
+                          <a style="color: #0e43af !important" class="text-center">{{'print' | translate}}</a></th>
+                      <a href=""><td mat-cell *matCellDef="let element" class="text-center"><i *ngIf="element.templateavailable == 1" class="fa fa-print custom-book-class {{canPrintCommonClass}}" [routerLink]="'/preventive-maint-templete-print/'+element.mtassetid+'/maint'"></i></td></a> 
+                    </ng-container>
+  
+                    <ng-container matColumnDef="ACTION">
+                      <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell pr-0 text-center"
+                        style="width:5%">
+                        <a style="color: #0e43af !important">{{'action' | translate}}</a></th>
+                      <td mat-cell *matCellDef="let element" class="pr-0 text-center"><button
+                          *ngIf="element.MONO != null && element.MONO != undefined && element.MONO != ''" type="button"
+                          class="btn btn-sm btn-info rounded"
+                          (click)="opendialog(element)">{{'more' | translate}}</button> </td>
+                    </ng-container>
+  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true" class="bg-light"
+                      style="height:auto;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:29px;"
+                      (dblclick)="editMaintenaceorder(row)"></tr>
+                  </table>
+  
+                  <mat-paginator class="mat-paginator-sticky sticky-cell" 
+                    [length]="resultsLength" [pageSize]="20" [pageSizeOptions]="[ 20, 50, 100]" showFirstLastButtons>
+                  </mat-paginator>
+  
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </div>

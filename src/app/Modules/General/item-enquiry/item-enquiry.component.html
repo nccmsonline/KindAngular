@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-12">
+      <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+          <div class="card-body border-bottom py-2 mb-2">
+              <div class="d-md-flex align-items-center">
+                  <div>
+                      <h4 class="card-title m-0">Item Enquiry</h4>
+                  </div>
+              </div>
+          </div>
+         
+          <div class="card-body py-0 col-sm-6">
+  <div class="form-group mr-1 mb-5">
+  <input type="text" class="form-control form-control-sm" placeholder="Search">
+  </div>
+  </div>
+  <div class="card-body border-top item-enquiry px-0 py-2" >
+  <div class="form-inline">                     
+      <div class="form-group row col-12 mb-3">
+  <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('Stock')" >Stock in Hand</label>
+  <div class="col-sm-2 d-flex">
+      <!-- <input type="text" class="form-control form-control-sm" name="stockinhand"  > -->
+  </div>
+
+  <label class="col-sm-2 text-left txt" for="inputPassword4"  (click)="openDialog('Reserved')">Reserved Stock</label>
+  <div class="col-sm-3 d-flex">
+      <!-- <input type="text" class="form-control form-control-sm" name="reservedstock"  > -->
+  </div>
+</div>
+
+<div class="form-group row col-12 mb-3">
+    <label class="col-sm-2 text-left" for="inputPassword4">Opening Stock</label>
+    <div class="col-sm-2 d-flex">
+        <!-- <input type="text" class="form-control form-control-sm" name="openingstock"  > -->
+    </div>
+  
+    <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('underIOQ')">Under IQC</label>
+    <div class="col-sm-2 d-flex">
+        <!-- <input type="text" class="form-control form-control-sm" name="underiqc"  > -->
+    </div>
+  </div>
+
+  <div class="form-group row col-12 mb-3">
+      <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('ReceivedYTD')">Recd. Qty. YTD</label>
+      <div class="col-sm-2 d-flex">
+          <!-- <input type="text" class="form-control form-control-sm" name="recdytd"  > -->
+      </div>
+    
+      <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('IssuedYTD')">Issued Qty. YTD</label>
+      <div class="col-sm-2 d-flex">
+          <!-- <input type="text" class="form-control form-control-sm" name="reservedstock"  > -->
+      </div>
+    </div>
+
+    <div class="form-group row col-12 mb-3">
+        <label class="col-sm-2 text-left" for="inputPassword4">Min. Level</label>
+        <div class="col-sm-2 d-flex">
+            <!-- <input type="text" class="form-control form-control-sm" name="minlevel"  > -->
+        </div>
+      
+        <label class="col-sm-2 text-left" for="inputPassword4">Max. Level</label>
+        <div class="col-sm-2 d-flex">
+            <!-- <input type="text" class="form-control form-control-sm" name="maxlevel"  > -->
+        </div>
+      </div>
+
+      <div class="form-group row col-12 mb-3">
+          <label class="col-sm-2 text-left" for="inputPassword4">Re Order Level</label>
+          <div class="col-sm-2 d-flex">
+              <!-- <input type="text" class="form-control form-control-sm" name="rol"  > -->
+          </div>
+        
+          <label class="col-sm-2 text-left" for="inputPassword4">Economic Order Quantity</label>
+          <div class="col-sm-2 d-flex">
+              <!-- <input type="text" class="form-control form-control-sm" name="eoq"  > -->
+          </div>
+        </div>
+
+        <div class="form-group row col-12 mb-3">
+            <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('TotalIndentQty')">Total Indent Qty.</label>
+            <div class="col-sm-2 d-flex">
+                <!-- <input type="text" class="form-control form-control-sm" name="totalindent"  > -->
+            </div>
+          
+            <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('PendingQty')">Total Pending P.O. Qty.</label>
+            <div class="col-sm-2 d-flex">
+                <!-- <input type="text" class="form-control form-control-sm" name="eoq"  > -->
+            </div>
+          </div>
+
+          <div class="form-group row col-12 mb-3">
+              <label class="col-sm-2 text-left" for="inputPassword4">BIN / Location</label>
+              <div class="col-sm-2 d-flex">
+                  <!-- <input type="text" class="form-control form-control-sm" name="location"  > -->
+              </div>
+            
+              <label class="col-sm-2 text-left" for="inputPassword4">Rejected by IQC</label>
+              <div class="col-sm-2 d-flex">
+                  <!-- <input type="text" class="form-control form-control-sm" name="rejectbyiqc"  > -->
+              </div>
+            </div>
+
+            <div class="form-group row col-12">
+                <label class="col-sm-2 text-left txt" for="inputPassword4" (click)="openDialog('wipbatches')">WIP (Batches)</label>
+                <div class="col-sm-2 d-flex">
+                    <!-- <input type="text" class="form-control form-control-sm" name="rejectbyiqc"  > -->
+                </div>
+              </div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+
+</div>

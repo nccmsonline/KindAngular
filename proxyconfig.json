@@ -1,0 +1,7 @@
+{
+	"/api": {
+	  "target": "http://suvidhaapi.suvidhacloud.com/api",
+	  "secure": false,
+		"changeOrigin": true
+	}
+}

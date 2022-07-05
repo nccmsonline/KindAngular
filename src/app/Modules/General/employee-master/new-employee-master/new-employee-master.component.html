@@ -1,0 +1,197 @@
+<form [formGroup]="employeeForm" novalidate>
+  <div class="modal-header primary-bg py-2">
+    <h5 *ngIf="action == 'new'" class="modal-title text-white" id="exampleModalLabel">New Employee</h5>
+    <h5 *ngIf="action == 'edit'" class="modal-title text-white" id="exampleModalLabel">Edit Employee</h5>
+    <button class="close text-white" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="height:500px;overflow-y:scroll;">
+        
+    <nav id="navbar-example2" class="navbar navbar-light border-bottom py-0 bg-light sticky-fixed" style="top:0;left:0;z-index:10;width: calc(100% - 0);/*width: calc(100% - 18px);*/">
+          <ul class="nav nav-pills justify-content-end font-sm w-100">
+            <li class="nav-item">
+              <a class="nav-link font-weight-sb py-2 personal_info">Personal Info.</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font-weight-sb py-2 statutory_info">Statutory Info.</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font-weight-sb py-2 banking_info">Banking Info.</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-sb py-2 educational_info">Educational Info.</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link font-weight-sb py-2 previous_experience">Previous Experience Info.</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link font-weight-sb py-2 previous_trainings">Previous Trainings Info.</a>
+              </li>
+          </ul>
+        </nav>
+        <div data-spy="scroll" data-target="#navbar-example2" data-offset="0" class="scroll-spy">
+        <h4 id="personal_info" style="padding-top:40px;">Personal Info.</h4> 
+        <div class="card-body border-top supplier-master px-0 py-2" style="width: 850px;">
+            <div class="form-inline">
+              
+                <div class="form-group row col-12 mb-2">
+                    <label class="col-sm-4 text-right" for="inputPassword4">Name</label>
+                    <div class="col-sm-8 d-flex">
+                        <input type="text" class="form-control form-control-sm" name="customer_name" placeholder="Customer Name" [(ngModel)]="newData.customer_name" formControlName="customer_name">
+                    </div>
+                </div>
+
+                <div class="form-group row col-12 mb-2">
+                    <label class="col-sm-4 text-right" for="inputEmail4">Address</label>
+                    <div class="col-sm-8"
+                    ><textarea class="form-control form-control-sm mb-2" rows="1" placeholder="Address" name="address" [(ngModel)]="newData.address" formControlName="address" style="height:30px;"></textarea>
+                </div>
+                    <label class="col-sm-4 text-right" for="inputEmail4">&nbsp;</label>
+                    <div class="col-sm-8">
+                        <textarea class="form-control form-control-sm" rows="1" placeholder="Address" name="address1" style="height:30px;"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row col-md-12 mb-2">
+                  <label class="col-sm-4 text-right" for="inputEmail4">Country</label>
+                  <div class="col-sm-3 d-flex">
+                      <select class="select2 form-control form-control-sm custom-select" name="country" [(ngModel)]="newData.country" formControlName="country">
+                          <option>Select</option>
+                          <option value="AK">Alaska</option>
+                          <option value="HI">Hawaii</option>
+                          <option value="CA">California</option>
+                          <option value="NV">Nevada</option>
+                          <option value="OR">Oregon</option>
+                          <option value="WA">Washington</option>
+                      </select>
+                  </div>
+
+                  <label class="col-sm-2 text-right">State</label>
+                  <div class="col-sm-3 d-flex">
+                      <select class="select2 form-control form-control-sm custom-select" name="state" [(ngModel)]="newData.state" formControlName="state">
+                          <option>Select</option>
+                          <option value="AK">Alaska</option>
+                          <option value="HI">Hawaii</option>
+                          <option value="CA">California</option>
+                          <option value="NV">Nevada</option>
+                          <option value="OR">Oregon</option>
+                          <option value="WA">Washington</option>
+                      </select>
+                  </div>
+
+          </div>
+          <div class="form-group row col-12 mb-2">
+                  <label class="col-sm-4 text-right" for="inputEmail4">PIN</label>
+                  <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="pin" [(ngModel)]="newData.pin" formControlName="pin" placeholder="PIN"></div>
+                  
+                  <label class="col-sm-2 text-right" for="inputPassword4">E-mail</label>
+                  <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="email" [(ngModel)]="newData.email" formControlName="email" placeholder="abc@xyz.com"></div>
+             
+                </div>
+                <div class="form-group row col-md-12 mb-2">
+                        <label class="col-sm-4 text-right" for="inputPassword4">Mobile Number</label>
+                        <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="mobile_number" placeholder="Mobile Number" [(ngModel)]="newData.mobile_number" formControlName="mobile_number"></div>
+                    <label class="col-sm-2 text-right" for="inputEmail4">Phone Number</label>
+                    <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="phone_number" placeholder="Phone Number" [(ngModel)]="newData.phone_number" formControlName="phone_number"></div>
+                </div>  
+            </div>
+            </div>
+        <h4 id="statutory_info" style="padding-top:40px;">Statutory Info.</h4> 
+        <div class="card-body border-top supplier-master px-0 py-2" style="width: 850px;">
+            <div class="form-inline">
+              
+                <div class="form-group row col-12 mb-2">
+                  <label class="col-sm-4 text-right" for="inputEmail4">Addhar No.</label>
+                  <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="addhar" [(ngModel)]="newData.addhar" formControlName="addhar" placeholder="Addhar No."></div>
+                  
+                    <label class="col-sm-2 text-right" for="inputEmail4">PAN</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-sm" name="pan" [(ngModel)]="newData.pan" formControlName="pan" placeholder="PAN">
+                        </div>
+                </div>
+                <div class="form-group row col-12 mb-2">
+                  <label class="col-sm-1text-right" for="inputEmail4">ESI No.</label>
+                  <label class="col-sm-2 text-right" for="inputEmail4">Applicable</label><input type="checkbox" checked="">
+                  <div class="col-sm-2"><input type="text" class="form-control form-control-sm" name="esi" placeholder="ESI" [(ngModel)]="newData.esi" formControlName="esi"></div>
+                  
+                    <label class="col-sm-1 text-right" for="inputEmail4">PF No.</label>
+                    
+                    <label class="col-sm-2 text-right" for="inputEmail4">Applicable</label><input type="checkbox" checked="">
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control form-control-sm" name="pf" [(ngModel)]="newData.pf" formControlName="pf" placeholder="PFNO">
+                        </div>
+                </div>
+                <div class="form-group row col-12 mb-2">
+                      <label class="col-sm-4 text-right" for="inputEmail4">UAN</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-sm" name="uan" [(ngModel)]="newData.uan" formControlName="uan" placeholder="100002136547">
+                        </div>
+                  <label class="col-sm-2 text-right" for="inputEmail4">Passport No.</label>
+                  <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="passport" placeholder="Passport" [(ngModel)]="newData.passport" formControlName="passport"></div>
+                  
+                </div>
+                <div class="form-group row col-12 mb-2">
+                      <label class="col-sm-4 text-right" for="inputEmail4">Valid-upto</label>
+                      <div class="col-sm-3">
+                          <input type="text" class="form-control form-control-sm" name="passvalid" placeholder="dd/mm/yyyy" [(ngModel)]="newData.passvalid" formControlName="passvalid">
+                      </div>
+                  <label class="col-sm-2 text-right" for="inputEmail4">Passport Issued by</label>
+                  <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="passissuedby" placeholder="Government of India" [(ngModel)]="newData.passissuedby" formControlName="passissuedby"></div>
+                </div>
+                
+                  <div class="form-group row col-md-12 mb-2">
+                      <label class="col-sm-4 text-right" for="inputEmail4">TDS Applicable</label>
+                      <div class="col-sm-1">
+                          <div class="bootstrap-switch-on bootstrap-switch-normal bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-animate" style="width: 96px;">
+                              <div class="bootstrap-switch-container" style="width: 141px; margin-left: 0px;">
+                                  <span class="bootstrap-switch-handle-on bootstrap-switch-success" style="width: 47px;">Yes</span>
+                                  <span class="bootstrap-switch-label" style="width: 47px;">&nbsp;</span>
+                                  <!-- <span class="bootstrap-switch-handle-off bootstrap-switch-info" style="width: 47px;">No</span> -->
+                                  <input type="checkbox" checked="">
+                              </div>
+                          </div>
+                      </div>
+                      <label class="col-sm-1 text-right" for="inputPassword4">Rate</label>
+                      <div class="col-sm-1">
+                          <select class="select2 form-control form-control-sm custom-select" name="tds_rate" [(ngModel)]="newData.tds_rate" formControlName="tds_rate">
+                      <option>Select</option>
+                      <option value="AK">Dollar</option>
+                      <option value="HI">Pound</option>
+                      <option value="CA">Rupee</option>
+                      <option value="NV">Euro</option>
+                      </select>
+                      </div>
+                  </div>   
+            </div>
+            </div>
+            <h4 id="banking_info" style="padding-top:40px;">Banking Info.</h4>
+            <div class="card-body border-top supplier-master px-0 py-2" style="width: 850px;">
+                <div class="form-inline">
+                    <div class="form-group row col-md-12 mb-2">
+                        <label class="col-sm-4 text-right" for="inputEmail4">Bank Branch</label>
+                        <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="bankers"[(ngModel)]="newData.bankers" formControlName="bankers" placeholder="Bankers"></div>
+                    </div>
+                    <div class="form-group row col-md-12 mb-2">
+                        <label class="col-sm-4 text-right" for="inputPassword4">Bank Account Number</label>
+                        <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="bank_account_number" [(ngModel)]="newData.bank_account_number" formControlName="bank_account_number" placeholder="Bank Account Number"></div>
+                        <label class="col-sm-2 text-right" for="inputPassword4">IFSC</label>
+                        <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="ifsc"  [(ngModel)]="newData.ifsc" formControlName="ifsc" placeholder="IFSC"></div>
+                    </div>
+                  
+                    </div>
+                    
+                
+                
+            </div>
+
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-secondary rounded"  mat-dialog-close>Cancel</button>
+            <button *ngIf="action == 'new'" type="button" class="btn btn-sm btn-info rounded" (click)="saveNewEmployee(newData)">{{'save'|translate}}</button>
+            <button *ngIf="action == 'edit'" type="button" class="btn btn-sm btn-info rounded" (click)="updateNewEmployee(newData)">Update</button>
+        </div>
+    </form>

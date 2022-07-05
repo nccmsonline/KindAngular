@@ -1,0 +1,249 @@
+
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+  <div class="container-fluid" style="background:#dcdcdc;">
+<form autocomplete="off" >
+<div class="row">
+    <div class="col-12">
+        <div class="example-loading-shade" *ngIf="isLoadingResults">
+                  <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+        </div>
+
+        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+            <div class="card-body border-bottom py-2">
+                <div class="align-items-center justify-content-between">
+                   <div class="col-md-2">
+                      <button *ngIf="isAddNew" type="submit" (click)="validateDetail('add')"  class="btn btn-sm rounded btn-info waves-effect waves-light" [disabled]="isLoadingResults">Save</button>
+                      <button *ngIf="!isAddNew" type="submit" (click)="validateDetail('update')"  class="btn btn-sm rounded btn-info waves-effect waves-light" [disabled]="isLoadingResults">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                  <div class="col-md-5">
+                      <div class="row m-1">
+                          <div class="col-md-5">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Emp No" name="EmpNo"
+                                  [(ngModel)]="EmpNo" [ngModelOptions]="{standalone: true}" (focusout)="showData()"
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                                </mat-form-field>
+                          </div>
+                              <div class="col-md-2"> &nbsp;       
+                        </div>
+                        
+                          <div class="col-md-5" >
+                            
+                              <mat-form-field style="width: 100%">
+                                  <input matInput [matDatepicker]="pickerd" name="myDate" placeholder="Dated"
+                                      [(ngModel)]='myDate' [min]="WorkingDate" readonly
+                                      [ngModelOptions]="{standalone: true}">
+                                  <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                                  <mat-datepicker #pickerd></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row m-1">
+                              <div class="col-md-12">
+                                      <mat-form-field class="example-full-width w-100">
+                                              <input matInput placeholder="Name" name="NAME"
+                                              [(ngModel)]="newData.NAME" [ngModelOptions]="{standalone: true}" >
+                                    </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="row m-1">
+                              <div class="col-md-12">
+                                      <mat-form-field class="example-full-width w-100">
+                                              <input matInput placeholder="Designation" name="DESIGNATION"
+                                              [(ngModel)]="newData.DESIGNATION" [ngModelOptions]="{standalone: true}" >
+                                    </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="row m-1">
+                              <div class="col-md-12">
+                                      <mat-form-field class="example-full-width w-100">
+                                              <input matInput placeholder="Department" name="DEPARTMENT"
+                                              [(ngModel)]="newData.DEPARTMENT" [ngModelOptions]="{standalone: true}" >
+                                    </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="row m-1">
+                              <div class="col-md-12">
+                                  <mat-form-field style="width: 100%">
+                                      <mat-label>Payment type</mat-label>
+                                        <mat-select [(ngModel)]="newData.ADVANCETYPEID" name="ADVANCETYPEID"  >
+                                            <mat-option *ngFor="let advancetype of advancetypeList" [value]="advancetype.ADVANCETYPEID">
+                                              {{advancetype.ADVANCETYPE}}
+                                            </mat-option>
+                                          </mat-select>
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                    <div class="row m-1" *ngIf="newData.ADVANCETYPEID==5">
+                          <div class="col-md-5">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Bill No." name="BILLNO"
+                              [(ngModel)]="newData.BILLNO" [ngModelOptions]="{standalone: true}" >
+                            </mat-form-field>
+                          </div>
+                       
+                    </div>
+                    <div class="row m-1" *ngIf="newData.ADVANCETYPEID==2">
+                      <div class="col-md-5">
+                        <mat-form-field class="example-full-width">
+                          <input matInput placeholder="Installment Amt" name="INSTALLMENTAMT"
+                          [(ngModel)]="newData.INSTALLMENTAMT" [ngModelOptions]="{standalone: true}" >
+                        </mat-form-field>
+                      </div>
+                   
+                </div>
+                    <div class="row m-1">
+                        <div class="col-md-5">
+                          <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Required Amount" name="ADVANCEAMT"
+                            [(ngModel)]="newData.ADVANCEAMT" [ngModelOptions]="{standalone: true}" 
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-2"> &nbsp;       
+                        </div>  
+                      <div class="col-md-5">
+                            <mat-form-field class="example-full-width w-100">
+                              <input matInput placeholder="Balance if any" name="ADVANCEBALANCE"
+                              [(ngModel)]="newData.ADVANCEBALANCE" [ngModelOptions]="{standalone: true}" 
+                              oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                            </mat-form-field>
+                        </div> 
+                  </div>
+                    <div class="row m-1">
+                        <div class="col-md-12">
+                            <mat-form-field class="example-full-width w-100">
+                                    <textarea matInput placeholder="Description"  name="REASON" [(ngModel)]="newData.REASON"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-12">
+                            <button type="button" icon="camera-retro" (click)="startCamera()"> <img src="/src/assets/images/camera_alt-24px.svg" />  </button>
+                          <input #file type="file" multiple (change)="onFileSelected(file.files)" />
+                                <button *ngIf="fileUploaded" type="button" (click)="uploadfile()">upload  <h6 *ngIf="progress>0">{{progress}} % </h6> </button>
+                        </div>        
+                    </div>  
+                    <div class="row m-1">
+                        <div class="col-md-12">
+                              <h6 *ngIf="fileUploaded==false" style="color:rgb(116, 116, 189)">{{message}}</h6>
+                              <h6 *ngIf="fileUploaded" style="color:red">{{message}}</h6>
+                        </div>
+                    </div>
+                    <!-- <div class="row m-1">
+                      <div class="col-md-12">
+                         
+                      </div>        
+                  </div>   -->
+                    <div class="row m-1">
+                      <div class="col-md-12">
+                           <!-- <app-camera (pictureTaken)="handleImage($event)"></app-camera> -->
+                           <webcam [height]="500" [width]="350" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+                          [imageQuality]="1"
+                          [videoOptions]="videoOptions"
+                            (initError)="handleInitError($event)"></webcam>
+                           <button  *ngIf="showWebcam" class="actionBtn" (click)="triggerSnapshot();"> <img src="assets/images/linked_camera-24px.svg" /> </button>
+                           <button  *ngIf="showWebcam" class="actionBtn" (click)="showNextWebcam(true);" [disabled]="!multipleWebcamsAvailable">
+                              <img src="assets/images/flip_camera_ios-24px.svg" /> 
+                           </button>
+                            <div class="snapshot" *ngIf="webcamImage">
+                              <img [src]="webcamImage.imageAsDataUrl"/>
+                            </div>
+                      </div>
+                  </div>
+                  <!-- <div class="row m-1">
+                    <div class="col-md-12">
+                      <div class="snapshot" *ngIf="webcamImage">
+                        <img [src]="webcamImage.imageAsDataUrl" />
+                      </div>
+                    </div>
+                  </div>                -->
+                  </div>
+                  <div class="col-md-7">
+                  <div class="example-container mat-elevation-z8 w-100">
+                      <table mat-table [dataSource]="fieldArray" class="mat-elevation-z8 table-striped w-100">
+                         
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="dated" sticky>
+                          <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"> Dated </th>
+                          <td mat-cell *matCellDef="let element"> {{element.DATED| date:"dd/MM/yyyy"}} </td>
+                        </ng-container>
+                    
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="amount">
+                          <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell" style="text-align: right"> Amount </th>
+                          <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.ADVANCEAMT}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="INSTALLMENTAMT">
+                          <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell" style="text-align: right"> Installment<Br> Amt </th>
+                          <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.INSTALLMENTAMT}} </td>
+                        </ng-container>
+                        
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="type">
+                          <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"> Payment for </th>
+                          <td mat-cell *matCellDef="let element"> {{element.ADVANCETYPE}} </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="billno">
+                            <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"> Bill No</th>
+                            <td mat-cell *matCellDef="let element"> {{element.BILLNO}} </td>
+                        </ng-container>
+
+                        <!-- Symbol Column -->
+                        <ng-container matColumnDef="raeson">
+                          <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"> Raeson </th>
+                          <td mat-cell *matCellDef="let element"> {{element.REASON}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="approved"  stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell">Approved </th>
+                            <td mat-cell *matCellDef="let element"> {{element.APPROVEDBYAUTHORITY}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="ravi"  stickyEnd>
+                          <th mat-header-cell *matHeaderCellDef class="py-1 font-weight-bold text-dark sticky-cell"> </th>
+                          <td mat-cell *matCellDef="let element">
+                             <i *ngIf="element.FILENAME != null" class="fa fa-download" style="font-size:20px;color:rgb(42, 4, 169)" aria-hidden="true" (click)="download(element.FILENAME)"></i> </td>
+                      </ng-container>
+                       
+                        <!-- Star Column -->
+                        <!-- <ng-container matColumnDef="approved" stickyEnd>
+                          <th mat-header-cell *matHeaderCellDef></th>
+                          <td mat-cell *matCellDef="let element">
+                            <mat-icon>more_vert</mat-icon>
+                          </td>
+                        </ng-container> -->
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns" style="height:auto;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:auto;"   [ngStyle]="{'background': row.COLORCODE}" (dblclick)="showRecord(row)"></tr>
+                      </table>
+                     
+                    </div>
+                    </div>
+              </div>
+            </div>
+         </div>
+    </div>
+  </div>
+</form>
+<app-footer></app-footer>
+</div>
+</div>
+</div>

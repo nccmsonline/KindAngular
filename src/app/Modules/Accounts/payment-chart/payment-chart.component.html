@@ -1,0 +1,195 @@
+
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+    <div class="col-12">
+        <div class="example-loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+       </div>
+   <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+          <div class="card-body py-2 mb-2">
+             <div class="d-md-flex align-items-center">
+                 <div class="form-row mx-0 d-flex bd-highlight w-100">
+                      <h4 class="card-title m-0">Paymnet Calendar</h4>
+                      <div class="form-group mx-4 mb-2">
+                              <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="prevMonth()">Prev</button>
+                      </div>
+                      <h4>{{monthNameDisplay}}, {{calYear}} </h4>
+                      <div class="form-group mx-4 mb-2">
+                        <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="nextMonth()">Next</button>
+                      </div>  
+                      
+                 </div>
+             </div>
+         </div>
+     </div>
+   
+  </div>
+  <div class="col-12">
+      <!-- column -->
+      <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+        <div class="w-100">
+          <div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+            <table class="table table-striped custom-table tr th">
+              <thead>
+                <tr>
+                  <th style="text-align:center;width: 12%;vertical-align:text-top;">Sunday</th>
+                  <th style="text-align:center;width: 12%;">Monday</th>
+                  <th style="text-align:center;width: 12%;"> Tuesday</th>
+                  <th style="text-align:center;width: 12%;">Wednesday</th>
+                  <th style="text-align:center;width: 12%;">Thursday</th>
+                  <th style="text-align:center;width: 12%;">Friday</th>
+                  <th style="text-align:center;width: 12%;">Saturday</th>
+                </tr>
+              </thead> 
+              <tbody>
+                <tr *ngFor="let element of fieldArray"  style="height:100px;">
+      
+                  <td  style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.SUN)">
+                    <h6  *ngIf="element.PAY_SUN==0 && element.PPAY_SUN==0" >{{element.SUN}}</h6>  
+                    <h6  *ngIf="element.PAY_SUN>0 && element.PPAY_SUN==0" >{{element.SUN}} <br> <br>{{element.PAY_SUN | currency:'&#8377;'}} </h6> 
+                    <h6  *ngIf="element.PAY_SUN==0 && element.PPAY_SUN>0" >{{element.SUN}} <br><br>PDC: {{element.PPAY_SUN |currency:'&#8377;'}}</h6> 
+                    <h6  *ngIf="element.PAY_SUN>0 && element.PPAY_SUN>0" >{{element.SUN}} <br><br> {{element.PAY_SUN | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_SUN | currency:'&#8377;'}}</h6> 
+                  </td>
+                  <td style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.MON)">
+                    <h6  *ngIf="element.PAY_MON==0 && element.PPAY_MON==0" >{{element.MON}}</h6>  
+                    <h6  *ngIf="element.PAY_MON>0 && element.PPAY_MON==0" >{{element.MON}} <br><br> {{element.PAY_MON | currency:'&#8377;'}} </h6> 
+                    <h6  *ngIf="element.PAY_MON==0 && element.PPAY_MON>0" >{{element.MON}} <br><br>PDC: {{element.PPAY_MON |currency:'&#8377;'}}</h6> 
+                    <h6  *ngIf="element.PAY_MON>0 && element.PPAY_MON>0" >{{element.MON}} <br><br> {{element.PAY_MON | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_MON | currency:'&#8377;'}}</h6> 
+                  </td>
+                  <td style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.TUE)">
+                    <h6  *ngIf="element.PAY_TUE==0 && element.PPAY_TUE==0" >{{element.TUE}}</h6>  
+                    <h6  *ngIf="element.PAY_TUE>0 && element.PPAY_TUE==0" >{{element.TUE}} <br><br> {{element.PAY_TUE | currency:'&#8377;'}} </h6> 
+                    <h6  *ngIf="element.PAY_TUE==0 && element.PPAY_TUE>0" >{{element.TUE}} <br><br>PDC: {{element.PPAY_TUE |currency:'&#8377;'}}</h6> 
+                    <h6  *ngIf="element.PAY_TUE>0 && element.PPAY_TUE>0" >{{element.TUE}} <br><br> {{element.PAY_TUE | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_TUE | currency:'&#8377;'}}</h6> 
+                  </td>
+
+                  <td style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.WED)">
+                    <h6  *ngIf="element.PAY_WED==0 && element.PPAY_WED==0" >{{element.WED}}</h6>  
+                    <h6  *ngIf="element.PAY_WED>0 && element.PPAY_WED==0" >{{element.WED}} <br><br> {{element.PAY_WED | currency:'&#8377;'}} </h6> 
+                    <h6  *ngIf="element.PAY_WED==0 && element.PPAY_WED>0" >{{element.WED}} <br><br>PDC: {{element.PPAY_WED |currency:'&#8377;'}}</h6> 
+                    <h6  *ngIf="element.PAY_WED>0 && element.PPAY_WED>0" >{{element.WED}} <br><br> {{element.PAY_WED | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_WED | currency:'&#8377;'}}</h6> 
+                  </td>
+
+                  <td style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.THU)">
+                    <h6  *ngIf="element.PAY_THU==0 && element.PPAY_THU==0" >{{element.THU}}</h6>  
+                    <h6  *ngIf="element.PAY_THU>0 && element.PPAY_THU==0" >{{element.THU}} <br><br> {{element.PAY_THU | currency:'&#8377;'}} </h6> 
+                    <h6  *ngIf="element.PAY_THU==0 && element.PPAY_THU>0" >{{element.THU}} <br><br>PDC: {{element.PPAY_THU |currency:'&#8377;'}}</h6> 
+                    <h6  *ngIf="element.PAY_THU>0 && element.PPAY_THU>0" >{{element.THU}} <br><br> {{element.PAY_THU | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_THU | currency:'&#8377;'}}</h6> 
+                  </td>
+
+                  <td style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.FRI)">
+                    <h6  *ngIf="element.PAY_FRI==0 && element.PPAY_FRI==0" >{{element.FRI}}</h6>  
+                        <h6  *ngIf="element.PAY_FRI>0 && element.PPAY_FRI==0" >{{element.FRI}} <br><br> {{element.PAY_FRI | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_FRI==0 && element.PPAY_FRI>0" >{{element.FRI}} <br><br>PDC: {{element.PPAY_FRI |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_FRI>0 && element.PPAY_FRI>0" >{{element.FRI}} <br><br> {{element.PAY_FRI | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_FRI | currency:'&#8377;'}}</h6> 
+                  </td>
+
+                  <td style="text-align:center;vertical-align:text-top;" (click)="getCalDetail(element.SAT)">
+                    <h6  *ngIf="element.PAY_SAT==0 && element.PPAY_SAT==0" >{{element.SAT}}</h6>  
+                    <h6  *ngIf="element.PAY_SAT>0 && element.PPAY_SAT==0" >{{element.SAT}} <br><br> {{element.PAY_SAT | currency:'&#8377;'}} </h6> 
+                    <h6  *ngIf="element.PAY_SAT==0 && element.PPAY_SAT>0" >{{element.SAT}} <br><br>PDC: {{element.PPAY_SAT |currency:'&#8377;'}}</h6> 
+                    <h6  *ngIf="element.PAY_SAT>0 && element.PPAY_SAT>0" >{{element.SAT}} <br><br> {{element.PAY_SAT | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_SAT | currency:'&#8377;'}}</h6> 
+                  </td>
+                 
+
+                </tr>
+              </tbody>
+            </table>
+            <!-- <table mat-table [dataSource]="fieldArray" matSort class="mat-elevation-z8 table-striped w-100" #table>
+                 <ng-container matColumnDef="SUN">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell mat-column-columnname"  width="12%" >Sunday</th>
+                      <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top">
+                        <h6  *ngIf="element.PAY_SUN==0 && element.PPAY_SUN==0" >{{element.SUN}}</h6>  
+                        <h6  *ngIf="element.PAY_SUN>0 && element.PPAY_SUN==0" >{{element.SUN}} <br> <br>{{element.PAY_SUN | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_SUN==0 && element.PPAY_SUN>0" >{{element.SUN}} <br><br>PDC: {{element.PPAY_SUN |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_SUN>0 && element.PPAY_SUN>0" >{{element.SUN}} <br><br> {{element.PAY_SUN | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_SUN | currency:'&#8377;'}}</h6> 
+                      </td>
+                     </ng-container>
+                  <ng-container matColumnDef="MON">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell mat-column-columnname"   width="12%"> Monday </th>
+                      <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top">
+                        <h6  *ngIf="element.PAY_MON==0 && element.PPAY_MON==0" >{{element.MON}}</h6>  
+                        <h6  *ngIf="element.PAY_MON>0 && element.PPAY_MON==0" >{{element.MON}} <br><br> {{element.PAY_MON | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_MON==0 && element.PPAY_MON>0" >{{element.MON}} <br><br>PDC: {{element.PPAY_MON |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_MON>0 && element.PPAY_MON>0" >{{element.MON}} <br><br> {{element.PAY_MON | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_MON | currency:'&#8377;'}}</h6> 
+                    </td>
+                    
+                  </ng-container>
+                  <ng-container matColumnDef="TUE">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell mat-column-columnname"  width="12%"  style="text-align: center ;vertical-align:text-top"> Tuesday </th>
+
+                      <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top">
+                        <h6  *ngIf="element.PAY_TUE==0 && element.PPAY_TUE==0" >{{element.TUE}}</h6>  
+                        <h6  *ngIf="element.PAY_TUE>0 && element.PPAY_TUE==0" >{{element.TUE}} <br><br> {{element.PAY_TUE | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_TUE==0 && element.PPAY_TUE>0" >{{element.TUE}} <br><br>PDC: {{element.PPAY_TUE |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_TUE>0 && element.PPAY_TUE>0" >{{element.TUE}} <br><br> {{element.PAY_TUE | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_TUE | currency:'&#8377;'}}</h6> 
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="WED">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  width="12%"  style="text-align: center ;vertical-align:text-top"> Wednesday </th>
+                      <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top">
+                        <h6  *ngIf="element.PAY_WED==0 && element.PPAY_WED==0" >{{element.WED}}</h6>  
+                        <h6  *ngIf="element.PAY_WED>0 && element.PPAY_WED==0" >{{element.WED}} <br><br> {{element.PAY_WED | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_WED==0 && element.PPAY_WED>0" >{{element.WED}} <br><br>PDC: {{element.PPAY_WED |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_WED>0 && element.PPAY_WED>0" >{{element.WED}} <br><br> {{element.PAY_WED | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_WED | currency:'&#8377;'}}</h6> 
+                      </td>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="THU">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  width="12%"> Thursday </th>
+                    <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top"> 
+                        <h6  *ngIf="element.PAY_THU==0 && element.PPAY_THU==0" >{{element.THU}}</h6>  
+                        <h6  *ngIf="element.PAY_THU>0 && element.PPAY_THU==0" >{{element.THU}} <br><br> {{element.PAY_THU | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_THU==0 && element.PPAY_THU>0" >{{element.THU}} <br><br>PDC: {{element.PPAY_THU |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_THU>0 && element.PPAY_THU>0" >{{element.THU}} <br><br> {{element.PAY_THU | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_THU | currency:'&#8377;'}}</h6> 
+                    </td>
+                  </ng-container>
+ 
+                  <ng-container matColumnDef="FRI">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell"  width="12%"> Friday</th>
+                   
+                    <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top">
+                        <h6  *ngIf="element.PAY_FRI==0 && element.PPAY_FRI==0" >{{element.FRI}}</h6>  
+                        <h6  *ngIf="element.PAY_FRI>0 && element.PPAY_FRI==0" >{{element.FRI}} <br><br> {{element.PAY_FRI | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_FRI==0 && element.PPAY_FRI>0" >{{element.FRI}} <br><br>PDC: {{element.PPAY_FRI |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_FRI>0 && element.PPAY_FRI>0" >{{element.FRI}} <br><br> {{element.PAY_FRI | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_FRI | currency:'&#8377;'}}</h6> 
+                    </td> 
+                  </ng-container>
+
+                  <ng-container matColumnDef="SAT">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell">Saturday </th>
+                  
+                    <td mat-cell *matCellDef="let element" style="text-align: center ;vertical-align:text-top">
+                        <h6  *ngIf="element.PAY_SAT==0 && element.PPAY_SAT==0" >{{element.SAT}}</h6>  
+                        <h6  *ngIf="element.PAY_SAT>0 && element.PPAY_SAT==0" >{{element.SAT}} <br><br> {{element.PAY_SAT | currency:'&#8377;'}} </h6> 
+                        <h6  *ngIf="element.PAY_SAT==0 && element.PPAY_SAT>0" >{{element.SAT}} <br><br>PDC: {{element.PPAY_SAT |currency:'&#8377;'}}</h6> 
+                        <h6  *ngIf="element.PAY_SAT>0 && element.PPAY_SAT>0" >{{element.SAT}} <br><br> {{element.PAY_SAT | currency:'&#8377;'}} <br><br> PDC:{{element.PPAY_SAT | currency:'&#8377;'}}</h6> 
+                    </td>
+                  </ng-container>
+    
+  
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true " class="bg-light" style="height:20px;"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:100px;"></tr>
+              </table>
+              -->
+    </div>
+  </div>
+  </div>
+  </div>
+  
+  <app-footer></app-footer>
+    </div>
+</div>
+</div>

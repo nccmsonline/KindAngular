@@ -1,0 +1,801 @@
+<!-- used for font weight 600 as per user requirement  -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,300&display=swap"
+    rel="stylesheet">
+<!-- end -->
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+
+    <div class="page-wrapper">
+        <div class="container-fluid" style="background:#dcdcdc;">
+            <form [formGroup]="requisitionform" novalidate>
+                <div class="example-loading-shade" *ngIf="isLoadingResults ">
+                    <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);"
+                            (click)="dropdownHide()">
+                            <div class="card-body border-bottom py-2 d-flex">
+                                <div class="col-md-12">
+                                    <div class="form-inline">
+                                        <div class="col-md-8 d-md-flex align-items-center justify-content-between">
+                                            <div class="d-flex">
+                                                <a [routerLink]="['/die-master']"
+                                                    class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                                                        class="mdi mdi-keyboard-backspace"></i></a>
+
+                                                <h4 class="modal-title " id="exampleModalLabel">{{'diemaster' | translate}}</h4>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row col-md-4 mb-2" style="text-align: right;">
+                                            <div class="col-md-8"></div>
+                                            <button type="button"
+                                                class="btn btn-sm btn-info rounded col-md-4">{{'bom'|translate}}</button>
+                                            <!-- <button type="button"
+                                                class="btn btn-sm btn-info rounded">{{'bom'|translate}}</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex- row">
+                                <div class="col-md-12 tab-content m-t-10" id="pills-tabContent">
+
+
+                                    <div class="card-body border-bottom purchase-order px-0 py-2">
+                                        <h4 class="modal-title " style="margin-left: 16px;margin-bottom: 8px;"
+                                            id="exampleModalLabel">{{'masterinformation'
+                                            | translate}}</h4>
+                                        <div class="form-inline">
+
+                                            <div class="form-group row col-md-8 mb-2">
+                                                <label
+                                                    class="col-md-3 text-right error-control-label required">{{'party'
+                                                    |translate}}</label>
+                                                <div class="col-md-9 pl-1">
+                                                    <input (keyup)="searchTermCustomer($event)" name="PARTYNAME"
+                                                        [(ngModel)]='newData.PARTYNAME'
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        [value]="newData.PARTYNAME || ''" autocomplete="off"
+                                                        class="w-100 form-control error-border form-control-sm "
+                                                        maxlength="250">
+                                                    <button class="close-icon" style="position: absolute; top: 8px;"
+                                                        (click)="reset(newData)"></button>
+                                                    <div *ngIf="arrayItemCustomer != ''" class="search-list-header">
+                                                        <!-- <div class="example-loading-shade" *ngIf="isLoading">
+                                                            <mat-spinner [diameter]="20" *ngIf="isLoading">
+                                                            </mat-spinner>
+                                                        </div> -->
+                                                        <table id="selectedValue"
+                                                            class="table table-condensed table-striped table-hover">
+                                                            <tr class="ui-menu-item" role="menuitem">
+                                                                <th>{{'name' | translate}}</th>
+                                                                <th>{{'address' | translate}}</th>
+                                                            </tr>
+                                                            <tr class="ui-menu-item" role="menuitem"
+                                                                *ngFor="let result of photosBuffer"
+                                                                (click)="onChangeOfItemCodeCustomer(result, newData)">
+                                                                <td>{{ result.NAME }}</td>
+                                                                <td>{{ result.ADDRESS1 }} </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-5 text-right error-control-label required p-0">{{'customerinitial'
+                                                    |translate}} </label>
+                                                <div class="col-md-7">
+                                                    <input class="form-control w-100  form-control-sm pl-3"
+                                                        oninput="this.value = this.value.toUpperCase()"
+                                                        name="manualslipno" [(ngModel)]="newData.CUSTOMERINITIAL"
+                                                        maxlength="3" [ngModelOptions]="{standalone: true}"
+                                                        (keyup)="generateName(newData)">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-8 mb-2" style="text-align: left;">
+                                                <label class="col-md-3 text-right ">{{'drawingno'
+                                                    | translate}}</label>
+                                                <div class="col-md-9 pl-1">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.DRAWINGNO"
+                                                        maxlength="20" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-5 text-right  p-0">{{'dietype'
+                                                    |translate}}</label>
+                                                <div class="col-md-7">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap "
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.DIETYPEID"
+                                                        [items]="DieTypeArray" optionValueField="DIETYPEID"
+                                                        optionTextField="DIETYPEDESC"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'catg/series'
+                                                    |translate}} </label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        oninput="this.value = this.value.toUpperCase()"
+                                                        name="manualslipno" [(ngModel)]="newData.SERIES" maxlength="250"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        matTooltip="{{newData.SERIES}}" (keyup)="generateName(newData)">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'frame'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 p-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.FRAMEID"
+                                                        [items]="FrameArray" optionValueField="FRAMEID"
+                                                        optionTextField="FRAMEDESC" maxlength="3"
+                                                        placeholder="{{'pleaseselect' | translate}}"
+                                                        (select)="changeFrame($event,newData)"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'polarity'
+                                                    |translate}}</label>
+                                                <div class="col-md-4 p-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="polarity"
+                                                        [allowClear]="true" [(ngModel)]="newData.POLEID"
+                                                        [items]="PoleArray" optionValueField="POLEID"
+                                                        optionTextField="POLEDESC"
+                                                        placeholder="{{'pleaseselect' | translate}}"
+                                                        (select)="changePole($event,newData)">
+                                                    </ngx-select>
+                                                </div>
+                                                <label class="col-md-2 text-right ">{{'-pole'
+                                                    |translate}}</label>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'efficiencygrade'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.EFFICIENCYID"
+                                                        [items]="EfficiencyArray" optionValueField="ID"
+                                                        optionTextField="EFFICIENCYID"
+                                                        placeholder="{{'pleaseselect' | translate}}"
+                                                        (select)="changeEff($event,newData)">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'process'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 p-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="process"
+                                                        [allowClear]="true" [(ngModel)]="newData.PROCESSUSED"
+                                                        [items]="ProcessArray" optionValueField="PROCESSID"
+                                                        optionTextField="PROCESSDESC"
+                                                        placeholder="{{'pleaseselect' | translate}}"
+                                                        (select)="changeProcess($event,newData)">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'machineinvolved'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 p-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.MACHINEID"
+                                                        [items]="MachineArray" optionValueField="MACHINEID"
+                                                        optionTextField="MACHINENAME"
+                                                        placeholder="{{'pleaseselect' | translate}}"
+                                                        (select)="changeMachine($event,newData)">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <div class="col-md-12" style="text-align: right;">
+                                                    <span
+                                                        class=" w-100 bootstrap-switch-handle-on bootstrap-switch-success"
+                                                        style=" font-weight: bold; font-size: 13px;">{{'bomexists'|translate}}</span>
+                                                    <span class="bootstrap-switch-label">&nbsp;&nbsp;</span>
+                                                    <mat-checkbox name="bomexists" [(ngModel)]="newData.BOMEXISTS"
+                                                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'peiceno'
+                                                    |translate}} </label>
+                                                <div class="col-md-6 p-0">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.PIECENO" maxlength="4"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'totalpeices'
+                                                    |translate}} </label>
+                                                <div class="col-md-6 p-0">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.TOTALPIECES"
+                                                        maxlength="4" [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <div class="col-md-12" style="text-align: right;">
+                                                    <span
+                                                        class=" w-100 bootstrap-switch-handle-on bootstrap-switch-success"
+                                                        style=" font-weight: bold; font-size: 13px;">{{'multirowtool'|translate}}</span>
+                                                    <span class="bootstrap-switch-label">&nbsp;&nbsp;</span>
+                                                    <mat-checkbox name="DOUBLEPUNCH" #DOUBLEPUNCH
+                                                        [(ngModel)]="newData.DOUBLEPUNCH"
+                                                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                                                </div>
+                                                <!-- <label class="col-md-8 text-right error-control-label required"
+                                                    style="text-align: left;">
+                                                    {{'doublepunchinsinghlestock' |translate}} 
+                                                </label> -->
+                                            </div>
+
+
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right">{{'noofrows'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 p-0">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        [readonly]="!newData.DOUBLEPUNCH" name="manualslipno"
+                                                        [(ngModel)]="newData.NOOFSTROKES" maxlength="10"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'stampingwastage'
+                                                    |translate}} </label>
+                                                <div class="col-md-6 p-0">
+                                                    <input class="form-control w-100  form-control-sm "
+                                                        name="manualslipno" [(ngModel)]="newData.WASTAGE" maxlength="10"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right ">{{'toolsection'
+                                                    |translate}} </label>
+                                                <div class="col-md-6 ">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.TOOLSECTIONID"
+                                                        [items]="ToolSectionArray" optionValueField="TOOLSECTIONID"
+                                                        optionTextField="TOOLSECTIONDESC"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                                <!-- <div class="col-md-12" style="text-align: right;">
+                                                    <span
+                                                        class=" w-100 bootstrap-switch-handle-on bootstrap-switch-success"
+                                                        style=" font-weight: bold; font-size: 13px;">{{'colourcodeapplicable'|translate}}</span>
+                                                    <span class="bootstrap-switch-label">&nbsp;&nbsp;</span>
+                                                    <mat-checkbox name="ISCOLORED" [(ngModel)]="newData.ISCOLORED"
+                                                        #ISCOLORED [ngModelOptions]="{standalone: true}">
+                                                    </mat-checkbox>
+                                                </div> -->
+                                                <!-- <label class="col-md-8 text-right error-control-label required"
+                                                    style="text-align: left;">{{'colourcodeapplicable'
+                                                    |translate}} </label> -->
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'colour'
+                                                    |translate}} </label>
+                                                <div class="col-md-6 p-0 ">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.COLORID"
+                                                        [items]="ColourArray" optionValueField="COLORID"
+                                                        optionTextField="COLORDESC"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <!-- <label
+                                                    class="col-md-6 text-right ">{{'toolsection'
+                                                    |translate}} </label>
+                                                <div class="col-md-6 p-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.TOOLSECTIONID"
+                                                        [items]="ToolSectionArray" optionValueField="TOOLSECTIONID"
+                                                        optionTextField="TOOLSECTIONDESC" 
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div> -->
+                                            </div>
+
+
+                                            <div class="form-group row col-md-8 mb-2 " style="text-align: left;">
+                                                <label class="col-md-3 text-right ">{{'diename'
+                                                    | translate}}</label>
+                                                <div class="col-md-9 pl-0">
+                                                    <input class="form-control w-100  form-control-sm  readonly-disable"
+                                                        name="manualslipno" [(ngModel)]="newData.DIENAME"
+                                                        maxlength="250" [ngModelOptions]="{standalone: true}" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2" style="text-align: left;">
+                                                <label class="col-md-5 text-right ">{{'dieid'
+                                                    | translate}}</label>
+                                                <div class="col-md-7 pl-1">
+                                                    <input class="form-control w-100  form-control-sm readonly-disable"
+                                                        name="manualslipno" [(ngModel)]="newData.DIEID" maxlength="8"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-8 mb-2">
+                                                <label
+                                                    class="col-md-3 text-right error-control-label required">{{'description'
+                                                    |translate}} </label>
+                                                <div class="col-md-9 pl-0">
+                                                    <textarea type="text" autosize
+                                                        class="form-control form-control-sm text-area-custom-item  "
+                                                        style="height: 24px;" maxlength="500"
+                                                        oninput="this.value = this.value.toUpperCase()"
+                                                        [ngModelOptions]="{standalone: true}" name="REASONFORLEAVE"
+                                                        [(ngModel)]="newData.REMARKS"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-5 text-right  ">{{'mfg.date'
+                                                    |translate}}</label>
+                                                <div class="col-md-7 pl-1">
+                                                    <mat-form-field
+                                                        class="form-control w-100 mat-form-field-date-picker">
+                                                        <input matInput [matDatepicker]="rdate" name="reqndate"
+                                                            [(ngModel)]="newData.MFGDATE"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <mat-datepicker-toggle matSuffix [for]="rdate">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #rdate></mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- <div class="card-body border-bottom purchase-order px-0 py-2">
+                                        <h4 class="modal-title " style="margin-left: 16px;margin-bottom: 8px;"
+                                            id="exampleModalLabel">{{'materialinformation'
+                                            | translate}}</h4>
+                                        <div class="form-inline">
+
+
+                                            <div class="form-group row col-md-6 mb-2">
+                                                <label
+                                                    class="col-md-4 text-right error-control-label required">{{'materialused'
+                                                    | translate}}</label>
+                                                <div class="col-md-8 pl-1">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.MATERIALUSED"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-6 mb-2">
+                                                <label
+                                                    class="col-md-4 text-right error-control-label required">{{'materialsource'
+                                                    | translate}}</label>
+                                                <div class="col-md-8 pl-1">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.materialsource"
+                                                        [items]="toolNoArray" optionValueField="id"
+                                                        optionTextField="name"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label
+                                                    class="col-md-6 text-right error-control-label required">{{'processused'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.PROCESSUSED"
+                                                        maxlength="10" [ngModelOptions]="{standalone: true}">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-4 text-right">{{'mfg.at' |
+                                                    translate}}</label>
+                                                <mat-radio-group [(ngModel)]="newData.INHOUSEVENDORED"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    class="col-md-8 mat-radio-label d-flex align-items-center ">
+
+
+                                                    <div class="col-md-6 p-0">
+                                                        <mat-radio-button value="false">{{'inhouse' |
+                                                            translate}}
+                                                        </mat-radio-button>
+                                                    </div>
+                                                    <div class="col-md-6 p-0 text-center">
+                                                        <mat-radio-button name="vendored" #vendored value="true">
+                                                            {{'vendored' | translate}}
+                                                        </mat-radio-button>
+                                                    </div>
+                                                </mat-radio-group>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <div class="col-md-1"> </div>
+                                                <input *ngIf="vendored.checked"
+                                                    (keyup)="searchTermSupplier1($event.target.value)"
+                                                    name="MainSuppliername" [ngModelOptions]="{standalone: true}"
+                                                    [(ngModel)]='newData.VENDORID' [value]="newData.name || ''"
+                                                    autocomplete="off"
+                                                    class="w-100 form-control error-border form-control-sm col-md-11 pl-1">
+                                                <button *ngIf="vendored.checked" class="close-icon" style="position: absolute;
+                                                            right: 0; top: 8px;" (click)="reset1(newData)"></button>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                    </div> -->
+                                    <div class="card-body border-bottom purchase-order px-0 py-2">
+                                        <h4 class="modal-title " style="margin-left: 16px;margin-bottom: 8px;"
+                                            id="exampleModalLabel">{{'operationdetail'
+                                            | translate}}</h4>
+                                        <div class="form-inline">
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right ">{{'strokesplanned'
+                                                    | translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.PLANNEDSTROKES"
+                                                        maxlength="12" [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right">{{'lastusedon'
+                                                    |translate}}</label>
+                                                <div class="col-md-6 pl-0">
+                                                    <mat-form-field
+                                                        class="form-control w-100 mat-form-field-date-picker">
+                                                        <input matInput [matDatepicker]="rdate1" name="reqndate"
+                                                            [(ngModel)]="newData.LASTUSEDDATE"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <mat-datepicker-toggle matSuffix [for]="rdate1">
+                                                        </mat-datepicker-toggle>
+                                                        <mat-datepicker #rdate1></mat-datepicker>
+                                                    </mat-form-field>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'status'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 p-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.STATUSID"
+                                                        [items]="StatusArray" optionValueField="STATUSID"
+                                                        optionTextField="DIESTATUS"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right">{{'strokesmadesofar'
+                                                    |translate}}</label>
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.STROKESMADE"
+                                                        maxlength="12" [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'lastusedonpress'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 pl-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.LASTUSEDONPRESSID"
+                                                        [items]="MachineArray" optionValueField="MACHINEID"
+                                                        optionTextField="MACHINENAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <!-- emptydiv -->
+                                            </div>
+                                            <div class="form-group row col-md-4 mb-2">
+                                                <label class="col-md-6 text-right ">{{'availablestrokes'
+                                                    | translate}}</label>
+
+                                                <div class="col-md-6">
+                                                    <input class="form-control w-100  form-control-sm"
+                                                        name="manualslipno" [(ngModel)]="newData.AVAILABLESTROKES"
+                                                        maxlength="12" [ngModelOptions]="{standalone: true}"
+                                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-4 mb-2 p-0">
+                                                <label class="col-md-6 text-right ">{{'lastoperation'
+                                                    | translate}}</label>
+                                                <div class="col-md-6 pl-0">
+                                                    <ngx-select
+                                                        class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                                        [ngModelOptions]="{standalone: true}" name="deptid"
+                                                        [allowClear]="true" [(ngModel)]="newData.LASTOPERATORID"
+                                                        [items]="LastOperationArray" optionValueField="EMPID"
+                                                        optionTextField="NAME"
+                                                        placeholder="{{'pleaseselect' | translate}}">
+                                                    </ngx-select>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row col-md-8 mb-2"></div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <h4 style="margin-left: 5px;">{{'Dimension Sheet'| translate}}</h4>
+                                    <div class="table-scroll mx-1 ">
+                                        <div class="card-body border-top store-requisition px-0 py-2">
+                                            <table
+                                                class="table table-striped custom-table custom-table-big custom-table-big tr th ">
+                                                <thead>
+                                                    <tr style="background-color: #666666; color: #ffffff;">
+                                                        <th scope="col" style="width: 120px;">{{'drawingno' | translate}}
+                                                        </th>
+                                                        <th scope="col" style="width: 30px;;">{{'frameno' | translate}}
+                                                        </th>
+                                                        <th scope="col" style="width:60px;">ST.OD</th>
+                                                        <th scope="col" style="width:60px;">ST.ID</th>
+                                                        <th scope="col" style="width:60px;">BORE</th>
+                                                        <th scope="col" style="width:60px;">ST.SLOT </th>
+                                                        <th scope="col" style="width:60px;"> RT.SLOT</th>
+                                                        <th scope="col" style="width:7px; text-align: center;">BLK.</th>
+                                                        <th scope="col" style="width:7px;text-align: center;">ST.GS </th>
+                                                        <th scope="col" style="width:7px;text-align: center;">RT.GS </th>
+                                                        <th scope="col" style="width:7px;text-align: center;">ST.NT</th>
+                                                        <th scope="col" style="width:7px;text-align: center;">RT.NT</th>
+                                                        <th scope="col" style="width:7px;text-align: center;">RDC</th>
+                                                        <th scope="col" style="width:7px;text-align: center;">C.LOAD</th>
+                                                        <th scope="col" style="width:7px;text-align: center;">PROG.TOOL</th>
+                                                    </tr>
+
+
+                                                </thead>
+                                                <tbody class="font-sm">
+                                                    <tr>
+                                                        <td>
+                                                            <input name="DRGNO" [(ngModel)]='contact.DRGNO'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm">
+                                                        </td>
+                                                        <td>
+                                                            <ngx-select  class="ngx-custom-select-dropdown" 
+                                                                placeholder=" Select Status" name="BLK"
+                                                                [(ngModel)]="contact.BLK" 
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="framenoArray"
+                                                                optionValueField="FRAMEID"
+                                                                optionTextField="FRAMEDESC">
+                                                            </ngx-select>
+                                                        </td>
+                                                        <td>
+                                                            <input name="STOD" [(ngModel)]='contact.STOD'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm">
+                                                        </td>
+                                                        <td>
+                                                            <input name="STID" [(ngModel)]='contact.STID'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm">
+                                                        </td>
+                                                        <td>
+                                                            <input name="BORE" [(ngModel)]='contact.BORE'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm">
+                                                        </td>
+                                                        <td>
+                                                            <input name="STSLOT" [(ngModel)]='contact.STSLOT'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm">
+                                                        </td>
+                                                        <td>
+                                                            <input name="RTSLOT" [(ngModel)]='contact.RTSLOT'
+                                                                [ngModelOptions]="{standalone: true}" autocomplete="off"
+                                                                class="w-100 form-control error-border form-control-sm">
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="BLK"
+                                                                [(ngModel)]="contact.BLK"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.BLK" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="STGS"
+                                                                [(ngModel)]="contact.STGS"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.STGS" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td >
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="RTGS"
+                                                                [(ngModel)]="contact.RTGS"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.RTGS" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="STNT"
+                                                                [(ngModel)]="contact.STNT"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.STNT" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="RTNT"
+                                                                [(ngModel)]="contact.RTNT"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.RTNT" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="RDC"
+                                                                [(ngModel)]="contact.RDC"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.RDC" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="CLOAD"
+                                                                [(ngModel)]="contact.CLOAD"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.CLOAD" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                        <td style="text-align: center;">
+                                                            <!-- <ngx-select  class="ngx-custom-select-dropdown"
+                                                                placeholder=" Select Status" name="PROAGTOOL"
+                                                                [(ngModel)]="contact.PROAGTOOL"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [allowClear]="true" [items]="yesornoArray"
+                                                                optionValueField="id" optionTextField="name">
+                                                            </ngx-select> -->
+                                                            <mat-checkbox  [(ngModel)]="contact.PROAGTOOL" 
+                                                            [ngModelOptions]="{standalone: true}"></mat-checkbox> 
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary rounded bg-danger"
+                                    [routerLink]="['/die-master']">{{'cancel'|translate}}</button>
+                                <button *ngIf="action == 'new'" [disabled]="isLoadingResults" type="button"
+                                    class="btn btn-sm btn-info rounded {{canCreateCommonClass}}"
+                                    (click)="validateBeforeSave(newData , 'Insert')">{{'save'|translate}}</button>
+                                <button *ngIf="action == 'edit'" [disabled]="isLoadingResults" type="button"
+                                    class="btn btn-sm btn-info rounded {{canEditCommonClass}}"
+                                    (click)="validateEdit(newData , 'Update')">{{'update'|translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <app-footer></app-footer>
+        </div>
+    </div>
+</div>

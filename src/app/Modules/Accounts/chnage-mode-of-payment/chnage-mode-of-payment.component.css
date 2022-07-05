@@ -1,0 +1,57 @@
+.page-wrapper {
+    padding-top: 100px;
+    margin-left: 250px;
+}
+.auth-wrapper{
+    min-height:83vh !important;
+    position:relative;
+}
+
+.container-fluid{
+    min-height:calc(100vh - 180px);
+}
+
+.table-wrapper-scroll-y {
+	display: block;
+	max-height: 300px;
+	overflow-x: scroll;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+.custom-table {
+	width: 100%;
+}
+.custom-table.table td, .custom-table.table th {
+	padding: .15rem;
+}
+.custom-table .form-control {
+	padding: .150rem .75rem;
+}
+.nav-pills .nav-link.active, .nav-pills .nav-link:hover {
+	background: rgb(140, 140, 189);
+	color: #333;
+}
+
+.modal-md{
+    max-width: 900px !important;
+}
+.custom-close-btn {
+    width: 28px;
+    height: 29px;
+    font-size: 10px;
+}
+.sticky-cell
+{
+    z-index: 0 !important;
+}
+.example-radio-group {
+    display: inline-flex;
+    flex-direction: row;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+  
+  .example-selected-value {
+    margin: 15px 0;
+  }

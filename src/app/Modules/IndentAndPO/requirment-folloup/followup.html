@@ -1,0 +1,60 @@
+<form >
+    <div class="modal-header primary-bg py-2">
+      <b>{{newData.ITEMNAME}}</b>  
+        <button class="close text-white" mat-dialog-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="scroll-spy px-3 pb-3" style="width: 500px">
+          <div class="card-body border-top item-master px-0 py-2">
+          <div class="form-inline">
+              <div class="form-group row col-12 mb-2 ">  
+              <label for="inputEmail4" class="col-sm-2 text-right ">Remarks</label>
+              <div class="col-sm-10 d-flex">
+                  <textarea type="text" autosize class="form-control form-control-sm text-area-custom-item" name="REMARKS" [(ngModel)]="newData.REMARKS" >
+                    </textarea>
+                  </div>
+            </div>
+            <div class="form-group row col-md-12 mb-2" >
+                <label for="inputEmail4" class="col-sm-2 text-right ">Next Followup</label>
+                <div class="col-sm-5">
+                    <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                      <input matInput [matDatepicker]="picker4" name="NEXTFOLLOWUPDATE"
+                          [(ngModel)]='newData.NEXTFOLLOWUPDATE'
+                          [ngModelOptions]="{standalone: true}">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <mat-datepicker #picker4></mat-datepicker>
+                   </mat-form-field>
+                </div>
+                <div class="col-sm-1">
+                  &nbsp;
+                </div>
+                <div class="col-sm-4">
+                  <mat-checkbox class="custom-checkbox-green" [(ngModel)]="newData.chkd"   [ngModelOptions]="{standalone: true}" > For Whole P.O.</mat-checkbox>
+                </div>
+              </div>
+              <div class="form-group row col-md-12 mb-2">
+                <table class="w-100" border="1px">
+                  <tr *ngFor="let el of followUpList">
+                      <td style="width: 120px;">{{el.FOLLOWUPDATE|date:'d/M/y'}}</td>
+                      <td >{{el.REMARKS}}</td>
+                  </tr>
+                </table>
+              </div>  
+              <div class="form-group row col-md-12 mb-2">
+                <div class="col-sm-8">
+                  &nbsp;
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-danger" mat-dialog-close>Cancel</button>
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-primary" (click)="onNoClick()">Ok</button>
+                </div>
+              
+              </div>
+        </div>
+      </div>
+      </div>
+    
+    </form>

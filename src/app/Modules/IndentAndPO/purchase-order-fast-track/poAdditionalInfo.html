@@ -1,0 +1,255 @@
+<form >
+    <div class="modal-header primary-bg py-2">
+        <h4 class="p-2 mb-0" style="color:#fff;">{{newData.party}}</h4> 
+      <!-- <button class="close text-white" mat-dialog-close> -->
+        <button class="close text-white" (click)="AllClose()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    
+    </div>
+        <div class="modal-body" style="overflow-y:scroll;padding:0;width:960px;">
+            <div class="row">
+            <div class="col-md-12">
+                <div class="card-body border-bottom py-2">
+            <ul class="nav nav-tabs custom-pills font-sm font-weight-sb" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link  active show" id="item_info" data-toggle="pill" href="#iteminfo"
+                        role="tab" aria-selected="true">PO Additional Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="terms_condition" data-toggle="pill" href="#termscondition"
+                        role="tab" aria-selected="false">Terms and Conditions</a>
+                </li>
+            </ul>
+
+
+
+
+               <!-- <div class="table-scroll"> -->
+                <div class="tab-content m-t-10" id="pills-tabContent">
+                    <div class="tab-pane fade  active show" id="iteminfo" role="tabpanel" aria-labelledby="item_info">
+                        <div class="card-body border-top  px-0" style="height: 450px;" >
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'paymentterms' | translate}}</mat-label>
+                                        <input matInput placeholder="Payment Terms" name="paymentterms"
+                                        [(ngModel)]="newData.DELIVERYTERMS" [ngModelOptions]="{standalone: true}" >
+                                      </mat-form-field>
+                                </div>
+                           </div>
+                           <div class="row">
+                                    <div class="col-md-12">
+                                        <mat-form-field class="example-full-width w-100">
+                                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'warranty' | translate}}</mat-label>
+                                            <input matInput placeholder="Warranty" name="Warranty"
+                                            [(ngModel)]="newData.SENTTO" [ngModelOptions]="{standalone: true}" >
+                                          </mat-form-field>
+                                    </div>
+                                    
+                                </div>  
+                                <div  class="row ">
+                                    <div class="col-md-12">
+                                        <mat-form-field class="example-full-width w-100">
+                                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'LoadingUnLoading' | translate}}</mat-label>
+                                            <input matInput placeholder="Loading/Un-Loading" name="Remarks1"
+                                            [(ngModel)]="newData.SENTCC" [ngModelOptions]="{standalone: true}" >
+                                          </mat-form-field>
+                                    </div>
+                                </div> 
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <mat-form-field class="example-full-width w-100">
+                                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'PackingForwarding' | translate}}</mat-label>
+                                            <input matInput placeholder="Packing/Forwarding" name="Warranty"
+                                            [(ngModel)]="newData.SENTFROM" [ngModelOptions]="{standalone: true}" >
+                                          </mat-form-field>
+                                    </div>
+                                    
+                                </div> 
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <mat-form-field class="example-full-width w-100">
+                                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'remarks' | translate}}</mat-label>
+                                            <input matInput placeholder="Remarks" name="remarks"
+                                            [(ngModel)]="newData.remarks" [ngModelOptions]="{standalone: true}" >
+                                          </mat-form-field>
+                                    </div>
+                                    
+                                </div> 
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                 
+                                        <mat-form-field class="example-full-width w-100" >
+                                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'Purchase Category' | translate}}</mat-label>  
+                                            <input matInput placeholder="{{'Purchase Category' | translate}}" name="CATEGORYID" (keyup)="searchCostCenter($event.target.value, 'S')" 
+                                            [(ngModel)]="newData.CATEGORYDESC" [ngModelOptions]="{standalone: true}"  >
+                                            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchCostCenter(newData.DELIVRIEDAT, 'A')">
+                                            <i class="fa fa-caret-down"></i>
+                                            </button>
+                                        </mat-form-field>
+                                        <div *ngIf="showDropDown=='CATEGORY'" class="search-list-supplier" style="margin-top: 5px;">
+                                            <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                    <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredpurCategoryList"
+                                                        (click)="onCategory(result, newData)">
+                                                        <td>{{ result.CATEGORYDESC }}</td>
+                                                    </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div> 
+                    </div>
+                    </div>
+                    <div class="tab-pane fade" id="termscondition" role="tabpanel" aria-labelledby="terms_condition">
+                    <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                        <div class="card-body border-top  px-0" >
+                            <table class="table table-striped custom-table custom-table-big custom-table-big tr th ">
+                                <thead>
+                                    <tr style="background-color: #666666; color: #ffffff;">
+                                        <th scope="col" style="width:5%;">{{'no' | translate}}</th>
+                                        <th scope="col" style="width:95%;">
+                                            {{'termscondition' | translate}}</th>
+                                     </tr>
+                                </thead>
+                                <tbody class="font-sm">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION1'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION2'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION3'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION4'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION5'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION6'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION7'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION8'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION9'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION10'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>11</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION11'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION12'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>13</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION13'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>14</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION14'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>15</td>
+                                        <td>
+                                            <input type="text" class="form-control w-100"
+                                                [(ngModel)]='newData.TERMCONDITION15'
+                                                [ngModelOptions]="{standalone: true}">
+                                        </td>
+                                    </tr>
+                                    
+
+                                </tbody>
+                            </table>
+                           
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+        <div class="modal-footer">
+           
+            <button class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="AllClose()">{{'ok'| translate}}</button>
+           
+        </div>
+      </form>

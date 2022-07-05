@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- <title>Asterisks Infosystem</title> -->
+  <title>Suvidha</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="icon" type="image/x-icon" href="favicon.ico"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>my</title>
+
+    
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+  <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="assets/dist/css/icons/font-awesome/css/fontawesome-all.min.css"> -->
+  <link href="assets/dist/css/style.min.css" rel="stylesheet">
+  <link href="assets/dist/css/style-custom.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" type="text/css" href="assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css"> 
+   <link rel="stylesheet" href="assets/fonts/css/materialdesignicons.css">
+  <link rel="stylesheet" href="assets/fonts/stylesheet.css">
+  <link rel="stylesheet" href="assets/dist/css/kendo.css"> -->
+  <style type="text/css" media="print">
+    @page 
+    {
+        size: auto;
+        margin: 0mm;
+    }
+
+    #printPageButton,#printPageButton1,#printPageButton2,#printPageButton3,#hidefromdatelabel,#hidefromdate,#hidetodatelabel,#hidetodate,#hidesortbutton {
+    display: none;
+  }
+</style>
+</head>
+<body>
+ 
+  <app-root></app-root>
+  
+  <script src="assets/libs/jquery/dist/jquery.slim.min.js"></script>
+  <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
+  <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="assets/dist/js/app.min.js"></script>
+  <script src="assets/dist/js/app.init.light-sidebar.js"></script>
+  <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+  <script src="assets/dist/js/sidebarmenu.js"></script>
+  <script src="assets/dist/js/custom.js"></script>
+  <script src="assets/dist/js/Common.js"></script>
+
+  <script src="https://cdn.ckeditor.com/4.16.0/full-all/ckeditor.js"></script>
+  <!-- <script> CKEDITOR.config.forcePasteAsPlainText = true</script> -->
+  <script> CKEDITOR.config.allowedContent = true; </script>
+  <script> CKEDITOR.config.extraAllowedContent = 'table{background,background-color}'; </script>   
+  <script> CKEDITOR.config.pasteFromWordRemoveStyles=false;</script>   
+  <script> CKEDITOR.config.pasteFromWordRemoveFontStyles = false; </script>   
+  <script>CKEDITOR.config.pasteFromWordRemoveStyles = false;</script>   
+
+  
+    <script type="text/javascript">
+      $(function () {
+          App.Common.CapitalizeTextBox();
+      });
+</script>
+</body>
+</html>
+

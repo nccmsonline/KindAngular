@@ -1,0 +1,50 @@
+<form [formGroup]="accountgroup" novalidate>
+    <div class="modal-header primary-bg py-2">
+      <h5 *ngIf="action == 'new'" class="modal-title text-white" id="exampleModalLabel">{{'newacc'|translate}}</h5>
+      <h5 *ngIf="action == 'edit'" class="modal-title text-white" id="exampleModalLabel">Edit Account Group</h5>
+      <button class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="height:250px;overflow-y:scroll;padding:20px;max-width:950px;">
+          
+        <div class="form-inline">
+            <div class="form-group row col-12 mb-2">
+                <label class="col-sm-2 text-right" for="inputPassword4">{{'acgroup'|translate}}</label>
+                <div class="col-sm-9 d-flex">
+                    <input type="text" class="form-control form-control-sm" name="NAME" [(ngModel)]="newData.NAME" formControlName="NAME" >
+                </div>
+            </div>
+
+                
+                    <div class="form-group row col-md-12 mb-2">
+                        <label class="col-sm-2 text-right" for="inputEmail4">{{'UnderGroup' | translate}}</label>
+                        <div class="col-sm-9 d-flex">
+                                <select class="select2 form-control form-control-sm custom-select" name="PARENTGROUPID" [(ngModel)]="newData.PARENTGROUPID" formControlName="PARENTGROUPID">
+                                    <option *ngFor="let heads of accountheads" value='{{heads.id}}'>{{heads.NAME}} </option>
+                                </select>
+                            </div>
+                    </div>
+                
+
+
+                <div class="form-group row col-md-12 mb-2">
+                  <label class="col-sm-2 text-right" for="inputPassword4">{{'pos'|translate}}</label>
+                  <div class="col-sm-5 d-flex">
+                      <input type="text" class="form-control form-control-sm" name="position" [(ngModel)]="newData.position" formControlName="position" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                  </div>
+                  <label class="col-sm-2 text-right" for="inputPassword4">{{'Sub Group'|translate}}</label>
+                  <mat-checkbox name="subledger" [(ngModel)]="newData.subledger" formControlName="subledger"></mat-checkbox>
+                </div>
+
+        
+
+    </div>  
+
+        </div>
+        <div class="modal-footer">
+              <button class="btn btn-sm btn-secondary rounded" (click)="closeDialog()">{{'cancel'|translate}}</button>
+              <button *ngIf="action == 'new'" type="button" class="btn btn-sm btn-info rounded" (click)="saveaccounthead(newData)" [disabled]="accountgroup.pristine || accountgroup.invalid">{{'save'|translate}}</button>
+              <button *ngIf="action == 'edit'" type="button" class="btn btn-sm btn-info rounded" (click)="updateaccountgroup(newData)" [disabled]="accountgroup.pristine || accountgroup.invalid">Update</button>
+          </div>
+      </form>

@@ -1,0 +1,444 @@
+<form>
+    <div class="example-loading-shade" *ngIf="isLoadingResults ">
+        <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+      
+    <div class="modal-header primary-bg py-2">
+      <h5  class="modal-title text-white" id="exampleModalLabel">{{'moprogress'|translate}} (M.O. No- {{moNoHeader}}- {{mtstatus}})</h5> 
+      <button class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body" style="height:500px;overflow-y:scroll;padding:0;max-width: 1070px;">
+        <div class="scroll-spy pb-3 pl-1" style="height:500px;overflow-y: scroll;" id="parentDiv" scrollSpy>
+    <div class="card-body border-top supplier-category-master px-0 py-0">
+        <div class="table-wrapper-scroll-y" style="min-height: 180px;">
+    
+            <table class="table table-striped custom-table tr th">
+                <thead>
+                    <tr style="background-color: #666666; color: #ffffff;">
+                        <th scope="col" style="width:3%;">{{'sr' | translate}}</th>
+                        <th scope="col" style="width:4%;">{{'teamtype' | translate}}</th>
+                        <th scope="col" style="width:13%;">{{'team' | translate}} </th>
+                        <th scope="col" style="width:11%;">{{'startdate' | translate}}</th>
+                        <th scope="col" style="width:8%;">{{'starttime' | translate}} </th>
+                        <th scope="col" style="width:11%;"> {{'enddate' | translate}} </th>
+                        <th scope="col" style="width:8%;"> {{'endtime' | translate}} </th>
+                        <th scope="col" style="width:8%; text-align: right;"> {{'labouramt' | translate}} </th>
+                        <th scope="col" style="width:8%;text-align: right;"> {{'partsamt' | translate}} </th>
+                        <th scope="col" style="width:8%;text-align: right;"> {{'outsidelabouramt' | translate}} </th>
+                        <th scope="col" style="width:11%;">{{'remarksofteam' | translate}} </th>
+                        <!-- <th scope="col" style="width:3%;">{{'calc' | translate}}.</th> -->
+                        <th scope="col" style="width:4%;text-align: center;">{{'action' | translate}} </th>
+                    </tr>
+                </thead>
+                <tbody class="font-sm">
+                    <tr >
+                        <td style="width:3%;">
+                            <strong></strong>
+                        </td>
+                        <td style="width:4%;">
+                            <ngx-select #categoryid class="ngx-custom-select-dropdown" placeholder="Select Team"
+                                name="teamid" [allowClear]="false" [(ngModel)]='newContact.MOTEAMTYPE'
+                                [ngModelOptions]="{standalone: true}" [items]="teamType" optionValueField="id"
+                                (select)="onChangeOfTeamtype($event,newContact)" optionTextField="name">
+                            </ngx-select>
+                        </td>
+    
+                        <td style="width:13%;">
+                           <div *ngIf="newContact.MOTEAMTYPE == 'I'">
+                                <ngx-select #categoryid class="ngx-custom-select-dropdown" placeholder="Select Team"
+                                name="teamid" [allowClear]="false" [(ngModel)]='newContact.MOASSIGNEDTEAMID'
+                                [ngModelOptions]="{standalone: true}" [items]="teamDDarray" optionValueField="ID"
+                                (select)="onChangeOfTeam($event,newContact)" optionTextField="TEAMNAME">
+                            </ngx-select>
+                        </div>
+                        <div *ngIf="newContact.MOTEAMTYPE == 'E'" class="d-flex pr-0">
+                            <input (keyup)="searchTermSupplier($event.target.value)" name="suplname"
+                              [ngModelOptions]="{standalone: true}" [(ngModel)]='newContact.suplname'
+                              [value]="newContact.suplname || ''" autocomplete="off"
+                              class="w-100 form-control error-border form-control-sm">
+                            <button class="close-icon" (click)="reset(newContact)"></button>
+                            <div *ngIf="arrayItemSupplier != ''" class="search-list-supplier" style="margin-top: 24px;">
+                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                <tr class="ui-menu-item" role="menuitem">
+                                  <th>{{'name' | translate}}</th>
+                                  <th>{{'address' | translate}}</th>
+                                </tr>
+                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of supplierlist"
+                                  (click)="onChangeOfItemCodeSupplier(result, newContact)">
+                                  <td>{{ result.NAME }}</td>
+                                  <td>{{ result.ADDRESS1 }}</td>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
+                        </td>
+    
+                        <td style="width:11%;">
+                            <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                <input matInput [max]="myDate" [matDatepicker]="picker" (click)="picker.open()" name="mostartdate"
+                                    [(ngModel)]="newContact.MOSTARTDATE" [ngModelOptions]="{standalone: true}" readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+    
+                        <td style="width:8%;">
+                            <input [owlDateTime]="dt8" [(ngModel)]="newContact.MOSTARTTIME" [owlDateTimeTrigger]="dt8" class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" readonly placeholder="{{'selecttime' | translate}}">
+                            <!-- <button type="button" class="fas fa-clock custom-clock-class" [owlDateTimeTrigger]="dt8"></button> -->
+                            <owl-date-time [pickerType]="'timer'" #dt8></owl-date-time>
+                        </td>
+                        <td style="width:11%;" class="pl-1 pr-0 tdAlign">
+                            <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                <input matInput [min]="newContact.MOSTARTDATE" [max]="myDate" (click)="picker1.open()" [matDatepicker]="picker1"
+                                    name="moteamenddate" [(ngModel)]="newContact.MOTEAMENDDATE" [ngModelOptions]="{standalone: true}"
+                                    readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+    
+    
+                        <td style="width:8%;">
+                            <input [owlDateTime]="dt7" [(ngModel)]="newContact.MOTEAMENDTIME" [owlDateTimeTrigger]="dt7" class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" readonly placeholder="{{'selecttime' | translate}}">
+                            <!-- <button type="button" class="fas fa-clock custom-clock-class" [owlDateTimeTrigger]="dt7"></button> -->
+                            <owl-date-time [pickerType]="'timer'" #dt7></owl-date-time>
+                        </td>
+    
+                        <td style="width:8%;">
+                            <input name="disamt" class="w-100 form-control error-border form-control-sm"
+                                [(ngModel)]='newContact.MOLBR' [ngModelOptions]="{standalone: true}" type="text"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                maxlength="15" style="text-align:right">
+                        </td>
+    
+                        <td class="pl-1 pr-0 tdAlign" style="width:8%;">
+                            <input name="disamt" class="w-100 form-control error-border form-control-sm"
+                                [(ngModel)]='newContact.MOPARTS' [ngModelOptions]="{standalone: true}" type="text"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                maxlength="15" style="text-align:right"> </td>
+    
+                        <td class="pl-1 pr-0 tdAlign" style="width:8%;">
+                            <input name="disamt" class="w-100 form-control error-border form-control-sm"
+                                [(ngModel)]='newContact.MOOUTSIDELBR' [ngModelOptions]="{standalone: true}" type="text"
+                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                maxlength="15" style="text-align:right">
+                        </td>
+    
+                        <td style="width:11%;">
+                            <textarea type="text" autosize [(ngModel)]="newContact.MOTEAMREMARKS"
+                                [ngModelOptions]="{standalone: true}"
+                                class="form-control form-control-sm text-area-custom-item w-100" name="remarks"
+                                oninput="this.value = this.value.toUpperCase()" placeholder="{{'enterremarks'| translate}}" maxlength="500">
+                                            </textarea>
+                        </td>
+                        <!-- <td style="width:8%;">
+                            <ngx-select #categoryid class="ngx-custom-select-dropdown" placeholder="status" name="mtstatus"
+                                [allowClear]="false" [(ngModel)]='newContact.mtstatusid'
+                                [ngModelOptions]="{standalone: true}" [items]="filterarray" optionValueField="id"
+                                (select)="onChangeOfmtStatus($event,newContact)" optionTextField="name">
+                            </ngx-select>
+                        </td> -->
+                        <!-- <td style="width:3%;" class="text-center">
+                            <i class="fas fa-calculator custom-book-class" matTooltip="{{'partsamtcalc'| translate}}" (click)="itemStockOpen(newContact)"></i></td>  -->
+    
+                        <td style="width:4%;text-align: center;">
+                            <button [hidden]="disableSave" [disabled]="isLoadingResults"  type="button" (click)="validateDetail(newContact)"
+                                class="btn btn-add waves-effect waves-light ml-1">+</button>
+    
+                        </td>
+    
+                    </tr>
+                    <tr *ngFor="let contact of contacts ; let i = index">
+
+                        <td  style="width:3%;"  >
+                            {{i+1}}</td>
+
+                            <td style="width:4%;"  > {{contact.MOTEAMTYPENAME}} </td>
+    
+                        <td style="width:13%;"  matTooltip="{{contact.TEAMNAME}}"><span class="limittext">
+                            {{contact.TEAMNAME}} </span></td>
+    
+    
+                        <td style="width:10%;"  >
+                            {{contact.MOSTARTDATE | date:'dd/MM/yyyy'}}</td>
+    
+                        <td style="width:8%;"  >
+                            {{contact.MOSTARTTIME | date:'hh:mm'}}</td>
+    
+                        <td style="width:10%;" >
+                            {{contact.MOTEAMENDDATE | date:'dd/MM/yyyy'}}</td>
+
+                        <td style="width:8%;"  >
+                            {{contact.MOTEAMENDTIME | date:'hh:mm'}} </td>
+    
+                        <td style="width:8%;" 
+                        style="text-align:right" >{{contact.MOLBR | number : '1.2-2'}}</td>
+    
+                        <td style="width:8%;" 
+                        style="text-align:right">{{contact.MOPARTS | number : '1.2-2'}}</td>
+    
+                        <td style="width:8%;" 
+                         style="text-align:right" >{{contact.MOOUTSIDELBR | number : '1.2-2'}}</td>
+    
+                        <td style="width:11%;"  matTooltip="{{contact.MOTEAMREMARKS}}"><span class="limittext">
+                         {{contact.MOTEAMREMARKS}} </span></td>
+
+                         <!-- <td style="width:3%;" *ngIf="contact.id !== editContactID"   class="text-center">
+                            <i class="fas fa-calculator custom-book-class" matTooltip="{{'partsamtcalc'| translate}}" (click)="itemStockOpenTeamwise(contact)"></i></td>  -->
+                        <!-- <td style="width:8%;" *ngIf="contact.id !== editContactID">
+                         {{contact.mtstatus}}</td> -->
+    
+                        <td style="width:4%;"> </td>
+    
+                    </tr>
+                    <tr>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td></td>
+                        <td [hidden]="!totalshow"><b>{{'total' | translate}}</b></td>
+                        <td [hidden]="!totalshow" style="text-align: right">  <b>{{totallabouramt| number : '1.2-2'}}</b></td>
+                        <td [hidden]="!totalshow" style="text-align: right"> <b>{{totalpartsamt| number : '1.2-2'}}</b></td>
+                        <td [hidden]="!totalshow" style="text-align: right"> <b>{{totaloutlabouramt| number : '1.2-2'}}</b></td>
+                        <td ></td>
+                        <!-- <td></td> -->
+                        
+                        <!-- <td style="width:8%;text-align: right"></td> -->
+                        <td style="text-align: right"></td>
+    
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+        <span class="d-flex mx-4 mb-2" style="padding-top: 60px;">
+            <mat-checkbox [disabled]="disableSave" [(ngModel)]="newData.closemo" #closemo [ngModelOptions]="{standalone: true}"
+            > {{'closemo' | translate}} (M.O. No- {{moNoHeader}})</mat-checkbox>
+        </span>
+        <div [hidden]="!newData.closemo" class="card-body border-top supplier-category-master px-0 py-2">
+            <div class="form-inline table-wrapper-scroll-y" style="display: flex; padding-bottom: 100px">
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'totalrepairtimein'| translate}}</label>
+                </div>
+                <div class="form-group row col-md-3 mb-2">
+                    <label class="col-md-6 text-right">{{'days'| translate}}</label>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="eoq" [(ngModel)]="newData.MOTIMETAKENDAYS"
+                            [ngModelOptions]="{standalone: true}"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="3">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-6 text-right">{{'hours'| translate}}</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="moq" [(ngModel)]="newData.MOTOTTIMETAKENHRS"
+                            [ngModelOptions]="{standalone: true}" (keyup)="validateHours($event.target.value, newData)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-6 text-right">{{'minutes'| translate}}</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="mq" [(ngModel)]="newData.MOTOTTIMETAKENMINS  "
+                            [ngModelOptions]="{standalone: true}"  (keyup)="validateMinutes($event.target.value, newData)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="2">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'totalmcdowntime'| translate}}</label>
+                </div>
+                <div class="form-group row col-md-3 mb-2">
+                    <label class="col-md-6 text-right">{{'days'| translate}}</label>
+                    <div class="form-group col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="e" [(ngModel)]="newData.MACHINEDOWNTIMEDAYS"
+                            [ngModelOptions]="{standalone: true}"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="3">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-6 text-right">{{'hours'| translate}}</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="ui" [(ngModel)]="newData.MACHINEDOWNTIMEHRS"
+                            [ngModelOptions]="{standalone: true}" (keyup)="validateHours1($event.target.value, newData)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-6 text-right">{{'minutes'| translate}}</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="f" [(ngModel)]="newData.machinedowntimemins"
+                            [ngModelOptions]="{standalone: true}" (keyup)="validateMinutes1($event.target.value, newData)"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="2">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'mocompletedon'| translate}}</label>
+                </div>
+                <div class="form-group row col-md-3 mb-2">
+                    <!-- <label class="col-md-6 text-right">{{'days'| translate}}</label> -->
+                    <div class="form-group col-md-12">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [min]="newData.createdon" [max]="myDate" (click)="picker3.open()" [matDatepicker]="picker3" name="startdate"
+                                [(ngModel)]="newData.MOCOMPLETEDON" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                            <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2">
+                    <label class="col-md-4 text-right error-control-label required">{{'at'| translate}}</label>
+                    <div class="col-md-8">
+                        <input [owlDateTime]="dt6" [(ngModel)]="newData.MOCOMPLETEDAT"  [owlDateTimeTrigger]="dt6" class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" readonly>
+                        <button type="button" class="fas fa-clock custom-clock-class" [owlDateTimeTrigger]="dt6"></button>
+                        <owl-date-time [pickerType]="'timer'" #dt6></owl-date-time>
+                    </div>
+                </div>
+                <div class="form-group row col-md-3 mb-2 ">
+                    <!-- <label class="col-md-6 text-right">{{'hrslost'| translate}}</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="moq" [(ngModel)]="newData.HOURSSLOT"
+                            [ngModelOptions]="{standalone: true}"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5">
+                    </div> -->
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'mcupon'| translate}}</label>
+                </div>
+                <div class="form-group row col-md-3 mb-2">
+                    <!-- <label class="col-md-6 text-right">{{'days'| translate}}</label> -->
+                    <div class="form-group col-md-12">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [min]="newData.createdon" [max]="newData.MOCLOSEDON" (click)="picker4.open()" [matDatepicker]="picker4"
+                                name="startdate" [(ngModel)]="newData.MACHINEUPON" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4 ></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2">
+                    <label class="col-md-4 text-right error-control-label required">{{'at'| translate}}</label>
+                    <div class="col-md-8">
+                        <input [owlDateTime]="dt5" [(ngModel)]="newData.MACHINEUPAT" [owlDateTimeTrigger]="dt5" class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" readonly>
+                        <button type="button" class="fas fa-clock custom-clock-class" [owlDateTimeTrigger]="dt5"></button>
+                        <owl-date-time [pickerType]="'timer'" #dt5></owl-date-time>
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-6 text-right">{{'prdnhrslost'| translate}}</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-control-sm " name="moq" [(ngModel)]="newData.HOURSSLOT"
+                            [ngModelOptions]="{standalone: true}"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="5">
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'rootcausefound'| translate}}</label>
+                </div>
+        
+                <div class="form-group row col-md-9 mb-2 ">
+                    <div class="col-md-4 pr-4">
+                        <ngx-select #categoryid class="ngx-custom-select-dropdown" placeholder="Select Root cause"
+                            name="mtstatus" [allowClear]="false" [(ngModel)]='newData.MOROOTCAUSEID'
+                            [ngModelOptions]="{standalone: true}" [items]="rootcauseDDarray" optionValueField="ID"
+                            optionTextField="NAME">
+                        </ngx-select>
+                       
+                    </div>
+                    <button type="button" (click)="openRootCause(0,'rootcause','new')" class="ml-1 btn btn-sm btn-info rounded">+</button>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'moclosedby'| translate}}</label>
+                </div>
+                <div class="form-group row col-md-3 mb-2">
+                    <div class="col-md-12">
+                        <ngx-select #categoryid class="ngx-custom-select-dropdown" placeholder="Select Employee" name="mtstatus"
+                            [allowClear]="false" [(ngModel)]='newData.MOCLOSEDBY' [ngModelOptions]="{standalone: true}"
+                            [items]="empnameDDarray" optionValueField="EMPID" optionTextField="NAME">
+                        </ngx-select>
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2">
+                    <label class="col-md-4 text-right error-control-label required">{{'on'| translate}}</label>
+                    <div class="form-group col-md-8">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput  [min]="newData.createdon" [max]="myDate" (click)="picker5.open()" [matDatepicker]="picker5" name="startdate"
+                                [(ngModel)]="newData.MOCLOSEDON" [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                            <mat-datepicker #picker5 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+        
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-4 text-right error-control-label required">{{'at'| translate}}</label>
+                    <div class="col-md-8">
+                        <input [owlDateTime]="dt4" [(ngModel)]="newData.MOCLOSEDAT" [owlDateTimeTrigger]="dt4" class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" readonly>
+                        <button type="button" class="fas fa-clock custom-clock-class" [owlDateTimeTrigger]="dt4"></button>
+                        <owl-date-time [pickerType]="'timer'" #dt4></owl-date-time>
+                    </div>
+                </div>
+
+                <div class="form-group row col-md-3 mb-2 ">
+                    <label class="col-md-12 text-right error-control-label required">{{'nextmaintdate'| translate}}</label>
+                </div>
+                <div class="form-group row col-md-3 mb-2">
+                    <!-- <label class="col-md-6 text-right">{{'days'| translate}}</label> -->
+                    <div class="form-group col-md-12">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [min]="myDate" [matDatepicker]="picker10" (click)="picker10.open()" name="nextmaint"
+                                [(ngModel)]="newData.nextmaintdate" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker10"></mat-datepicker-toggle>
+                            <mat-datepicker #picker10 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                
+                <div class="form-group row col-md-3 mb-2">
+                    <label class="col-md-4"></label>
+                    <div class="form-group col-md-8 p-0">
+                        <button type="button" [disabled]="updateamcDisablebutton" (click)="openPopup(newData)" class="ml-1 btn btn-sm btn-info rounded w-100">{{'updateamcschedule' | translate}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <div>
+            <p><strong class="d-block mb-2">Image Upload:</strong> <input #file type="file" accept="image/*" (change)="preview(file.files)" ></p>
+            <ul class="d-flex flex-wrap align-items-center p-0 list-unstyled list-image-upload">
+                <li class="d-flex position-relative align-items-baseline mb-1 ng-star-inserted mr-2" *ngFor="let image of imagesArray ; let i = index">
+                    <img width="100" [src]="image.imageinfo" (click)="imageView(image)">
+                    <button type="button" class="close position-absolute fixed-bottom w-100 bg-light rounded-0" aria-label="Close" (click)="removeImage(i)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </li>
+            </ul>
+        </div> -->
+
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="newData.closemo" [disabled]="isLoadingResults" class="btn btn-sm btn-secondary rounded bg-danger" mat-dialog-close>{{'cancel' | translate}}</button>
+      <button *ngIf="newData.closemo" [hidden]="disableSave" [disabled]="isLoadingResults"  class="btn btn-sm btn-info rounded" (click)="validateBeforeSave(newData, actionType)">{{'save' | translate}}</button>
+      <button *ngIf="!newData.closemo" [disabled]="isLoadingResults"  class="btn btn-sm btn-info rounded" mat-dialog-close >{{'ok' | translate}}</button>
+    </div>
+  </form>

@@ -1,0 +1,750 @@
+
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  
+  <div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+  <form autocomplete="off" >
+  <div class="row">
+      <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+     
+
+              <div class="col-md-12">
+                
+                    <div class="row m-1">
+                        <div class="col-md-12">
+                          <div class="col-sm-6 d-flex">
+                            <h4 class="card-title m-0">MRIR Entry</h4>
+                          </div>
+                         </div>
+                     </div>
+                  
+                <div class="row">
+                  <div class="col-md-7">
+                    <div class="row m-1">
+                      <div class="col-md-5">
+                            <mat-form-field class="example-full-width w-100">
+                              <mat-label style="color: cornflowerblue;font-weight: 800;">{{'MRIRCategory' | translate}}</mat-label>
+                              <input matInput placeholder="MRIR Category" name="MRIRCATEGORY" (keyup)="searchMRIRCategory($event.target.value, 'S')" 
+                              [(ngModel)]="newData.GROUPNAME" [ngModelOptions]="{standalone: true}" [disabled]="routeAction!='new'"
+                              >
+                              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchMRIRCategory(newData.GROUPNAME, 'A')" [disabled]="routeAction!='new'">
+                                <i class="fa fa-caret-down" ></i>
+                              </button>
+
+                            </mat-form-field>
+                            <div *ngIf="dropDownListFor=='MRIRCATEGORY'" class="search-list-supplier" style="margin-top: 5px;">
+                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredcategoryList"
+                                          (click)="onChangeOfCategory(result, newData)">
+                                          <td>{{ result.GROUPNAME }}</td>
+                                          
+                                      </tr>
+                              </table>
+                            </div>
+                      </div>
+                          <div class="col-md-1"> &nbsp;       
+                     </div>
+                     
+                      <div class="col-md-5" >
+                    
+                        <mat-form-field class="example-full-width w-100">
+                          <mat-label style="color: cornflowerblue;font-weight: 800;">{{'GateEntry' | translate}}</mat-label>
+                          <input matInput placeholder="Gate Entry" name="GATEENRTY" (keyup)="searchGateEntry($event.target.value, 'S')"  [disabled]="routeAction!='new'"
+                          [(ngModel)]="newData.GATEINWARDNO" [ngModelOptions]="{standalone: true}" >
+                          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchGateEntry(newData.GATEINWARDNO, 'A')" [disabled]="routeAction!='new'"> 
+                            <i class="fa fa-caret-down" ></i>
+                          </button>
+
+                        </mat-form-field>
+                        <div *ngIf="dropDownListFor=='GATEENRTY'" class="search-list-supplier" style="margin-top: 5px;">
+                          <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                  <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredgateEntryList"
+                                      (click)="onChangeGateEntry(result, newData)">
+                                      <td>{{ result.GINNO }}</td>
+                                      <td>{{ result.GROUPNAME }}</td>
+                                  </tr>
+                          </table>
+                        </div>
+
+                        </div>
+                      </div>
+                  <div class="row m-1">
+                  <div class="col-md-5">
+                        <mat-form-field class="example-full-width w-100">
+                          <mat-label style="color: cornflowerblue;font-weight: 800;">{{mrirnoplaceholder | translate}}</mat-label>
+                          <input matInput placeholder="{{mrirnoplaceholder}}" name="MRIRNO"  [disabled]="routeAction!='new'"
+                          [(ngModel)]="newData.INWARDNO" [ngModelOptions]="{standalone: true}" 
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </mat-form-field>
+                  </div>
+                      <div class="col-md-1"> &nbsp;       
+                 </div>
+                 
+                  <div class="col-md-5" >
+                     
+                      <mat-form-field  class="w-100">
+                          <mat-label style="color: cornflowerblue;font-weight: 800;">{{'MRIRdate' | translate}}</mat-label>
+                          <input matInput   [matDatepicker]="pickerd" name="myDate" placeholder="Dated"  [disabled]="routeAction!='new'" 
+                              [(ngModel)]='newData.INWARDDATE'  readonly [max]="WorkingDate"  [min]="miniInwardDate" (focusout)="refreshDates()"   (dateChange)="refreshDates()"
+                              [ngModelOptions]="{standalone: true}">
+                          <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerd></mat-datepicker>
+                       </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                      <div class="col-md-11">
+                         
+                             <mat-form-field class="example-full-width w-100">
+                              <mat-label style="color: cornflowerblue;font-weight: 800;">{{'PartyName' | translate}}</mat-label>
+                              <input matInput placeholder="Party Name" name="NAME" (keyup)="searchParty($event.target.value, 'S')" 
+                              [(ngModel)]="newData.NAME" [ngModelOptions]="{standalone: true}" >
+                              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchParty(newData.NAME, 'A')">
+                                <i class="fa fa-caret-down" ></i>
+                              </button>
+    
+                            </mat-form-field>
+                            <div *ngIf="dropDownListFor=='PARTYNAME'" class="search-list-supplier" style="margin-top: 5px;">
+                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of partyNameList"
+                                          (click)="onChangeOfParty(result, newData)">
+                                          <td>{{ result.NAME }}</td>
+                                          <td>{{ result.ADDRESS }}</td>
+                                          <td>{{ result.GSTNO }}</td>
+                                      </tr>
+                              </table>
+                            </div>
+
+                      </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-5 d-flex">
+                      <mat-checkbox [ngClass]="{'custom-checkbox-red':newData.AGAINSTCASH==false,'custom-checkbox-green':newData.AGAINSTCASH==true}" style="width: 10%;padding-top: 10pt;" [(ngModel)]="newData.AGAINSTCASH" [ngModelOptions]="{standalone: true}"  ></mat-checkbox> 
+            
+
+                          <mat-form-field class="example-full-width w-100" >
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'imprestac' | translate}}</mat-label>
+                            <input matInput placeholder="CashPurchase" name="CASHAC" (keyup)="searchCashAc($event.target.value, 'S')" 
+                            [(ngModel)]="newData.CASHAC" [ngModelOptions]="{standalone: true}" [disabled]="!newData.AGAINSTCASH" >
+                            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchCashAc(newData.CASHAC, 'A')" [disabled]="!newData.AGAINSTCASH">
+                              <i class="fa fa-caret-down"></i>
+                            </button>
+
+                          </mat-form-field>
+                          <div  *ngIf="dropDownListFor=='CASHAC'"  class="search-list-supplier" style="margin-top: 30px;">
+                            <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                             
+                                    <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredimprestAcList"
+                                        (click)="onChangeOfCashAc(result, newData)">
+                                        <td>{{ result.ACCOUNTHEAD }}</td>
+                                        
+                                    </tr>
+                            </table>
+                          </div>
+
+                    </div>
+                        <div class="col-md-1"> &nbsp;       
+                   </div>
+                   
+                    <div class="col-md-5" >
+                      <mat-form-field class="example-full-width w-100" >
+                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'purchaseac' | translate}}</mat-label>
+                        <input matInput placeholder="PurchaseHead" name="PURCHASEAC" (keyup)="searchPurchaseAc($event.target.value, 'S')" 
+                        [(ngModel)]="newData.PURCHASEAC" [ngModelOptions]="{standalone: true}"  >
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchPurchaseAc(newData.PURCHASEAC, 'A')">
+                          <i class="fa fa-caret-down"></i>
+                        </button>
+
+                      </mat-form-field>
+                      <div  *ngIf="dropDownListFor=='PURCHASEAC'" class="search-list-supplier" style="margin-top: 5px;">
+                        <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                         
+                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredpurchaseAcList"
+                                    (click)="onChangeOfPurchaseAc(result, newData)">
+                                    <td>{{ result.ACCOUNTHEAD }}</td>
+                                    
+                                </tr>
+                        </table>
+                      </div>
+
+                      </div>
+                    </div>
+                  
+
+                </div>
+                    <div class="col-md-5">
+                      <div class="row m-1">
+                        <div class="col-md-5">
+                              <mat-form-field class="example-full-width w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'billno' | translate}}</mat-label>
+                                <input matInput placeholder="Bill No." name="BILLNO"
+                                [(ngModel)]="newData.BILLNO" [ngModelOptions]="{standalone: true}" >
+                              </mat-form-field>
+                        </div>
+                            <div class="col-md-1"> &nbsp;       
+                       </div>
+                       
+                        <div class="col-md-5" >
+                            <mat-form-field  class="w-100">
+                              <mat-label style="color: cornflowerblue;font-weight: 800;">{{'billdate' | translate}}</mat-label>
+                                <input matInput   [matDatepicker]="pickerdbill" name="BILLDATE" placeholder="Bill Date"
+                                    [(ngModel)]='newData.BILLDATE'  readonly [max]="newData.INWARDDATE" 
+                                    [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="pickerdbill"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerdbill></mat-datepicker>
+                             </mat-form-field>
+                          </div>
+                        </div>
+
+                         <div class="row m-1">
+                          <div class="col-md-5">
+                                <mat-form-field class="example-full-width w-100">
+                                  <mat-label style="color: cornflowerblue;font-weight: 800;">{{'challanno' | translate}}</mat-label>
+                                  <input matInput placeholder="Challan No." name="CHALLANNO"
+                                  [(ngModel)]="newData.CHALLANNO" [ngModelOptions]="{standalone: true}" >
+                                </mat-form-field>
+                          </div>
+                              <div class="col-md-1"> &nbsp;       
+                         </div>
+                         
+                          <div class="col-md-5" >
+                              <mat-form-field  class="w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'challandate' | translate}}</mat-label>
+                                  <input matInput   [matDatepicker]="pickerdchallan" name="CHALLANDATE" placeholder="Challan Date"
+                                      [(ngModel)]='newData.CHALLANDATE'  readonly [max]="newData.INWARDDATE"
+                                      [ngModelOptions]="{standalone: true}">
+                                  <mat-datepicker-toggle matSuffix [for]="pickerdchallan"></mat-datepicker-toggle>
+                                  <mat-datepicker #pickerdchallan></mat-datepicker>
+                               </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row m-1" *ngIf="newData.SHORTNAME=='REJ'">
+                            <div class="col-md-5">
+                                  <mat-form-field class="example-full-width w-100" >
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'invno' | translate}}</mat-label>
+                                    <input matInput placeholder="Invoice No." name="BehalfofBillno"
+                                    [(ngModel)]="newData.BEHALFOFBILLNO" [ngModelOptions]="{standalone: true}" >
+                                  </mat-form-field>
+                            </div>
+                                <div class="col-md-1"> &nbsp;       
+                           </div>
+                           
+                            <div class="col-md-5" >
+                                <mat-form-field  class="w-100">
+                                  <mat-label style="color: cornflowerblue;font-weight: 800;">{{'invdate' | translate}}</mat-label>
+                                    <input matInput   [matDatepicker]="pickerinvdate" name="BehalfofBilldate" placeholder="Invoice Date"
+                                        [(ngModel)]='newData.BEHALFOFBILLDATE'  readonly [max]="newData.INWARDDATE"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <mat-datepicker-toggle matSuffix [for]="pickerinvdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerinvdate></mat-datepicker>
+                                 </mat-form-field>
+                              </div>
+                            </div>
+
+
+                            <div class="row m-1">
+                              <div class="col-md-5">
+                                    <mat-form-field class="example-full-width w-100">
+                                      <mat-label style="color: cornflowerblue;font-weight: 800;">{{'grnno' | translate}}</mat-label>
+                                      <input matInput placeholder="GRN No." name="GRNNO"
+                                      [(ngModel)]="newData.GRNO" [ngModelOptions]="{standalone: true}" >
+                                    </mat-form-field>
+                              </div>
+                                  <div class="col-md-1"> &nbsp;       
+                             </div>
+                             
+                              <div class="col-md-5" >
+                                  <mat-form-field  class="w-100">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'grndate' | translate}}</mat-label>
+                                      <input matInput   [matDatepicker]="pickerdgrn" name="GRNDATE" placeholder="GRN Date"
+                                          [(ngModel)]='newData.GRDATE'  readonly [max]="newData.INWARDDATE" 
+                                          [ngModelOptions]="{standalone: true}">
+                                      <mat-datepicker-toggle matSuffix [for]="pickerdgrn"></mat-datepicker-toggle>
+                                      <mat-datepicker #pickerdgrn></mat-datepicker>
+                                   </mat-form-field>
+                                </div>
+                             </div>
+
+                            <div class="row m-1">
+                              <div class="col-md-5">
+                                    <mat-form-field class="example-full-width w-100" >
+                                      
+                                      <mat-label style="color: cornflowerblue;font-weight: 800;">{{'billamt' | translate}}</mat-label>
+                                      <input matInput placeholder="Bill Amount" name="BILLAMOUNT" (keyup)="CalculateSummary()"
+                                      [(ngModel)]="newData.BILLAMOUNT" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                                      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+                                    </mat-form-field>
+                              </div>
+                              <div class="col-md-1"> &nbsp;</div>
+                              <div class="col-md-5">
+                                <mat-form-field class="example-full-width w-100">
+                                  <mat-label style="color: cornflowerblue;font-weight: 800;">{{'weightslipno' | translate}}</mat-label>
+                                  <input matInput placeholder="Weight Slip No" name="SLIPNO"  (focusout)="getWeighmentSlipWt($event.target.value)"
+                                  [(ngModel)]="newData.SLIPNO" [ngModelOptions]="{standalone: true}"  style="text-align: right;"
+                                  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" >
+                                </mat-form-field>
+                              </div>
+                           </div>
+                         
+                    </div> 
+
+                </div>
+                            <div class="row m-1">
+                              <div class="col-md-12 d-flex">
+                              
+                                <h4 class="col-md-9" style="padding-left:10px;">{{'detailofitem'| translate}}</h4>
+                                <h4 *ngIf="WeighMaxWeight>0" class="col-md-3" style="padding-left:10px;color: blue;">Raw Material Wt : {{WeighMaxWeight}}</h4>
+                                
+                            </div>
+                            </div>
+                            <div class="row">
+                                  <div class="col-md-12">
+                                       <div class="table-scroll">
+                                           <div class="card-body border-top min-width purchase-order px-0">
+                                                <table class="table table-striped custom-table custom-table-big custom-table-big tr th ">
+                                                <thead>
+                                                <tr style="background-color: #666666; color: #ffffff;">
+                                                    <th scope="col"  style="width: 150px;">{{'itemcode' | translate}}</th>
+                                                    <th scope="col"  style="width: 250px;">{{'itemname' | translate}}</th>
+                                                    <th scope="col"  style="width: 50px;"  *ngIf="newData.SHORTNAME!='REJ'">{{'uom' | translate}}</th>
+                                                    <th scope="col"  style="width: 50px;"  *ngIf="newData.SHORTNAME=='REJ'">{{'rateper' | translate}}</th>
+
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'billedqty' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'rectqty' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;" *ngIf="newData.SHORTNAME!='REJ'" >{{'break' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;" *ngIf="newData.SHORTNAME=='REJ'" >{{'weight' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'focqty' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'rate' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'p.o.' | translate}} <br> {{'rate' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'disc%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'disc' | translate}} <br> {{'amt' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'hsn' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'igst%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'igst' | translate}} <br>  {{'amt' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'cgst%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'cgst' | translate}} <br>  {{'amt' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 70px;">{{'sgst%' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 80px;">{{'sgst' | translate}} <br>  {{'amt' | translate}}</th>
+                                                    <th scope="col" style="text-align: right;width: 100px;">{{'Total' | translate}}</th>
+                                                    <th scope="col" style="width:15px;text-align: center;">{{'action' |translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="font-sm">
+                                              <tr>
+                                                 <td class="pl-1 pr-0">
+                                                  <div class="d-flex" style="position: relative;" >
+                                                    <input #codefocus type="text" class="w-100 form-control form-control-sm" [(ngModel)]="newitem.ITEMCODE" (keyup)="searchItemCode($event.target.value,  'S','A')" [ngModelOptions]="{standalone: true}">
+                                                    <span style="position: absolute;right: 7px;top: 6px;" class="fa fa-caret-down"  (click)="searchItemCode(newitem.ITEMCODE,  'A','A')" ></span>
+                                                   </div>
+                                                    <div *ngIf="dropDownListFor=='ADDITEMCODE'" class="search-list-header">
+                                                       <div class="example-loading-shade" *ngIf="isLoadingItemCode">
+                                                         <mat-spinner  [diameter]="20" *ngIf="isLoadingItemCode"></mat-spinner>
+                                                       </div>
+                                                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                                <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                                 <th style="width: 100px;height: 40px;">PO</th>
+                                                                 <th style="width: 100px;height: 40px;">Dated</th>
+                                                                 <th style="width: 80px;height: 40px;">PO Qty</th>
+                                                                 <th style="width: 100px;height: 40px;">Qty Received</th>
+                                                                 <th style="width: 100px;height: 40px;">Qty Pending</th>
+                                                                 <th style="width: 200px;height: 40px;">Item Code</th>
+                                                                 <th style="width: 500px;height: 40px;">Item Name</th>
+                                                               </tr>
+                                                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredPOList"
+                                                                  (click)="onChangeOfItemNameCode(result, newitem)">
+                                                                  <td>{{result.ORDERNO }}</td>
+                                                                  <td>{{result.ORDERDATE|date:'d/M/y' }}</td>
+                                                                  <td>{{result.ORDERQUANTITY }}</td>
+                                                                  <td>{{result.RECEIVEDQTY }}</td>
+                                                                  <td>{{result.PENDINGQTY}}</td>
+                                                                  <td>{{result.ITEMCODE }}</td>
+                                                                  <td>{{result.ITEMNAME }}</td>
+                                                                  
+                                                                </tr>
+                                                              </table>
+                                                          
+                                                        </div>
+                                                        
+                                                 </td>
+                                                 <td class="pl-1 pr-0">
+                                                      <div class="d-flex" style="position: relative;" >
+                                                      <input #codefocus type="text" class="w-100 form-control form-control-sm" [(ngModel)]="newitem.ITEMNAME" (keyup)="searchItemName($event.target.value,  'S','A')" [ngModelOptions]="{standalone: true}">
+                                                      <span style="position: absolute;right: 7px;top: 6px;" class="fa fa-caret-down"  (click)="searchItemName(newitem.ITEMNAME,'A','A')" ></span>
+                                                     </div>
+                                                      <div  *ngIf="dropDownListFor=='ADDITEMNAME'" class="search-list-header">
+                                                        <div class="example-loading-shade" *ngIf="isLoadingItemName">
+                                                          <mat-spinner  [diameter]="20" *ngIf="isLoadingItemName"></mat-spinner>
+                                                        </div>
+                                                                <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                                  <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                                   <th style="width: 100px;height: 40px;">PO</th>
+                                                                   <th style="width: 100px;height: 40px;">Dated</th>
+                                                                   <th style="width: 80px;height: 40px;">PO Qty</th>
+                                                                   <th style="width: 100px;height: 40px;">Qty Received</th>
+                                                                   <th style="width: 100px;height: 40px;">Qty Pending</th>
+                                                                   <th style="width: 200px;height: 40px;">Item Code</th>
+                                                                   <th style="width: 500px;height: 40px;">Item Name</th>
+                                                                 </tr>
+                                                                  <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredPOList"
+                                                                    (click)="onChangeOfItemNameCode(result, newitem)">
+                                                                    <td>{{result.ORDERNO }}</td>
+                                                                    <td>{{result.ORDERDATE|date:'d/M/y' }}</td>
+                                                                    <td>{{result.ORDERQUANTITY }}</td>
+                                                                    <td>{{result.RECEIVEDQTY }}</td>
+                                                                    <td>{{result.PENDINGQTY}}</td>
+                                                                    <td>{{result.ITEMCODE }}</td>
+                                                                    <td>{{result.ITEMNAME }}</td>
+                                                                    
+                                                                  </tr>
+                                                                </table>
+                                                            
+                                                          </div>
+
+                                                 </td>
+                                                 <td  *ngIf="newData.SHORTNAME!='REJ'"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="newitem.UNIT"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                 <td  *ngIf="newData.SHORTNAME=='REJ'"> 
+                                                    <ng-select
+                                                    [(ngModel)]="newitem.UOM" [ngModelOptions]="{standalone: true}"
+                                                    [items]="uomList" (ngModelChange)="CalculateAmount(newitem)"
+                                                        bindLabel="id"
+                                                        bindValue="id"
+                                                        placeholder="UOM"
+                                                        
+                                                        class="form-control border-1 form-control-sm w-100">
+                                                    </ng-select>
+
+                                          
+                                                </td>
+                                                 <td>
+                                                  <input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.QUANTITYBILLED" (keyup)="CalculateAmount(newitem)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}">
+                                                </td>
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.QUANTITYRECEIVED"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td *ngIf="newData.SHORTNAME!='REJ'"><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.QUANTITYBREAKAGE"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                
+                                                  <td *ngIf="newData.SHORTNAME=='REJ'"><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.BILLEDWT"  (keyup)="CalculateAmount(newitem)"
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>  
+
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.QUANTITYFOC"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>    
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.RATE"  (keyup)="CalculateAmount(newitem)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="newitem.ORDERRATE"  [ngModelOptions]="{standalone: true}" readonly></td>
+
+                                                
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.DISCOUNTPERCENT"  (keyup)="CalculateAmount(newitem)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>                                                 
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.DISCOUNTAMOUNT"  (keyup)="CalculateAmount(newitem)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                    
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.HSNCODE" (keyup)="searchHSN($event.target.value,  'S','A')"
+                                                  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}">
+                                                  <div *ngIf="showGSTHsn" class="search-list-header">
+                                                    <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                      <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                       <th style="width: 100px;height: 40px;">HSN</th>
+                                                       <th style="width: 150px;height: 40px;">Description</th>
+                                                       <th style="width: 80px;height: 40px;">IGST</th>
+                                                       <th style="width: 80px;height: 40px;">CGST</th>
+                                                       <th style="width: 80px;height: 40px;">SGST</th>
+                                                       
+                                                     </tr>
+                                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredgstHSNList"
+                                                        (click)="onChangeOfHSN(result, newitem)">
+                                                        <td>{{result.HSNCODE }}</td>
+                                                        <td>{{result.DESCRIPTION }}</td>
+                                                        <td>{{result.IGST }}</td>
+                                                        <td>{{result.CGST}}</td>
+                                                        <td>{{result.SGST }}</td>
+                                                      </tr>
+                                                    </table>
+                                                   </div>
+                                                </td>
+
+                                             
+                                                <td><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="newitem.IGST"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.IGSTAMT" 
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                 
+                                                <td><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="newitem.CGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.CGSTAMT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                               
+                                                  <td><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="newitem.SGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+
+                                                <td><input type="text" class="form-control w-100 text-right" [(ngModel)]="newitem.SGSTAMT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="newitem.AMOUNT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                 <td style="width:20px;text-align: center;">
+                                                     <i (click)="additem()" class="fas fa-plus"></i>
+                                                 </td>
+                                             </tr>
+                                                <tr *ngFor="let item of items ; let i = index" (dblclick)="edititem(item.id)">
+                                                    <td  *ngIf="item.id !== edititemID">{{item.ITEMCODE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID">{{item.ITEMNAME}}</td>
+                                                    <td  *ngIf="item.id !== edititemID&&newData.SHORTNAME!='REJ'" >{{item.UNIT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID&&newData.SHORTNAME=='REJ'" >{{item.UOM}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.QUANTITYBILLED}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.QUANTITYRECEIVED}}</td>
+                                                    <td  *ngIf="item.id !== edititemID&&newData.SHORTNAME!='REJ'" class="text-right">{{item.QUANTITYBREAKAGE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID&&newData.SHORTNAME=='REJ'" class="text-right">{{item.BILLEDWT}}</td>
+                                                    
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.QUANTITYFOC}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.RATE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.ORDERRATE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.DISCOUNTPERCENT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.DISCOUNTAMOUNT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.HSNCODE}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.IGST}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.IGSTAMT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.CGST}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.CGSTAMT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.SGST}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.SGSTAMT}}</td>
+                                                    <td  *ngIf="item.id !== edititemID" class="text-right">{{item.AMOUNT}}</td>
+                                                    
+                                                    <td  *ngIf="item.id === edititemID" class="pl-1 pr-0">
+                                                      <div class="d-flex" style="position: relative;" >
+                                                       <input #codefocus type="text" class="w-100 form-control form-control-sm" [(ngModel)]="item.ITEMCODE" (keyup)="searchItemCode($event.target.value,  'S','E')" [ngModelOptions]="{standalone: true}">
+                                                       <span style="position: absolute;right: 7px;top: 6px;" class="fa fa-caret-down"  (click)="searchItemCode(item.ITEMCODE,  'A','E')" ></span>
+                                                      </div>
+                                                       <div *ngIf="dropDownListFor=='EDITITEMCODE'" class="search-list-header">
+                                                                 <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                                   <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                                    <th style="width: 100px;height: 40px;">PO</th>
+                                                                    <th style="width: 100px;height: 40px;">Dated</th>
+                                                                    <th style="width: 80px;height: 40px;">PO Qty</th>
+                                                                    <th style="width: 100px;height: 40px;">Qty Received</th>
+                                                                    <th style="width: 100px;height: 40px;">Qty Pending</th>
+                                                                    <th style="width: 200px;height: 40px;">Item Code</th>
+                                                                    <th style="width: 500px;height: 40px;">Item Name</th>
+                                                                  </tr>
+                                                                   <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredPOList"
+                                                                     (click)="onChangeOfItemNameCode(result, item)">
+                                                                     <td>{{result.ORDERNO }}</td>
+                                                                     <td>{{result.ORDERDATE|date:'d/M/y' }}</td>
+                                                                     <td>{{result.ORDERQUANTITY }}</td>
+                                                                     <td>{{result.RECEIVEDQTY }}</td>
+                                                                     <td>{{result.PENDINGQTY}}</td>
+                                                                     <td>{{result.ITEMCODE }}</td>
+                                                                     <td>{{result.ITEMNAME }}</td>
+                                                                     
+                                                                   </tr>
+                                                                 </table>
+                                                             
+                                                           </div>
+                                                          
+                                                   </td>
+                                           
+                                                 
+                                                    <td  *ngIf="item.id === edititemID">
+                                                      <div class="d-flex" style="position: relative;" >
+                                                      <input #codefocus type="text" class="w-100 form-control form-control-sm" [(ngModel)]="item.ITEMNAME" (keyup)="searchItemName($event.target.value,  'S','E')" [ngModelOptions]="{standalone: true}">
+                                                      <span style="position: absolute;right: 7px;top: 6px;" class="fa fa-caret-down"  (click)="searchItemName(item.ITEMNAME,  'A','E')" ></span>
+                                                     </div>
+                                                      <div *ngIf="dropDownListFor=='EDITITEMNAME'" class="search-list-header">
+                                                                <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                                  <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                                   <th style="width: 100px;height: 40px;">PO</th>
+                                                                   <th style="width: 100px;height: 40px;">Dated</th>
+                                                                   <th style="width: 80px;height: 40px;">PO Qty</th>
+                                                                   <th style="width: 100px;height: 40px;">Qty Received</th>
+                                                                   <th style="width: 100px;height: 40px;">Qty Pending</th>
+                                                                   <th style="width: 200px;height: 40px;">Item Code</th>
+                                                                   <th style="width: 500px;height: 40px;">Item Name</th>
+                                                                 </tr>
+                                                                  <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredPOList"
+                                                                    (click)="onChangeOfItemNameCode(result, item)">
+                                                                    <td>{{result.ORDERNO }}</td>
+                                                                    <td>{{result.ORDERDATE|date:'d/M/y' }}</td>
+                                                                    <td>{{result.ORDERQUANTITY }}</td>
+                                                                    <td>{{result.RECEIVEDQTY }}</td>
+                                                                    <td>{{result.PENDINGQTY}}</td>
+                                                                    <td>{{result.ITEMCODE }}</td>
+                                                                    <td>{{result.ITEMNAME }}</td>
+                                                                    
+                                                                  </tr>
+                                                                </table>
+                                                            
+                                                          </div>
+
+                                                 </td>
+                                                 <td  *ngIf="item.id === edititemID&&newData.SHORTNAME=='REJ'"> 
+                                                    <ng-select [(ngModel)]="item.UOM" [ngModelOptions]="{standalone: true}"
+                                                      [items]="uomList" (ngModelChange)="CalculateAmount(item)" bindLabel="id"
+                                                        bindValue="id" placeholder="UOM" class="form-control border-1 form-control-sm w-100">
+                                                    </ng-select>
+
+
+                                       
+                                                </td>
+                                                 <td  *ngIf="item.id === edititemID&&newData.SHORTNAME!='REJ'" ><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.UNIT"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                 <td  *ngIf="item.id === edititemID">
+                                                  <input type="text" class="form-control w-100 text-right" [(ngModel)]="item.QUANTITYBILLED" (keyup)="CalculateAmount(item)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}">
+                                                </td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.QUANTITYRECEIVED"
+                                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td *ngIf="item.id === edititemID&&newData.SHORTNAME!='REJ'"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.QUANTITYBREAKAGE"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+
+                                                <td *ngIf="item.id === edititemID&&newData.SHORTNAME=='REJ'"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.BILLEDWT"  (keyup)="CalculateAmount(newitem)"
+                                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>  
+
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.QUANTITYFOC"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>    
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.RATE"  (keyup)="CalculateAmount(item)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td  *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.ORDERRATE"  [ngModelOptions]="{standalone: true}" readonly></td>
+
+                                                
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.DISCOUNTPERCENT"  (keyup)="CalculateAmount(item)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>                                                 
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.DISCOUNTAMOUNT"  (keyup)="CalculateAmount(item)"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.HSNCODE" (keyup)="searchHSN($event.target.value,  'S','E')"
+                                                  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}">
+                                                  <div *ngIf="showEditGSTHsn" class="search-list-header">
+                                                    <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                                      <tr class="ui-menu-item" role="menuitem" style="height: 40px;">
+                                                       <th style="width: 100px;height: 40px;">HSN</th>
+                                                       <th style="width: 150px;height: 40px;">Description</th>
+                                                       <th style="width: 80px;height: 40px;">IGST</th>
+                                                       <th style="width: 80px;height: 40px;">CGST</th>
+                                                       <th style="width: 80px;height: 40px;">SGST</th>
+                                                       
+                                                     </tr>
+                                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredgstHSNList"
+                                                        (click)="onChangeOfHSN(result, item)">
+                                                        <td>{{result.HSNCODE }}</td>
+                                                        <td>{{result.DESCRIPTION }}</td>
+                                                        <td>{{result.IGST }}</td>
+                                                        <td>{{result.CGST}}</td>
+                                                        <td>{{result.SGST }}</td>
+                                                      </tr>
+                                                    </table>
+                                                   </div>
+                                                </td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.IGST"  [ngModelOptions]="{standalone: true}" readonly></td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.IGSTAMT" 
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                 <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.CGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.CGSTAMT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                 
+                                                  <td  *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right readonly-disable" [(ngModel)]="item.SGST"  [ngModelOptions]="{standalone: true}" readonly></td>  
+
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right" [(ngModel)]="item.SGSTAMT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}"></td>
+                                                <td *ngIf="item.id === edititemID"><input type="text" class="form-control w-100 text-right  readonly-disable" [(ngModel)]="item.AMOUNT"
+                                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  [ngModelOptions]="{standalone: true}" readonly></td>  
+
+
+                                                    <div>
+                                                      <i *ngIf="item.id === edititemID" class="fas fa-check customIcon"
+                                                          (click)="updateitem(item)"></i>
+                                                      <i *ngIf="item.id !== edititemID" class="fas fa-edit customIcon"
+                                                          (click)="edititem(item.id)"></i>
+                                                      <i style="margin-left: 5px;" class="far fa-trash-alt customIcon"
+                                                          (click)="removeitem(i)"></i>
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                                    </table>
+                                                </div>
+                                         
+                                </div>
+                            </div>
+                            </div>
+                            
+                            <div class="row m-1">
+                              <div class="col-md-6">
+                                <mat-form-field class="example-full-width w-100">
+                                  <mat-label style="color: cornflowerblue;font-weight: 800;">{{'remarks' | translate}}</mat-label>
+                                        <input matInput placeholder="Remarks" name="Remarks"
+                                        [(ngModel)]="newData.RGPREMARKS" [ngModelOptions]="{standalone: true}" >
+                               </mat-form-field>
+                              </div>
+                              <div class="col-md-1"> &nbsp;</div>
+                              <div class="col-md-5 d-flex">
+                                <div class="col-md-3">
+                                      <mat-form-field class="example-full-width" style="width: 95%;text-align: right;">
+                                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'othercharges' | translate}}</mat-label>
+                                        <input matInput placeholder="OtherCharges" name="OtherCharges" (keyup)="CalculateSummary()"
+                                        [(ngModel)]="newData.OTHERCHARGES" [ngModelOptions]="{standalone: true}"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+                                      </mat-form-field>
+                                </div>
+                              
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width w-100"  style="width: 95%;text-align: right;">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'otherdiscount' | translate}}</mat-label>
+                                    <input matInput placeholder="Other Discount" name="OtherDiscount" (keyup)="CalculateSummary()"
+                                    [(ngModel)]="newData.OTHERDISCOUNT" [ngModelOptions]="{standalone: true}"
+                                    oninput="this.value = this.value.replace(/[^0-9.-]/g, '').replace(/(\..*)\./g, '$1');" >
+                                  </mat-form-field>
+                                </div>
+
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width" style="width: 95%;text-align: right;">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'roundoff' | translate}}</mat-label>
+                                    <input matInput placeholder="Round off" name="roundoff" 
+                                    [(ngModel)]="newData.ROUNDOFF" [ngModelOptions]="{standalone: true}" readonly
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+                                  </mat-form-field>
+                                </div>
+                              
+                                <div class="col-md-3">
+                                  <mat-form-field class="example-full-width w-100"  style="width: 95%;text-align: right;">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'totalamount' | translate}}</mat-label>
+                                    <input matInput placeholder="Total Amount" name="TotalAmount" readonly
+                                    [(ngModel)]="newData.TOTALAMOUNT" [ngModelOptions]="{standalone: true}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" >
+                                  </mat-form-field>
+                                </div>
+                             </div>
+                            </div>
+                            <div class="row m-1">
+                              <div class="col-lg-10">
+                              </div>
+                              <div class="col-lg-2">
+                                  <div class="my-1">
+                                      <button class="btn btn-sm btn-secondary rounded bg-danger" skipLocationChange  [routerLink]="['/mrir-entery-list']">{{'cancel' | translate}}</button>
+                                      &nbsp;
+                                      <button *ngIf="routeAction == 'new'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-info rounded"
+                                          (click)="saverecord('Insert')">{{'save' | translate}}</button>
+                                      <button *ngIf="routeAction != 'new'&&newData.STATUS=='E'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-success rounded"
+                                          (click)="saverecord('update')">{{'update' | translate}}</button>    
+                                          &nbsp;
+                                      <button *ngIf="routeAction != 'new'"  type="button" class="btn btn-sm btn-secondary rounded" (click)="printMRIR()">{{'print'|translate}}</button>
+                                  </div>
+                              </div>
+                            </div>
+
+            </div>
+           </div>
+      </div>
+    </div>
+  </form>
+  <app-footer></app-footer>
+  </div>
+  </div>
+  </div>
+  

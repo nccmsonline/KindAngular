@@ -1,0 +1,22 @@
+<form >
+    <div class="modal-header primary-bg py-2">
+      <h5 *ngIf="action == 'Stock'" class="modal-title text-white" id="exampleModalLabel">Stock</h5>
+      <h5 *ngIf="action == 'Reserved'" class="modal-title text-white" id="exampleModalLabel">Reserved Stock</h5>
+      <h5 *ngIf="action == 'underIOQ'" class="modal-title text-white" id="exampleModalLabel">Under IQC</h5>
+      <h5 *ngIf="action == 'ReceivedYTD'" class="modal-title text-white" id="exampleModalLabel">Received Qty. YTD</h5>
+      <h5 *ngIf="action == 'IssuedYTD'" class="modal-title text-white" id="exampleModalLabel">Issued Qty. YTD</h5>
+      <h5 *ngIf="action == 'TotalIndentQty'" class="modal-title text-white" id="exampleModalLabel">Total Indent Qty.</h5>
+      <h5 *ngIf="action == 'PendingQty'" class="modal-title text-white" id="exampleModalLabel">Total Pending P.O. Qty.</h5>
+      <h5 *ngIf="action == 'wipbatches'" class="modal-title text-white" id="exampleModalLabel">WIP Batches</h5>
+      <button type="button" class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="height:250px;overflow-y:scroll;padding:0px;width:550px;">
+          
+        </div>
+        <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-secondary rounded" mat-dialog-close>Exit</button>
+              <button type="button" class="btn btn-sm btn-info rounded"  [disabled]="indententry.pristine || indententry.invalid">Save changes</button>
+          </div>
+      </form>

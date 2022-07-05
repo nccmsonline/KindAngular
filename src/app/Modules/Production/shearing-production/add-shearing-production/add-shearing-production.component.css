@@ -1,0 +1,306 @@
+.purchase-order .custom-table.table thead th, .purchase-order .custom-table.table tbody td {
+    width: auto;
+}
+
+#pills-tabContent .form-control, #pills-tabContent .select2 {
+    width: 100%;
+}
+
+/* .table-responsive > .custom-table.table td, .table-responsive > .custom-table.table th {
+    padding: .1rem 0.5rem;
+    white-space: nowrap;
+
+} */
+
+.table-scroll{
+    overflow-y: scroll;
+    height:325px;
+}
+
+.tdAlign{
+    text-align: right;
+}
+/* .table thead tr th {white-space: nowrap;} */
+
+
+.custom-drop{
+    height: 24px !important; }
+/* td.pl-1.pr-0.test {
+    min-width: 250px  !important;;
+    
+} */
+
+/* Error Validation */
+.error-control-label1.required:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 5px;
+  }
+  
+  .has-error .form-control{
+    border-color: #bb0303;
+  }
+
+.min-width{
+    min-width: 1600px;
+}
+
+.search-list-supplier {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+    width: 780px;
+}
+
+.search-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+}
+
+.search-list > ul, .search-list-supplier > ul {
+    margin: 0;
+    padding: 0;
+    
+}
+
+.search-list ul li, .search-list-supplier ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    /* margin: 0 0 4px; */
+    padding: 2px;
+    width: 370px;
+}
+
+.search-list ul li a, .search-list-supplier ul li a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+}
+.search-list ul li a:hover, .search-list-supplier ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.search-list ul li:hover, .search-list-supplier ul li:hover {
+    background-color: #d4d9de;
+}
+
+.search-list-supplier.ng-star-inserted {
+    height: 300px;
+    overflow-y: auto;
+  }
+
+table#selectedValue {font-size: 13px;}
+table#selectedValue tr td {
+  padding: 2px 5px;
+}
+.purchase-order .custom-table.table thead th, .purchase-order .custom-table.table tbody td {
+    width: auto;
+}
+
+#pills-tabContent .form-control, #pills-tabContent .select2 {
+    width: 100%;
+}
+
+/* .table-responsive > .custom-table.table td, .table-responsive > .custom-table.table th {
+    padding: .1rem 0.5rem;
+    white-space: nowrap;
+   
+} */
+
+.table-scroll{
+    overflow-y: scroll;
+    height:325px;
+}
+
+.ng-select.ng-select.form-control.ng-select-single{
+  max-width: 487px;
+}
+
+.min-width{
+    min-width: 2000px;
+}
+.custom-customer-order-list{
+    min-width: 400px;     
+    min-height: 100px;
+}
+
+/* .nav-tabs .nav-link {
+    padding: 6px 5px;
+} */
+
+/* .search-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: relative;
+    z-index: 505;
+} */
+.search-list {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  z-index: 49;
+  position: absolute;
+  width: 700px; 
+  overflow-y: auto;
+  height: 300px;
+}
+
+.search-list-customer {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+}
+
+.search-list > ul, .search-list-customer > ul {
+    margin: 0;
+    padding: 0;
+    
+}
+
+.search-list ul li, .search-list-customer ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    /* margin: 0 0 4px; */
+    padding: 2px;
+    width: 370px;
+}
+
+.search-list ul li a, .search-list-customer ul li a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+}
+.search-list ul li a:hover, .search-list-customer ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.search-list ul li:hover, .search-list-customer ul li:hover {
+    background-color: #d4d9de;
+}
+
+.ng-dropdown-panel {
+    width: auto !important;
+}
+.limittext {
+    display: block;
+    width: 140px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+
+
+
+  .search-list-header {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    margin-top: 25px;
+  }
+  
+  .search-list > ul, .search-list-header > ul {
+    margin: 0;
+    padding: 0;
+    
+  }
+  
+  .search-list ul li, .search-list-header ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    padding: 2px;
+    width: 370px;
+  }
+  
+  .search-list ul li a, .search-list-header ul li a{
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+  }
+  .search-list ul li a:hover .search-list-header ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+  }
+  
+  .search-list ul li:hover, .search-list-header ul li:hover {
+    background-color: #d4d9de;
+  }
+  
+  .search-list-header {
+    height: 300px;
+    overflow-y: auto;
+  }
+
+  table#selectedValue {font-size: 13px;}
+  table#selectedValue tr td {
+    padding: 2px 5px;
+  }
+/* 
+  .error-control-label.required:after { 
+    color: #d00;
+    content: "*";
+    position: absolute;
+    margin-left: 5px;
+} */
+
+.has-error .error-border{
+    border-color: #bb0303 !important;
+}
+
+.custom-table.table .custom-table-left-align {
+  padding: 10px 50px 10px 4px;
+  white-space: nowrap;
+}
+
+.custom-table.table .custom-table-right-align {
+  padding: 10px 5px 10px 40px;
+  white-space: nowrap;
+}
+
+.custom-table.table .custom-table-center-align {
+  padding: 0px 5px 10px 0px;
+  white-space: nowrap;
+}
+
+.custom-table.table .custom-table-action-align {
+  padding: 10px 15px 10px 15px;
+  white-space: nowrap;
+}
+
+.search-list-supplier {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  position: absolute;
+  z-index: 505;
+  width: 720px;
+  height: 300px;
+  overflow-y: auto;
+}
+
+.search-list-header.ng-star-inserted {
+  height: 300px;
+  overflow-y: auto;
+}
+
+/* .search-list-supplier.ng-star-inserted {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  position: absolute;
+  z-index: 505;
+  width: 720px;
+} */

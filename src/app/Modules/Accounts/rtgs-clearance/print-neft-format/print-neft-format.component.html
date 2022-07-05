@@ -1,0 +1,113 @@
+
+  <div class="form-group mr-2 ml-auto bd-highlight">
+      <span class="d-flex">
+              <!-- <a skipLocationChange  [routerLink]="backto" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"> -->
+                <a skipLocationChange  [routerLink]="backto" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                  class="mdi mdi-keyboard-backspace"></i></a>
+                  &nbsp;&nbsp;
+          <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('NeftDetail.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
+          <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+              <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="exportToExcel()"  ><i class="fa fa-file-excel"></i>&nbsp;{{'export'| translate}}</button>
+          
+          </div>
+        </span>
+    </div>
+    <div>
+    <kendo-pdf-export #pdf paperSize="A4" landscape="true" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 20, left: 20}" [repeatHeaders]="repeatHeaders">
+      <div class="example-loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+     </div>
+        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);" >
+           <!-- <h5> {{CompanyName}}</h5><br> -->
+           <b>To, </b>
+           <b>&nbsp;&nbsp;&nbsp;&nbsp; The Branch Managaer,</b>
+            <b>&nbsp;&nbsp;&nbsp;&nbsp; {{BankName}}</b><br>
+
+
+       <div class="table-responsive"  >
+         
+       <table class="custom-invoice-table" id="contentToConvert" border="1px"> 
+           <thead>
+              <tr><th colspan="34"></th> </tr>    
+                  <!-- <tr><td colspan="7"><h5>&nbsp;&nbsp; </h5></td></tr> -->
+              <tr class="bg-sky border-lb">
+                  
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column1">{{Header.Column1}} </th>
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column2">{{Header.Column2}}</th>
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column3">{{Header.Column3}}</th>
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column4">{{Header.Column4}} </th>
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column5">{{Header.Column5}}</th>
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column6">{{Header.Column6}}</th>
+                <th scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column7">{{Header.Column7}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column8">{{Header.Column8}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column9">{{Header.Column9}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column10">{{Header.Column10}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column11">{{Header.Column11}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column12">{{Header.Column12}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column13">{{Header.Column13}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column14">{{Header.Column14}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column15">{{Header.Column15}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column16">{{Header.Column16}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column17">{{Header.Column17}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column18">{{Header.Column18}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column19">{{Header.Column19}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column20">{{Header.Column20}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column21">{{Header.Column21}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column22">{{Header.Column22}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column23">{{Header.Column23}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column24">{{Header.Column24}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column25">{{Header.Column25}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column26">{{Header.Column26}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column27">{{Header.Column27}} </th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column28">{{Header.Column28}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column29">{{Header.Column29}}</th>
+                <th scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column30">{{Header.Column30}} </th>  
+              </tr>
+
+            </thead>
+            <tbody class="font-sm">
+              
+            <tr *ngFor="let x of  Detail">
+                <td scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column1">{{x.Column1}} </td>
+                <td scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column2">{{x.Column2}}</td>
+                <td scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column3">{{x.Column3}}</td>
+                <td scope="col" class="bg-sky border-lb" style="text-align : left"  *ngIf="Header.Column4">{{x.Column4}} </td>
+                <td scope="col" class="bg-sky border-lb" style="text-align : left"  *ngIf="Header.Column5">{{x.Column5}} </td>
+                <td scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column6">{{x.Column6}}</td>
+                <td scope="col" class="bg-sky border-lb" style="text-align : left" *ngIf="Header.Column7">{{x.Column7}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column8">{{x.Column8}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column9">{{x.Column9}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column10">{{x.Column10}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column11">{{x.Column11}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column12">{{x.Column12}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column13">{{x.Column13}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column14">{{x.Column14}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column15">{{x.Column15}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column16">{{x.Column16}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column17">{{x.Column17}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column18">{{x.Column18}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column19">{{x.Column19}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column20">{{x.Column20}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column21">{{x.Column21}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column22">{{x.Column22}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column23">{{x.Column23}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column24">{{x.Column24}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column25">{{x.Column25}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column26">{{x.Column26}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column27">{{x.Column27}} </td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column28">{{x.Column28}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column29">{{x.Column29}}</td>
+                <td scope="col" class="bg-sky border-lb"  style="text-align : left" *ngIf="Header.Column30">{{x.Column30}} </td>
+                
+             </tr>
+             <!-- <tr><td colspan="17" style="text-align : center"><b>Total</b></td>
+              <td colspan="17" style="text-align : left"><b>{{ot.TOTAL| number:'1.1-1'}}</b></td>
+            </tr>  -->
+            </tbody>
+           
+        </table>
+        <b>Total Neft Amt :{{totalamount| number:'1.1-1'}} </b>
+      </div>
+      </div>
+      </kendo-pdf-export>
+      </div>

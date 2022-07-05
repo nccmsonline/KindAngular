@@ -1,0 +1,316 @@
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+    </div>
+  </div>
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+  
+    <div class="page-wrapper">
+      <div class="container-fluid" style="background:#dcdcdc;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);" >
+              <div class="card-body py-2 mb-2">
+                <div class="d-md-flex align-items-center">
+                  <div class="form-row mx-0 d-flex bd-highlight w-100">
+                    <a [routerLink]="['/management-planner']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Management Planner"><i class="mdi mdi-keyboard-backspace"></i></a>
+                    <h4 class="card-title m-0">{{groupname}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ============================================================== -->
+          <!-- Sales chart -->
+          <!-- ============================================================== -->
+  
+          <!-- ============================================================== -->
+          <!-- Ravenue - page-view-bounce rate -->
+          <!-- ============================================================== -->
+          <div class="col-md-12">
+            <!-- column -->
+            <notifier-container></notifier-container>
+            <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+              
+              <div class="w-100">
+                <div class="example-loading-shade" *ngIf="isLoadingResults">
+                  <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+             </div>
+                <div class="card example-container" style="box-shadow:0 1px 3px rgba(0,0,0,.3);" style="height: 430px;">
+                  <table class="table custom-table mb-5">
+                    
+                    <thead>
+                     
+                      <tr class="bg-light" style=" color: #0e43af;">
+                        <th scope="col" style="width:2%;">{{'sr' | translate}}</th>
+                        <th scope="col" style="width:20%;">{{'activity/task' | translate}}</th>
+                        <th scope="col" style="width:5%;">{{'refno' | translate}}</th>
+                        <th scope="col" style="width:5%;">{{'duedatefromaction' | translate}}</th>
+                        <th scope="col" style="width:5%;">{{'extendeddate' | translate}}</th>
+                        <th scope="col" style="width:10%;">{{'kindattention' | translate}}</th>
+                        <th scope="col" style="width:8%;">{{'statusoftask' | translate}}</th>
+                        <th scope="col" style="width:5%;">{{'actiontakenon' | translate}}</th>
+                        <th scope="col" style="width:8%;">{{'actiontakenby' | translate}}</th>
+                        <th scope="col" style="width:8%;">{{'escalateto' | translate}}</th>
+                        <th scope="col" colspan="2" style="width:7%;">{{'afterdays' | translate}}</th>
+                        <th scope="col" style="width:10%;">{{'remarks' | translate}}</th>
+                        <!-- <th scope="col" style="width:1%;">{{'attach' | translate}}</th> -->
+                        <th scope="col" style="width:3%;">{{'action' | translate}}</th>
+                      </tr>
+                    </thead>
+                    <tbody class="font-sm">
+                      <tr>
+                        <td></td>
+                        <td>
+                          <textarea type="text" class="h-25 form-control form-control-sm w-100 text-area-custom" [(ngModel)]="openingstock.ACTIVITY" [ngModelOptions]="{standalone: true}"></textarea>
+                        </td>
+  
+                        <td>
+                          <input type="text" class="form-control w-100" [(ngModel)]="openingstock.REFERENCENO" [ngModelOptions]="{standalone: true}">
+                        </td>
+  
+                        <td>
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="duedate" [(ngModel)]="openingstock.DUEDATE" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="duedate"></mat-datepicker-toggle>
+                            <mat-datepicker #duedate disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+  
+                        <td>
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="reminderdate"[min]='date' [max]="openingstock.DUEDATE" [(ngModel)]="openingstock.REMINDERDATE" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="reminderdate"></mat-datepicker-toggle>
+                            <mat-datepicker #reminderdate disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+  
+                        <td>
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" (select)="kindAttnChange($event, openingstock)" [allowClear]="true"
+                            [(ngModel)]="openingstock.ASSIGNEDTO" [ngModelOptions]="{standalone: true}" [items]="userarray" optionValueField="USERID" optionTextField="USERNAME">
+                          </ngx-select>
+                        </td>
+  
+                        <td>
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" [allowClear]="true" [(ngModel)]="openingstock.TASKSTATUS"
+                            [ngModelOptions]="{standalone: true}" [items]="statusArray" optionValueField="ID"
+                            optionTextField="TASKSTATUSNAME" (select)="statusTaskChange($event, openingstock)">
+                          </ngx-select>
+                        </td>
+  
+                        <td>
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="actiontakenon" [max]="date" [(ngModel)]="openingstock.ACTIONTAKENON" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="actiontakenon"></mat-datepicker-toggle>
+                            <mat-datepicker #actiontakenon disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+  
+                        <td>
+                          <input type="text" class="form-control w-100" [(ngModel)]="openingstock.ACTIONTAKENBY" [ngModelOptions]="{standalone: true}">
+                        </td>
+  
+                        <td>
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" (select)="escalateChange($event, openingstock)" (remove)="removeescalateChange($event, openingstock)" [allowClear]="true"
+                            [(ngModel)]="openingstock.ESCLATEUSER" [ngModelOptions]="{standalone: true}" [items]="userarray" optionValueField="USERID" optionTextField="USERNAME">
+                          </ngx-select>
+                        </td>
+  
+                        <td>
+                          <input type="text" class="form-control w-100 {{openingstock.readonlyDisableClass}}" maxlength="3" [(ngModel)]="openingstock.AFTERDAYS" [ngModelOptions]="{standalone: true}" 
+                          (keyup)="yearCheck($event.target.value, openingstock)" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" [readonly]="openingstock.readonlyCheck">
+                        </td>
+  
+                        <td>
+                          <input type="text" class="form-control w-100 {{openingstock.readonlyDisableClass}}" maxlength="2" [(ngModel)]="openingstock.AFTERHRS" [ngModelOptions]="{standalone: true}"
+                           (keyup)="hoursCheck($event.target.value, openingstock)" [readonly]="openingstock.readonlyCheck" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </td>
+  
+                        <td>
+                          <textarea type="text" class="h-25 form-control form-control-sm w-100 text-area-custom" maxlength="50" [(ngModel)]="openingstock.REMARKS" [ngModelOptions]="{standalone: true}"></textarea>
+                        </td>
+                        <!-- <td></td> -->
+  
+                        <td style="width:60px;text-align: center;">
+                          <!-- <i (click)="addActivity(openingstock)" class="fas fa-plus"></i> -->
+                          <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light ml-2" (click)="addActivity(openingstock)">+</button>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let contact of yearopeningnew ; let i = index" [ngStyle]="{'background': contact.backgroundColour}">
+                        <td (click)="updateopening()">{{i+1}}</td>
+                        <td matTooltip="{{contact.ACTIVITY}}"> <a style="color: #0e43af !important;cursor: pointer !important;" (click)="editopening(contact.ID)"><span class="limittext">{{ contact.ACTIVITY }}</span></a></td>
+                        <td (click)="updateopening()">{{contact.REFERENCENO}}</td>
+                        <td (click)="updateopening()">{{contact.DUEDATE | date:'dd/MM/yyyy'}}</td>
+                        <td (click)="updateopening()">{{contact.REMINDERDATE | date:'dd/MM/yyyy' }}</td>
+                        <td (click)="updateopening()">{{contact.ASSIGNEDUSER}}</td>
+                        <td *ngIf="contact.ID === editContactID">
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" [allowClear]="true" [(ngModel)]="contact.TASKSTATUS"
+                            [ngModelOptions]="{standalone: true}" [items]="statusArray" optionValueField="ID"
+                            optionTextField="TASKSTATUSNAME" (select)="statusTaskChange($event, openingstock)">
+                          </ngx-select>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (click)="updateopening()">{{contact.TASKSTATUSNAME}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="actiontakenon" [max]="date" [(ngModel)]="contact.ACTIONTAKENON" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="actiontakenon"></mat-datepicker-toggle>
+                            <mat-datepicker #actiontakenon disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        <td *ngIf="contact.ID !== editContactID" (click)="updateopening()">{{contact.ACTIONTAKENON |   date:'dd/MM/yyyy' }}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100" [(ngModel)]='contact.ACTIONTAKENBY' [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (click)="updateopening()">{{contact.ACTIONTAKENBY}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" [allowClear]="true" (select)="escalateChange($event, contact)"
+                            [(ngModel)]="contact.ESCLATEUSER" [ngModelOptions]="{standalone: true}" [items]="userarray" optionValueField="USERID" optionTextField="USERNAME"></ngx-select>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (click)="updateopening()">{{contact.ESCLATEUSER1}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100 {{contact.readonlyDisableClass}}" maxlength="3" [(ngModel)]="contact.AFTERDAYS" [ngModelOptions]="{standalone: true}" 
+                          (keyup)="yearCheck($event.target.value, contact)" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');" [readonly]="contact.readonlyCheck">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (click)="updateopening()">{{contact.AFTERDAYS}}</td>
+
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100 {{contact.readonlyDisableClass}}" maxlength="2" [(ngModel)]="contact.AFTERHRS" [ngModelOptions]="{standalone: true}"
+                           (keyup)="hoursCheck($event.target.value, contact)" [readonly]="contact.readonlyCheck" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (click)="updateopening()">{{contact.AFTERHRS}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <textarea type="text" class="h-25 form-control form-control-sm w-100 text-area-custom" maxlength="50" [(ngModel)]="contact.REMARKS" [ngModelOptions]="{standalone: true}"></textarea>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" matTooltip="{{contact.ACTIVITY}}"> 
+                          <span class="limittext">  {{contact.REMARKS}}</span>
+                        </td>
+                        <td style="text-align: center;">
+                          <button *ngIf="contact.ID === editContactID" type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light ml-2" (click)="updateActivity(contact)"> <i  class="fas fa-check customIcon" ></i></button>
+                         
+                          <!-- <i  class="fas fa-paperclip custom-book-class" (click)="imagePopup(contact)" matTooltip="{{'uploadreliefpattern' | translate}}" matTooltipClass="custom-tooltip-class"></i> -->
+                          <!-- <i *ngIf="item.imagesArray.length != 0" class="fas fa-paperclip custom-book-class" style="color:green !important;"  (click)="imagePopup(item)" matTooltip="{{'uploadreliefpattern' | translate}}" matTooltipClass="custom-tooltip-class"></i> -->
+                          <!-- <i (click)="imagePopup(item)" matTooltip="Upload Relief Pattern" class="fa fa-upload"></i> -->
+                      </td>
+                        <!-- <td *ngIf="contact.ID !== editContactID" (click)="updateopening()" matTooltip="{{ contact.REMARKS }}">{{contact.REMARKS}}</td> -->
+                        
+                        
+  
+                        <!-- <td style="width:60px;text-align: center;"> -->
+                          <!-- <div>
+                            <i *ngIf="contact.ID === editContactID" class="fas fa-check customIcon" (click)="updateopening(contact)"></i>
+                            <i *ngIf="contact.ID !== editContactID" class="fas fa-edit customIcon" (click)="editopening(contact.ID)"></i>
+                            <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeyearopening(i)"></i>
+                          </div> -->
+                        <!-- </td> -->
+                      </tr>
+  
+                      <!-- <tr *ngFor="let contact of yearopeningnew ; let i = index" class="{{contact.check}}">
+                        <td>{{i+1}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <textarea type="text" class="h-25 form-control form-control-sm w-100 text-area-custom" [(ngModel)]="contact.activity" [ngModelOptions]="{standalone: true}"></textarea>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)" matTooltip="{{ contact.activity }}"> <a style="color: #0e43af !important;cursor: pointer !important;"><span class="limittext">{{ contact.activity }}</span></a></td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100" [(ngModel)]='contact.referenceno' [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.referenceno}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="duedate" [min]="date" [(ngModel)]="contact.duedate" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="duedate"></mat-datepicker-toggle>
+                            <mat-datepicker #duedate disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.duedate | date:'dd/MM/yyyy'}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="reminderdate" [min]="contact.duedate" [(ngModel)]="contact.reminderdate" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="reminderdate"></mat-datepicker-toggle>
+                            <mat-datepicker #reminderdate disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.reminderdate | date:'dd/MM/yyyy' }}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" [allowClear]="true" (select)="kindAttnChange($event, contact)"
+                            [(ngModel)]="contact.assignedto" [ngModelOptions]="{standalone: true}" [items]="userarray" optionValueField="userid" optionTextField="username"></ngx-select>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.esclateuser}}</td>
+                        
+                        <td *ngIf="contact.ID === editContactID">
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" [allowClear]="true" (select)="statusTaskChange($event, contact)"
+                            [(ngModel)]="contact.taskstatus" [ngModelOptions]="{standalone: true}" [items]="statusArray" optionValueField="id" optionTextField="taskstatusname"></ngx-select>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.taskstatusname}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <mat-form-field class="form-control w-100 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="actiontakenon" [max]="date" [(ngModel)]="contact.actiontakenon" [ngModelOptions]="{standalone: true}" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="actiontakenon"></mat-datepicker-toggle>
+                            <mat-datepicker #actiontakenon disabled="false"></mat-datepicker>
+                          </mat-form-field>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.actiontakenon |   date:'dd/MM/yyyy' }}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100" [(ngModel)]='contact.actiontakenby' [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.actiontakenby}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" [allowClear]="true" (select)="escalateChange($event, contact)"
+                            [(ngModel)]="contact.esclatetouser" [ngModelOptions]="{standalone: true}" [items]="userarray" optionValueField="userid" optionTextField="username"></ngx-select>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.assigneduser}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100" [(ngModel)]="contact.afterdays" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.afterdays}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <input type="text" class="form-control w-100" maxlength="2" [(ngModel)]="contact.afterhrs" [ngModelOptions]="{standalone: true}" 
+                          (keyup)="hoursCheck($event.target.value, contact)" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)">{{contact.afterhrs}}</td>
+  
+                        <td *ngIf="contact.ID === editContactID">
+                          <textarea type="text" class="h-25 form-control form-control-sm w-100 text-area-custom" [(ngModel)]="contact.remarks" [ngModelOptions]="{standalone: true}"></textarea>
+                        </td>
+                        <td *ngIf="contact.ID !== editContactID" (dblclick)="editopening(contact.ID)" matTooltip="{{ contact.remarks }}">{{contact.remarks}}</td>
+  
+                        <td style="width:60px;text-align: center;">
+                          <div>
+                            <i *ngIf="contact.ID === editContactID" class="fas fa-check customIcon" (click)="updateopening(contact)"></i>
+                            <i *ngIf="contact.ID !== editContactID" class="fas fa-edit customIcon" (click)="editopening(contact.ID)"></i>
+                            <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeyearopening(i)"></i>
+                          </div>
+                        </td>
+                      </tr> -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+  
+            <div class="modal-footer">
+              <button type="button" class="btn btn-sm btn-secondary rounded bg-danger" [routerLink]="['/management-planner']">{{'cancel'|translate}}</button>
+              <!-- <button type="button" class="btn btn-sm btn-info rounded" [disabled]="" (click)="saveplanner(yearopeningnew)">{{'save'|translate}}</button> -->
+            </div>
+          </div>
+        </div>
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </div>

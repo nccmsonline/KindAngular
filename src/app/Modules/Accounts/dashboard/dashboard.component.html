@@ -1,0 +1,256 @@
+
+<div class="preloader" style="display: none;">
+  <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+  </div>
+</div>
+
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+  data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<div class="page-wrapper">
+  <div class="container-fluid" style="background:#dcdcdc;">
+    <div class="row">
+      <div class="col-12">
+          <div class="example-loading-shade" *ngIf="isLoadingResults">
+              <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner  [diameter]="60" *ngIf="isLoadingResults"></mat-spinner>
+              </div>
+          <!-- <button  type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="encryptMyData()">Save</button> -->
+          <div class="card">
+              <div class="card-body py-0 mb-2 position-relative">
+              <ul class="nav nav-tabs custom-pills font-sm font-weight-sb" id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                      <a class="nav-link active show" id="deiallist_info" data-toggle="pill" href="#deiallist" role="tab"
+                      aria-selected="false">Summary</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" id="chart_detail" data-toggle="pill" href="#charts" role="tab"
+                      aria-selected="false">Charts</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="stock_detail" data-toggle="pill" href="#stock" role="tab"
+                    aria-selected="false">Stock</a>
+                </li>
+              </ul>
+              <div class="tab-content m-t-10" id="pills-tabContent">
+              <div class="tab-pane fade active show" id="deiallist" role="tabpanel" aria-labelledby="deiallist_info">
+              <!-- <div class="card-body"> -->
+                  <div class="row">
+                      <div class="col-lg-6">
+                          <h6>Sale Detail</h6>
+                          <table class="table table-striped custom-table tr th">
+                            <thead>
+                              <tr>
+                                <th rowspan="2" style="text-align:center;width: 28%;vertical-align:middle;">Particulars</th>
+                                <th colspan="3" style="text-align:center;">Weight</th>
+                                <th colspan="3" style="text-align:center;">Amount</th>
+                              </tr>
+                              <tr >  
+                                <th style="text-align:right;width: 12%;"> Mgf</th>
+                                <th style="text-align:right;width: 12%;">Job Work</th>
+                                <th style="text-align:right;width: 12%;">Others</th>
+                                <th style="text-align:right;width: 12%;"> Mgf</th>
+                                <th style="text-align:right;width: 12%;">Job Work</th>
+                                <th style="text-align:right;width: 12%;">Others</th>
+                              </tr>
+                            </thead> 
+                            <tbody>
+                              <tr *ngFor="let element of saleFieldArray"  (click)="showDetail(element)">
+                                  <td> {{element.PARTICULAR}}</td>
+                                  <td style="text-align:right">{{element.MGFWT| number : '1.3-3'}}</td>
+                                  <td style="text-align:right">{{element.JOBWT| number : '1.3-3'}}</td>
+                                  <td style="text-align:right">{{element.SCRAPWT| number : '1.3-3'}}</td>
+                                  <td style="text-align:right">{{element.MGFAMT| number : '1.2-2'}}</td>
+                                  <td style="text-align:right">{{element.JOBAMT| number : '1.2-2'}}</td>
+                                  <td style="text-align:right">{{element.SCRAPAMT| number : '1.2-2'}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <h6> Ceritical Stock</h6>
+                          <table class="table table-striped custom-table tr th">
+                              <thead>
+                                <tr>  
+                                  <th style="width: 80%;"> Item Name</th>
+                                  <th style="text-align:right;width: 20%;">Stock in Hand</th>
+                                </tr>
+                              </thead> 
+                              <tbody >
+                                <tr *ngFor="let element of criticalFieldArray"  >
+                                  
+                                    <td> {{element.ITEMNAME}}</td>
+                                    <td style="text-align:right">{{element.STOCKINHANDQTY}}</td>
+                                  
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                      <div class="col-lg-6">
+                          <h6>Urgent Requirments</h6>
+                          <table class="table table-striped custom-table tr th">
+                          <thead>
+                              <tr>  
+                                <th style="width: 80%;"> Item Name</th>
+                                <th style="text-align:right;width: 20%;">Quantity</th>
+                              </tr>
+                            </thead> 
+                            <tbody>
+                              <tr *ngFor="let element of urgentFieldArray" >
+                                  <td> {{element.ITEMNAME}}</td>
+                                  <td style="text-align:right">{{element.QUANTITY}}</td>
+                              </tr>
+                            </tbody>
+                       
+                      </table>
+                      </div>
+                   <!-- </div> -->
+              </div>
+              </div>
+              <div class="tab-pane fade" id="charts" role="tabpanel" aria-labelledby="chart_detail">
+                  <!-- <div class="card-body"> -->
+                      <div class="row">
+                          <div class="ml-auto d-flex no-block align-items-center">
+                              <div class="dl">
+                                  <select class="custom-select" (change)="showChartData($event.target.value)">
+                                      <option value="Monthly" selected>Monthly</option>
+                                      <!-- <option value="1">Daily</option> -->
+                                      <option value="Weekly">Weekly</option>
+                                      <!-- <option value="3">Yearly</option> -->
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-6">
+                              <p-chart type="bar" [data]="data" [options]="options" height="400px"></p-chart>
+                          </div>
+                          <div class="col-lg-6">
+                              <p-chart type="bar" [data]="pcdata" [options]="cpoptions" height="400px"></p-chart>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="stock" role="tabpanel" aria-labelledby="stock_detail">
+                 
+                          <div class="row">
+                              <div class="ml-auto d-flex no-block align-items-center">
+                                  <div class="col-md-11">
+                                    <mat-radio-group mat-radio-group class="mat-radio-label d-flex align-items-center" name="pType" [(ngModel)]="pType"  [ngModelOptions]="{standalone: true}"    aria-label="Select an option">
+                                      <mat-radio-button class="example-margin h6 mx-3" value="O" >{{'All Stock' | translate}} </mat-radio-button>
+                                      <mat-radio-button class="example-margin h6 mx-3" value="S" checked>{{'Minium from Stock In Hand' | translate}} </mat-radio-button>
+                                      <mat-radio-button class="example-margin h6 mx-3" value="A">{{'Minium from Stock In Hand, Indent, PO And Rect' | translate}} </mat-radio-button>
+                                      
+                                     </mat-radio-group>
+                                  </div>
+                                  <div class="col-md-1">
+                                    <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="showMinimumLevel()">{{'Show'| translate}}</button>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                <table  class="w-100"  cellspacing="0" cellpadding="0" border="1">
+                                  <tr>
+                                    <th>Item Code</th>
+                                    <th>Item Name</th>
+                                    <th style="text-align: right;">In Stock</th>
+                                    <th style="text-align: right;">Indent Qty</th>
+                                    <th style="text-align: right;">PO Qty</th>
+                                    <th style="text-align: right;">Qty At Rect</th>
+                                    <th style="text-align: right;">Total Qty</th>
+                                    <th style="text-align: right;">Min Level</th>
+                                    <th style="text-align: right;">Max Level</th>
+                                  </tr>  
+                                  <tr *ngFor="let item of minmumLevelStockList ; let i = index">
+                                    <td>{{item.ITEMCODE}}</td>
+                                    <td>{{item.ITEMNAME}}</td>
+                                    <td style="text-align: right;">{{item.STOCKINHANDQUANTITY}}</td>
+                                    <td style="text-align: right;" (click)="showStockPopup('I', item.ITEMID,item.INDENTQTY)"> <a style="color: #0e43af !important;cursor: pointer !important;"> {{item.INDENTQTY}} </a> </td>
+                                    <td style="text-align: right;" (click)="showStockPopup('P', item.ITEMID, item.POQTY)"> <a style="color: #0e43af !important;cursor: pointer !important;"> {{item.POQTY}} </a> </td>
+                                    <td style="text-align: right;" (click)="showStockPopup('R', item.ITEMID, item.QTYATRECT)"> <a style="color: #0e43af !important;cursor: pointer !important;"> {{item.QTYATRECT}} </a> </td>
+                                    <td style="text-align: right;">{{item.TOTALQTY}}</td>
+                                    <td style="text-align: right;">{{item.MINIMUMLEVEL}}</td>
+                                    <td style="text-align: right;">{{item.MAXIMUMLEVEL}}</td>
+                                  </tr>   
+                                </table>  
+                                  
+                              </div>
+                          </div>
+                        </div> 
+                  <!-- </div> -->
+                  </div>
+
+              </div>
+          </div>
+      </div>
+    </div>
+    <app-footer></app-footer>
+</div>
+</div>
+
+
+<!-- 
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+<div class="row">
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+<div class="col-12">
+  <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+
+
+    <div class="d-flex- row">
+    <div class="col-lg-7 tab-content m-t-10" id="pills-tabContent">
+
+      <div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+       
+      </div>
+  
+     
+        <div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3)  scrollit;min-height: 200px">
+            
+        </div>
+      </div> 
+      <div class="col-lg-5">
+          <div class="border position-relative scrollit1" style="background: #ffffcf;min-height:400px;">
+              <h6> Ceritical Stock</h6>
+              <table class="table table-striped custom-table tr th">
+                  <thead>
+                    <tr>  
+                      <th style="width: 80%;"> Item Name</th>
+                      <th style="text-align:right;width: 20%;">Stock in Hand</th>
+                    </tr>
+                  </thead> 
+                  <tbody >
+                    <tr *ngFor="let element of criticalFieldArray"  >
+                      
+                        <td> {{element.ITEMNAME}}</td>
+                        <td style="text-align:right">{{element.STOCKINHANDQTY}}</td>
+                      
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
+      </div>    
+
+      <div class="col-lg-5">
+        <div class="border position-relative scrollit1" style="background: #ffffcf;min-height:400px;">
+            <h6> Chart</h6>
+           
+        </div>
+    </div>    
+   
+</div>
+</div>
+</div>
+</div>
+
+<app-footer></app-footer>
+    </div>
+</div>
+</div> -->

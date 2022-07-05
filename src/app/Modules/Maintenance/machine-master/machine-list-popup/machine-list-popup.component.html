@@ -1,0 +1,163 @@
+<form>
+    <div class="example-loading-shade" *ngIf="isLoadingResults ">
+        <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+      </div>
+      
+    <div class="modal-header primary-bg py-2">
+      <h5  class="modal-title text-white" id="exampleModalLabel">{{newData.MACHINENAME}} - {{newData.MACHINESERIALNO}}</h5> 
+      <button class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body" style="height:400px;padding:0;max-width: 900px;">
+        <div class="scroll-spy pb-3 pl-1" style="height:400px;overflow-y: scroll;" id="parentDiv" scrollSpy>
+            <div class="card-body border-top supplier-category-master px-0 py-0">
+                <div class="table-wrapper-scroll-y" style="min-height: 180px;">
+                    <div class="d-flex">
+                        <mat-radio-group [(ngModel)]="TYPEID" [ngModelOptions]="{standalone: true}" (change)="changeRadio($event)" mat-radio-group class="col-md-12 mat-radio-label d-flex align-items-center">
+                            <div class="col-md-12">
+                                <mat-radio-button class="mr-2" *ngFor="let data of radioDDArray" [value]="data.id">{{data.name}}</mat-radio-button>
+                            </div>
+                        </mat-radio-group>
+                    </div>
+                    <table class="table table-striped custom-table tr th">
+                        <thead>
+                            <tr style="background-color: #666666; color: #ffffff;">
+                                <th scope="col" style="width:10%;">{{'sr' | translate}}</th>
+                                <th scope="col" style="width:15%;">{{'from' | translate}}</th>
+                                <th scope="col" style="width:15%;">{{'to' | translate}}</th>
+                                <th scope="col" style="width:15%;" class="text-right">{{'amount' | translate}}</th>
+                                <th scope="col" style="width:15%;">{{'schedule' | translate}}</th>
+                                <th scope="col" style="width:15%;">{{'remarks' | translate}}</th>
+                                <th scope="col" style="width:15%;text-align: center;">{{'action' | translate}} </th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-sm">
+                            <tr>
+                                <td>
+                                    <strong></strong>
+                                </td>
+
+                                <td>
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                        <input matInput [matDatepicker]="picker" [min]="myDate" (click)="picker.open()" name="fromdate"
+                                            [(ngModel)]="newContact.FROMDATE" [ngModelOptions]="{standalone: true}" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+
+                                <td>
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                        <input matInput [matDatepicker]="picker2" [min]="newContact.FROMDATE" (click)="picker2.open()" name="todate"
+                                            [(ngModel)]="newContact.TODATE" [ngModelOptions]="{standalone: true}" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+
+                                <td>
+                                    <input type="text" class="w-100 form-control error-border form-control-sm text-right"
+                                    name="amount" [(ngModel)]="newContact.AMOUNT" [ngModelOptions]="{standalone: true}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </td>
+
+                                <td>
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                        <input matInput [matDatepicker]="picker4" (click)="picker4.open()" name="scheduledate"
+                                            [(ngModel)]="newContact.SCHEDULEDATE" [ngModelOptions]="{standalone: true}" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker4 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+                                
+                                <td>
+                                    <input type="text" class="w-100 form-control error-border form-control-sm "
+                                    name="remarks" [(ngModel)]="newContact.REMARKS" [ngModelOptions]="{standalone: true}">
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <i (click)="addContact()" class="fas fa-plus {{canCreateCommonClass}}"></i>
+                                </td>
+                            </tr>
+
+                            <tr *ngFor="let contact of contacts ; let i = index">
+                                <td>{{i+1}}</td>
+
+                                <td *ngIf="contact.id === editContactID">
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                        <input matInput [matDatepicker]="picker1" [min]="myDate" (click)="picker1.open()" name="fromdate"
+                                            [(ngModel)]="contact.FROMDATE" [ngModelOptions]="{standalone: true}" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">
+                                    {{contact.FROMDATE  | date: 'dd/MM/yyyy'}}
+                                </td>
+
+                                <td *ngIf="contact.id === editContactID">
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                        <input matInput [matDatepicker]="picker3" [min]="contact.FROMDATE" (click)="picker3.open()" name="todate"
+                                            [(ngModel)]="contact.TODATE" [ngModelOptions]="{standalone: true}" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker3 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">
+                                    {{contact.TODATE  | date: 'dd/MM/yyyy'}}
+                                </td>
+
+                                <td *ngIf="contact.id === editContactID">
+                                    <input type="text" class="w-100 form-control error-border form-control-sm text-right"
+                                    name="amount" [(ngModel)]="contact.AMOUNT" [ngModelOptions]="{standalone: true}"
+                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                </td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)" class="text-right">
+                                    {{contact.AMOUNT | number : '1.3-3'}}
+                                </td>
+
+                                <td *ngIf="contact.id === editContactID">
+                                    <mat-form-field class="form-control py-1 mat-form-field-date-picker custom-date-mo-follow">
+                                        <input matInput [matDatepicker]="picker5" (click)="picker5.open()" name="scheduledate"
+                                            [(ngModel)]="contact.SCHEDULEDATE" [ngModelOptions]="{standalone: true}" readonly>
+                                        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker5 disabled="false"></mat-datepicker>
+                                    </mat-form-field>
+                                </td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">
+                                    {{contact.SCHEDULEDATE  | date: 'dd/MM/yyyy'}}
+                                </td>
+
+                                <td *ngIf="contact.id === editContactID">
+                                    <input type="text" class="w-100 form-control error-border form-control-sm "
+                                    name="remarks" [(ngModel)]="contact.REMARKS" [ngModelOptions]="{standalone: true}">
+                                </td>
+                                <td *ngIf="contact.id !== editContactID" (dblclick)="editContact(contact.id)">
+                                    {{contact.REMARKS}}
+                                </td>
+
+                                <td style="text-align: center;">
+                                    <div>
+                                        <i *ngIf="contact.id === editContactID" class="fas fa-check customIcon {{canEditCommonClass}}"
+                                            (click)="updateContact(contact)"></i>
+                                        <i *ngIf="contact.id !== editContactID" class="fas fa-edit customIcon {{canEditCommonClass}}"
+                                            (click)="editContact(contact.id)"></i>
+                                        <i style="margin-left: 5px;" class="far fa-trash-alt customIcon {{canDeleteCommonClass}}"
+                                            (click)="removeContact(i)"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+      <button [disabled]="isLoadingResults" class="btn btn-sm btn-secondary rounded bg-danger" mat-dialog-close>{{'cancel' | translate}}</button>
+      <button [disabled]="isLoadingResults"  class="btn btn-sm btn-info rounded" (click)="validateBeforeSave(newData)">{{'save' | translate}}</button>
+    </div>
+  </form>

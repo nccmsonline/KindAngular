@@ -1,0 +1,186 @@
+
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+<form autocomplete="off" >
+  <div class="row">
+      <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+              <div class="card-body border-bottom py-2">
+                <div class="col-md-12">
+                  <!-- <div class="align-items-center justify-content-between"> -->
+                        <div class="row">
+                      <div class="col-sm-1">
+                        
+                        <!-- <button *ngIf="!isAddNew" type="submit" (click)="addNewOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" > Add New</button>&nbsp; -->
+                        <button *ngIf="isAddNew" [disabled]="isLoadingResults"  type="submit" (click)="validateDetail('add')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Save</button>
+                        <button *ngIf="!isAddNew" [disabled]="isLoadingResults"  type="submit" (click)="validateDetail('update')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Update</button>
+                        
+
+                      </div>
+                      <div class="col-sm-1">
+                            <button  type="submit" (click)="refresh()"  class="btn btn-sm rounded btn-warning waves-effect waves-light" >Referesh</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                <div class="col-md-6">
+                    <div class="row m-1">
+                    <div class="col-md-3">
+                    <b> Emp No</b> 
+                  
+                    </div>
+           
+                    <div class="col-md-3">
+                        
+                        <input style="text-align:right" type="text" class="form-control form-control-sm" name="EmpNo"
+                        [(ngModel)]="EmpNo" [ngModelOptions]="{standalone: true}" (focusout)="showData()"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                     
+                    </div>
+                         
+                   
+                    <div class="col-md-3" >
+                      <b>Dated</b> 
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="pickerd" name="myDate"
+                                [(ngModel)]='myDate'  [min]="WorkingDate" readonly
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerd></mat-datepicker>
+                         </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b> Name</b> 
+                        </div>
+                        <div class="col-md-9">
+                             <input  type="text" class="form-control form-control-sm" name="NAME"
+                                 [(ngModel)]="newData.NAME" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b> Designation</b> 
+                        </div>
+                        <div class="col-md-9">
+                            
+                          <input  type="text" class="form-control form-control-sm" name="DESIGNATION"
+                                 [(ngModel)]="newData.DESIGNATION" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b>Department</b> 
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control form-control-sm" name="DEPARTMENT" 
+                            [(ngModel)]="newData.DEPARTMENT" [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-md-3">
+                            <b>Leave From</b> 
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                <input matInput [matDatepicker]="pickerf" name="LEAVEFROM"
+                                    [(ngModel)]='newData.LEAVEFROM'  [min]="WorkingDate"   (change)="onDateChange()"   (dateChange)="onDateChange()"
+                                    [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerf></mat-datepicker>
+                             </mat-form-field>
+                        </div>
+                        <div class="col-md-3">
+                            <b>Leave to</b> 
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                <input matInput [matDatepicker]="picker4" name="LEAVETO"
+                                    [(ngModel)]='newData.LEAVETO' [min]="newData.LEAVEFROM"
+                                    [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                <mat-datepicker #picker4></mat-datepicker>
+                             </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                    <div class="col-md-3">
+                        <b>Reason for Leave</b> 
+                    </div>
+                    <div class="col-md-9">
+                        <textarea type="text" autosize class="form-control form-control-sm text-area-custom-item" name="REASONFORLEAVE" [(ngModel)]="newData.REASONFORLEAVE" >
+                          </textarea>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-3">
+                        <b>Address while on Leave</b> 
+                    </div>
+                    <div class="col-md-9">
+                        <textarea type="text" autosize class="form-control form-control-sm text-area-custom-item" name="ADDRESS" [(ngModel)]="newData.ADDRESS" >
+                          </textarea>
+                    </div>
+                  </div>
+                    </div>
+                   
+                    <div class="col-md-6">
+                       <div class="table-scroll mx-1" style="height:450px">
+                       
+                        <div class="card-body border-top indent-entry px-0 py-2">
+                           
+                                <table class="table table-striped custom-table tr th w-100" style="height:300px">
+                                    <thead>
+                                        <tr style="background-color: #666666; color: #ffffff;">
+                                          
+                                            <th scope="col" style="width:15%; text-align:right;">Leave from</th>
+                                            <th scope="col" style="width:15%;">Leave to</th>
+                                            <th scope="col" style="width:20%;">Reason<br> for Leave</th>
+                                            <th scope="col" style="width:20%;">Address while <br> on leave</th>
+                                            <th scope="col" style="width:15%;">Approved</th>
+                                            <th scope="col" style="width:15%;">Approved <br>by HR</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="font-sm">
+                                    <tr *ngFor="let item of leaveform ; let i = index" (dblclick)="showLeaveRecord(item)">
+                                        <td>{{item.LEAVEFROM|date:'dd-MM-yyyy'}}</td>
+                                        <td>{{item.LEAVETO|date:'dd-MM-yyyy'}}</td>  
+                                        <td>{{item.REASONFORLEAVE}}</td>
+                                        <td>{{item.ADDRESS}}</td>
+                                        <td>{{item.APPROVEDBYAUTHORITY}}</td>  
+                                        <td>{{item.APPROVEDBYHR}}</td>
+                                    </tr>
+                                   </tbody>
+                                  </table>
+                            </div>
+                         </div>
+                    </div> 
+                </div>
+            </div>
+           </div>
+      </div>
+    </div>
+</form>
+<app-footer></app-footer>
+</div>
+</div>
+</div>

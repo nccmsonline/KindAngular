@@ -1,0 +1,85 @@
+div.mycolor {
+    border: 1px solid rgb(7, 7, 66);
+    background-color:#f1ffc0;	
+  }
+
+  div.myborder {
+    border: 1px solid rgb(7, 7, 66);
+    
+  }
+  /* p{
+    line-height: normal;
+  } */
+  .purchase-order .custom-table.table thead th, .purchase-order .custom-table.table tbody td {
+    width: auto;
+}
+
+#pills-tabContent .form-control, #pills-tabContent .select2 {
+    width: 100%;
+}
+
+/* .table-responsive > .custom-table.table td, .table-responsive > .custom-table.table th {
+    padding: .1rem 0.5rem;
+    white-space: nowrap;
+   
+} */
+
+.table-scroll{
+    overflow-y: scroll;
+    height:325px;
+}
+
+.ng-select.ng-select.form-control.ng-select-single{
+  max-width: 487px;
+}
+
+.min-width{
+    min-width: 1600px;
+}
+
+
+/* .nav-tabs .nav-link {
+    padding: 6px 5px;
+} */
+
+.search-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+}
+
+.search-list > ul {
+    margin: 0;
+    padding: 0;
+}
+
+.search-list ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    margin: 0 0 4px;
+    padding: 2px;
+}
+
+.search-list ul li a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+}
+.search-list ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.search-list ul li:hover {
+    background-color: #d4d9de;
+}
+b, strong {
+    font-weight: bolder !important;
+    font-size: 13px !important;
+}
+
+.ng-select  span {
+    width: 250px  !important;
+}

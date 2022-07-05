@@ -1,0 +1,46 @@
+<form>
+  <div class="example-loading-shade" *ngIf="isLoadingResults ">
+    <mat-spinner [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="modal-header primary-bg py-2">
+    <h5 class="modal-title text-white" id="exampleModalLabel">{{'downloadletter'|translate}}</h5>
+    <button class="close text-white" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div class="scroll-spy pb-3 pl-1" style="height:403px;overflow-y: scroll;" id="parentDiv" scrollSpy>
+      <div class="card-body border-top supplier-category-master px-0 py-0">
+        <div class="table-wrapper-scroll-y" style="max-height: 380px;">
+          <table class="table table-striped custom-table tr th">
+            <thead>
+              <tr style="background-color: #666666; color: #ffffff;">
+
+                <th scope="col" style="width:20%;">{{'employeecode' | translate}}</th>
+                <th scope="col" style="width:20%;">{{'employeename' | translate}}</th>
+                <th scope="col" style="width:20%;">{{'subject' | translate}}</th>
+                <th scope="col" style="width:20%;">{{'title' | translate}}</th>
+                <th scope="col" style="width:10%;">{{'download' | translate}} </th>
+              </tr>
+            </thead>
+            <tbody class="font-sm">
+
+              <tr *ngFor="let contact of contacts ; let i = index">
+                <td style="width:20%;"> {{contact.EMPCODE}} </td>
+                <td style="width:20%;"> {{contact.EMPLOYEE}} </td>
+                <td style="width:20%;"> {{contact.SUBJECT}} </td>
+                <td style="width:20%;"> {{contact.TITLE}} </td>
+                <td style="width:4%;text-align: center;" >
+                  <i class="fas fa-download" (click)="SinglePDFDownload(contact)"></i></td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+
+    <div class="modal-footer">
+      <button type="button" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded " 
+      mat-dialog-close>{{'close' | translate}}</button>
+      </div>
+</form>

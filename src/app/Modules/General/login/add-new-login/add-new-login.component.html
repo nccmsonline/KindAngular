@@ -1,0 +1,32 @@
+
+     <form [formGroup]="Logincredentials" novalidate>
+        <div class="example-loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+       </div>
+          <div class="modal-body">
+           
+              <div class="form-inline">
+                  <div class="form-group row col-12 mb-2">
+                      <label class="col-sm-2 " for="inputPassword4">Branch</label>
+                      <div class="col-sm-9 d-flex">
+                         
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="branch" name="branch"  [allowClear]="true" [(ngModel)]="newData.branch" [items]="branch1" optionValueField="BRANCHID" optionTextField="BRANCHNAME"  >
+                                </ngx-select>
+                      </div>
+                  </div>
+                  <div class="form-group row col-md-12 mb-2 mt-1">
+                      <label class="col-sm-2 " for="inputEmail4">Financial Year</label>
+                      <div class="col-sm-9 d-flex">
+                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="financialyear" name="financialyear"  [allowClear]="true" [(ngModel)]="newData.financialyear" [items]="branch2" optionValueField="FYID" optionTextField="FYNAME"  >
+                                </ngx-select>
+                          </div>
+                      </div>
+                      
+                </div>  
+              </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="logout()">Cancel</button>
+            <button type="button" class="btn btn-primary" [disabled]="Logincredentials.pristine || Logincredentials.invalid|| isclicked" (click)="login(newData)">Ok</button>
+          </div>
+        </form> 

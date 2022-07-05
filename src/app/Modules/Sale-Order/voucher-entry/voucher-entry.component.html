@@ -1,0 +1,682 @@
+<div class="row">
+		<div class="col-12">
+			<div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+				<div class="card-body border-bottom py-2">
+					<div class="d-md-flex align-items-center justify-content-between">
+						<div class="d-flex">
+							<h4 class="card-title m-0">{{'voucher'| translate}}</h4>
+						</div>
+						<!--<div>
+							<button class="btn btn-sm btn-primary rounded"><i class="mdi mdi-content-save"></i>&nbsp;Save</button>
+							<button class="btn btn-sm btn-primary rounded"><i class="mdi mdi-content-save-all"></i>&nbsp;Apply Changes</button>
+						</div>-->
+					</div>
+				</div>
+				
+					<div class="card-body py-2 mb-2 position-relative">
+						<mat-tab-group>
+							<mat-tab *ngFor="let tab of vouchercategory">
+								<ng-template mat-tab-label>{{tab.name}}</ng-template>
+
+									<!-- Receipts Start -->
+									<form [formGroup]="receiptForm" novalidate>
+										<div *ngIf="tab.name == 'Receipts'" class="tab-content m-t-10" id="pills-tabContent" [ngSwitch]="viewMode">
+												<div class="tab-pane fade active show" id="receipt" aria-labelledby="pills-home-tab2">
+												<div class="d-flex">
+													<div class="col-lg-8">
+														<div class="form-inline mx-0 ng-untouched ng-pristine ng-valid">
+															<nav id="navbar-example2" class="navbar navbar-light border-bottom p-2 pl-0 ml-0 py-0 pr-0 bg-light mb-3" style="margin-top: 5px;">
+															
+																<div class="form-group mr-2 my-2 mr-4">
+																	<label>{{tab.name}}</label>&nbsp;<span></span>
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<label>No.</label>&nbsp;
+																	<input class="form-control form-control-sm" style="width:40px !important;" placeholder="" type="text" name='id' [(ngModel)]="receiptOnChangedate.id" formControlName="id" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<mat-form-field class="form-control py-1 mat-form-field-date-picker">
+																		<input matInput [matDatepicker]="picker" [(ngModel)]="receiptOnChangedate.date" name='date' formControlName="date">
+																		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+																		<mat-datepicker #picker (selectedChanged)="onDate($event)" disabled="false"></mat-datepicker>
+																	</mat-form-field>
+																</div>
+																<div class="form-group form-check mr-2">
+																	<mat-checkbox class="mat-checkbox-prov-voucher" name='provisional' [(ngModel)]="receiptOnChangedate.provisional" formControlName="provisional">Provisional Voucher</mat-checkbox>
+																</div>
+																<div class="form-group">
+																	<select class="select2 form-control form-control-sm custom-select border-1" name='receiptCashBankID' [(ngModel)]="receiptOnChangedate.receiptCashBankID" formControlName="receiptCashBankID" style="width:230px;">
+																		<option *ngFor="let bank of bankData" value='{{bank.id}}'>{{bank.name}} </option>
+																	</select>
+																</div>
+															
+															<div class="my-2">
+																<button type="submit"  class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-printer"></i>&nbsp;Print</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-arrow-up"></i>&nbsp;Export</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-email"></i>&nbsp;Email</button>
+															</div>
+														</nav>
+													</div>
+					
+					
+														<div class="table-wrapper-scroll-y">
+															<table class="table table-striped custom-table">
+																<thead>
+																	<tr style="background-color: #666666; color: #ffffff;">
+																		<th scope="col" width="20%">Particulars</th>
+																		<th scope="col" width="50%">Narration</th>
+																		<th scope="col" width="15%">Credit</th>
+																		<th scope="col" width="10%">Action</th>
+																	</tr>
+																</thead>
+																<tbody class="font-sm">
+																<tr *ngFor="let field of receiptFieldArray ; let i = index" (click)="receiptRowSelected(field);">
+																		<td *ngIf="field.id === receiptEditRowID"><div class="w-100" data-toggle="modal" data-target="#exampleModal" >
+																			<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="field.accountid" [ngModelOptions]="{standalone: true}">
+																					<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																			</select></div></td>
+																		<td *ngIf="field.id !== receiptEditRowID"  (dblclick)="receiptEdit(field.id)">{{field.accountid}}</td>
+					
+																		<td *ngIf="field.id === receiptEditRowID"><input type="text" [(ngModel)]='field.narration' [ngModelOptions]="{standalone: true}"></td>
+																		<td *ngIf="field.id !== receiptEditRowID"  (dblclick)="receiptEdit(field.id)">{{field.narration}}</td>
+
+																		<td *ngIf="field.id === receiptEditRowID"><input type="text" [(ngModel)]='field.credit' [ngModelOptions]="{standalone: true}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+																		<td *ngIf="field.id !== receiptEditRowID" (dblclick)="receiptEdit(field.id)">{{field.credit}}</td>
+																		
+																		<td style="width:60px;text-align: center;">
+																			<div>
+																				<i *ngIf="field.id === receiptEditRowID" class="fas fa-check customIcon" (click)="receiptUpdate(field)"></i>
+																				<i *ngIf="field.id !== receiptEditRowID" class="fas fa-edit customIcon" (click)="receiptEdit(field.id)"></i>
+																				<i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="receiptDeleteFieldValue(i)"></i>
+																			</div>
+																		</td>
+																	</tr>
+																	
+																	<tr>
+																		<td>
+																			<div class="w-100">
+																				<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="receiptNewAttribute.accountid" formControlName="accountid">
+																						<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																				</select>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="email" class="form-control border-0" #box (keyup)="0" [(ngModel)]="receiptNewAttribute.narration" formControlName="narration">
+																		</td>
+																		<td>
+																			<input type="text" class="form-control border-0" [(ngModel)]="receiptNewAttribute.credit" formControlName="credit" (keyup.enter)="receiptAddFieldValue()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																		</td>
+
+																		<td style="width:60px;text-align: center;">
+																			<button (click)="receiptAddFieldValue()" class="fas fa-plus" [disabled]="receiptForm.pristine || receiptForm.invalid"></button>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+					
+														<div class="d-block d-lg-none mb-4">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="35%"><strong class="h6">Total:</strong></td>
+																	<td width="35%">&nbsp;</td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+															</tr></tbody>
+														</table>
+														</div>
+													</div>
+					
+													<div class="col-lg-4">
+														<div class="h-100 m-0 border position-relative" style="background: #ffffcf;min-height:470px;">
+															<h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Account Statement</h6>
+															<table class="table table-sm table-condensed font-sm">
+																<thead>
+																	<tr>
+																		<th>Date</th>
+																		<th>V.No.</th>
+																		<th style="width: 130px;">Narration</th>
+																		<th>Amount</th>
+																		<th style="text-align:right;">D/C</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr *ngFor="let staff of receiptStaffData">
+																		<td class="font-weight-sm">{{ staff.date | date : "MMM, dd" }} </td>
+																		<td>{{staff.id}}</td>
+																		<td><em class="text-truncate d-inline-block" style="width:130px;">{{staff.narration}}</em></td>
+																		<td><em>{{staff.credit}}</em></td>
+																		<td class="text-right"><em>Dr.</em></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													</div>	  
+																
+					
+											<div class="d-flex">
+												<div class="col-lg-8">
+													<div class="d-none d-lg-block">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="15%"><strong class="h6"></strong></td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+																	<td width="25%" align="right"><strong class="h6">{{receiptTotalCRAmount}}</strong></td>
+																	<td width="15%">&nbsp;</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="col-lg-4"><div class="mt-4">
+														<button type="button" class="btn btn-sm btn-primary rounded customButton" (click)="voucherSave(receiptOnChangedate, 'receipt', tab)"><i class="mdi mdi-content-submit"></i>&nbsp;Submit</button>
+														<button class="btn btn-sm btn-default rounded" style="color: black;"><i class="mdi mdi-content-cancel"></i>&nbsp;Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										</div>
+									</form>
+									<!-- Receipts End -->
+
+									<!-- Payments Start -->
+									<form [formGroup]="paymentForm" novalidate>
+										<div *ngIf="tab.name == 'Payments'" class="tab-content m-t-10" id="pills-tabContent" [ngSwitch]="viewMode">
+												<div class="tab-pane fade active show" id="receipt" aria-labelledby="pills-home-tab2">
+												<div class="d-flex">
+													<div class="col-lg-8">
+														<div class="form-inline mx-0 ng-untouched ng-pristine ng-valid">
+															<nav id="navbar-example2" class="navbar navbar-light border-bottom p-2 pl-0 ml-0 py-0 pr-0 bg-light mb-3" style="margin-top: 5px;">
+															
+																<div class="form-group mr-2 my-2 mr-4">
+																	<label>{{tab.name}}</label>&nbsp;<span></span>
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<label>No.</label>&nbsp;
+																	<input class="form-control form-control-sm" style="width:40px !important;" placeholder="" type="text" name='id' [(ngModel)]="paymentOnChangedate.id" formControlName="id" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<mat-form-field class="form-control py-1 mat-form-field-date-picker">
+																		<input matInput [matDatepicker]="picker" [(ngModel)]="paymentOnChangedate.date" name='date' formControlName="date">
+																		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+																		<mat-datepicker #picker (selectedChanged)="onDate($event)" disabled="false"></mat-datepicker>
+																	</mat-form-field>
+																</div>
+																<div class="form-group form-check mr-2">
+																	<mat-checkbox class="mat-checkbox-prov-voucher" name='provisional' [(ngModel)]="paymentOnChangedate.provisional" formControlName="provisional">Provisional Voucher</mat-checkbox>
+																</div>
+																<div class="form-group">
+																	<select class="select2 form-control form-control-sm custom-select border-1" name='paymentCashBankID' [(ngModel)]="paymentOnChangedate.paymentCashBankID" formControlName="paymentCashBankID" style="width:230px;">
+																		<option *ngFor="let bank of bankData" value='{{bank.id}}'>{{bank.name}} </option>
+																	</select>
+																</div>
+															
+															<div class="my-2">
+																<button type="submit"  class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-printer"></i>&nbsp;Print</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-arrow-up"></i>&nbsp;Export</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-email"></i>&nbsp;Email</button>
+															</div>
+														</nav>
+													</div>
+					
+					
+														<div class="table-wrapper-scroll-y">
+															<table class="table table-striped custom-table">
+																<thead>
+																	<tr style="background-color: #666666; color: #ffffff;">
+																		<th scope="col" width="20%">Particulars</th>
+																		<th scope="col" width="50%">Narration</th>
+																		<th scope="col" width="15%">Debit</th>
+																		<th scope="col" width="10%">Action</th>
+																	</tr>
+																</thead>
+																<tbody class="font-sm">
+																<tr *ngFor="let field of paymentFieldArray ; let i = index" (click)="paymentRowSelected(field);">
+																		<td *ngIf="field.id === paymentEditRowID"><div class="w-100" data-toggle="modal" data-target="#exampleModal" >
+																			<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="field.accountid" [ngModelOptions]="{standalone: true}">
+																					<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																			</select></div></td>
+																		<td *ngIf="field.id !== paymentEditRowID"  (dblclick)="paymentEdit(field.id)">{{field.accountid}}</td>
+					
+																		<td *ngIf="field.id === paymentEditRowID"><input type="text" [(ngModel)]='field.narration' [ngModelOptions]="{standalone: true}"></td>
+																		<td *ngIf="field.id !== paymentEditRowID"  (dblclick)="paymentEdit(field.id)">{{field.narration}}</td>
+
+																		<td *ngIf="field.id === paymentEditRowID"><input type="text" [(ngModel)]='field.debit' [ngModelOptions]="{standalone: true}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+																		<td *ngIf="field.id !== paymentEditRowID" (dblclick)="paymentEdit(field.id)">{{field.debit}}</td>
+																		
+																		<td style="width:60px;text-align: center;">
+																			<div>
+																				<i *ngIf="field.id === paymentEditRowID" class="fas fa-check customIcon" (click)="paymentUpdate(field)"></i>
+																				<i *ngIf="field.id !== paymentEditRowID" class="fas fa-edit customIcon" (click)="paymentEdit(field.id)"></i>
+																				<i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="paymentDeleteFieldValue(i)"></i>
+																			</div>
+																		</td>
+																	</tr>
+																	
+																	<tr>
+																		<td>
+																			<div class="w-100">
+																				<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="paymentNewAttribute.accountid" formControlName="accountid">
+																						<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																				</select>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="email" class="form-control border-0" #box (keyup)="0" [(ngModel)]="paymentNewAttribute.narration" formControlName="narration">
+																		</td>
+																		<td>
+																			<input type="text" class="form-control border-0" [(ngModel)]="paymentNewAttribute.debit" formControlName="debit" (keyup.enter)="paymentAddFieldValue()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																		</td>
+
+																		<td style="width:60px;text-align: center;">
+																			<button (click)="paymentAddFieldValue()" class="fas fa-plus" [disabled]="paymentForm.pristine || paymentForm.invalid"></button>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+					
+														<div class="d-block d-lg-none mb-4">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="35%"><strong class="h6">Total:</strong></td>
+																	<td width="35%">&nbsp;</td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+															</tr></tbody>
+														</table>
+														</div>
+													</div>
+					
+													<div class="col-lg-4">
+														<div class="h-100 m-0 border position-relative" style="background: #ffffcf;min-height:470px;">
+															<h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Account Statement</h6>
+															<table class="table table-sm table-condensed font-sm">
+																<thead>
+																	<tr>
+																		<th>Date</th>
+																		<th>V.No.</th>
+																		<th style="width: 130px;">Narration</th>
+																		<th>Amount</th>
+																		<th style="text-align:right;">D/C</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr *ngFor="let staff of paymentStaffData | paginate: { itemsPerPage: itemPerPage, currentPage: p }">
+																		<td class="font-weight-sm">{{ staff.date | date : "MMM, dd" }} </td>
+																		<td>{{staff.id}}</td>
+																		<td><em class="text-truncate d-inline-block" style="width:130px;">{{staff.narration}}</em></td>
+																		<td><em>{{staff.debit}}</em></td>
+																		<td class="text-right"><em>Dr.</em></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													</div>	  
+																
+					
+											<div class="d-flex">
+												<div class="col-lg-8">
+													<div class="d-none d-lg-block">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="15%"><strong class="h6"></strong></td>
+																	<td width="25%" align="right"><strong class="h6">{{paymentTotalDRAmount}}</strong></td>
+																	<td width="15%">&nbsp;</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="col-lg-4"><div class="mt-4">
+														<button type="button" class="btn btn-sm btn-primary rounded customButton" (click)="voucherSave(paymentOnChangedate, 'payment', tab)"><i class="mdi mdi-content-submit"></i>&nbsp;Submit</button>
+														<button class="btn btn-sm btn-default rounded" style="color: black;"><i class="mdi mdi-content-cancel"></i>&nbsp;Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										</div>
+									</form>
+									<!-- Payments End -->
+
+									<!-- Contra Start -->
+									<form [formGroup]="contraForm" novalidate>
+										<div *ngIf="tab.name == 'Contra'" class="tab-content m-t-10" id="pills-tabContent" [ngSwitch]="viewMode">
+												<div class="tab-pane fade active show" id="receipt" aria-labelledby="pills-home-tab2">
+												<div class="d-flex">
+													<div class="col-lg-8">
+														<div class="form-inline mx-0 ng-untouched ng-pristine ng-valid">
+															<nav id="navbar-example2" class="navbar navbar-light border-bottom p-2 pl-0 ml-0 py-0 pr-0 bg-light mb-3" style="margin-top: 5px;">
+															
+																<div class="form-group mr-2 my-2 mr-4">
+																	<label>{{tab.name}}</label>&nbsp;<span></span>
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<label>No.</label>&nbsp;
+																	<input class="form-control form-control-sm" style="width:40px !important;" placeholder="" type="text" name='id' [(ngModel)]="contraOnChangedate.id" formControlName="id" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<mat-form-field class="form-control py-1 mat-form-field-date-picker">
+																		<input matInput [matDatepicker]="picker" [(ngModel)]="contraOnChangedate.date" name='date' formControlName="date">
+																		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+																		<mat-datepicker #picker (selectedChanged)="onDate($event)" disabled="false"></mat-datepicker>
+																	</mat-form-field>
+																</div>
+																<div class="form-group form-check mr-2">
+																	<mat-checkbox class="mat-checkbox-prov-voucher" name='provisional' [(ngModel)]="contraOnChangedate.provisional" formControlName="provisional">Provisional Voucher</mat-checkbox>
+																</div>
+																<div class="form-group">
+																	<select class="select2 form-control form-control-sm custom-select border-1" name='contraCashBankID' [(ngModel)]="contraOnChangedate.contraCashBankID" formControlName="contraCashBankID" style="width:230px;">
+																		<option *ngFor="let bank of bankData" value='{{bank.id}}'>{{bank.name}} </option>
+																	</select>
+																</div>
+															
+															<div class="my-2">
+																<button type="submit"  class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-printer"></i>&nbsp;Print</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-arrow-up"></i>&nbsp;Export</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-email"></i>&nbsp;Email</button>
+															</div>
+														</nav>
+													</div>
+					
+					
+														<div class="table-wrapper-scroll-y">
+															<table class="table table-striped custom-table">
+																<thead>
+																	<tr style="background-color: #666666; color: #ffffff;">
+																		<th scope="col" width="20%">Particulars</th>
+																		<th scope="col" width="50%">Narration</th>
+																		<th scope="col" width="15%">Credit</th>
+																		<th scope="col" width="10%">Action</th>
+																	</tr>
+																</thead>
+																<tbody class="font-sm">
+																<tr *ngFor="let field of contraFieldArray ; let i = index" (click)="contraRowSelected(field);">
+																		<td *ngIf="field.id === contraEditRowID"><div class="w-100" data-toggle="modal" data-target="#exampleModal" >
+																			<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="field.accountid" [ngModelOptions]="{standalone: true}">
+																					<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																			</select></div></td>
+																		<td *ngIf="field.id !== contraEditRowID"  (dblclick)="contraEdit(field.id)">{{field.accountid}}</td>
+					
+																		<td *ngIf="field.id === contraEditRowID"><input type="text" [(ngModel)]='field.narration' [ngModelOptions]="{standalone: true}"></td>
+																		<td *ngIf="field.id !== contraEditRowID"  (dblclick)="contraEdit(field.id)">{{field.narration}}</td>
+
+																		<td *ngIf="field.id === contraEditRowID"><input type="text" [(ngModel)]='field.credit' [ngModelOptions]="{standalone: true}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+																		<td *ngIf="field.id !== contraEditRowID" (dblclick)="contraEdit(field.id)">{{field.credit}}</td>
+																		
+																		<td style="width:60px;text-align: center;">
+																			<div>
+																				<i *ngIf="field.id === contraEditRowID" class="fas fa-check customIcon" (click)="contraUpdate(field)"></i>
+																				<i *ngIf="field.id !== contraEditRowID" class="fas fa-edit customIcon" (click)="contraEdit(field.id)"></i>
+																				<i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="contraDeleteFieldValue(i)"></i>
+																			</div>
+																		</td>
+																	</tr>
+																	
+																	<tr>
+																		<td>
+																			<div class="w-100">
+																				<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="contraNewAttribute.accountid" formControlName="accountid">
+																						<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																				</select>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="email" class="form-control border-0" #box (keyup)="0" [(ngModel)]="contraNewAttribute.narration" formControlName="narration">
+																		</td>
+																		<td>
+																			<input type="text" class="form-control border-0" [(ngModel)]="contraNewAttribute.credit" formControlName="credit" (keyup.enter)="contraAddFieldValue()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																		</td>
+
+																		<td style="width:60px;text-align: center;">
+																			<button (click)="contraAddFieldValue()" class="fas fa-plus" [disabled]="contraForm.pristine || contraForm.invalid"></button>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+					
+														<div class="d-block d-lg-none mb-4">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="35%"><strong class="h6">Total:</strong></td>
+																	<td width="35%">&nbsp;</td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+															</tr></tbody>
+														</table>
+														</div>
+													</div>
+					
+													<div class="col-lg-4">
+														<div class="h-100 m-0 border position-relative" style="background: #ffffcf;min-height:470px;">
+															<h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Account Statement</h6>
+															<table class="table table-sm table-condensed font-sm">
+																<thead>
+																	<tr>
+																		<th>Date</th>
+																		<th>V.No.</th>
+																		<th style="width: 130px;">Narration</th>
+																		<th>Amount</th>
+																		<th style="text-align:right;">D/C</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr *ngFor="let staff of contraStaffData">
+																		<td class="font-weight-sm">{{ staff.date | date : "MMM, dd" }} </td>
+																		<td>{{staff.id}}</td>
+																		<td><em class="text-truncate d-inline-block" style="width:130px;">{{staff.narration}}</em></td>
+																		<td><em>{{staff.credit}}</em></td>
+																		<td class="text-right"><em>Dr.</em></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													</div>	  
+																
+					
+											<div class="d-flex">
+												<div class="col-lg-8">
+													<div class="d-none d-lg-block">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="15%"><strong class="h6"></strong></td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+																	<td width="25%" align="right"><strong class="h6">{{contraTotalCRAmount}}</strong></td>
+																	<td width="15%">&nbsp;</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="col-lg-4"><div class="mt-4">
+														<button type="button" class="btn btn-sm btn-primary rounded customButton" (click)="voucherSave(contraOnChangedate, 'contra', tab)"><i class="mdi mdi-content-submit"></i>&nbsp;Submit</button>
+														<button class="btn btn-sm btn-default rounded" style="color: black;"><i class="mdi mdi-content-cancel"></i>&nbsp;Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										</div>
+									</form>
+									<!-- Contra End -->
+
+									<!-- Journal Start -->
+									<form [formGroup]="journalForm" novalidate>
+										<div *ngIf="tab.name == 'Journal'" class="tab-content m-t-10" id="pills-tabContent" [ngSwitch]="viewMode">
+												<div class="tab-pane fade active show" id="receipt" aria-labelledby="pills-home-tab2">
+												<div class="d-flex">
+													<div class="col-lg-8">
+														<div class="form-inline mx-0 ng-untouched ng-pristine ng-valid">
+															<nav id="navbar-example2" class="navbar navbar-light border-bottom p-2 pl-0 ml-0 py-0 pr-0 bg-light mb-3" style="margin-top: 5px;">
+															
+																<div class="form-group mr-2 my-2 mr-4">
+																	<label>{{tab.name}}</label>&nbsp;<span></span>
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<label>No.</label>&nbsp;
+																	<input class="form-control form-control-sm" style="width:40px !important;" placeholder="" type="text" name='id' [(ngModel)]="journalOnChangedate.id" formControlName="id" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																</div>
+																<div class="form-group mr-2 my-2">
+																	<mat-form-field class="form-control py-1 mat-form-field-date-picker">
+																		<input matInput [matDatepicker]="picker" [(ngModel)]="journalOnChangedate.date" name='date' formControlName="date">
+																		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+																		<mat-datepicker #picker (selectedChanged)="onDate($event)" disabled="false"></mat-datepicker>
+																	</mat-form-field>
+																</div>
+																<div class="form-group form-check mr-2">
+																	<mat-checkbox class="mat-checkbox-prov-voucher" name='provisional' [(ngModel)]="journalOnChangedate.provisional" formControlName="provisional">Provisional Voucher</mat-checkbox>
+																</div>
+															
+															<div class="my-2">
+																<button type="submit"  class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-printer"></i>&nbsp;Print</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-arrow-up"></i>&nbsp;Export</button>
+																<button type="submit" class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"><i class="mdi mdi-email"></i>&nbsp;Email</button>
+															</div>
+														</nav>
+													</div>
+					
+					
+														<div class="table-wrapper-scroll-y">
+															<table class="table table-striped custom-table">
+																<thead>
+																	<tr style="background-color: #666666; color: #ffffff;">
+																		<th scope="col" width="20%">Particulars</th>
+																		<th scope="col" width="50%">Narration</th>
+																		<th scope="col" width="15%">Debit</th>
+																		<th scope="col" width="15%">Credit</th>
+																		<th scope="col" width="10%">Action</th>
+																	</tr>
+																</thead>
+																<tbody class="font-sm">
+																<tr *ngFor="let field of journalFieldArray ; let i = index" (click)="journalRowSelected(field);">
+																		<td *ngIf="field.id === journalEditRowID"><div class="w-100" data-toggle="modal" data-target="#exampleModal" >
+																			<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="field.accountid" [ngModelOptions]="{standalone: true}">
+																					<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																			</select></div></td>
+																		<td *ngIf="field.id !== journalEditRowID"  (dblclick)="journalEdit(field.id)">{{field.accountid}}</td>
+					
+																		<td *ngIf="field.id === journalEditRowID"><input type="text" [(ngModel)]='field.narration' [ngModelOptions]="{standalone: true}"></td>
+																		<td *ngIf="field.id !== journalEditRowID"  (dblclick)="journalEdit(field.id)">{{field.narration}}</td>
+
+																		<td *ngIf="field.id === journalEditRowID"><input type="text" [(ngModel)]='field.debit' [ngModelOptions]="{standalone: true}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+																		<td *ngIf="field.id !== journalEditRowID" (dblclick)="journalEdit(field.id)">{{field.debit}}</td>
+																		
+																		<td *ngIf="field.id === journalEditRowID"><input type="text" [(ngModel)]='field.credit' [ngModelOptions]="{standalone: true}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"></td>
+																		<td *ngIf="field.id !== journalEditRowID" (dblclick)="journalEdit(field.id)">{{field.credit}}</td>
+
+																		<td style="width:60px;text-align: center;">
+																			<div>
+																				<i *ngIf="field.id === journalEditRowID" class="fas fa-check customIcon" (click)="journalUpdate(field)"></i>
+																				<i *ngIf="field.id !== journalEditRowID" class="fas fa-edit customIcon" (click)="journalEdit(field)"></i>
+																				<i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="journalDeleteFieldValue(i)"></i>
+																			</div>
+																		</td>
+																	</tr>
+																	
+																	<tr>
+																		<td>
+																			<div class="w-100">
+																				<select class="select2 form-control form-control-sm custom-select border-0" [(ngModel)]="journalNewAttribute.accountid" formControlName="accountid">
+																						<option *ngFor="let particular of particularArray" value='{{particular.ID}}'>{{particular.accounthead}} </option>
+																				</select>
+																			</div>
+																		</td>
+																		<td>
+																			<input type="email" class="form-control border-0" #box (keyup)="0" [(ngModel)]="journalNewAttribute.narration" formControlName="narration">
+																		</td>
+																		<td>
+																			<input type="text" class="form-control border-0" [(ngModel)]="journalNewAttribute.debit" formControlName="debit" (input)="onDebitChange($event.target.value)" (keyup.enter)="journalAddFieldValue()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																		</td>
+																		<td>
+																			<input type="text" class="form-control border-0" [(ngModel)]="journalNewAttribute.credit" formControlName="credit" (input)="onCreditChange($event.target.value)" (keyup.enter)="journalAddFieldValue()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+																		</td>
+																		<td style="width:60px;text-align: center;">
+																			<button (click)="journalAddFieldValue()" class="fas fa-plus" [disabled]="journalForm.pristine || journalForm.invalid"></button>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+					
+														<div class="d-block d-lg-none mb-4">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="35%"><strong class="h6">Total:</strong></td>
+																	<td width="35%">&nbsp;</td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+																	<td width="15%" align="right"><strong class="h6"></strong></td>
+															</tr></tbody>
+														</table>
+														</div>
+													</div>
+					
+													<div class="col-lg-4">
+														<div class="h-100 m-0 border position-relative" style="background: #ffffcf;min-height:470px;">
+															<h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Account Statement</h6>
+															<table class="table table-sm table-condensed font-sm">
+																<thead>
+																	<tr>
+																		<th>Date</th>
+																		<th>V.No.</th>
+																		<th style="width: 130px;">Narration</th>
+																		<th>Amount</th>
+																		<th style="text-align:right;">D/C</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr *ngFor="let staff of journalStaffData">
+																		<td class="font-weight-sm">{{ staff.date | date : "MMM, dd" }} </td>
+																		<td>{{staff.id}}</td>
+																		<td><em class="text-truncate d-inline-block" style="width:130px;">{{staff.narration}}</em></td>
+																		<td><em>{{staff.credit}}</em></td>
+																		<td class="text-right"><em>Dr.</em></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+													</div>	  
+																
+					
+											<div class="d-flex">
+												<div class="col-lg-8">
+													<div class="d-none d-lg-block">
+														<table class="table table-custom table-sm w-100 mt-4 m-b-0" style="border-top:2px solid #aaa;">
+															<tbody class="font-sm">
+																<tr>
+																	<td width="30%" style="font-size: 15px;"><strong class="h6"></strong>Amount Mismatch by value: </td>
+																	<td width="15%" align="right"><strong class="h6">{{totalMismatch}}</strong></td>
+																	<td width="20%" align="right"><strong class="h6">{{journalTotalDRAmount}}</strong></td>
+																	<td width="20%" align="right"><strong class="h6">{{journalTotalCRAmount}}</strong></td>
+																	<td width="15%">&nbsp;</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="col-lg-4"><div class="mt-4">
+														<button type="button" class="btn btn-sm btn-primary rounded customButton" (click)="voucherSave(journalOnChangedate, 'journal', tab)"><i class="mdi mdi-content-submit"></i>&nbsp;Submit</button>
+														<button class="btn btn-sm btn-default rounded" style="color: black;"><i class="mdi mdi-content-cancel"></i>&nbsp;Cancel</button>
+													</div>
+												</div>
+											</div>
+										</div>
+										</div>
+									</form>
+									<!-- Journal End -->
+							</mat-tab>
+						</mat-tab-group>
+					</div>
+		</div>
+	</div>
+</div>

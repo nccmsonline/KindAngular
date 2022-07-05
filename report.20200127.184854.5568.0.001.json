@@ -1,0 +1,337 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20200127.184854.5568.0.001.json",
+    "dumpEventTime": "2020-01-27T18:48:54Z",
+    "dumpEventTimeStamp": "1580131134687",
+    "processId": 5568,
+    "cwd": "E:\\Ravinder Projects\\AsterisksInfoSystem\\AsterisksInfoSystem",
+    "commandLine": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "--max-old-space-size=2048",
+      "node_modules/@angular/cli/bin/ng",
+      "build",
+      "--prod"
+    ],
+    "nodejsVersion": "v12.13.1",
+    "wordSize": 32,
+    "arch": "ia32",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.13.1",
+      "v8": "7.7.299.13-node.16",
+      "uv": "1.33.1",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "5",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019c",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.13.1/node-v12.13.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.13.1/node-v12.13.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.13.1/win-x86/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18362",
+    "osVersion": "Windows 10 Enterprise",
+    "osMachine": "i686",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i5-4440 CPU @ 3.10GHz",
+        "speed": 3093,
+        "user": 561015,
+        "nice": 0,
+        "sys": 388937,
+        "idle": 7218218,
+        "irq": 33156
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-4440 CPU @ 3.10GHz",
+        "speed": 3093,
+        "user": 844328,
+        "nice": 0,
+        "sys": 445484,
+        "idle": 6878187,
+        "irq": 3578
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-4440 CPU @ 3.10GHz",
+        "speed": 3093,
+        "user": 631187,
+        "nice": 0,
+        "sys": 365734,
+        "idle": 7171078,
+        "irq": 3546
+      },
+      {
+        "model": "Intel(R) Core(TM) i5-4440 CPU @ 3.10GHz",
+        "speed": 3093,
+        "user": 674921,
+        "nice": 0,
+        "sys": 414703,
+        "idle": 7078375,
+        "irq": 2937
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "54:a0:50:80:3c:a6",
+        "address": "fe80::dc8b:b74a:89f3:d0c5",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 8
+      },
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "54:a0:50:80:3c:a6",
+        "address": "192.168.0.228",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "54:a0:50:80:3c:a6",
+        "address": "192.168.2.245",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "54:a0:50:80:3c:a6",
+        "address": "192.168.3.228",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "54:a0:50:80:3c:a6",
+        "address": "192.168.11.228",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-4EP3EI2"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x02204468",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 734326784,
+    "totalCommittedMemory": 734326784,
+    "usedMemory": 704873944,
+    "availableMemory": 676801764,
+    "memoryLimit": 2172649472,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 262008,
+        "used": 22100,
+        "available": 239908
+      },
+      "new_space": {
+        "memorySize": 8388608,
+        "committedMemory": 8388608,
+        "capacity": 4192128,
+        "used": 4159496,
+        "available": 32632
+      },
+      "old_space": {
+        "memorySize": 583532544,
+        "committedMemory": 583532544,
+        "capacity": 583005716,
+        "used": 583005716,
+        "available": 0
+      },
+      "code_space": {
+        "memorySize": 10125312,
+        "committedMemory": 10125312,
+        "capacity": 9644320,
+        "used": 5066784,
+        "available": 4577536
+      },
+      "map_space": {
+        "memorySize": 22548480,
+        "committedMemory": 22548480,
+        "capacity": 22536048,
+        "used": 3713960,
+        "available": 18822088
+      },
+      "large_object_space": {
+        "memorySize": 108978176,
+        "committedMemory": 108978176,
+        "capacity": 108492352,
+        "used": 108492352,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 491520,
+        "committedMemory": 491520,
+        "capacity": 413536,
+        "used": 413536,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 4192128,
+        "used": 0,
+        "available": 4192128
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 235.921,
+    "kernelCpuSeconds": 462.578,
+    "cpuConsumptionPercent": 115.646,
+    "maxRss": 1722265600,
+    "pageFaults": {
+      "IORequired": 897514,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 7030,
+      "writes": 5
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "=C:": "C:\\",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\Ravi\\AppData\\Roaming",
+    "CI_HOLOS_CLI": "C:\\Program Files\\Seagate Software\\Open Olap\\",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-4EP3EI2",
+    "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\Ravi",
+    "include": "C:\\Program Files\\Microsoft Visual Studio\\VC98\\atl\\include;C:\\Program Files\\Microsoft Visual Studio\\VC98\\mfc\\include;C:\\Program Files\\Microsoft Visual Studio\\VC98\\include",
+    "lib": "C:\\Program Files\\Microsoft Visual Studio\\VC98\\mfc\\lib;C:\\Program Files\\Microsoft Visual Studio\\VC98\\lib",
+    "LOCALAPPDATA": "C:\\Users\\Ravi\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-4EP3EI2",
+    "MSDevDir": "C:\\Program Files\\Microsoft Visual Studio\\Common\\MSDev98",
+    "NUMBER_OF_PROCESSORS": "4",
+    "OneDrive": "C:\\Users\\Ravi\\OneDrive",
+    "OS": "Windows_NT",
+    "Path": "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath;c:\\Oracle\\Ora81\\bin;C:\\Program Files\\Oracle\\jre\\1.1.7\\bin;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\nodejs\\;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\dotnet\\;C:\\Program Files\\Microsoft SQL Server\\120\\Tools\\Binn\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files\\Microsoft SQL Server\\110\\Tools\\Binn\\ManagementStudio\\;C:\\Program Files\\Microsoft SQL Server\\110\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\110\\DTS\\Binn\\;C:\\Program Files\\Microsoft Visual Studio\\Common\\Tools\\WinNT;C:\\Program Files\\Microsoft Visual Studio\\Common\\MSDev98\\Bin;C:\\Program Files\\Microsoft Visual Studio\\Common\\Tools;C:\\Program Files\\Microsoft Visual Studio\\VC98\\bin;C:\\Users\\Ravi\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\Ravi\\AppData\\Roaming\\npm;",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL",
+    "PROCESSOR_ARCHITECTURE": "x86",
+    "PROCESSOR_IDENTIFIER": "x86 Family 6 Model 60 Stepping 3, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "3c03",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "PSModulePath": "C:\\Users\\Ravi\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files\\Microsoft SQL Server\\110\\Tools\\PowerShell\\Modules\\",
+    "PUBLIC": "C:\\Users\\Public",
+    "SESSIONNAME": "Console",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\Ravi\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\Ravi\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-4EP3EI2",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-4EP3EI2",
+    "USERNAME": "Ravi",
+    "USERPROFILE": "C:\\Users\\Ravi",
+    "windir": "C:\\WINDOWS",
+    "TERM_PROGRAM": "vscode",
+    "TERM_PROGRAM_VERSION": "1.41.1",
+    "LANG": "en_US.UTF-8",
+    "COLORTERM": "truecolor"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMMBASE.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\System32\\UMPDC.dll",
+    "C:\\WINDOWS\\SYSTEM32\\CRYPTBASE.DLL",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "\\\\?\\E:\\Ravinder Projects\\AsterisksInfoSystem\\AsterisksInfoSystem\\node_modules\\node-sass\\vendor\\win32-ia32-72\\binding.node",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll"
+  ]
+}

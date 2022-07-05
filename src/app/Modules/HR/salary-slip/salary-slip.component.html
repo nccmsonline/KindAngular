@@ -1,0 +1,258 @@
+<div class="w-100 clearfix text-right pb-2 pr-2">
+  <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('Salary Slip Print.pdf')"><i class="ti-download"></i>&nbsp;{{'downloadpdf'| translate}}</button>
+  &nbsp;&nbsp;
+  <button type="button" class="btn btn-danger" mat-dialog-close>Close</button>
+</div>
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+</div>
+<kendo-pdf-export #pdf paperSize="A4" [scale]="0.5" [margin]="{top: 20, bottom: 50, right: 10, left: 20}">
+<div class="row">
+
+  <div class="col-12">
+
+    <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);" style="width: 1000px">
+      <div class="custom-invoice">
+
+          <table class="custom-invoice-table" width="100%" cellspacing="0" cellpadding="0" border="2">
+            <tbody>
+              <tr>
+                <td>
+                  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td colspan="4" align="center">
+                           <h5>{{CompanyName}}</h5> 
+                           <h6>{{Address}}</h6>
+                           <p>{{reportname}} </p>
+                        </td>
+                      </tr>
+                     <tr>
+                        <td colspan="4" align="center"> <hr>
+                          </td>
+                     </tr>
+                      <tr>
+                        <td width="10%"></td>
+                        <td width="25%" >Card No. : {{newData.EMPNO}} </td>
+                        <td width="25%">Name    : {{newData.NAME}}</td>
+                        <td width="25%">Department :{{newData.DEPARTMENT}} </td>
+                        
+                      </tr>
+                      <tr>
+                        <td  width="10%"></td>
+                        <td  width="25%">Designation : {{newData.DESIGNAME}} </td>
+                        <td  width="25%">ESI No.    : {{newData.ESINO}}</td>
+                        <td  width="25%">UAN :{{newData.PFNO}} </td>
+                       
+                      </tr>
+                      <tr>
+                        <td colspan="4" align="center">
+                          <hr>
+                          <b>Attendance Information</b> 
+                        </td>
+                      </tr>
+                      <tr>
+                          <td colspan="4" align="center">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tbody>
+                          <tr>
+                            <td width="9%" align="center">Pesents</td>
+                            <td width="9%" align="center">W. Off</td>
+                            <td width="9%" align="center">CL</td>
+                            <td width="9%" align="center">SL</td>
+                            <td width="9%" align="center">EL</td>
+                            <td width="9%" align="center">CO</td>
+                            <td width="9%" align="center">PH</td>
+                            <td width="9%" align="center">Total</td>
+                            <td width="9%" align="center">Absent</td>
+                            <td width="9%" align="center">W/Days</td>
+                            <td width="9%" align="center">O.T.Hrs</td>
+                          </tr>
+                          <tr>
+                            <td width="9%" align="center">{{newData.PRESENTS}}</td>
+                            <td width="9%" align="center">{{newData.WEEKLYOFF}}</td>
+                            <td width="9%" align="center">{{newData.CASUALLEAVE}}</td>
+                            <td width="9%" align="center"> {{newData.SICKLEAVE}}</td>
+                            <td width="9%" align="center">{{newData.EARNEDLEAVE}}</td>
+                            <td width="9%" align="center">{{newData.CO}}</td>
+                            <td width="9%" align="center">{{newData.HOLIDAYS}}</td>
+                            <td width="9%" align="center">{{newData.DAYSWORKED}}</td>
+                            <td width="9%" align="center">{{newData.ABSENT}}</td>
+                            <td width="9%" align="center">{{newData.WORKINGDAYS}}</td>
+                            <td width="9%" align="center">{{newData.GWHOURS}}</td>
+                          </tr>
+                        </tbody>
+
+                        </table></td>
+                     
+                      </tr>  
+                      <tr>
+                          <td colspan="4" align="center">
+                            <hr>
+                          </td>
+                        </tr>
+                      <tr>
+                        <td colspan="4" align="center">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tbody>
+                          <tr>
+                            <td width="10%" align="center"></td>
+                            <td width="20%" class="border-t"><b>Earnings</b></td>
+                            <!-- <td></td> -->
+                            <td width="15%" class="border-t" align="right"><b>Amount</b></td>
+                            <td width="10%"></td>
+                            <td width="20%" class="border-t" ><b>Deduction</b></td>
+                            <!-- <td></td> -->
+                            <td width="15%" class="border-t" align="right"><b>Amount</b></td>
+                            <td width="10%" align="center"></td>
+                          </tr>
+                          <tr>
+                            <td  width="10%" ></td>
+                            <td  width="20%">Basic Pay</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.BASICEARNED}}</td>
+                            <td width="10%"></td>
+                            <td  width="20%">Profesion Tax</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.PTAX}}</td>
+                            <td  width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td  width="10%" ></td>
+                            <td  width="20%">House Rent Allowance</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.HRA}}</td>
+                            <td width="10%"></td>
+                            <td  width="20%">EPF</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.PF}}</td>
+                            <td  width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td  width="10%" ></td>
+                            <td width="20%">Conveyance Allowance</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.CONV}}</td>
+                            <td width="10%"></td>
+                            <td width="20%">EPS</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.FPF}}</td>
+                            <td width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td  width="10%" ></td>
+                            <td width="20%">Incentive</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.INC}}</td>
+                            <td width="10%"></td>
+                            <td width="20%">ESI</td>
+                            <!-- <td></td> -->
+                            <td  width="15%" align="right">{{newData.ESI}}</td>
+                            <td  width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td width="10%" ></td>
+                            <td width="20%">Special Incentive</td>
+                            <!-- <td></td> -->
+                            <td  width="15%" align="right">{{newData.SPECIALINC}}</td>
+                            <td width="10%"></td>
+                            <td width="20%">TDS</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.TDS}}</td>
+                            <td width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td width="10%" ></td>
+                            <td width="20%">Traveling Allowance</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.TA}}</td>
+                            <td width="10%"></td>
+                            <td width="20%">Canteen</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.CANTEEN}}</td>
+                            <td width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td width="10%" ></td>
+                            <td width="20%">Production Incentive</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.PINC}}</td>
+                            <td width="10%"></td>
+                            <td width="20%">Other Deduction</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.OTHERDED}}</td>
+                            <td width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td width="10%" ></td>
+                            <td width="20%">O.T. Amount</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.OTAMT}}</td>
+                            <td width="10%"></td>
+                            <td width="20%">Advance</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.ADVANCEDEDUCTED}}</td>
+                            <td width="10%" ></td>
+                          </tr>
+                          <tr>
+                            <td width="10%" ></td>
+                            <td width="20%">Others</td>
+                            <!-- <td></td> -->
+                            <td width="15%" align="right">{{newData.OTHERS}}</td>
+                            <td width="10%" ></td>
+                            <td width="20%">WF</td>
+                            <!-- <td></td> -->
+                            <td  width="15%" align="right">{{newData.WF}}</td>
+                            <td width="10%" ></td>
+                          </tr>
+                          <tr>
+                              <td width="10%" ></td>
+                              <td width="20%"  class="border-lb">Total</td>
+                              <!-- <td></td> -->
+                              <td width="15%"  class="border-lb" align="right">{{newData.GROSSPAY}}</td>
+                              <td width="10%" ></td>
+                              <td width="20%"  class="border-lb">Total</td>
+                              <!-- <td></td> -->
+                              <td  width="15%"  class="border-lb" align="right">{{newData.TOTALDEDUCTION}}</td>
+                              <td width="10%" ></td>
+                            </tr>
+                            <tr>
+                              <td></td>
+                                <td colspan="2"  class="border-lb">
+                                   <b> Net Pay : {{newData.NETPAYABLE}}</b>  
+                                </td>
+                                <td colspan="4"  class="border-lb">
+                                    <b> In-Words : {{newData.INWORDS}} </b>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                        </table>
+                      </td>
+                      </tr>
+                      <tr>
+                          <td> &nbsp;</td>
+                        </tr>
+                      <tr>
+                          <td colspan="4" align="center">-:**This is the system generated copy there is no requirement for stamp & sign.**:-  </td>
+
+                      </tr>
+                      <tr>
+                        <td> &nbsp;</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</kendo-pdf-export>

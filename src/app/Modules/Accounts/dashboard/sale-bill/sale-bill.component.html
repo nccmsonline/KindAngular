@@ -1,0 +1,85 @@
+<form >
+  <div class="modal-header primary-bg py-2">
+    <button class="close text-white" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+      <div class="modal-body" style="height:500px;overflow-y:scroll;padding:0;max-width:950px;">
+        <div class="table-scroll mx-1">
+          <div class="card-body border-top supplier-master px-0 py-2" style="background: #ffffcf;min-height:470px;">
+            <h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Sale Bills</h6>
+            <div class="d-flex- row">
+            <div class="col-lg-7 tab-content m-t-10">
+              {{Header.NAME}}<br>
+              {{Header.ADDRESS1}}<br>
+              {{Header.ADDRESS2}}<br>
+              State : {{Header.STATEDESC}}  GSTIn: {{Header.GSTNO}} <br>
+            </div>
+            <div class="col-lg-5 tab-content m-t-10">
+             
+              Inv No. : {{Header.INVNO}} <br> Inv Date : {{Header.INVDATE| date : "dd-MMM-yy"}} <br>
+            </div>
+          </div>
+            <table class="table table-striped custom-table tr th">
+              <thead>
+                <tr>
+                  <th style="width: 30%;">Item Name</th>
+                  <th style="text-align:right;width: 10%;">Quantity</th>
+                  <th style="text-align:right;width: 10%;">Weight</th>
+                  <th style="text-align:right;width: 10%;">Rate</th>
+                  <th style="text-align:right;width: 10%;">Asssessble</th>
+                  <th style="text-align:right;width: 10%;">IGST</th>
+                  <th style="text-align:right;width: 10%;">SGST</th>
+                  <th style="text-align:right;width: 10%;">CGST</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let staff of fieldArray" (click)="showDetail(staff)">
+                  
+                  <td ><em> P.O. {{staff.CUSTOMERPO}} <br> {{staff.ITEMNAME}}</em></td>
+                  <td class="text-right">{{staff.QUANTITY}}</td>
+                  <td class="text-right">{{staff.WEIGHT}}</td>
+                  <td class="text-right">{{staff.RATE}}/<BR> {{staff.RATEPER}}</td>          
+                  <td class="text-right">{{staff.GSTGOODSAMT| number : '1.2-2'}}</td>
+                  <td class="text-right">{{staff.IGSTAMT| number : '1.2-2'}}</td>
+                  <td class="text-right">{{staff.SGSTAMT| number : '1.2-2'}}</td>
+                  <td class="text-right">{{staff.CGSTAMT| number : '1.2-2'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex- row">
+              <div class="col-lg-7 tab-content m-t-10">
+               Vehicle No. {{Header.VEHICLENO}}
+              </div>
+              <div class="col-lg-5 tab-content m-t-10 text-right" >
+                <table class="table table-striped custom-table tr th">
+                  <tr>
+                    <td>Assessable Amt :</td>
+                    <td class="text-align:right;width: 150px"> {{Header.ASSESSABLEAMT| number : '1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td> IGST Amt :</td>
+                    <td class="text-align:right;width: 150px"> {{Header.IGSTq| number : '1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td> CGST Amt :</td>
+                    <td class="text-align:right;width: 150px"> {{Header.CGST| number : '1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td> SGST Amt :</td>
+                    <td class="text-align:right;width: 150px"> {{Header.SGST| number : '1.2-2'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Toatal Amt :</td>
+                    <td class="text-align:right;width: 150px"> {{Header.TOTALAMT| number : '1.2-2'}}</td>
+                  </tr>
+                </table>
+                
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    
+    </form>

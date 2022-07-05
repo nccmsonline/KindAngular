@@ -1,0 +1,71 @@
+/* .custom-mat-picker{
+    padding: 0px 5px 0 !important;
+    height: 24px !important;
+    width: 120px !important;
+  }  */
+
+  .nowrap{
+    white-space: nowrap;
+  }
+  .custom-kendo-time-border{
+    border: 1px solid #aaa;
+  }
+
+  .table-scroll{
+    overflow-y: scroll;
+    height:325px;
+}
+
+.search-list-header {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  margin-top: 25px;
+  width: 600px;
+}
+
+.search-list > ul, .search-list-header > ul {
+  margin: 0;
+  padding: 0;
+  
+}
+
+.search-list ul li, .search-list-header ul li {
+  list-style: outside none none;
+  background: #fdfdfd;
+  padding: 2px;
+  width: 370px;
+}
+
+.search-list ul li a, .search-list-header ul li a{
+  color: #337ab7 !important;
+  text-decoration: none !important;
+  
+}
+.search-list ul li a:hover .search-list-header ul li a:hover {
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+
+.search-list ul li:hover, .search-list-header ul li:hover {
+  background-color: #d4d9de;
+}
+
+.search-list-header {
+  height: 300px;
+  overflow-y: auto;
+}
+
+table#selectedValue {font-size: 13px;}
+table#selectedValue tr td {
+  padding: 2px 5px;
+}
+
+.error-control-label.required:after { 
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+}

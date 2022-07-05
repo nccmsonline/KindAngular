@@ -1,0 +1,292 @@
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+      <div class="lds-pos"></div>
+      <div class="lds-pos"></div>
+    </div>
+  </div>
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <app-header></app-header>
+    <app-sidebar></app-sidebar>
+  
+    <div class="page-wrapper">
+      <div class="container-fluid" style="background:#dcdcdc;">
+        <form [formGroup]="MaintenanceOrderForm" novalidate>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);"
+                (click)="dropdownHide()">
+                <div class="card-body border-bottom py-2">
+                  <div class="d-md-flex align-items-center">
+                    <div class="form-row mx-0 d-flex bd-highlight w-100">
+                      <!-- <a *ngIf="routeAction == 'edit' || routeAction == 'view'" [routerLink]="['/maintenance-order']"
+                        class="btn btn-sm rounded btn-warning mr-3" title="Back to Maintenance Ticket List"><i
+                          class=" mdi mdi-keyboard-backspace"></i></a> -->
+                      <!-- <a *ngIf="routeAction == 'mchistory'" [routerLink]="['/machine-history']"
+                        class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                          class=" mdi mdi-keyboard-backspace"></i></a> -->
+                      <!-- <a *ngIf="routeAction == 'mtregister'"
+                        [routerLink]="['/maintenance-reports/print-maint-report/mt-register']"
+                        class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                          class=" mdi mdi-keyboard-backspace"></i></a> -->
+                      <a (click)="back()"  class="btn btn-sm rounded btn-warning mr-3" title="Back"><i
+                          class=" mdi mdi-keyboard-backspace"></i></a>
+                      <h4 class="card-title m-0">{{'maintenanceorder' | translate}}</h4>
+                      <!-- <div class="form-group mx-4 mb-1" *ngIf="routeAction == 'edit'"> 
+                        <span class="d-flex">
+                          <button type="button" class="btn btn-sm rounded btn-info waves-effect waves-light ml-1"
+                            style="overflow: visible;" (click)="gotorequistionpage()">{{'requsition'|translate}}</button>
+                        </span>
+                      </div> -->
+                      <div class="form-group mx-4 mb-1" style="text-align: right"
+                        *ngIf="MOSTATUS == 'Closed'">
+                        <button type="button" class="btn btn-sm rounded btn-info waves-effect waves-light"
+                          (click)="statuspopup(newData)">{{'viewclosingstatus' | translate}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <notifier-container></notifier-container>
+                <div class="d-flex- row">
+                  <div class="col-md-12 tab-content m-t-10" id="pills-tabContent">
+                    <div class="card-body purchase-order px-0 py-2">
+                      <div class="form-inline">
+                        <div class="row col-md-12 mb-1">
+                          <div class="col-md-3 form-group">
+                            <label *ngIf="!monoexist" for="inputEmail4" class="col-md-5 text-right p-0">{{'lastmono' | translate}}</label>
+                            <label *ngIf="monoexist" for="inputEmail4" class="col-md-5 text-right">{{'mono' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable text-right" name="mono"
+                                [(ngModel)]="MONO" [ngModelOptions]="{standalone: true}"
+                                readonly="true">
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label class="col-md-5 text-right text-wrap">{{'modate' | translate}}</label>
+                            <div class=" col-md-7">
+                              <mat-form-field class="w-100 form-control py-1 mat-form-field-date-picker">
+                                <input matInput [readonly]="monoexist" [matDatepicker]="picker" [min]="LASTMODATE"
+                                  [max]="mydate" name="modate" [(ngModel)]="newData.MODATE" [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker [disabled]="monoexist"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'motime' | translate}}</label>
+                            <div class="col-md-7">
+                              <input [owlDateTime]="dt1" [disabled]="monoexist" [(ngModel)]="newData.MOTIME" class="form-control form-control-sm w-100" [ngModelOptions]="{standalone: true}" readonly>
+                              <button type="button"  class="fas fa-clock custom-clock-class" [owlDateTimeTrigger]="dt1"></button>
+                              <owl-date-time [pickerType]="'timer'" #dt1></owl-date-time>
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'department' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable"
+                                name="deptname" [(ngModel)]="newData.DEPTNAME" [ngModelOptions]="{standalone: true}"
+                                readonly="true">
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row col-md-12 mb-1">
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right">{{'mtno' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable text-right" name="mtno"
+                                [(ngModel)]="MTNO" [ngModelOptions]="{standalone: true}"
+                               readonly="true">
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label class="col-md-5 text-right">{{'mtdate' | translate}}</label>
+                            <div class=" col-md-7">
+                              <mat-form-field class="w-100 form-control py-1 mat-form-field-date-picker readonly-disable">
+                                <input matInput [matDatepicker]="picker1" name="mtdate" readonly="true"
+                                  [(ngModel)]="newData.MTDATE" [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1 disabled="true"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'mttime' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable"
+                                name="mttime" [(ngModel)]="newData.MTTIME" [ngModelOptions]="{standalone: true}"
+                                readonly="true">
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'complaintby' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable"
+                                name="empname" [(ngModel)]="newData.EMPNAME" [ngModelOptions]="{standalone: true}"
+                                readonly="true">
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row col-md-12 mb-1">
+                          <div class="col-md-6 form-group">
+                            <label for="inputEmail4" class="col-md-2 text-right text-wrap">{{'machinename' | translate}}</label>
+                            <div class="col-md-10" style="padding-left: 31px;">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable"
+                                name="MachineName" [(ngModel)]="newData.MACHINENAME" [ngModelOptions]="{standalone: true}" readonly="true">
+                            </div>
+                          </div>
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'srno' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class=" w-100 form-control form-control-sm readonly-disable"
+                                name="mcsrno" [(ngModel)]="newData.MACHINESERIALNO"  matTooltip="{{newData.MACHINESERIALNO}}" [ngModelOptions]="{standalone: true}" readonly="true">
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row col-md-12 mb-1">
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'requiredby' | translate}}</label>
+                            <div class="col-md-7">
+                              <mat-form-field class="w-100 form-control py-1 mat-form-field-date-picker readonly-disable">
+                                <input matInput [matDatepicker]="picker2" name="mtduedate" readonly="true"
+                                  [(ngModel)]="newData.MTDUEDATE" [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2 disabled="true"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label class="col-md-5 text-right">{{'before' | translate}}</label>
+                            <div class=" col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable"
+                                name="mtduetime" [(ngModel)]="newData.MTDUETIME" [ngModelOptions]="{standalone: true}"
+                                readonly="true">
+                            </div>
+                          </div>
+  
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'priority' | translate}}</label>
+                            <div class="col-md-7">
+                              <input type="text" class="w-100 form-control form-control-sm readonly-disable"
+                                name="mtpriority" [(ngModel)]="newData.PRIORITY" [ngModelOptions]="{standalone: true}"
+                                readonly="true">
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="row col-md-12 mb-1">
+                          <div class="col-md-4 form-group">
+                            <label for="inputEmail4"
+                              class="col-md-4 text-right text-wrap">{{'assignteam' | translate}}</label>
+                            <div class="col-md-5 mb-1 pl-0">
+                              <mat-radio-group [(ngModel)]="newData.MOTEAMTYPE" [ngModelOptions]="{standalone: true}"
+                                mat-radio-group class="mat-radio-label d-flex align-items-center"
+                                aria-label="Select an option" (change)="changeteamtype($event)">
+                                <mat-radio-button value="I" checked>{{'internal' | translate}}</mat-radio-button> &nbsp;
+                                &nbsp;
+                                <mat-radio-button value="E">{{'external' | translate}}</mat-radio-button>
+                              </mat-radio-group>
+                            </div>
+                          </div>
+                          <div class="col-md-5 form-group" *ngIf="!externalteam">
+                            <div class="col-md-12 d-flex pr-0">
+                              <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                name="teamname" [allowClear]="true" [(ngModel)]="newData.MOASSIGNEDTEAMID"
+                                [ngModelOptions]="{standalone: true}" [items]="AssignedTeamArray" optionValueField="ID"
+                                optionTextField="TEAMNAME" style="padding-left: 20px;">
+                              </ngx-select>
+                              <button type="button" (click)="openaddteamdialog()"
+                                matTooltip="{{'addnewteam' | translate}}" style="margin-right: 8px;"
+                                class="btn btn-add waves-effect waves-light ml-1">+
+                              </button>
+                            </div>
+                          </div>
+  
+                          <div class="col-md-5 form-group" *ngIf="externalteam">
+                            <div class="col-md-12 d-flex pr-0">
+                              <input (keyup)="searchTermSupplier($event.target.value)" name="suplname"
+                                [ngModelOptions]="{standalone: true}" [(ngModel)]='newData.SUPLNAME'
+                                [value]="newData.SUPLNAME || ''" autocomplete="off" style="padding-left: 20px;"
+                                class="w-100 form-control error-border form-control-sm">
+                              <button class="close-icon" (click)="reset(newData)"></button>
+                              <div *ngIf="arrayItemSupplier != ''" class="search-list-supplier" style="margin-top: 24px;">
+                                <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                  <tr class="ui-menu-item" role="menuitem">
+                                    <th>{{'name' | translate}}</th>
+                                    <th>{{'address' | translate}}</th>
+                                  </tr>
+                                  <tr class="ui-menu-item" role="menuitem" *ngFor="let result of supplierlist"
+                                    (click)="onChangeOfItemCodeSupplier(result, newData)">
+                                    <td>{{ result.NAME }}</td>
+                                    <td>{{ result.ADDRESS1 }}</td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row col-md-12 mb-1">
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap">{{'setpriority' | translate}}</label>
+                            <div class="col-md-7">
+                              <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"
+                                name="mopriority" [allowClear]="true" [(ngModel)]="newData.MOPRIORITYID"
+                                [ngModelOptions]="{standalone: true}" [items]="priorityArray" optionValueField="ID"
+                                optionTextField="PRIORITY">
+                              </ngx-select>
+                            </div>
+                          </div>
+                          <div class="col-md-3 form-group">
+                            <label for="inputEmail4" class="col-md-5 text-right text-wrap pl-0">{{'positioninqueue' | translate}}</label>
+                            <div class="col-md-7 row">
+                              <div class="col-md-10">
+                                <input type="text" class="w-100 form-control form-control-sm text-right"
+                                  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+                                  name="MOQUEUENO" [(ngModel)]="newData.MOQUEUENO" [ngModelOptions]="{standalone: true}"
+                                  (change)="checkqueueno(newData.MOQUEUENO)">
+                              </div>
+                              <div class="col-md-2 p-0">
+                                <i class="fas fa-eye fa-lg" style="cursor: pointer;" (click)="setposition()"></i>
+                                <!-- <button type="button" class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="setposition()">View Position</button> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <!-- <button class="btn btn-sm btn-secondary rounded bg-danger"
+                  *ngIf="routeAction == 'edit' || routeAction == 'view'"
+                  routerLink="/maintenance-order">{{'cancel' | translate}} </button> &nbsp;
+                <button class="btn btn-sm btn-secondary rounded bg-danger" *ngIf="routeAction == 'mchistory'"
+                  routerLink="/machine-history">{{'cancel' | translate}} </button> &nbsp;
+                <button class="btn btn-sm btn-secondary rounded bg-danger" *ngIf="routeAction == 'mtregister'"
+                  routerLink="/maintenance-reports/print-maint-report/mt-register">{{'cancel' | translate}} </button>
+                &nbsp; -->
+                <button class="btn btn-sm btn-secondary rounded bg-danger" (click)="back()" >{{'cancel' | translate}} </button> &nbsp;
+                <button *ngIf="!monoexist" [hidden]="routeAction == 'mchistory' || routeAction == 'mtregister'  || routeAction == 'moregister'" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded"
+                  (click)="validateBeforeSave(newData, 'Insert')">{{'save' | translate}}</button>
+                <button *ngIf="monoexist" [hidden]="routeAction == 'mchistory' || routeAction == 'mtregister'  || routeAction == 'moregister'  || routeAction == 'view'" [disabled]="isLoadingResults" class="btn btn-sm btn-info rounded"
+                  (click)="validateBeforeSave(newData, 'Update')">{{'update' | translate}}</button>
+  
+              </div>
+            </div>
+          </div>
+        </form>
+        <app-footer></app-footer>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,69 @@
+
+.table-scroll{
+    overflow-y: scroll;
+    height:325px;
+}
+
+.tdAlign{
+    text-align: right;
+}
+
+.nowrap{
+    white-space: nowrap !important;
+}
+
+
+.search-list-supplier {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+    width: 600px;
+}
+
+.search-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+}
+
+.search-list > ul, .search-list-supplier > ul {
+    margin: 0;
+    padding: 0;
+    
+}
+
+.search-list ul li, .search-list-supplier ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    /* margin: 0 0 4px; */
+    padding: 2px;
+    width: 370px;
+}
+
+.search-list ul li a, .search-list-supplier ul li a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+}
+.search-list ul li a:hover, .search-list-supplier ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.search-list ul li:hover, .search-list-supplier ul li:hover {
+    background-color: #d4d9de;
+}
+
+.search-list-supplier.ng-star-inserted {
+    height: 300px;
+    overflow-y: auto;
+  }
+
+table#selectedValue {font-size: 13px;}
+table#selectedValue tr td {
+  padding: 2px 5px;
+}

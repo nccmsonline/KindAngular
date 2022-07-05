@@ -1,0 +1,77 @@
+<div class="row">
+      <div class="col-12">
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+              <div class="card-body py-2 mb-2">
+                <div class="d-md-flex align-items-center">
+                    <div class="form-row mx-0 d-flex bd-highlight w-100">
+                        <h4 class="card-title m-0">{{'accgmaster'|translate}}</h4>
+                         <div class="form-group mx-4 mb-2">
+                            <button class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="openDialog()">{{'newacc'| translate}}</button>
+                             </div>
+                         <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
+                            <input type="text" class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)" placeholder="{{'search'|translate}}">
+                         </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- Sales chart -->
+  <!-- ============================================================== -->
+  
+  <!-- ============================================================== -->
+  <!-- Ravenue - page-view-bounce rate -->
+  <!-- ============================================================== -->
+    <div class="col-12">
+      <!-- column -->
+      <div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+        <div class="w-100">
+                <!-- <div class="example-container mat-elevation-z8">
+                        <div class="loader">
+
+                            
+                        </div>    -->
+                    
+                    <div class="example-loading-shade"
+                             *ngIf="isLoadingResults ">
+                          <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+                        
+                          
+                          </div>
+                       
+          <div class="card example-container " style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+              <table mat-table [dataSource]="fieldArray" matSort class="mat-elevation-z8 table-striped w-100" #table >
+                    <!-- Account Head Column -->
+                    <ng-container matColumnDef="NAME">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> Account Head </th>
+                        <td mat-cell *matCellDef="let element"> {{element.NAME}} </td>
+                    </ng-container>
+                    
+                    <!-- Under Group Column -->
+                    <ng-container matColumnDef="parentgroup">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> Under Group </th>
+                        <td mat-cell *matCellDef="let element"> {{element.parentgroup}} </td>
+                    </ng-container>
+                    
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> Position </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true " class="bg-light" style="height:auto;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:auto;" (click)="editContact(row)"></tr>
+                </table>
+
+                <mat-paginator class="mat-paginator-sticky"
+                            [length]="resultsLength" [pageSize]="20"
+                           
+                           
+                           >
+                </mat-paginator>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

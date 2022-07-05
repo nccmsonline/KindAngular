@@ -1,0 +1,147 @@
+div.mycolor {
+    border: 1px solid rgb(7, 7, 66);
+    background-color:#f1ffc0;	
+  }
+
+  div.myborder {
+    border: 1px solid rgb(7, 7, 66);
+    
+  }
+  /* p{
+    line-height: normal;
+  } */
+  .purchase-order .custom-table.table thead th, .purchase-order .custom-table.table tbody td {
+    width: auto;
+}
+
+#pills-tabContent .form-control, #pills-tabContent .select2 {
+    width: 100%;
+}
+
+/* .table-responsive > .custom-table.table td, .table-responsive > .custom-table.table th {
+    padding: .1rem 0.5rem;
+    white-space: nowrap;
+   
+} */
+
+.table-scroll{
+    overflow-y: scroll;
+    height:325px;
+}
+
+.ng-select.ng-select.form-control.ng-select-single{
+  max-width: 487px;
+}
+
+.min-width{
+    min-width: 1600px;
+}
+
+
+/* .nav-tabs .nav-link {
+    padding: 6px 5px;
+} */
+
+.search-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    position: absolute;
+    z-index: 505;
+}
+
+.search-list > ul {
+    margin: 0;
+    padding: 0;
+}
+
+.search-list ul li {
+    list-style: outside none none;
+    background: #fdfdfd;
+    margin: 0 0 4px;
+    padding: 2px;
+}
+
+.search-list ul li a {
+    color: #337ab7 !important;
+    text-decoration: none !important;
+    
+}
+.search-list ul li a:hover {
+    cursor: pointer;
+    text-decoration: underline !important;
+}
+
+.search-list ul li:hover {
+    background-color: #d4d9de;
+}
+b, strong {
+    font-weight: bolder !important;
+    font-size: 13px !important;
+}
+
+
+
+/* @page {
+    size: A4  !important;
+    margin: 11mm 100mm 17mm 17mm  !important;
+  }
+  
+  @media print {
+    footer {
+      position: fixed !important;
+      bottom: 30px !important;
+    }
+  
+    .content-block, p {
+      page-break-inside: avoid !important;
+    }
+  
+    html, body {
+      width: 210mm !important;
+      height: 297mm !important;
+    }
+  } */
+
+
+  body {
+    font: 12pt Georgia, "Times New Roman", Times, serif !important;
+    line-height: 1.3 !important;
+}
+@page {
+    /* switch to landscape */
+    /* size: landscape ; */
+    /* set page margins */
+    margin: 0.5cm !important;
+
+    @top-center {
+        content: element(header) ;
+    }
+    @bottom-center {
+        content: element(footer);
+    }
+    @bottom-right{
+        content: counter(page) " of " counter(pages);
+    }
+}
+
+div.header {
+  display: block !important;
+  text-align: center !important;
+  position: running(header);
+  width: 100% !important;
+}
+
+div.footer {
+  display: block !important;
+  text-align: center !important;
+  position: running(footer);
+  width: 100% !important;
+}
+
+body {
+  padding-top: 50px!important;
+}
+.custom-page-start {
+  margin-top: 50px!important;
+}

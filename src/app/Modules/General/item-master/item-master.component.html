@@ -1,0 +1,81 @@
+<div class="row">
+		<div class="col-12">
+			<div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+				<div class="card-body border-bottom py-2 mb-2">
+					<div class="d-md-flex align-items-center">
+						<div>
+							<h4 class="card-title m-0">Item Master</h4>
+						</div>
+					</div>
+				</div>
+
+
+  <div class="card-body py-0">
+					<div class="d-md-flex align-items-center">
+	<div class="form-row mx-0">
+	  <div class="form-group mr-2 mb-2">
+		<input type="text" class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)" placeholder="Search">
+	  </div>
+	  <div class="form-group mr-2 mb-2">
+				<button class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="openDialog()">{{'New Item'| translate}}</button>
+		<!-- <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="openVerticallyCentered(content)"><i class="ti-plus"></i>&nbsp;New Supplier</button> -->
+		<!-- <button type="submit" class="btn btn-sm rounded btn-success waves-effect waves-light"><i class="mdi mdi-sync"></i></button>
+		<button type="submit" class="btn btn-purple rounded btn-sm waves-effect waves-light"><i class="ti-write"></i></button>
+		<button type="submit" class="btn btn-sm rounded btn-danger waves-effect waves-light"><i class="ti-face-smile"></i></button>
+		<button type="submit" class="btn btn-sm rounded btn-warning waves-effect waves-light"><i class="ti-alarm-clock"></i></button> -->
+	  </div>
+					</div>
+				</div>
+  
+			</div>
+		</div>
+	</div>
+	<!-- ============================================================== -->
+	<!-- Sales chart -->
+	<!-- ============================================================== -->
+	
+	<!-- ============================================================== -->
+	<!-- Ravenue - page-view-bounce rate -->
+	<!-- ============================================================== -->
+	  <div class="col-12">
+		<div class="d-flex justify-content-between align-items-stretch w-100 boxed-layout">
+		  <div class="w-100">
+			<div class="card" style="box-shadow:0 1px 3px rgba(0,0,0,.3);">
+				<table mat-table [dataSource]="fieldArray" matSort class="mat-elevation-z8 table-striped" #table>
+						<!-- Item Category Column -->
+						<ng-container matColumnDef="itemcategory">
+								<th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> Item Category </th>
+								<td mat-cell *matCellDef="let element"> {{element.itemcategory}} </td>
+						</ng-container>
+						
+						<!-- Item Code Column -->
+						<ng-container matColumnDef="itemcode">
+								<th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> Item Code </th>
+								<td mat-cell *matCellDef="let element"> {{element.itemcode}} </td>
+						</ng-container>
+						
+						<!-- Item Name Column -->
+						<ng-container matColumnDef="itemname">
+								<th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> Item Name </th>
+								<td mat-cell *matCellDef="let element"> {{element.itemname}} </td>
+						</ng-container>
+
+						<!-- HSN Code Column -->
+						<ng-container matColumnDef="hsncode">
+								<th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark"> HSN Code </th>
+								<td mat-cell *matCellDef="let element"> {{element.hsncode}} </td>
+						</ng-container>
+						
+						<tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-light" style="height:auto;"></tr>
+						<tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:auto;" (click)="editContact(row)"></tr>
+				</table>
+
+				<mat-paginator [length]="100"
+										[pageSize]="10"
+										[pageSizeOptions]="[5, 10, 25, 100]">
+				</mat-paginator>
+			</div>
+		</div>
+	  </div>
+	</div>
+</div>

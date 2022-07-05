@@ -1,0 +1,18 @@
+.smallRadio .mat-radio-container{
+    height: 7px;
+    width: 7px !important;
+}
+.smallRadio .mat-radio-outer-circle{
+    height: 7px !important;
+    width: 7px !important;
+}
+.smallRadio .mat-radio-inner-circle{
+    height: 7px !important;
+    width: 7px !important;
+}
+.smallRadio .mat-radio-button .mat-radio-ripple{
+    height: 14px !important; 
+    width: 14px !important; 
+    left: calc(50% - 7px) !important; 
+    top: calc(50% - 7px) !important; 
+}

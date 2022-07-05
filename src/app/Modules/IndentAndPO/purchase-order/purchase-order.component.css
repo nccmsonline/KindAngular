@@ -1,0 +1,8 @@
+.custom-table-big {
+    width: 100%;
+    overflow-y: scroll;
+    min-width: 1540px;
+}
+.custom-table-big tr th {
+    width: 6%;
+}

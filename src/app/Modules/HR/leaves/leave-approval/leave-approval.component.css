@@ -1,0 +1,18 @@
+/* md-checkbox .md-icon {
+    border-color: green !important;
+  } */
+
+   ::ng-deep .mat-checkbox.green  .mat-checkbox-frame {
+    border-color: rgb(52, 13, 137)  !important;
+    
+  } 
+
+
+  /* ::ng-deep .mat-pseudo-checkbox-checked {
+  
+    background-color: rgba(0, 255, 0, 0.87) !important;
+  }  */
+  /* md-checkbox.md-checked.green .md-icon {
+    background-color: rgba(0, 255, 0, 0.87);
+   } */
+

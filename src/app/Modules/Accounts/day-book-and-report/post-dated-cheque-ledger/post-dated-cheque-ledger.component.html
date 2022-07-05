@@ -1,0 +1,98 @@
+
+
+  <div class="form-group mr-2 ml-auto bd-highlight">
+    <span class="d-flex">
+            <a skipLocationChange  [routerLink]="['/day-books-and-report']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                class="mdi mdi-keyboard-backspace"></i></a>
+                &nbsp;&nbsp;
+        <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('PDC Cheque List.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
+   </span>
+  </div>
+  <div>
+  <kendo-pdf-export #pdf paperSize="A4" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 10, left: 20}" [repeatHeaders]="repeatHeaders">
+    <div class="example-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+   </div>
+      <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);" align="center">
+     <div class="table-responsive"   style="width: 1000px">
+     <table class="custom-invoice-table" id="contentToConvert" > 
+         <thead>
+                <tr><td align="text-center"  colspan="8"><h5> {{CompanyName}}</h5></td></tr>
+                <tr><td align="text-center" colspan="8"><b> {{Address}}</b></td></tr>
+                <tr><td align="text-center" colspan="8"><b> {{mydata}}</b></td></tr>
+                <tr><td colspan="9"><h5>&nbsp;&nbsp; </h5></td></tr>
+                <tr class="bg-sky border-lb">
+                <th scope="col" style="width: 80px;">Dated</th>
+                <th scope="col" style="width: 250px;">Party </th>
+                <th scope="col" style="width: 110px;">Name on Cheque</th>
+                <th scope="col" style="width: 80px;">Cheque No.</th>
+
+                <th *ngIf="boid==2" cope="col" style="width: 120px;text-align : right">Unit 2</th>
+                <th *ngIf="boid!=2" scope="col" style="width: 120px;text-align : right">Amount</th>
+                <th *ngIf="boid==2" scope="col" style="width: 120px;text-align : right">PDC</th>
+                <th  scope="col" style="width: 120px;text-align : right">Others</th>
+                <th  scope="col" style="width: 120px;text-align : right">Total</th>
+                <th scope="col" style="width: 120px;text-align : right">Balance</th>
+             
+            </tr>
+            <tr>
+                <td *ngIf="flag=='C'" colspan="8" align="right">
+               <b>Opening Balance : {{openingBalance}}</b>  
+                </td>
+            </tr>
+       
+          </thead>
+          <tbody class="font-sm">
+           
+          <tr *ngFor="let x of  itemDisplay">
+               
+                <td colspan="9">
+                  <table class="custom-invoice-table" id="contentToConvert" > 
+                      <tbody class="font-sm">
+
+                        <tr *ngFor="let y of  x.detail">
+                            <td scope="col"  style="width: 80px;">{{y.TRANSDATE}}</td>
+                            <td scope="col"  style="width: 250px;">{{y.PARTY}}</td>
+                            <td scope="col"  style="width: 110px;">{{y.NAMEONCHEQUE}}</td>
+                            <td scope="col"  style="width: 80px;">{{y.CHEQUENO}}</td>
+                          
+                            <td *ngIf="y.UNIT>0" scope="col" style="width: 120px;text-align : right">{{y.UNIT| number:'1.0-0'}}</td>
+                            <td *ngIf="y.UNIT==0" scope="col" style="width: 120px;text-align : right">-</td>
+                            <td *ngIf="y.PDC>0&&boid==2" scope="col" style="width: 120px;text-align : right">{{y.PDC| number:'1.0-0'}}</td>
+                            <td *ngIf="y.PDC==0&&boid==2"  scope="col" style="width: 120px;text-align : right">-</td>
+                            <td  *ngIf="y.OTHERS>0" scope="col" style="width: 120px;text-align : right">{{y.OTHERS| number:'1.0-0'}}</td>
+                            <td *ngIf="y.OTHERS==0" scope="col" style="width: 120px;text-align : right">-</td>
+                            <td  scope="col" style="width: 120px;text-align : right">{{y.TOTAL| number:'1.0-0'}}</td>
+                            <td scope="col" style="width: 120px;text-align : right">{{y.BALANCE| number:'1.2-2'}}</td>
+                           
+                        </tr>
+                        <tr >
+                          <td scope="col"  style="width: 80px;"></td>
+                          <td scope="col"  style="width: 250px;"></td>
+                          <td scope="col"  style="width: 110px;"></td>
+                          <td scope="col"  style="width: 80px;text-align : right;" class="border-lb"><b>Total</b></td>
+                         
+                          <!-- <td scope="col" style="width: 150px;text-align : right"  class="border-lb">{{x.UNIT| number:'1.0-0'}}</td>
+                          <td scope="col" style="width: 150px;text-align : right" class="border-lb">{{x.PDC| number:'1.0-0'}}</td> -->
+                          <td *ngIf="x.UNIT>0" scope="col" style="width: 120px;text-align : right" class="border-lb"><b>{{x.UNIT| number:'1.0-0'}}</b></td>
+                          <td *ngIf="x.UNIT==0" scope="col" style="width: 120px;text-align : right" class="border-lb">-</td>
+                          <td *ngIf="x.PDC>0&&boid==2" scope="col" style="width: 120px;text-align : right" class="border-lb"><b>{{x.PDC| number:'1.0-0'}}</b></td>
+                          <td *ngIf="x.PDC==0&&boid==2"  scope="col" style="width: 120px;text-align : right" class="border-lb">-</td>
+                          <td *ngIf="x.OTHERS>0" scope="col" style="width: 120px;text-align : right" class="border-lb"><b>{{x.OTHERS| number:'1.0-0'}}</b></td>
+                          <td *ngIf="x.OTHERS==0" scope="col" style="width: 120px;text-align : right" class="border-lb"><b>-</b></td>
+                          <td  scope="col" style="width: 120px;text-align : right" class="border-lb"><b>{{x.TOTAL| number:'1.0-0'}}</b></td>
+                          <td scope="col" style="width: 120px;text-align : right" class="border-lb"></td>
+                         
+                      </tr>
+                      </tbody>
+                  </table>
+                </td> 
+                
+           </tr>
+           
+          </tbody>
+      </table>
+    </div>
+    </div>
+    </kendo-pdf-export>
+    </div>

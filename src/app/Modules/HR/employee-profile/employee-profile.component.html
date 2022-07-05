@@ -1,0 +1,208 @@
+
+<form >
+    <div class="modal-header primary-bg py-2">
+     <h5 style="color:white">User Profile</h5> 
+        <button class="close text-white" mat-dialog-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="scroll-spy px-3 pb-3" style="width: 1000px">
+        
+        <div class="card-body purchase-order px-0 py-2 custom-card-order">   
+          <div class="form-inline">
+              <div class="form-row w-100">
+          <div class="form-group row col-12 mb-1 ">  
+              <div class="col-sm-8 ">
+                 <h4>Basic Information</h4>
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-3 text-right ">Emp No</label>
+                      
+                      <div class="col-sm-9  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="EMPNO"
+                          [(ngModel)]="newData.EMPNO"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                     
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                      <label class="col-sm-3 text-right ">Name</label>
+                      
+                      <div class="col-sm-9  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="NAME"
+                          [(ngModel)]="newData.NAME"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                      <label class="col-sm-3 text-right ">Designation</label>
+                     
+                      <div class="col-sm-9  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="DESIGNATION"
+                          [(ngModel)]="newData.DESIGNATION"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-3 text-right ">Department</label>
+                     
+                      <div class="col-sm-9  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="DEPARTMENT"
+                          [(ngModel)]="newData.DEPARTMENT"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                      <label class="col-sm-3 text-right ">Department Head</label>
+                     
+                      <div class="col-sm-9  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="DEPTHEAD"
+                          [(ngModel)]="newData.DEPTHEAD"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-3 text-right ">UAN</label>
+                     
+                      <div class="col-sm-4  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="UAN"
+                          [(ngModel)]="newData.UAN"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                      <label  class="col-sm-2 text-right ">ESI No.</label>
+                      
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="ESINO"
+                          [(ngModel)]="newData.ESINO"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-3 text-right ">DOB</label>
+                    
+                      <div class="col-sm-4  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="DOB"
+                          [(ngModel)]="newData.DOB"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                      <label  class="col-sm-2 text-right ">DOJ</label>
+                     
+                      <div class="col-sm-3  w-100">
+                          <input style="text-align:left" type="text" class="form-control form-control-sm" name="DOJ"
+                          [(ngModel)]="newData.DOJ"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-4 border-left">
+                  <h4>Salary Detail</h4>
+                  <div class="form-group row col-12 mb-1">
+                      <label  class="col-sm-4 text-right ">Basic</label>
+                      <div class="col-sm-8  w-100">
+                          <input style="text-align:right" type="text" class="form-control form-control-sm" name="BASIC"
+                          [(ngModel)]="newData.BASIC"  [ngModelOptions]="{standalone: true}" readonly>
+                      </div>
+                  </div>
+            
+              <div class="form-group row col-12 mb-1">
+                  <label  class="col-sm-4 text-right ">Conv</label>
+                  <div class="col-sm-8  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="CONV"
+                      [(ngModel)]="newData.CONV"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+              <div class="form-group row col-12 mb-1">
+                  <label  class="col-sm-4 text-right ">Incentive</label>
+                  <div class="col-sm-8  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="INC"
+                      [(ngModel)]="newData.INC"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+              <div class="form-group row col-12 mb-1">
+                  <label  class="col-sm-4 text-right ">Prdn. Inc</label>
+                  <div class="col-sm-8  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="PINC"
+                      [(ngModel)]="newData.PINC"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+              <div class="form-group row col-12 mb-1">
+                  <label  class="col-sm-4 text-right ">HRA</label>
+                  <div class="col-sm-8  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="HRA"
+                      [(ngModel)]="newData.HRA"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+              <div class="form-group row col-12 mb-1">
+                  <label  class="col-sm-4 text-right ">TA</label>
+                  <div class="col-sm-8  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="TA"
+                      [(ngModel)]="newData.TA"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row w-100 mb-1 mt-2 border-top">
+              <h4>Bank Detail</h4>
+              <!-- <div class="form-group row col-12 mb-2 "> </div> -->
+              <div class="form-group row col-12 mb-2 "> 
+                  <label  class="col-sm-2 text-right ">Bank Name</label>
+                
+                  <div class="col-sm-3  w-100">
+                      <input style="text-align:left" type="text" class="form-control form-control-sm" name="BANKNAME"
+                      [(ngModel)]="newData.BANKNAME"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                  <label  class="col-sm-1 text-right ">Bank A/C</label>
+                  <div class="col-sm-3  w-100">
+                      <input style="text-align:left" type="text" class="form-control form-control-sm" name="BANKACNO"
+                      [(ngModel)]="newData.BANKACNO"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                  <label  class="col-sm-1 text-right ">IFSC</label>
+                  <div class="col-sm-2  w-100">
+                      <input style="text-align:left" type="text" class="form-control form-control-sm" name="IFSC"
+                      [(ngModel)]="newData.IFSC"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+          </div>
+
+          <div class="form-row w-100 mb-1 mt-2 border-top">
+              <h4>Leave Detail</h4>
+              <!-- <div class="form-group row col-12 mb-2 "> </div> -->
+              <div class="form-group row col-12 mb-2 "> 
+                  <label  class="col-sm-2 text-right ">Earned Leave</label>
+                
+                  <div class="col-sm-1  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="EL"
+                      [(ngModel)]="newData.EL"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                  <label  class="col-sm-2 text-right ">Sick Leave</label>
+                  <div class="col-sm-1  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="SL"
+                      [(ngModel)]="newData.SL"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+                  <label  class="col-sm-2 text-right ">Casual Leave</label>
+                  <div class="col-sm-1  w-100">
+                      <input style="text-align:right" type="text" class="form-control form-control-sm" name="CL"
+                      [(ngModel)]="newData.CL"  [ngModelOptions]="{standalone: true}" readonly>
+                  </div>
+              </div>
+          </div>
+          <div class="form-row w-100 mb-1 mt-2 border-top">
+              <h4>Salary Slip</h4>
+              <div class="form-group row col-12 mb-2 "> 
+                <label  class="col-sm-2 text-right ">Date</label>
+                  <div class="col-sm-2  w-100">
+                  
+                          <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="picker4" name="SALARYDATE"
+                                [(ngModel)]='newData.SALARYDATE'
+                                [ngModelOptions]="{standalone: true}">
+                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                            <mat-datepicker #picker4></mat-datepicker>
+                         </mat-form-field>
+                    
+                  </div>
+                  <div>
+                        <button type="button" class="btn btn-primary" (click)="showSalarySlip()">Print Slip</button>
+                  </div>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+          
+          <button type="button" class="btn btn-primary" mat-dialog-close>Ok</button>
+      </div>
+    </form>

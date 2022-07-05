@@ -1,0 +1,300 @@
+
+<div class="preloader" style="display: none;">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+  </div>
+  
+  <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  
+  <div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;">
+  <form autocomplete="off" >
+  <div class="row">
+      <div class="col-12">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                    <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
+          </div>
+          <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+     
+
+              <div class="col-md-12">
+                
+                    <div class="row m-1">
+                        <div class="col-md-12">
+                          <div class="col-sm-6 d-flex">
+                            <h4 class="card-title m-0">Gate Entry</h4>
+                          </div>
+                         </div>
+                     </div>
+                  
+                <div class="row">
+                  <div class="col-md-7">
+               
+                  <div class="row m-1">
+                  <div class="col-md-3">
+                        <mat-form-field class="example-full-width w-100">
+                          <mat-label style="color: cornflowerblue;font-weight: 800;">{{'gateentryno' | translate}}</mat-label>
+                          <input matInput placeholder="{{'gateentryno'| translate}}" name="GINNO"  readonly
+                          [(ngModel)]="newData.GINNO" [ngModelOptions]="{standalone: true}" style="text-align: right;"
+                          oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                        </mat-form-field>
+                  </div>
+                      <div class="col-md-5"> &nbsp;       
+                 </div>
+                 
+                  <div class="col-md-3" >
+                     
+                      <mat-form-field  class="w-100">
+                          <mat-label style="color: cornflowerblue;font-weight: 800;">{{'dated' | translate}}</mat-label>
+                          <input matInput   [matDatepicker]="pickerd" name="myDate" placeholder="Dated"  [disabled]
+                              [(ngModel)]='newData.GINDT'  readonly style="text-align: right;" (focusout)="refreshDates()"   (dateChange)="refreshDates()"
+                              [ngModelOptions]="{standalone: true}">
+                          <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerd></mat-datepicker>
+                       </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-11">
+                      <mat-form-field class="example-full-width w-100">
+                        <mat-label style="color: cornflowerblue;font-weight: 800;">{{'MRIRCategory' | translate}}</mat-label>
+                        <input matInput placeholder="MRIR Category" name="MRIRCATEGORY" (keyup)="searchMRIRCategory($event.target.value, 'S')" 
+                        [(ngModel)]="newData.GROUPNAME" [ngModelOptions]="{standalone: true}" [disabled]="routeAction!='new'"
+                        >
+                        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchMRIRCategory(newData.GROUPNAME, 'A')" [disabled]="routeAction!='new'">
+                          <i class="fa fa-caret-down" ></i>
+                        </button>
+
+                      </mat-form-field>
+                      <div *ngIf="dropDownListFor=='MRIRCATEGORY'" class="search-list-supplier" style="margin-top: 5px;">
+                        <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredcategoryList"
+                                    (click)="onChangeOfCategory(result, newData)">
+                                    <td>{{ result.GROUPNAME }}</td>
+                                    
+                                </tr>
+                        </table>
+                      </div>
+
+                    </div>
+                  </div> 
+                  <div class="row m-1">
+                      <div class="col-md-11">
+                         
+                             <mat-form-field class="example-full-width w-100">
+                              <mat-label style="color: cornflowerblue;font-weight: 800;">{{'PartyName' | translate}}</mat-label>
+                              <input matInput placeholder="Party Name" name="NAME" (keyup)="searchParty($event.target.value, 'S')" 
+                              [(ngModel)]="newData.NAME" [ngModelOptions]="{standalone: true}" >
+                              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchParty(newData.NAME, 'A')">
+                                <i class="fa fa-caret-down" ></i>
+                              </button>
+    
+                            </mat-form-field>
+                            <div *ngIf="dropDownListFor=='PARTYNAME'" class="search-list-supplier" style="margin-top: 5px;">
+                              <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                                      <tr class="ui-menu-item" role="menuitem" *ngFor="let result of partyNameList"
+                                          (click)="onChangeOfParty(result, newData)">
+                                          <td>{{ result.NAME }}</td>
+                                          <td>{{ result.ADDRESS }}</td>
+                                          <td>{{ result.GSTNO }}</td>
+                                      </tr>
+                              </table>
+                            </div>
+
+                      </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-11">
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'address1' | translate}}</mat-label>
+                            <input matInput placeholder="{{'address1'| translate}}" name="address1"  readonly
+                            [(ngModel)]="newData.ADDRESS1" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+                    </div>
+                  </div> 
+                  <div class="row m-1">
+                    <div class="col-md-11">
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'address2' | translate}}</mat-label>
+                            <input matInput placeholder="{{'address2'| translate}}" name="address2"   readonly
+                            [(ngModel)]="newData.ADDRESS2" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+                    </div>
+                  </div>      
+                  <div class="row m-1">
+                    <div class="col-md-5 d-flex">
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'city' | translate}}</mat-label>
+                            <input matInput placeholder="{{'city'| translate}}" name="city" readonly 
+                            [(ngModel)]="newData.CITYDESC" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-1">&nbsp;  </div>
+                    <div class="col-md-5">
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'gstin' | translate}}</mat-label>
+                            <input matInput placeholder="{{'gstin'| translate}}" name="gstin"   readonly
+                            [(ngModel)]="newData.GSTNO" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-11">
+                         <mat-form-field class="example-full-width w-100" >
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'modeoftransport' | translate}}</mat-label>
+                            <input matInput placeholder="{{'modeoftransport'| translate}}" name="MODEOFTPT" (keyup)="searchTransport($event.target.value, 'S')" 
+                            [(ngModel)]="newData.VECHICLETYPE" [ngModelOptions]="{standalone: true}" >
+                            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="searchTransport(newData.VECHICLETYPE, 'A')" >
+                              <i class="fa fa-caret-down"></i>
+                            </button>
+
+                          </mat-form-field>
+                          <div  *ngIf="dropDownListFor=='TRANSPORT'"  class="search-list-supplier" style="margin-top: 5px;">
+                            <table id="selectedValue" class="table table-condensed table-striped table-hover">
+                             
+                                    <tr class="ui-menu-item" role="menuitem" *ngFor="let result of filteredvehicleList"
+                                        (click)="onChangeOfTransport(result, newData)">
+                                        <td>{{ result.VEHICLETYPE }}</td>
+                                        
+                                    </tr>
+                            </table>
+                          </div>
+                    </div>
+                  </div>
+                  <div class="row m-1">
+                    <div class="col-md-5 d-flex">
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'vehicleno' | translate}}</mat-label>
+                            <input matInput placeholder="{{'vehicleno'| translate}}" name="vehicleno" 
+                            [(ngModel)]="newData.VEHICLENO" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-1">&nbsp;  </div>
+                    <div class="col-md-5">
+                        <mat-form-field class="example-full-width w-100">
+                            <mat-label style="color: cornflowerblue;font-weight: 800;">{{'drivername' | translate}}</mat-label>
+                            <input matInput placeholder="{{'drivername'| translate}}" name="gstin" 
+                            [(ngModel)]="newData.DRIVERNAME" [ngModelOptions]="{standalone: true}" >
+                          </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                    <div class="col-md-5">
+                      <div class="row m-1">
+                        <div class="col-md-5">
+                              <mat-form-field class="example-full-width w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'billno' | translate}}</mat-label>
+                                <input matInput placeholder="Bill No." name="BILLNO"
+                                [(ngModel)]="newData.BILLNO" [ngModelOptions]="{standalone: true}" >
+                              </mat-form-field>
+                        </div>
+                            <div class="col-md-1"> &nbsp;       
+                       </div>
+                       
+                        <div class="col-md-5" >
+                            <mat-form-field  class="w-100">
+                              <mat-label style="color: cornflowerblue;font-weight: 800;">{{'billdate' | translate}}</mat-label>
+                                <input matInput   [matDatepicker]="pickerdbill" name="BILLDATE" placeholder="Bill Date"
+                                    [(ngModel)]='newData.BILLDT'  readonly [max]="newData.GINDT" 
+                                    [ngModelOptions]="{standalone: true}">
+                                <mat-datepicker-toggle matSuffix [for]="pickerdbill"></mat-datepicker-toggle>
+                                <mat-datepicker #pickerdbill></mat-datepicker>
+                             </mat-form-field>
+                          </div>
+                        </div>
+
+                         <div class="row m-1">
+                          <div class="col-md-5">
+                                <mat-form-field class="example-full-width w-100">
+                                  <mat-label style="color: cornflowerblue;font-weight: 800;">{{'challanno' | translate}}</mat-label>
+                                  <input matInput placeholder="Challan No." name="CHALLANNO"
+                                  [(ngModel)]="newData.CHALLANNO" [ngModelOptions]="{standalone: true}" >
+                                </mat-form-field>
+                          </div>
+                              <div class="col-md-1"> &nbsp;       
+                         </div>
+                         
+                          <div class="col-md-5" >
+                              <mat-form-field  class="w-100">
+                                <mat-label style="color: cornflowerblue;font-weight: 800;">{{'challandate' | translate}}</mat-label>
+                                  <input matInput   [matDatepicker]="pickerdchallan" name="CHALLANDATE" placeholder="Challan Date"
+                                      [(ngModel)]='newData.CHALLANDT'  readonly [max]="newData.GINDT"
+                                      [ngModelOptions]="{standalone: true}">
+                                  <mat-datepicker-toggle matSuffix [for]="pickerdchallan"></mat-datepicker-toggle>
+                                  <mat-datepicker #pickerdchallan></mat-datepicker>
+                               </mat-form-field>
+                            </div>
+                          </div>
+
+
+
+                            <div class="row m-1">
+                              <div class="col-md-5">
+                                    <mat-form-field class="example-full-width w-100">
+                                      <mat-label style="color: cornflowerblue;font-weight: 800;">{{'grnno' | translate}}</mat-label>
+                                      <input matInput placeholder="GRN No." name="GRNNO"
+                                      [(ngModel)]="newData.GRNO" [ngModelOptions]="{standalone: true}" >
+                                    </mat-form-field>
+                              </div>
+                                  <div class="col-md-1"> &nbsp;       
+                             </div>
+                             
+                              <div class="col-md-5" >
+                                  <mat-form-field  class="w-100">
+                                    <mat-label style="color: cornflowerblue;font-weight: 800;">{{'grndate' | translate}}</mat-label>
+                                      <input matInput   [matDatepicker]="pickerdgrn" name="GRNDATE" placeholder="GRN Date"
+                                          [(ngModel)]='newData.GRDATE'  readonly [max]="newData.INWARDDATE" 
+                                          [ngModelOptions]="{standalone: true}">
+                                      <mat-datepicker-toggle matSuffix [for]="pickerdgrn"></mat-datepicker-toggle>
+                                      <mat-datepicker #pickerdgrn></mat-datepicker>
+                                   </mat-form-field>
+                                </div>
+                             </div>
+
+                            <div class="row m-1">
+                            
+                              <div class="col-md-5" style="padding-top: 10px;">
+                                <kendo-timepicker name="GINTIME" [format]="'HH:mm'" class="custom-mat-picker w-100" placeholder="In Time" [(ngModel)]="newData.GINTIME" [ngModelOptions]="{standalone: true}">
+                                </kendo-timepicker>
+
+                           
+                              </div>
+                           </div>
+                         
+                    </div> 
+
+                </div>
+                <div class="row m-1">
+                  <div class="col-lg-10">
+                  </div>
+                  <div class="col-lg-2">
+                      <div class="my-1">
+                          <button class="btn btn-sm btn-secondary rounded bg-danger" skipLocationChange  [routerLink]="['/gate-entry']">{{'cancel' | translate}}</button>
+                          &nbsp;
+                          <button *ngIf="routeAction == 'new'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-info rounded"
+                              (click)="saverecord('Insert')">{{'save' | translate}}</button>
+                          <button *ngIf="routeAction != 'new'&&newData.STATUS=='E'" [disabled]="isLoadingResults" type="button" class="btn btn-sm btn-success rounded"
+                              (click)="saverecord('update')">{{'update' | translate}}</button>    
+                              &nbsp;
+                          <button *ngIf="routeAction != 'new'"  type="button" class="btn btn-sm btn-secondary rounded" (click)="print()">{{'print'|translate}}</button>
+                      </div>
+                  </div>
+                </div>  
+                     
+
+
+            </div>
+           </div>
+      </div>
+    </div>
+  </form>
+  <app-footer></app-footer>
+  </div>
+  </div>
+  </div>
+  

@@ -1,0 +1,35 @@
+<form [formGroup]="singleMaster" novalidate>
+    <div class="example-loading-shade" *ngIf="isLoading ">
+      <mat-spinner  [diameter]="60" *ngIf="isLoading"></mat-spinner>
+    </div>
+    <div class="modal-header primary-bg py-2">
+      <h5  class="modal-title text-white">{{header}}</h5>
+      <button class="close text-white" mat-dialog-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div  class="modal-body" >
+      <div class="form-inline">
+        <div class="form-group row col-md-12 mb-4" >              
+          <mat-form-field class="example-full-width w-100 underline">
+            <input type="text" placeholder="Add Item" name="name" [(ngModel)]="newData.name" formControlName="name" aria-label="Number" matInput 
+            [formControl]="myControl" [matAutocomplete]="auto" oninput="this.value = this.value.toUpperCase()">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions| async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>                
+          <ng-container *ngIf="show == true">
+            <p style="margin-left: 10px;"> <span style="color:red;"> {{errorMsg}} {{'alreadyexists' | translate}}.</span></p>
+          </ng-container>
+        </div>
+      </div>  
+    </div>
+  
+    <div class="modal-footer">
+      <button class="btn btn-sm btn-secondary rounded bg-danger" mat-dialog-close>{{'cancel'|translate}}</button>
+      <button *ngIf="action == 'new'" [disabled]="isLoading" type="button" class="btn btn-sm btn-info rounded {{canCreateCommonClass}}" (click)="saveData(newData, actionGet, 'Insert')">{{'save'|translate}}</button>
+      <button *ngIf="action == 'edit'" [disabled]="isLoading" type="button" class="btn btn-sm btn-info rounded {{canEditCommonClass}}" (click)="saveData(newData, actionGet, 'update')">{{'update'|translate}}</button>
+    </div>
+  </form> 

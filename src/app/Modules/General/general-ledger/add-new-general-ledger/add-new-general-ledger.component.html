@@ -1,0 +1,44 @@
+<form [formGroup]="generalledgerForm" novalidate>
+  <div class="modal-header primary-bg py-2">
+    <h5 *ngIf="action == 'new'" class="modal-title text-white" id="exampleModalLabel">New General Ledger</h5>
+    <h5 *ngIf="action == 'edit'" class="modal-title text-white" id="exampleModalLabel">Edit General Ledger</h5>
+    <button class="close text-white" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="height:250px;overflow-y:scroll;padding:20px;max-width:950px;">
+        
+      <div class="form-inline">
+          <div class="form-group row col-12 mb-2">
+              <label class="col-sm-2 text-right" for="inputPassword4">{{'account' |translate}}</label>
+              <div class="col-sm-9 d-flex">
+                  <input type="text" class="form-control form-control-sm" name="accounthead" [(ngModel)]="newData.accounthead" formControlName="accounthead" >
+              </div>
+          </div>
+          <div class="form-group row col-md-12 mb-2 mt-1">
+              <label class="col-sm-2 text-right" for="inputEmail4">{{' Under Group ' | translate}}</label>
+              <div class="col-sm-9 d-flex">
+                      <select class="select2 form-control form-control-sm custom-select" name="groupname" [(ngModel)]="newData.groupname" formControlName="groupname">
+                        <option *ngFor="let heads of accountheads" value='{{heads.ID}}'>{{heads.groupname}} </option>
+                      </select>
+                  </div>
+              </div>
+              <div class="form-group row col-md-12 mb-2">
+                <label class="col-sm-2 text-right" for="inputPassword4">{{' Year Opening' |translate}}</label>
+                <div class="col-sm-5 d-flex">
+                  <input type="text" class="form-control form-control-sm" name="yob" [(ngModel)]="newData.yob" formControlName="yob" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                </div>
+
+                <mat-radio-group class="mat-radio-label d-flex align-items-center mx-3 mt-2" name="drcr" [(ngModel)]="newData.drcr" formControlName="drcr">
+                  <mat-radio-button class="example-margin h6 mx-3" value="dr" checked> Dr. </mat-radio-button>
+                  <mat-radio-button class="example-margin h6" value="cr"> Cr. </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>  
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-sm btn-secondary rounded" (click)="closeDialog()" >{{'cancel'|translate}}</button>
+            <button *ngIf="action == 'new'" type="button" class="btn btn-sm btn-info rounded" (click)="savegeneralledger(newData)" [disabled]="generalledgerForm.pristine || generalledgerForm.invalid">{{'save'|translate}}</button>
+            <button *ngIf="action == 'edit'" type="button" class="btn btn-sm btn-info rounded" (click)="updategeneralledger(newData)" [disabled]="generalledgerForm.pristine || generalledgerForm.invalid">{{'update'|translate}}</button>
+        </div>
+    </form>

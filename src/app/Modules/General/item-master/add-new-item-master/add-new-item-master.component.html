@@ -1,0 +1,375 @@
+<form [formGroup]="ItemForm" novalidate>
+  <div class="modal-header primary-bg py-2">
+  <h5 *ngIf="action == 'new'" class="modal-title text-white" id="exampleModalLabel">New Item</h5>
+  <h5 *ngIf="action == 'edit'" class="modal-title text-white" id="exampleModalLabel">Edit Item</h5>
+  <button type="button" class="close text-white" mat-dialog-close>
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body" style="height:500px;overflow-y:scroll;padding:0;max-width: 950px;">
+
+    <nav id="navbar-example2" class="navbar navbar-light border-bottom py-0 bg-light sticky-top" style="top:0;left:0;z-index:10;width: calc(100% - 0);/*width: calc(100% - 18px);*/">
+      <ul class="nav nav-pills justify-content-end font-sm w-100 txt">
+        <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('item_detail')">
+            <span class="position-relative" style="z-index: 1;"><ng-container >Item Detail</ng-container></span>
+            <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='item_detail'"></a>
+        </li>
+        <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('stock_detail')">
+            <span class="position-relative" style="z-index: 1;"><ng-container >Control Info.</ng-container></span>
+            <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='stock_detail'"></a>
+        </li>
+        <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('brand')">
+            <span class="position-relative" style="z-index: 1;"><ng-container >Brand</ng-container></span>
+            <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='brand'"></a>
+        </li>
+        <li class="nav-item position-relative py-2 px-3" (click)="scrollTo('supplier')">
+            <span class="position-relative" style="z-index: 1;"><ng-container >Supplier</ng-container></span>
+            <a class="nav-link font-weight-sb py-2 active position-absolute w-100 h-100" style="left:0;top:0;" *ngIf="currentSection==='supplier'"></a>
+        </li>
+      </ul>
+    </nav>
+   
+    <div class="scroll-spy px-3 pb-3" style="height:500px;overflow-y: scroll;" id="parentDiv" scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event)">
+    <h4 id="item_detail" style="padding-top:40px;">Item Detail</h4> 
+    <div class="card-body border-top item-master px-0 py-2">
+      <div class="form-inline">
+          <div class="form-group row col-12 mb-2 required">
+              <label for="inputEmail4" class="col-sm-4 text-right ">Item Category</label>
+              <div class="col-sm-3">
+                <!-- <select class="select2 form-control form-control-sm custom-select" name="itemcategoryid " [(ngModel)]="newData.itemcategoryid " formControlName=" itemcategoryid ">
+                  <option *ngFor="let category of ItemCategory" [value]='category.id' value='{{category.id}}'>{{category.name}} </option>
+                </select> -->
+                <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"  formControlName="itemcategoryid" name="itemcategoryid"  [allowClear]="true" [(ngModel)]="newData.itemcategoryid" [items]="ItemCategory" optionValueField="id" optionTextField="name">
+                  </ngx-select>
+              </div>
+              <label class="col-sm-2 text-right" for="inputPassword4">Item Code</label>
+              <div class="col-sm-3 d-flex">
+                <input type="text" class="form-control form-control-sm" name="itemcode" [(ngModel)]="newData.itemcode" formControlName="itemcode" placeholder="Item Code" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+              </div>
+             </div>
+      
+          
+        <div class="form-group row col-12 mb-2 required" >
+          <label for="inputEmail4" class="col-sm-4 text-right">Item Type</label>
+          <div class="col-sm-8">
+          <!-- <ngx-select-dropdown class="ngx-custom-select-dropdown"  [multiple]="false" [config]="config" [options]="getitemtype" ></ngx-select-dropdown> -->
+          <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"   [allowClear]="true"  [items]="getitemtype" optionValueField="id" optionTextField="name">
+          </ngx-select>
+        </div>
+  
+        </div>
+  
+        <div class="form-group row col-12 mb-2 required" >
+          <label class="col-sm-4 text-right" for="inputPassword4">Item Name</label>
+          <div class="col-sm-8 d-flex">
+            <input class="form-control form-control-sm" name="itemname" placeholder="Item Name" type="text" [(ngModel)]="newData.itemname" formControlName="itemname">
+          </div>
+        </div>
+        <div class="form-group row col-md-12 mb-2 required" >
+            <label class="col-sm-4 text-right" for="inputEmail4">Item Alias</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control form-control-sm" name="itemalias" [(ngModel)]="newData.itemalias" formControlName="itemalias" placeholder="Item Alias">
+            </div>
+        </div>
+        <div class="form-group row col-md-12 mb-2 required" >
+          <label class="col-sm-4 text-right" for="inputPassword4">Billing Description</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control form-control-sm" name="billingdescription" [(ngModel)]="newData.billingdescription" formControlName="billingdescription">
+          </div>
+        </div>
+        <div class="form-group row col-md-12 mb-2 required" >
+          <label class="col-sm-4 text-right" for="inputEmail4">Technical Specs</label>
+          <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="itemspecification" [(ngModel)]="newData.itemspecification" formControlName="itemspecification"></div>
+        </div>
+        
+        <div class="form-group row col-12 mb-2 required" >
+            <label class="col-sm-4 text-right" for="inputPassword4">Old Code</label>
+            <div class="col-sm-3 d-flex">
+              <input class="form-control form-control-sm" placeholder="Old Code" type="text" name="oldcode" [(ngModel)]="newData.oldcode" formControlName="oldcode"  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+            </div>
+            <label class="col-sm-2 text-right" for="inputPassword4">Special Code</label>
+              <div class="col-sm-3 d-flex">
+                <input class="form-control form-control-sm" placeholder="Special Code" type="text" name="specialcode" [(ngModel)]="newData.specialcode" formControlName="specialcode"    oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+              </div>
+          </div>
+          
+          <div class="form-group row col-md-12 mb-2 required" >
+              <label class="col-sm-4 text-right" for="inputEmail4">HSN Code</label>
+              <div class="col-sm-3 d-flex">
+                <input class="form-control form-control-sm" placeholder="HSN Code" type="text" name="hsncode" [(ngModel)]="newData.hsncode" formControlName="hsncode"  oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+              </div>
+              <label class="col-sm-2 text-right" for="inputEmail4">Tax Rate</label>
+              <div class="col-sm-3 d-flex">
+                <input class="form-control form-control-sm" type="text" name="taxrate" [(ngModel)]="newData.taxrate" formControlName="taxrate" max="99" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+              </div>
+            </div>
+            
+            <div class="form-group row col-md-12 mb-2 required" >
+              <label class="col-sm-4 text-right" for="inputEmail4">Receiving Unit</label>
+              <div class="col-sm-3 d-flex">
+                <select class="select2 form-control form-control-sm custom-select" name="receivingunitid" [(ngModel)]="newData.receivingunitid" formControlName="receivingunitid" >
+                  <option *ngFor="let UOM of GetitemUOM" [value]='UOM.id' value='{{UOM.id}}'>{{UOM.uom}} </option>
+                </select>
+              </div>
+              <label class="col-sm-2 text-right" for="inputEmail4">Issuing Unit</label>
+              <div class="col-sm-3 d-flex">
+                <select class="select2 form-control form-control-sm custom-select" name="issuingunitid" [(ngModel)]="newData.issuingunitid" formControlName="issuingunitid" >
+                  <option *ngFor="let UOM of GetitemUOM" [value]='UOM.id' value='{{UOM.id}}'>{{UOM.uom}} </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row col-md-12 mb-2 required" >
+                <label class="col-sm-4 text-right" for="inputEmail4">Conversion Factor</label>
+                <div class="col-sm-3"><input type="text" class="form-control form-control-sm" name="unitconversionfactor" [(ngModel)]="newData.unitconversionfactor" formControlName="unitconversionfactor">
+                </div>
+            </div>
+
+            <div class="form-group row col-md-12 mb-2 ">
+              <label class="col-sm-4 text-right" for="inputPassword4">Item Image</label>
+              <div class="col-sm-3">
+                  <!-- <img [src]="imageUrl" height="200"> <br/> -->
+                  <input type='file' (change)="onSelectFile($event)"  name="itemimage" [(ngModel)]="newData.itemimage" formControlName="itemimage">
+                  <!-- <textarea class="form-control form-control-sm mb-2" rows="1" name="image" style="height:100px;"></textarea> -->
+              </div>
+              <label class="col-sm-2 text-right" for="inputEmail4">Item Drawing</label>
+              <div class="col-sm-3">
+                  <!-- <img [src]="PDFurl" height="200"> <br/> -->
+                  <input type='file' (change)="onPdfSelectFile($event)" accept=".pdf,.doc,.docx" name="itemdrawing" [(ngModel)]="newData.itemdrawing" formControlName="itemdrawing">
+                  <!-- <textarea class="form-control form-control-sm mb-2" rows="1" name="drawing" style="height:100px;"></textarea> -->
+              </div>
+            </div>
+            
+            <!-- <div class="form-group row col-md-12 mb-2">
+              
+            </div> -->
+  
+            <div class="form-group row col-md-12 mb-2 required">
+                <label class="col-sm-4 text-right" for="inputEmail4">Op. Stock</label>
+                <!-- <label class="col-sm-2 text-right" for="inputEmail4">In Receiving Unit</label> -->
+                <div class="col-sm-3">
+                    <input type="text" class="form-control form-control-sm" name="openingstock" [(ngModel)]="newData.openingstock" formControlName="openingstock" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                </div>
+                <label class="col-sm-2 text-right" for="inputEmail4 required">In Issuing Unit</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control form-control-sm" name="openingstockissuingunit" [(ngModel)]="newData.openingstockissuingunit" formControlName="openingstockissuingunit" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                </div>
+                
+              </div>
+              <div class="form-group row col-md-12 required">
+                  <label class="col-sm-4 text-right" for="inputEmail4">Op. Rate</label>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control form-control-sm" name="openingrate" [(ngModel)]="newData.openingrate" formControlName="openingrate" maxvalue="3" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                </div>
+               
+                  <label class="col-sm-2 text-right" for="inputEmail4">Value</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control form-control-sm" name="openingvalue" [(ngModel)]="newData.openingvalue" formControlName="openingvalue" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                  </div>
+                  
+                </div>
+                        
+                <div class="form-group row col-md-12 mb-2 required">
+                    <label class="col-sm-4 text-right" for="inputPassword4">Last Purchase Date</label>
+                    <!-- <label class="col-sm-2 text-right" for="inputPassword4">Date</label> -->
+                 
+                    <div class="form-group col-sm-3 my-2">
+                        <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                            <input matInput [matDatepicker]="picker" name="lastpurchasedate"  [(ngModel)]="newData.lastpurchasedate" formControlName="lastpurchasedate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    
+                    <label class="col-sm-2 text-right" for="inputPassword4">Last Purchase Rate</label>
+                  <div class="col-sm-3">
+                      <input type="text" class="form-control form-control-sm" name="lastpurchaserate" [(ngModel)]="newData.lastpurchaserate" formControlName="lastpurchaserate" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                </div>
+              </div>
+              <div class="form-group row col-md-12 mb-2 required">
+                
+                
+                <label class="col-sm-4 text-right" for="inputPassword4">Landed</label>
+              <div class="col-sm-3">
+                  <input type="text" class="form-control form-control-sm" name="landedrate" [(ngModel)]="newData.landedrate" formControlName="landedrate" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+            </div>
+          </div>
+      </div>			
+      </div>
+  
+      
+      <h4 id="stock_detail" style="padding-top:40px;">Control Info.</h4>
+      <div class="card-body border-top item-master px-0 py-2"> 
+        <div class="form-inline">
+          <div class="form-group row col-md-12 mb-2 required">
+            <label class="col-sm-4 text-right" for="inputEmail4">EOQ</label>
+            <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="eoq" [(ngModel)]="newData.eoq" formControlName="eoq" placeholder="EOQ"></div>
+          </div>
+          <div class="form-group row col-md-12 mb-2 required">
+            <label class="col-sm-4 text-right" for="inputPassword4">MOQ</label>
+            <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="moq" [(ngModel)]="newData.moq" formControlName="moq" placeholder="MOQ"></div>
+          </div>
+          <div class="form-group row col-md-12 mb-2 required">
+            <label class="col-sm-4 text-right" for="inputPassword4">ABC Class</label>
+            <div class="col-sm-8">
+                <select class="select2 form-control form-control-sm custom-select" name="itemclassABC" [(ngModel)]="newData.itemclassABC" formControlName="itemclassABC">
+                       <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                </select>
+                   
+                  
+            </div>
+          </div>
+         
+          <div class="form-group row col-md-12 mb-2 required">
+            <label class="col-sm-4 text-right" for="inputPassword4">Minimum Level</label>
+            <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="minlevel" [(ngModel)]="newData.minlevel" formControlName="minlevel" placeholder=""></div>
+          </div>
+  
+          <div class="form-group row col-md-12 mb-2 required">
+              <label class="col-sm-4 text-right" for="inputPassword4 ">Maximum Level</label>
+              <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="maxlevel" [(ngModel)]="newData.maxlevel" formControlName="maxlevel" placeholder="">
+            </div>
+          </div>
+            <div class="form-group row col-md-12 mb-2 required">
+              <label class="col-sm-4 text-right" for="inputPassword4 ">ROL</label>
+              <div class="col-sm-8"><input type="text" class="form-control form-control-sm" name="rol" [(ngModel)]="newData.rol" formControlName="rol" placeholder="ROL"></div>
+            </div>
+          </div>
+            
+      </div>
+
+      <h4 id="brand" style="padding-top:40px;">Brand</h4>
+      <div class="card-body border-top indent-entry px-0 py-2">
+        
+      <div class="card-body border-top supplier-master px-0 py-2">
+        <div class="table-wrapper-scroll-y">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr style="background-color: #666666; color: #ffffff;">
+                <th scope="col">Brand Name</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody class="font-sm">
+            <tr *ngFor="let brand of brands ; let i = index">
+
+                <td *ngIf="brand.id === editBrandID"><input type="text" class="form-control w-100" [(ngModel)]='brand.brandid' [ngModelOptions]="{standalone: true}"></td>
+                <td *ngIf="brand.id !== editBrandID" (dblclick)="editBrand(brand.id)">{{brand.brandid}}</td>
+  
+                <td style="text-align: center;">
+                  <div>
+                    <i *ngIf="brand.id === editBrandID" class="fas fa-check customIcon" (click)="updateBrand(brand)"></i>
+                    <i *ngIf="brand.id !== editBrandID" class="fas fa-edit customIcon" (click)="editBrand(brand.id)"></i>
+                    <!-- <i style="margin-left:2% ;" class="far fa-trash-alt customIcon" (click)="removeItem(i)"></i> -->
+                  </div>
+                </td>
+              </tr>
+              
+              <tr>
+                <td><input type="text" class="form-control w-100" [(ngModel)]="newBrand.brandid" [ngModelOptions]="{standalone: true}"></td>
+                <td style="width:1%;text-align: center;">
+                  <i (click)="addBrand()" class="fas fa-plus"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+  
+      <h4 id="supplier" style="padding-top:40px;">Supplier</h4>
+      <div class="card-body border-top indent-entry px-0 py-2">
+        
+      <div class="card-body border-top supplier-master px-0 py-2">
+        <div class="table-wrapper-scroll-y">
+          <table class="table table-striped custom-table">
+            <thead>
+              <tr style="background-color: #666666; color: #ffffff;">
+                <th scope="col" width='2%'>Supplier</th>
+                <th scope="col" width='1%'>Part No.</th>
+                <th scope="col" width='1%'>Rate</th>             
+                <th scope="col" width='2%'>Brand</th>
+                <th scope="col" width='2%'>Lead Time Surface</th>
+                <th scope="col" width='2%'>Lead Time Air</th>
+                <th scope="col" width='2%'>Action</th>
+              </tr>
+            </thead>
+            <tbody class="font-sm">
+            <tr *ngFor="let item of items ; let i = index">      
+              
+                <td *ngIf="item.id === editItemID">
+                  <!-- <select class="select2 form-control form-control-sm custom-select" [(ngModel)]='item.suplid' [ngModelOptions]="{standalone: true}">
+                    <option selected>Select</option>
+                    <option *ngFor="let category of supplierCategoryArray" value={{category.id}}>{{category.categoryname}}</option>
+                  </select> -->
+                  <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"   [allowClear]="true" [(ngModel)]='item.suplid' [ngModelOptions]="{standalone: true}" [items]="getsupplierlist" optionValueField="id" optionTextField="name">
+                  </ngx-select>
+                </td>
+                <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.categoryname}}</td>
+  
+                <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.suplitemcode' [ngModelOptions]="{standalone: true}"></td>
+                <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.suplitemcode}}</td>
+  
+                <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.suplitemrate' [ngModelOptions]="{standalone: true}"></td>
+                <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.suplitemrate}}</td>
+  
+                <td *ngIf="item.id === editItemID">
+                  <select class="select2 form-control form-control-sm custom-select" [(ngModel)]='item.brandid' [ngModelOptions]="{standalone: true}">
+                    <option selected>Select</option>
+                    <option *ngFor="let category of supplierCategoryArray" value={{category.id}}>{{category.categoryname}}</option>
+                  </select>
+                </td>
+                <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.disc | titlecase}}</td>
+  
+                <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.leadtimesurface' [ngModelOptions]="{standalone: true}"></td>
+                <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.leadtimesurface  | titlecase}}</td>
+  
+                <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.leadtimeair' [ngModelOptions]="{standalone: true}"></td>
+                <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.leadtimeair | titlecase}}</td>
+  
+              
+                <td style="width:2%;text-align: center;">
+                  <div>
+                    <i *ngIf="item.id === editItemID" class="fas fa-check customIcon" (click)="updateItem(item)"></i>
+                    <i *ngIf="item.id !== editItemID" class="fas fa-edit customIcon" (click)="editItem(item.id)"></i>
+                    <i style="margin-left:2% ;" class="far fa-trash-alt customIcon" (click)="removeItem(i)"></i>
+                  </div>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <!-- <select class="select2 form-control form-control-sm custom-select" [(ngModel)]='newItem.suplid' [ngModelOptions]="{standalone: true}"> -->
+                 
+                  <!-- <option *ngFor="let category of supplierCategoryArray" value={{category.categoryname}}>{{category.categoryname}}</option>
+                </select></td> -->
+                <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap"   [allowClear]="true" [(ngModel)]='newItem.suplid' [ngModelOptions]="{standalone: true}" [items]="getsupplierlist" optionValueField="id" optionTextField="name">
+                </ngx-select>
+              </td>
+                <td><input type="email" class="form-control w-100" [(ngModel)]="newItem.suplitemcode" [ngModelOptions]="{standalone: true}"></td>
+                <td><input type="text" class="form-control w-100" [(ngModel)]="newItem.suplitemrate" [ngModelOptions]="{standalone: true}"></td>
+                <td><select class="select2 form-control form-control-sm custom-select" [(ngModel)]='newItem.brandid ' [ngModelOptions]="{standalone: true}">
+                  <option selected>Select</option>
+                  <option *ngFor="let category of supplierCategoryArray" value={{category.categoryname}}>{{category.categoryname}}</option>
+                </select></td>
+                <td><input type="text" class="form-control w-100" [(ngModel)]="newItem.leadtimesurface " [ngModelOptions]="{standalone: true}"></td>
+                <td><input type="text" class="form-control w-100" [(ngModel)]="newItem.leadtimeair" [ngModelOptions]="{standalone: true}"></td>
+              
+                <td style="width:1%;text-align: center;">
+                  <i (click)="additem()" class="fas fa-plus"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm btn-secondary rounded" mat-dialog-close>Exit</button>
+      <button *ngIf="action == 'new'" type="button" class="btn btn-sm btn-info rounded" (click)="saveItem(newData)" [disabled]="ItemForm.pristine || ItemForm.invalid" >Save changes</button>
+      <button  *ngIf="action == 'edit'" type="button" class="btn btn-sm btn-info rounded" (click)="updateItemSave(newData)" [disabled]="ItemForm.pristine || ItemForm.invalid">Update</button>
+    </div>
+  </form>
