@@ -7,8 +7,7 @@ declare var $: any;
 declare var jQuery: any;
 import {EmployeeMasterService} from '../employee-master.service'
 import { Subscription, Observable } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-new-employee-master',

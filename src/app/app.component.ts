@@ -152,13 +152,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-// import { SignalRService } from './services/signal-r.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Subscription, interval } from 'rxjs';
-import { environment } from '../environments/environment';
-import { SuccessDialogComponent } from './Dialog/success-dialog/success-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -166,101 +159,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private signalRSubscription: Subscription;
-  original_url=environment.baseUrl;
-  public content: Message;
-  data:any;
-  updateSubscription:any;
-  boid : any;FYUSER:any;ServerIP:any;token:any;userid:any;
+
   constructor(
-    private router: Router,
-    public dialog: MatDialog,
-    private http: HttpClient,
-   // private signalrService: SignalRService,
     private translate: TranslateService,
   ) {
-
-
-     translate.setDefaultLang('en');
-    // this.signalRSubscription = this.signalrService.getMessage().subscribe(
-    //   (message) => {
-    //     // this.getLoginData();
-    //     this.content = message;
-    //    //console.log("Manoj msg", message);
-    // });
-
-   // this.signalrService.commonFunction();
-
-      this.updateSubscription = interval(10000).subscribe(
-        (val) => { 
-          this.getLoginData();
-      });
-    
+    translate.setDefaultLang('en');
   }
 
   ngOnInit() {
-   
 
   }
-  getLoginData()
-  {
-    let currentBranch = sessionStorage.getItem("currentBranch");
-   // console.log("currentBranch", currentBranch);
-    if(currentBranch!=null)
-    {
-      var CompanyData = JSON.parse(currentBranch);
-      this.ServerIP=CompanyData['SERVERIP'];
-      this.FYUSER=CompanyData['FYUSER'];
-      this.boid = CompanyData['BRANCHID'];
-      
-      let currentUser = sessionStorage.getItem("currentUser");
-      currentUser = JSON.parse(currentUser);
-      this.userid = currentUser['USERID'];
-      this.token = currentUser['TOKEN'];
-  
-      const  params = new  HttpParams()
-      .set('fyuser', this.FYUSER)
-      .set('serverip', this.ServerIP)
-      .set('token', this.token)
-      .set('userid', this.userid);
-      this.http.get(this.original_url+"/user/getSessionDetail?"+ params.toString())
-      .subscribe((res) => {
-        this.data=res;
-     console.log("my session detail",res);
-        if (this.data=="loginfailed")
-        { 
-          const dialogRef = this.dialog.open(SuccessDialogComponent, {
-            data: {
-              wrongData: 'wrongData',
-              displayMsg:'Session out, please Login again.'
-            }
-          });
-          this.logoutClick();
-        }
-      });
-    }
-  
-    
-  }
-  ngOnDestroy(): void {
-    // this.signalrService.disconnect();
-    this.signalRSubscription.unsubscribe();
-  }
-  
-  logoutClick()
-  {
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('branch1');
-    sessionStorage.removeItem('branch2');
-    sessionStorage.removeItem('currentBranch');
-    this.dialog.closeAll();
-    this.router.navigate(['/login'], { skipLocationChange: true });
-  }
-}
-
-export interface Message {
-  val1: string;
-  val2: string;
-  val3: string;
-  val4: string;
 }

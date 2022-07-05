@@ -8,10 +8,7 @@ import { GeneralLedgerService } from './general-ledger.service';
 import { AddNewGeneralLedgerComponent } from './add-new-general-ledger/add-new-general-ledger.component';
 
 import { General,GithubApi } from './general.modal';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-general-ledger',
@@ -20,8 +17,8 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class GeneralLedgerComponent implements OnInit {
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   
   searchText : string;
    page :any;

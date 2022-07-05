@@ -7,10 +7,7 @@ declare var jQuery: any;
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { Subscription, Observable,BehaviorSubject,merge,of as observableOf } from 'rxjs';
 
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { CustomerMasterService } from './customer-master.service';
 import { AddNewCustomerMasterComponent} from './add-new-customer-master/add-new-customer-master.component';
 import { Customer,GithubApi } from './customer.modal';
@@ -22,8 +19,8 @@ import { Customer,GithubApi } from './customer.modal';
 })
 export class CustomerMasterComponent implements OnInit {
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // fieldArray: Array<any> = [];
  

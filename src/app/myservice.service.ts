@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-//import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { map } from 'rxjs/operators';
 import { HttpClient } from "@angular/common/http";
-
-import { environment } from '../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class MyserviceService {
-  private baseUrl = environment.baseUrl;
+  private baseUrl = 'http://112.196.6.170:8081';
   private messageSource=new BehaviorSubject<string>("");
   currentMessage=this.messageSource.asObservable();
   
@@ -125,69 +122,4 @@ export class MyserviceService {
     );
   }
 
-  sendOTP(msg, OTP)
-  {
-    // var OTP=0;
-    // OTP=parseInt( ((Math.random()*10000).toFixed(0)));
-    // if(OTP<1000)
-    // {
-    //   OTP=OTP*10;
-    // }
-    
-    var urls=environment.baseUrl;
-    let currentBranch = sessionStorage.getItem("currentBranch");
-    var CompanyData = JSON.parse(currentBranch);
-    var ServerIP=CompanyData['SERVERIP'];
-    var FYUSER=CompanyData['FYUSER'];
-    var boid = CompanyData['BRANCHID'];
-    
-    console.log("CompanyData",CompanyData);
-    let currentUser = sessionStorage.getItem("currentUser");
-    currentUser = JSON.parse(currentUser);
-    var userid = currentUser['USERID'];
-    var token = currentUser['TOKEN'];
-    
-    this.http.get(urls+"/user/SendEmail?serverip="+ServerIP+"&fyuser="+FYUSER+"&boid="+boid+"&userid="+userid+"&token="+token+"&toEmail=sidhant.sehgal@kapsonsindustries.com&subject=OTP&bodytext="+ msg+" : <B> "+OTP+" </b>").subscribe((res)=>{
-      console.log("res", res);
-    });
-
-    // this.http.get("https://cors-anywhere.herokuapp.com/http://5.9.0.178:8000/Sendsms?user=kind.jal&password=123456&sender=KINDPL&dest="+mobilenos+"&apid=91819&text="+ msg+" : "+OTP+"&dcs=0").subscribe((res)=>{
-    //   console.log("res", res);
-    // });
-
-    // return OTP;
-
-    // this.http.get(urls+"/master/SendSMS?token="+token+"&msg="+msg).subscribe((res)=>{
-    //  // console.log("res", res);
-    //   return res;
-    // });
-    
-  }
-  sendNewSMS(msg)
-  {
-    var urls=environment.baseUrl;
-    let currentUser = sessionStorage.getItem("currentUser");
-    currentUser = JSON.parse(currentUser);
-    var userid = currentUser['USERID'];
-    var token = currentUser['TOKEN'];
-    return this.http.get(urls+"/master/SendSMS?token="+token+"&msg="+msg).pipe(
-      map((data) => {
-        console.log("1", data);
-        return data;
-      })
-  );
-  }
-  sendSupplierOTP(msg, mobilenos)
-  {
-    var OTP=0;
-    OTP=parseInt( ((Math.random()*10000).toFixed(0)));
-    if(OTP<1000)
-    {
-      OTP=OTP*10;
-    }
-    this.http.get("https://cors-anywhere.herokuapp.com/http://5.9.0.178:8000/Sendsms?user=kind.jal&password=123456&sender=KINDPL&dest="+mobilenos+"&apid=91819&text="+ msg+" : "+OTP+"&dcs=0").subscribe((res)=>{
-      console.log("res", res);
-    });
-    return OTP;
-  }
 }

@@ -8,10 +8,7 @@ declare var jQuery: any;
 //import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 import { AddNewAccountGroupMasterComponent } from './add-new-account-group-master/add-new-account-group-master.component';
 import { Subscription, Observable,BehaviorSubject,merge,of as observableOf } from 'rxjs';
 import { Account,GithubApi } from './account.modal';
@@ -24,8 +21,8 @@ import { Account,GithubApi } from './account.modal';
 })
 export class AccountGroupMasterComponent implements OnInit {
    
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   userinfo : any;
   coid : any;
   boid : any;

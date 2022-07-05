@@ -1,9 +1,6 @@
 import { Component, OnInit , ViewChild } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog,  MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { SuccessDialogComponent } from '../.././../../Dialog/success-dialog/success-dialog.component';
@@ -18,16 +15,16 @@ import { environment } from '../../../../../environments/environment';
 export class OverTimeAmendmentComponent implements OnInit {
 
   original_url=environment.baseUrl;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator:MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator:MatPaginator;
   userinfo : any; newData:any={};
   coid : any;datePipe = new DatePipe("en-US");
-  boid : any;empid:any; myDate = new Date();nextDate:Date;WorkingDate=new Date();
+  boid : any;empid:any; myDate = new Date();nextDate:Date;
   userid:any;OTListToSave : Array<any>=[]; datetype: Array<any>=[];
   
   fieldArray = new MatTableDataSource<any>();isLoadingResults:boolean;
   displayedColumns: string[] = [ 'EMPNO','NAME','DEPTNAME','DATED','PASSEDOT', 'OTHRS','REMARKS'];
-  data:any;FYUSER:any;ServerIP:any;TodayDay:any;dated:any;token:any;
+  data:any;FYUSER:any;ServerIP:any;TodayDay:any;dated:any;
   itemDisplay: any;dateFormControl = new FormControl(new Date());
   constructor(private router: Router,private http: HttpClient,  public dialog: MatDialog,) { 
     //
@@ -36,15 +33,12 @@ export class OverTimeAmendmentComponent implements OnInit {
     this.ServerIP=CompanyData['SERVERIP'];
     this.FYUSER=CompanyData['FYUSER'];
     this.boid = CompanyData['BRANCHID'];
-    this.WorkingDate= new Date(CompanyData['SEVERDATE']);
-    this.WorkingDate.setDate(this.WorkingDate.getDate() -4);
-
     console.log("CompanyData",CompanyData);
     let currentUser = sessionStorage.getItem("currentUser");
     currentUser = JSON.parse(currentUser);
     this.empid = currentUser['EMPID'];
     this.userid = currentUser['USERID'];
-    this.token = currentUser['TOKEN'];
+
 
     //var TodayDate = new FormControl(CompanyData['WORKINGDATE']);
     //this.empid=10195;
@@ -61,9 +55,6 @@ export class OverTimeAmendmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fieldArray.sort = this.sort;
-    this.fieldArray.paginator=this.paginator;
-    
     this.datetype.push({id:'A',description:'Today'}) ;
     this.datetype.push({id:'K',description:'Tommorrow'}) ;
     this.nextDate = new Date();
@@ -127,7 +118,7 @@ export class OverTimeAmendmentComponent implements OnInit {
     empid:this.empid};
   
     sessionStorage.setItem('otfilter', JSON.stringify(orderfilter));
-    this.router.navigate(['/passed-ot-list-report'], {skipLocationChange:true});
+    this.router.navigate(['/passed-ot-list-report']);
   }
 
   passedOTsummary()
@@ -146,7 +137,7 @@ export class OverTimeAmendmentComponent implements OnInit {
     source:'/OTEntry'};
   
     sessionStorage.setItem('otfilter', JSON.stringify(orderfilter));
-    this.router.navigate(['/passed-ot-list-summary'], {skipLocationChange:true});
+    this.router.navigate(['/passed-ot-list-summary']);
   }
 
 
@@ -185,9 +176,11 @@ export class OverTimeAmendmentComponent implements OnInit {
     this.isLoadingResults=true;
     
     const params = new  HttpParams()
-   
+    .set('serverip', this.ServerIP)
+    .set('fyuser', this.FYUSER)
+    .set('boid', this.boid)
     .set('empid', this.empid)
-    .set('token', this.token)
+    .set('userid', this.userid)
     .set('dated', this.TodayDay)
     .set('otdetail', JSON.stringify(savelist));
     this.http.post(this.original_url+"/hr/hr/EmployeeOTAmendment", params.toString(), {
@@ -230,7 +223,7 @@ export class OverTimeAmendmentComponent implements OnInit {
     // });
     this.isLoadingResults=true;
     console.log("sdskdjks k",this.original_url+"/hr/hr/getEmployeeListOT?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+ this.empid+"&dated="+this.TodayDay);
-    this.http.get(this.original_url+"/hr/hr/getEmployeeListOT?empid="+ this.empid+"&dated="+this.TodayDay+"&IsConfirmed=A"+"&token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/hr/hr/getEmployeeListOT?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+ this.empid+"&dated="+this.TodayDay+"&IsConfirmed=A").subscribe((res)=>{
     this.data=res;
     this.itemDisplay=res;
     this.itemDisplay=this.itemDisplay.Table;

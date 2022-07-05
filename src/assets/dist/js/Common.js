@@ -6,7 +6,7 @@ jQuery.extend(jQuery.expr[':'], {
     }
 });
 
-$(document).on('keypress', 'input,select,mat-checkbox', function (e) {
+$(document).on('keypress', 'input,select', function (e) {
     if (e.which == 13) {
         e.preventDefault();
         // Get all focusable elements on the page
@@ -16,6 +16,7 @@ $(document).on('keypress', 'input,select,mat-checkbox', function (e) {
         $canfocus.eq(index).focus();
     }
 });
+
 
 App = {}
 App.Common =

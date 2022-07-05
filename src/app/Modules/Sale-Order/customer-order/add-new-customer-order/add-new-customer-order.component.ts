@@ -1,11 +1,9 @@
 import { Component, OnInit, Inject, AfterContentInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ActivatedRoute, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { SuccessDialogComponent } from '../.././../../Dialog/success-dialog/success-dialog.component';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-add-new-customer-order',
@@ -13,11 +11,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./add-new-customer-order.component.css']
 })
 export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
-  original_url = environment.baseUrl;
   datetype: Array<any>=[];newData:any={};itemDisplay:any;billseriesList:any=[];transportModeList:any=[];rowDetail:any={};userid:any;isLoadingResults:boolean;
   FYUSER:any;ServerIP:any;boid : any;customerList1 = new MatTableDataSource<any>();customerList:any=[];curDate:any;isEditable:boolean;isAddNew:boolean;
-  productCodeList:any=[];productNameList:any=[];pairProductList:any=[];routeID:any;routeAction:any;orderDetail:any=[];disableDropDown:boolean;token:any;
-  constructor( private router: Router, private http: HttpClient,  private activatedRoute: ActivatedRoute, public dialog: MatDialog) { 
+  productCodeList:any=[];productNameList:any=[];pairProductList:any=[];routeID:any;routeAction:any;orderDetail:any=[];disableDropDown:boolean;
+  constructor( private router: Router, private http: HttpClient, @Inject('BASE_URL') private original_url : string,  private activatedRoute: ActivatedRoute, public dialog: MatDialog) { 
     let currentBranch = sessionStorage.getItem("currentBranch");
     this.isLoadingResults=true;
     var CompanyData = JSON.parse(currentBranch);
@@ -28,7 +25,6 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
     let currentUser = sessionStorage.getItem("currentUser");
     currentUser = JSON.parse(currentUser);
     this.userid = currentUser['USERID'];
-    this.token = currentUser['TOKEN'];
     this.routeID = this.activatedRoute.snapshot.paramMap.get('id');
     this.routeAction = this.activatedRoute.snapshot.paramMap.get('action');
     this.isEditable=false;
@@ -151,7 +147,8 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
      this.rowDetail.ITEMID=item.ITEMID;
       this.rowDetail.PRODUCTTYPE=item.PRODUCTTYPE;
        this.getPairProductList();
-       this.http.get(this.original_url+"/SOP/SaleOrder/getProductPairList?partyid="+this.newData.CUSTOMERID+"&itemid="+this.rowDetail.ITEMID+"&producttype="+this.rowDetail.PRODUCTTYPE+"&userid="+this.userid+"&token="+this.token).subscribe((res)=>{
+       this.http.get(this.original_url+"/SOP/SaleOrder/getProductPairList?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+
+                      "&boid="+this.boid+"&partyid="+this.newData.CUSTOMERID+"&itemid="+this.rowDetail.ITEMID+"&producttype="+this.rowDetail.PRODUCTTYPE).subscribe((res)=>{
                 this.itemDisplay=res;
                 this.itemDisplay=this.itemDisplay.Table;
                 this.pairProductList= this.itemDisplay;
@@ -196,7 +193,7 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   }
   gatLoadData()
   {
-    this.http.get(this.original_url+"/SOP/SaleOrder/getOrderLoadEvent?token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/SOP/SaleOrder/getOrderLoadEvent?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid).subscribe((res)=>{
     this.itemDisplay=res;
     this.itemDisplay=this.itemDisplay.Table;
     this.customerList= this.itemDisplay;
@@ -222,7 +219,8 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   }
   getProductList()
   {
-    this.http.get(this.original_url+"/SOP/SaleOrder/getPartyProductList?partyid="+this.newData.CUSTOMERID+"&billseriesid="+this.newData.BILLSERIESID+"&userid="+this.userid+"&token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/SOP/SaleOrder/getPartyProductList?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+
+                  "&boid="+this.boid+"&partyid="+this.newData.CUSTOMERID+"&billseriesid="+this.newData.BILLSERIESID).subscribe((res)=>{
       this.itemDisplay=res;
       this.itemDisplay=this.itemDisplay.Table;
       this.productCodeList= this.itemDisplay;
@@ -235,7 +233,8 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   {
     //console.log(this.original_url+"/SOP/SaleOrder/getProductPairList?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+
     //"&boid="+this.boid+"&partyid="+this.newData.CUSTOMERID+"&itemid="+this.rowDetail.ITEMID+"&producttype="+this.rowDetail.PRODUCTTYPE);
-    this.http.get(this.original_url+"/SOP/SaleOrder/getProductPairList?partyid="+this.newData.CUSTOMERID+"&itemid="+this.rowDetail.ITEMID+"&producttype="+this.rowDetail.PRODUCTTYPE+"&userid="+this.userid+"&token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/SOP/SaleOrder/getProductPairList?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+
+                  "&boid="+this.boid+"&partyid="+this.newData.CUSTOMERID+"&itemid="+this.rowDetail.ITEMID+"&producttype="+this.rowDetail.PRODUCTTYPE).subscribe((res)=>{
       this.itemDisplay=res;
       this.itemDisplay=this.itemDisplay.Table;
       this.pairProductList= this.itemDisplay;
@@ -243,7 +242,8 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   }
   showOrderDetail()
   {
-    this.http.get(this.original_url+"/SOP/SaleOrder/showOrderDetail?orderid="+this.routeID+"&userid="+this.userid+"&token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/SOP/SaleOrder/showOrderDetail?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+
+                  "&boid="+this.boid+"&orderid="+this.routeID).subscribe((res)=>{
       this.itemDisplay=res;
       this.itemDisplay=this.itemDisplay.Table[0];
       this.newData= this.itemDisplay;
@@ -260,7 +260,8 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   }
   getLastOrderNo()
   {
-    this.http.get(this.original_url+"/SOP/SaleOrder/getLastSaleOrder?token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/SOP/SaleOrder/getLastSaleOrder?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+
+                  "&boid="+this.boid).subscribe((res)=>{
       this.itemDisplay=res;
       this.itemDisplay=this.itemDisplay.Table[0];
       this.newData.ORDERREFNO= this.itemDisplay.ORDERREFNO;
@@ -356,7 +357,6 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
      msg=msg+"</ul>";
      if(flag==false)
      {
-      this.isLoadingResults=false;
       console.log("msgBox",msg);
       const dialogRef = this.dialog.open(SuccessDialogComponent, {
        data: {
@@ -383,7 +383,6 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   }
   saveSaleOrder()
   {
-    this.isLoadingResults=true;
     if(this.validatData())
     {
       var header:any=[], hdr:any={};
@@ -458,12 +457,13 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
       var retunrOrderNo:any;
 
       const  params = new  HttpParams()
-    
+      .set('fyuser', this.FYUSER)
+      .set('serverip', this.ServerIP)
+      .set('boid', this.boid)
       .set('orderid', "0")
-      .set('token', this.token)
       .set('header', JSON.stringify(header))
       .set('detail', JSON.stringify(detail));
-      
+      this.isLoadingResults=true;
     this.http.post(this.original_url+"/SOP/SaleOrder/saveSaleOrder", params.toString(), {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
@@ -572,8 +572,9 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
           console.log("detail",detail);
 
           const  params = new  HttpParams()
-    
-          .set('token', this.token)
+          .set('fyuser', this.FYUSER)
+          .set('serverip', this.ServerIP)
+          .set('boid', this.boid)
           .set('orderid', this.newData.ORDERREFID)
           .set('header', JSON.stringify(header))
           .set('detail', JSON.stringify(detail));
@@ -609,7 +610,7 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
   }
   addNewOrder()
   {
-    this.router.navigate(['/add-new-customer-order/0/new'], {skipLocationChange:true});
+    this.router.navigate(['/add-new-customer-order/0/new']);
     this.newData={};
     this.orderDetail=[];
     this.routeID=0;
@@ -677,90 +678,4 @@ export class AddNewCustomerOrderComponent implements OnInit, AfterContentInit {
      } //alert(msg);
    return flag;
 }
-printOrder()
-{
-    let data:any={};
-    this.isLoadingResults=true;
-     this.http.get(this.original_url+"/SOP/SaleOrder/printOrderDetail?orderno="+this.newData.ORDERREFNO+"&token="+this.token).subscribe((res)=>{
-      this.itemDisplay=res;
-      console.log("Mrir Load", res);
-      this.itemDisplay=this.itemDisplay.Table;
-      data.header=this.itemDisplay[0];
-      this.itemDisplay=res;
-      data.detail=this.itemDisplay.Table1;
-      
-      data.title="Customer Order";
-      data.backto='/add-new-customer-order/'+this.routeID+'/'+this.routeAction;
-       sessionStorage.setItem('order', JSON.stringify(data));
-      this.router.navigate(['/print-customer-order'], {skipLocationChange:true});
-      this.isLoadingResults=false;
-     },
-     error=>{
-       this.isLoadingResults=false;
-     });  
-  }
-}
-
-
-
-
-
-@Component({
-  selector: 'printSaleOrder',
-  templateUrl: './printSaleOrder.html',
-  styleUrls: ['./add-new-customer-order.component.css']
-})
-export class PrintSaleOrderComponent implements OnInit {
-  orderHeader:any={};backto:any;
-  OrderDetail:Array<any>=[];
-  title:any;telephone:any;GSTIn:any;
-  repeatHeaders=true;
-  companyName:any;Address1:any;Address2:any;fax:any; email:any;pan:any;
- constructor(private router: Router ) {
-
-
-  let currentBranch = sessionStorage.getItem("currentBranch");
-  var CompanyData = JSON.parse(currentBranch);
-  this.companyName=CompanyData['COMPANYNAME'];
-  this.Address1=CompanyData['ADDRESS'];
-  this.Address2 = CompanyData['ADDRESS1'];
-  this.GSTIn = CompanyData['COMPANYGSTNO'];
-  this.telephone = CompanyData['TELEPHONE'];
-  this.fax = CompanyData['FAX'];
-  this.email = CompanyData['EMAIL'];
-  this.pan = CompanyData['COMPANYPAN'];
-  let indent = sessionStorage.getItem("order");
-  var data = JSON.parse(indent);
-  this.orderHeader=data['header'];
-  this.OrderDetail=data['detail'];
-  this.backto=data['backto'];
-  //sessionStorage.removeItem('order');
-  }
-
- ngOnInit() {
-
-}
-public print(): void 
-{ 
-  
-  let virtualWindow: any = window.open('', 'PRINT', 'height=400,width=800'); 
-  virtualWindow.document.write('<html><head><title>Print</title>  '); 
-  virtualWindow.document.write('<link rel="stylesheet" href="http://kind.org.in/assets/libs/bootstrap/dist/css/bootstrap.min.css">  '); 
-  virtualWindow.document.write('<link href="http://kind.org.in/assets/dist/css/style.min.css" rel="stylesheet"> '); 
-  virtualWindow.document.write('<link href="http://kind.org.in/assets/styles.css" rel="stylesheet"> '); 
-  virtualWindow.document.write('<link href="http://kind.org.in/assets/dist/css/style-custom.css" rel="stylesheet">'); 
-  virtualWindow.document.write('<style type="text/css"> body {  line-height: 1.3; } div.header { display: block; text-align: center; position: running(header); width: 100%; } div.footer { display: block; text-align: center; position: running(footer); width: 100%; } @page { /* switch to landscape */  /* set page margins */ margin: 0.5cm; @top-center { content: element(header); } @bottom-center { content: element(footer); } @bottom-right { content: counter(page) " of " counter(pages); } } .custom-page-start { margin-top: 50px; } thead {display: table-header-group;}</style>');
-  //font: 12pt Georgia, "Times New Roman", Times, serif;
-  virtualWindow.document.write('</head><body>' + document.getElementById('ravinderpal').innerHTML + '</body></html>'); 
-  
-  virtualWindow.document.close(); 
-  virtualWindow.focus(); 
-      // necessary for IE >= 10 
-  setTimeout(t => { virtualWindow.print(); virtualWindow.close(); }, 1000);   
-}
-backToView()
-{
-   this.router.navigate([this.backto], {skipLocationChange:true});
-}
-
 }

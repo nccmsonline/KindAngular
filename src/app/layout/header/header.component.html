@@ -1,52 +1,102 @@
+<!-- <header class="topbar" data-navbarbg="skin6">
+        <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+            <div class="navbar-header" data-logobg="skin2">
+             <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
+                 <a class="navbar-brand">
+                   <b class="logo-icon">
+                     <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo">
+                     <img src="assets/images/Logo.png" alt="homepage" class="light-logo" width="30">
+                   </b>
+                   <span class="logo-text">
+                       <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo">
+                       <img src="assets/images/LogoO.png" class="light-logo" alt="homepage" width="120">
+                    </span>
+                </a>
+                <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
+            </div>
+            <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin6">
+               <ul class="navbar-nav float-left mr-auto">
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar">
+                            <i class="mdi mdi-menu font-24"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <ul id="secondary-menu" class="list-inline py-2 w-100 text-light mt-3">
+                            <li class="list-inline-item"><strong>{{CompanyName}} </strong></li>
+                            <li class="list-inline-item divider">|</li>
+                            <li class="list-inline-item"><strong>FY : {{FinancialYearStartDate|date:"yyyy"}}-{{FinancialYearEndDate|date:"yy"}} </strong></li>
+                            <li class="list-inline-item divider">|</li>
+                            <li class="list-inline-item"><strong>Working Date : {{WorkingDate| date : "MMMM d, y"}}</strong></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul  class="navbar-nav float-right align-items-center">
+                   <li class="nav-item dropdown">
+                        <div class="user-profile d-flex no-block dropdown m-t-20 mt-0 p-2">
+                            <div class="user-content hide-menu">
+                                <a href="javascript:void(0)" class="d-flex" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="user-pic mr-2"><img src="assets/images/users/{{LoginUser}}.jpg" alt="users" class="rounded-circle" width="40"></div>
+                                    <div>
+                                    <h6 class="m-b-0 user-name font-medium">{{UserName}} <i class="fa fa-angle-down"></i></h6>
+                                    <span class="op-5 user-email"></span>
+                                    </div>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY" aria-labelledby="Userdd">
+                                    <span class="with-arrow"><span class="bg-white"></span></span>
+                                    <a class="dropdown-item" style="cursor: pointer !important;" (click)="openDialog()"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
+                                    <a class="dropdown-item"  style="cursor: pointer !important;" (click)="ChangePassword()" ><i class="ti-settings m-r-5 m-l-5"></i> Change Password</a>
+                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item"  style="cursor: pointer !important;" (click)="changeLogIn()"><i class="ti-user m-r-5 m-l-5"></i> Change Login</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item"  style="cursor: pointer !important;" (click)='logoutClick();'><i class="fa fa-power-off m-r-5 m-l-5"></i> Logout</a>
+                                    <div class="dropdown-divider"></div>
+                                    <div class="p-l-30 p-10"><a href="javascript:void(0)" class="btn btn-sm btn-success btn-rounded">View Profile</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </li>
+              </ul>
+            </div>
+        </nav>
+    </header> -->
+
 
     <header class="topbar" data-navbarbg="skin6">
         <nav class="navbar top-navbar navbar-expand-md navbar-light">
             <div class="navbar-header" data-logobg="skin5">
               
-                <a appMobileMiniSidebar class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
                         class="ti-menu ti-close"></i></a>
            
-                <a class="navbar-brand" [routerLink]="['/management-planner']">
+                <a class="navbar-brand">
                    
                     <b class="logo-icon">
                         <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo">
-                        <!-- <img src="assets/images/Logo.png" alt="homepage" class="light-logo" width="30"> -->
-                        <img src="assets/images/suvidha-logo-img.png" alt="homepage" class="light-logo" width="30">
+                        <img src="assets/images/Logo.png" alt="homepage" class="light-logo" width="30">
                       </b>
                       <span class="logo-text">
                           <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo">
-                          <!-- <img src="assets/images/LogoO.png" class="light-logo" alt="homepage" width="120"> -->
-                          <img src="assets/images/suvidha-logo.png" class="light-logo" alt="homepage" width="120">
+                          <img src="assets/images/LogoO.png" class="light-logo" alt="homepage" width="120">
                        </span>
                 </a>
               
-                <!-- <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
-                    data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a> -->
-
-                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
                     data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation"><i class="ti-more"></i></a>
-
             </div>
          
             <div class="navbar-collapse collapse" id="navbarSupportedContent" data-navbarbg="skin6">
             
-                <ul  class="navbar-nav float-left mr-auto">
-                    <!-- <li class="nav-item d-none d-md-block">
+                <ul appMiniSidebar class="navbar-nav float-left mr-auto">
+                    <li class="nav-item d-none d-md-block">
                         <a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)"
                             data-sidebartype="mini-sidebar" >
                             <i class="mdi mdi-menu font-24"></i>
                         </a>
-                    </li> -->
-
-                    <li appMiniSidebar class="nav-item d-none d-md-block">
-                        <a class="nav-link sidebartoggler waves-effect waves-light"
-                            data-sidebartype="mini-sidebar" style="padding: 0 5px 0 0;">
-                            <i class="mdi mdi-menu font-24"></i>
-                        </a>
                     </li>
-      
                     <li class="nav-item">
                         <ul id="secondary-menu" class="list-inline py-2 w-100 text-light mt-3">
                             <li class="list-inline-item"><strong>{{CompanyName}} </strong></li>
@@ -68,10 +118,7 @@
                            
                             <div class="user-content hide-menu">
                                 <a href="javascript:void(0)" class="d-flex" id="Userdd" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <div class="user-pic mr-2">
-                                        <!-- <img src="assets/images/users/{{LoginUser}}.jpg" alt="assets/images/users/default.png" class="rounded-circle" width="40"> -->
-                                        <img src="assets/images/users/{{LoginUser}}.jpg" onerror="this.onerror=null;this.src='assets/images/users/default.png';" class="rounded-circle" width="40" >
-                                    </div>
+                                    <div class="user-pic mr-2"><img src="assets/images/users/{{LoginUser}}.jpg" alt="users" class="rounded-circle" width="40"></div>
                                     <div>
                                     <h6 class="m-b-0 user-name font-medium">{{UserName}} <i class="fa fa-angle-down"></i></h6>
                                     <span class="op-5 user-email"></span>

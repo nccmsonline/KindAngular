@@ -4,21 +4,7 @@
 
 export const environment = {
   production: false,
-//  baseUrl: 'http://kindwebapi.suvidhacloud.com/api',               // kind live
-//  baseUrl:'http://kinddemowebapi.suvidhacloud.com/api',               // kind demo
-  // baseUrl: 'https://kind.org.in:8081/api'
-  baseUrl:'https://localhost:44398',
-
-
-  // imageUrl:'http://suvidhaapi.suvidhacloud.com/SuvidhaImages',     // Demo Suvidha
-  imageUrl:'http://kind.org.in:8093/SuvidhaImages',                   //Kind
-};
-
-export const environmentNotification = {
-  production: false,
-  // baseUrl: 'http://kindwebapi.suvidhacloud.com/api'
-  baseUrl:'https://localhost:44398'
-  //baseUrl: 'http://kinddemowebapi.suvidhacloud.com/api'
+  baseUrl:'https://localhost:44398/api'
 };
 
 /*

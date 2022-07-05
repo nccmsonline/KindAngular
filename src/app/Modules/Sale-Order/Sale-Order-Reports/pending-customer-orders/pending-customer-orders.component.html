@@ -1,10 +1,8 @@
-<!-- 
 
-            
 
           <div class="form-group mr-2 ml-auto bd-highlight">
             <span class="d-flex">
-                    <a skipLocationChange  [routerLink]="['/customer-order-reports']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                    <a [routerLink]="['/customer-order-reports']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
                         class="mdi mdi-keyboard-backspace"></i></a>
                         &nbsp;&nbsp;
                 <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('Recieived Customer Orders.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
@@ -12,7 +10,7 @@
         </div>
         <div>
         <kendo-pdf-export #pdf paperSize="A4" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 10, left: 20}" [repeatHeaders]="repeatHeaders">
-          
+              <!-- <h4 class="text-center">{{companyname}} {{unitname}}</h4> -->
               <div class="example-loading-shade" *ngIf="isLoadingResults">
                 <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
              </div>
@@ -25,97 +23,6 @@
                         <tr><td align="text-center" colspan="7"><b> {{Address}}</b></td></tr>
                         <tr><td align="text-center" colspan="7"><b> {{mydata}}</b></td></tr>
                         <tr><td colspan="7"><h5>&nbsp;&nbsp; </h5></td></tr>
-                    <tr class="bg-sky border-lb">
-                        <th scope="col" style="width: 60px;">O.A. No.</th>
-                        <th scope="col" style="width: 200px;">Cust P.O. </th>
-                        <th scope="col" style="width: 280px;">Product Code </th>
-                        <th scope="col" style="width: 80px;text-align : right">Ordered Qty</th>
-                        <th scope="col" style="width: 80px;text-align : right">Rate</th>
-                        <th scope="col" style="width: 80px;text-align : right">GST%</th>
-                        <th scope="col" style="width: 80px;text-align : right">Gross Rate</th>
-                        <th scope="col" style="width: 80px;text-align : right">Desp. Qty</th>
-                        <th scope="col" style="width: 80px;text-align : right">Qty Balanced</th>
-                        <th scope="col" style="width: 80px;text-align : right">Value</th>
-                     </tr>
-                  </thead>
-                  <tbody class="font-sm">
-                    <tr><td colspan="7"><h6>{{order.NAME}}</h6></td> </tr>
-
-                    <tr *ngFor="let x of  orderData|groupByCustomer:order.NAME">
-                        <td scope="col"  style="width: 60px;">{{x.ORDERREFNO}}</td>
-                                         
-                        <td scope="col"  style="width: 200px;">{{x.CUSTOMERPO}}</td>
-                        <td scope="col"  style="width: 280px;">{{x.ITEMCODE}} </td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.ORDERQTYPCS}}</td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.RATE  | number:'1.2-2'}}</td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.IGST}}</td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.GROSSRATE  | number:'1.2-2'}}</td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.DISPATCHQTYPCS}}</td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.BALANCEQTYPCS}}</td>
-                        <td scope="col" style="width: 80px;text-align : right">{{x.VALUEOFBAL  | number:'1.2-2'}}</td>
-                    </tr>
-                    <tr class="border-lb">
-                        <td scope="col"  style="width: 60px;"></td>
-                        <td scope="col"  style="width: 200px;"></td>
-                        <td scope="col"  style="width: 280px;"> <b>Total==> </b></td>
-                        <td scope="col" style="width: 80px;text-align : right"><b>{{order.ORDERQTYPCS}}</b> </td>
-                        <td scope="col" style="width: 80px;text-align : right"></td>
-                        <td scope="col" style="width: 80px;text-align : right"></td>
-                        <td scope="col" style="width: 80px;text-align : right"></td>
-                        <td scope="col" style="width: 80px;text-align : right"><b>{{order.DISPATCHQTYPCS  | number:'1.2-2'}}</b></td>
-                        <td scope="col" style="width: 80px;text-align : right"><b>{{order.BALANCEQTYPCS  | number:'1.2-2'}}</b></td>
-                        <td scope="col" style="width: 80px;text-align : right"><b>{{order.VALUEOFBAL  | number:'1.2-2'}}</b></td>
-                    </tr>
-                  </tbody>
-              </table>
-            
-            </div>
-            
-            </div>
-            </kendo-pdf-export>
-            </div> -->
-
-
-            
-
-            
-
-          <div class="form-group mr-2 ml-auto bd-highlight">
-            <span class="d-flex">
-                    <!-- <a skipLocationChange  [routerLink]="['/customer-order-reports']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
-                        class="mdi mdi-keyboard-backspace"></i></a>
-                        &nbsp;&nbsp; -->
-                <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="print()">{{'print'| translate}}</button>
-                &nbsp;
-                <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('Recieived Customer Orders.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
-                <div class="form-group mr-2 mb-2 ml-auto bd-highlight d-flex">
-                  <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton"  mat-dialog-close>
-                    <span aria-hidden="true"> &nbsp;&times; &nbsp;</span>
-                  </button>
-                </div>
-           </span>
-        </div>
-        <div>
-        <kendo-pdf-export #pdf paperSize="A4" [scale]="0.55" [margin]="{top: 20, bottom: 50, right: 10, left: 20}" [repeatHeaders]="repeatHeaders">
-          
-              <div class="example-loading-shade" *ngIf="isLoadingResults">
-                <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
-             </div>
-             
-             <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);"  id="ravinderpal">
-              <div class="header">
-                <h5> {{CompanyName}}</h5>
-                <h6> {{Address}}</h6>
-                <h6>{{mydata}}</h6>
-              </div>
-
-             <div class="table-responsive" *ngFor="let order of orderHeaderData"  style="width: 1000px">
-             <table class="custom-invoice-table" id="contentToConvert" > 
-                 <thead>
-                        <!-- <tr><td  align="text-center"  colspan="7"><h5> {{CompanyName}}</h5></td></tr>
-                        <tr><td align="text-center" colspan="7"><b> {{Address}}</b></td></tr>
-                        <tr><td align="text-center" colspan="7"><b> {{mydata}}</b></td></tr>
-                        <tr><td colspan="7"><h5>&nbsp;&nbsp; </h5></td></tr> -->
                     <tr class="bg-sky border-lb">
                         <th scope="col" style="width: 60px;">O.A. No.</th>
                         <th scope="col" style="width: 200px;">Cust P.O. </th>

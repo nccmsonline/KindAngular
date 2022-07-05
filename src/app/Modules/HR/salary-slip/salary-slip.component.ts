@@ -1,19 +1,17 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { DatePipe } from '@angular/common';
-import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-salary-slip',
   templateUrl: './salary-slip.component.html',
   styleUrls: ['./salary-slip.component.css']
 })
 export class SalarySlipComponent implements OnInit {
-  original_url=environment.baseUrl;
   CompanyName:any; companyData:any;
-  boid : any;FYUSER:any;ServerIP:any;datePipe = new DatePipe("en-US");EmpId:any; userid:any;token:any; empno:any;
+  boid : any;FYUSER:any;ServerIP:any;datePipe = new DatePipe("en-US");EmpId:any;
   Address:any;reportname:any;newData:any={};isLoadingResults:boolean;
-  constructor(private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { 
+  constructor(@Inject('BASE_URL') private original_url : string, private http: HttpClient, @Inject(MAT_DIALOG_DATA) public data: any) { 
     this.isLoadingResults=true;
     this.companyData= sessionStorage.getItem("currentBranch");
     this.companyData= JSON.parse(this.companyData);
@@ -25,25 +23,15 @@ export class SalarySlipComponent implements OnInit {
     var month=data.month;
     var year=data.year;
     var monthname=data.monthname;
-    if(data.empno==undefined)
-    { this.empno=0}
-    else
-    {this.empno=data.empno}
+   
     this.ServerIP=this.companyData['SERVERIP'];
     this.FYUSER=this.companyData['FYUSER'];
     this.boid = this.companyData['BRANCHID'];
-   
-
-
-      let currentUser = sessionStorage.getItem("currentUser");
-      currentUser = JSON.parse(currentUser);
-
-      this.token = currentUser['TOKEN'];
-      this.userid = currentUser['USERID'];
     this.reportname="Salary Slip for the Month of " +monthname+", "+year;
    // this.http.get("https://localhost:44398/api"+"/HR/HR/getEmployeeDetail?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+this.EmpId).subscribe((res: any[])=> {
-    this.http.get(this.original_url+"/hr/hr/getSalarySlip?empid="+this.EmpId+
-                   "&month="+month+"&year="+year+"&token="+this.token+"&empno="+this.empno).subscribe((res: any[])=> {
+    this.http.get(this.original_url+"/hr/hr/getSalarySlip?serverip="+this.ServerIP+
+                   "&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+this.EmpId+
+                   "&month="+month+"&year="+year).subscribe((res: any[])=> {
       console.log("ts",res);
       this.newData=res;
       this.newData=this.newData.Table[0];

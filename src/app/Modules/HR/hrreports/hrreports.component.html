@@ -25,7 +25,7 @@
           <mat-form-field class="col-sm-12">
               <input matInput  
                 [matDatepicker]="matDatepicker" placeholder="From date" 
-                [formControl]="dateFormControl"  (dateChange)="lastDate()" >
+                [formControl]="dateFormControl" >
               <mat-datepicker-toggle matSuffix [for]="matDatepicker"></mat-datepicker-toggle>
               <mat-datepicker #matDatepicker></mat-datepicker>
             </mat-form-field>
@@ -66,83 +66,6 @@
                             Department wise OT Summary 
                         </a>
                      </li>
-                     <li (dblclick)="workingHrsSummary()">
-                      <a style="color: #0e43af !important; cursor: pointer !important;">
-                          Department wise Working Hours Summary 
-                      </a>
-                     </li>
-                     <li (dblclick)="specialRewards()">
-                      <a style="color: #0e43af !important; cursor: pointer !important;">
-                          Food expenses List 
-                      </a>
-                     </li> 
-                     <li (dblclick)="EmployeeAbsentList()">
-                      <a style="color: #0e43af !important; cursor: pointer !important;">
-                          Employee wise absent List 
-                      </a>
-                     </li> 
-                     <li (dblclick)="PackageEmployeeOTList()">
-                      <a style="color: #0e43af !important; cursor: pointer !important;">
-                          Package Employee O.T. List
-                      </a>
-                     </li> 
-                     <li (dblclick)="employeeGatePassList()">
-                      <a style="color: #0e43af !important; cursor: pointer !important;">
-                          Employee Gate-Pass List
-                      </a>
-                     </li> 
-                     <li (dblclick)="employeeLeavList()">
-                        <a style="color: #0e43af !important; cursor: pointer !important;">
-                            Employee Leave List
-                        </a>
-                       </li> 
-                       <li (dblclick)="rejectedLeaves()">
-                        <a style="color: #0e43af !important; cursor: pointer !important;">
-                            Rejected Leave List by HR
-                        </a>
-                       </li> 
-                       <li (dblclick)="employeeTourList()">
-                          <a style="color: #0e43af !important; cursor: pointer !important;">
-                              Employee Tour List
-                          </a>
-                       </li>   
-                       <li (dblclick)="OTWithGateList()">
-                        <a style="color: #0e43af !important; cursor: pointer !important;">
-                           OT With Gate Pass List
-                        </a>
-                       </li> 
-                       <li (dblclick)="showSalarySlip()" class="d-flex">
-                        <a style="color: #0e43af !important; cursor: pointer !important; padding-top: 15px;">
-                           Salary Slip 
-                         </a>
-                           <div class="col-md-1"  style="min-width: 130px;"> 
-                           <!-- <mat-form-field style="width: 100%;">
-                            <input matInput [matDatepicker]="dp" placeholder="Salary Date"
-                            [formControl]="ret_period">
-                            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-                            <mat-datepicker #dp
-                                            startView="multi-year"
-                                            (yearSelected)="chosenYearHandler($event)"
-                                            (monthSelected)="chosenMonthHandler($event, dp)"
-                                         
-                                            panelClass="example-month-picker">
-                            </mat-datepicker>
-                           </mat-form-field> -->
-                           <mat-form-field  style="width: 100%;">
-                            <input matInput  
-                              [matDatepicker]="matDatepicker2" placeholder="Salary date" 
-                              [formControl]="ret_period"   >
-                            <mat-datepicker-toggle matSuffix [for]="matDatepicker2"></mat-datepicker-toggle>
-                            <mat-datepicker #matDatepicker2></mat-datepicker>
-                          </mat-form-field>
-
-                           </div>
-                          
-                           <div class="form-group col-md-1" style=" padding-top: 10px;">
-                            <input type="text" class="form-control form-control-sl col-sm-12"  [(ngModel)]="empno" [ngModelOptions]="{standalone: true}"   placeholder="Emp No">
-                          </div>
-                       
-                       </li> 
                   </ul>
                 </td>
               </tr>

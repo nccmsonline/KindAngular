@@ -92,7 +92,7 @@ body[data-theme="dark"] {
     color: #b2b9bf; }
   body[data-theme="dark"] .custom-control-label::before {
     background-color: #6c757d; }
-  body[data-theme="dark"] .card,
+  body[data-theme="dark"] .,
   body[data-theme="dark"] .custom-select,
   body[data-theme="dark"] .form-control,
   body[data-theme="dark"] .nav-tabs .nav-link.active,

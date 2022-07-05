@@ -21,22 +21,15 @@
           </div>
           <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
               <div class="card-body border-bottom py-2">
-                <div class="col-md-12">
-                  <!-- <div class="align-items-center justify-content-between"> -->
-                        <div class="row">
-                      <div class="col-sm-1">
+                  <div class="align-items-center justify-content-between">
+                   
+                      <div class="col-md-2">
                         
                         <!-- <button *ngIf="!isAddNew" type="submit" (click)="addNewOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" > Add New</button>&nbsp; -->
-                        <button *ngIf="isAddNew" [disabled]="isLoadingResults"  type="submit" (click)="validateDetail('add')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Save</button>
-                        <button *ngIf="!isAddNew" [disabled]="isLoadingResults"  type="submit" (click)="validateDetail('update')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Update</button>
-                        
-
-                      </div>
-                      <div class="col-sm-1">
-                            <button  type="submit" (click)="refresh()"  class="btn btn-sm rounded btn-warning waves-effect waves-light" >Referesh</button>
+                        <button *ngIf="isAddNew" type="submit" (click)="validateDetail('add')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Save</button>
+                        <button *ngIf="!isAddNew" type="submit" (click)="validateDetail('update')"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Update</button>
                       </div>
                   </div>
-                </div>
               </div>
               <div class="col-md-12">
                 <div class="row">
@@ -62,7 +55,7 @@
                       <div class="col-md-3">
                         <mat-form-field class="form-control py-1 mat-form-field-date-picker">
                             <input matInput [matDatepicker]="pickerd" name="myDate"
-                                [(ngModel)]='myDate'  [min]="WorkingDate" readonly
+                                [(ngModel)]='myDate'
                                 [ngModelOptions]="{standalone: true}">
                             <mat-datepicker-toggle matSuffix [for]="pickerd"></mat-datepicker-toggle>
                             <mat-datepicker #pickerd></mat-datepicker>
@@ -104,7 +97,7 @@
                         <div class="col-md-3">
                             <mat-form-field class="form-control py-1 mat-form-field-date-picker">
                                 <input matInput [matDatepicker]="pickerf" name="LEAVEFROM"
-                                    [(ngModel)]='newData.LEAVEFROM'  [min]="WorkingDate"   (change)="onDateChange()"   (dateChange)="onDateChange()"
+                                    [(ngModel)]='newData.LEAVEFROM'
                                     [ngModelOptions]="{standalone: true}">
                                 <mat-datepicker-toggle matSuffix [for]="pickerf"></mat-datepicker-toggle>
                                 <mat-datepicker #pickerf></mat-datepicker>
@@ -116,7 +109,7 @@
                         <div class="col-md-3">
                             <mat-form-field class="form-control py-1 mat-form-field-date-picker">
                                 <input matInput [matDatepicker]="picker4" name="LEAVETO"
-                                    [(ngModel)]='newData.LEAVETO' [min]="newData.LEAVEFROM"
+                                    [(ngModel)]='newData.LEAVETO'
                                     [ngModelOptions]="{standalone: true}">
                                 <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
                                 <mat-datepicker #picker4></mat-datepicker>
