@@ -16,7 +16,3 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-
-  .ngx-select__choices {
-    width: 750px !important;
-  }

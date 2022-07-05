@@ -5,9 +5,7 @@ import { HttpClient } from '@angular/common/http';
 declare var $: any;
 declare var jQuery: any;
 
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource } from '@angular/material';
 import { AddNewItemEnquiryComponent } from './add-new-item-enquiry/add-new-item-enquiry.component';
 import { Subscription, Observable } from 'rxjs';
 

@@ -37,10 +37,10 @@
     </div>
 
     <!-- multiple selected items -->
-    <div class="ngx-select__selected" *ngIf="multiple === true" (click)="inputClick(inputElRef && inputElRef['value'])">
+    <div class="ngx-select__selected" *ngIf="multiple === true">
         <span *ngFor="let option of optionsSelected; trackBy: trackByOption; let idx = index">
-            <span tabindex="-1" [ngClass]="setBtnSize()" (click)="$event.stopPropagation()"
-                  class="ngx-select__selected-plural btn btn-default btn-secondary btn-sm btn-xs">
+            <span tabindex="-1" [ngClass]="setBtnSize()"
+                  class="ngx-select__selected-plural btn btn-default btn-secondary btn-xs">
 
                 <ng-container [ngTemplateOutlet]="templateSelectedOption || defaultTemplateOption"
                               [ngTemplateOutletContext]="{$implicit: option, index: idx, text: sanitize(option.text)}">
@@ -70,7 +70,7 @@
 
     <!-- options template -->
     <ul #choiceMenu role="menu" *ngIf="isFocused" class="ngx-select__choices dropdown-menu"
-        [class.show]="showChoiceMenu()">
+        [class.show]="optionsOpened">
         <li class="ngx-select__item-group" role="menuitem"
             *ngFor="let opt of optionsFiltered; trackBy: trackByOption; let idxGroup=index">
             <div class="divider dropdown-divider" *ngIf="opt.type === 'optgroup' && (idxGroup > 0)"></div>
@@ -85,7 +85,7 @@
                (mouseenter)="onMouseEnter({
                     activeOption: option,
                     filteredOptionList: optionsFiltered,
-                    index: optionsFiltered.indexOf(option)
+                    index: idxOption
                })"
                (click)="optionSelect(option, $event)">
                 <ng-container [ngTemplateOutlet]="templateOption || defaultTemplateOption"

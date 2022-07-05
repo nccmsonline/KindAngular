@@ -1,0 +1,53 @@
+<!-- 
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="page-wrapper" >
+    <div class="container-fluid" style="background:#dcdcdc;"> -->
+<form >
+  <div class="modal-header primary-bg py-2">
+    <!-- <h5 *ngIf="action == 'new'" class="modal-title text-white" id="exampleModalLabel">{{'newsupplier' | translate}}</h5>
+    <h5 *ngIf="action == 'edit'" class="modal-title text-white" id="exampleModalLabel">{{'editsupplier' | translate}}</h5> -->
+    <button class="close text-white" mat-dialog-close>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+      <div class="modal-body" style="height:500px;overflow-y:scroll;padding:0;max-width:950px;">
+        <div class="table-scroll mx-1">
+          <div class="card-body border-top supplier-master px-0 py-2" style="background: #ffffcf;min-height:470px;">
+            <h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Statement of Account</h6>
+            
+            <div class="col-md-12"><B> {{PartyName}}   |  Opening Balance :{{YearOpeningBalance}} {{openingDrCr}}</B></div>
+            <table class="table table-striped custom-table tr th">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Dated</th>
+                  <th style="width: 100px;">Voucher No.</th>
+                  <th style="width: 400px;">Description</th>
+                  <th style="text-align:right;width: 100px;">Debit</th>
+                  <th style="text-align:right;width: 100px;">Credit</th>
+                  <th style="text-align:right;width: 100px;">Balance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let staff of accountStatement">
+                  <td class="font-weight-sm"> {{staff.VOUCHERDATE | date:"dd/MM/yyyy"}}</td>
+                  <td> {{staff.VOUCHERNO}}</td>
+                  <td><em style="width:130px;"> {{staff.DESCRIPTION}}</em></td>
+                  <td class="text-right"><em>{{staff.DRAMT}}</em></td>
+                  <td class="text-right"><em>{{staff.CRAMT}}</em></td>
+                  <td class="text-right"><em>{{staff.BALANCE}}</em></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-5"><B>  Closing Balance :   {{ClosingBalance}} {{ClosingDrCr}}</B></div>
+     
+      </div>
+    </form>
+    <!-- <app-footer></app-footer>
+    </div>
+</div> -->

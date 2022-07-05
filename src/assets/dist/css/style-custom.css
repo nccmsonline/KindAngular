@@ -154,8 +154,3 @@ a.sidebar-link.active {background-color: #03A9F4 !important;}
 .custom-slect-box {
   height: auto !important;
 }
-
-.ui-panelmenu .ui-panelmenu-content .ui-menuitem .ui-menuitem-link {
-  padding: 0.714em 0.857em;
-  color: #ffffff !important;
-}

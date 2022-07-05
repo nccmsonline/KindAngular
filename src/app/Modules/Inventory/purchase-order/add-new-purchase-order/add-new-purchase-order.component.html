@@ -1,0 +1,513 @@
+ <form [formGroup]="purchaseForm" novalidate>
+        <div class="row">
+  <div class="col-12">
+        <div class="card" style="border-top: 2px solid #0e43af;box-shadow:0 1px 3px rgba(0,0,0,.3);">
+                <div class="card-body border-bottom py-2">
+                        <div class="d-md-flex align-items-center justify-content-between">
+                            <div class="d-flex">
+                                <a [routerLink]="['/purchase-order']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i class="mdi mdi-keyboard-backspace"></i></a>
+                                <h4 class="card-title m-0">{{'purchaseOrder' | translate}}</h4>
+                            </div>
+                            <!-- <div>
+                                
+                                <button class="btn btn-sm btn-primary rounded"><i class="mdi mdi-content-save"></i>&nbsp;Save</button>
+                                <button class="btn btn-sm btn-primary rounded"><i class="mdi mdi-content-save-all"></i>&nbsp;Apply Changes</button>
+                            </div> -->
+                        </div>
+                    </div>
+            <div class="d-flex- row">
+            <div class="col-lg-9 tab-content m-t-10" id="pills-tabContent">
+                    <div class="card-body purchase-order px-0 py-2" >
+                            <div class="form-inline">
+                                <div class="form-group row col-12 mb-1">
+                                   
+                                    <label for="inputEmail4" class="col-sm-2 text-right">{{'lastpono' | translate}}</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control form-control-sm" name="po_no" [(ngModel)]="newData.po_no" formControlName="po_no" placeholder="{{'poformat' | translate}}"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
+                                           
+                                    </div>
+                                    <label  class="col-sm-1 text-right">{{'podate' | translate}}</label>
+                                    <div class=" col-sm-2">
+                                            <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                <input matInput [matDatepicker]="picker" [value]="date.value" [(ngModel)]="newData.po_date" formControlName="po_date">
+                                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <label class="col-sm-1 text-right" for="inputEmail4">{{'yourref' | translate}}</label>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control form-control-sm" name="your_ref" [(ngModel)]="newData.your_ref" formControlName="your_ref" >
+                                                <!-- <span></span> -->
+                                            </div>
+                                </div>
+
+                                <div class="form-group row col-12 mb-1">
+                                        <label class="col-sm-2 text-right" for="inputPassword4">{{'supplier' | translate}}</label>
+                                        <div class="col-sm-5 d-flex">
+                                            <!-- <select class="form-control form-control-sm" name="supplier" [(ngModel)]="newData.supplier" formControlName="supplier" (ngModelChange)="onChange($event)">
+                                                <option *ngFor="let prod of supplierlist" [value]='prod.id' value='{{prod.id}}'>{{prod.categoryname}} {{prod.gsTin}}</option>
+                                            </select> -->
+                                            <ngx-select class="ngx-custom-select-dropdown ngx-custom-select-dropdown-text-wrap" formControlName="supplier" name="supplier"  [allowClear]="false" [(ngModel)]="newData.supplier" (ngModelChange)="onChange($event)" [items]="supplierlist" optionValueField="id" optionTextField="categoryname" placeholder=" Select Supplier"  >
+                                                    <!-- <ng-template ngx-select-option-selected let-option let-text="text">
+                                                            {{option.data.categoryname}} {{option.data.gsTin}} 
+                                                        </ng-template> -->
+                                            </ngx-select>
+                                        </div>
+                                        <label class="col-sm-1 text-right" for="inputEmail4">{{'gstno'|translate}}</label>
+                                        <div class="col-sm-4">
+                                            <input class="form-control form-control-sm"  name="gstIn" [readonly]="true" [(ngModel)]="newData.gstIn" [value]='gstIn' [ngModelOptions]="{standalone: true}">
+                                            <!-- <span></span> -->
+                                    </div>
+                                </div>
+                               
+                                <div class="form-group row col-12 mb-1">
+                                    <label class="col-sm-2 text-right" for="inputPassword4">{{'address'|translate}}</label>
+                                    <div class="col-sm-5 d-flex">
+                                        <input class="form-control form-control-sm" name="address" [readonly]="true" [(ngModel)]="newData.address" type="text" [value]='address' [ngModelOptions]="{standalone: true}">
+                                        <!-- <span></span> -->
+                                    </div>
+                                    <label class="col-sm-1 text-right" for="inputEmail4">{{'state'|translate}}</label>
+                                    <div class="col-sm-4">
+                                            <input class="form-control form-control-sm" name="state" [readonly]="true" [(ngModel)]="newData.state" [value]='state' [ngModelOptions]="{standalone: true}">
+                                            <!-- <span></span> -->
+                                        </div>
+                                </div>
+                      
+                                </div>
+
+
+                                <div class="card-body py-2 mb-2 position-relative">
+                                        <ul class="nav nav-tabs custom-pills font-sm font-weight-sb" id="pills-tab" role="tablist">
+                                          
+                                            <li class="nav-item">
+                                                <a class="nav-link active show" id="item_info" data-toggle="pill" href="#iteminfo" role="tab" aria-selected="false">Item Detail</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                    <a class="nav-link" id="shipping_info" data-toggle="pill" href="#shipping" role="tab" aria-selected="false">Shipping Info.</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                        <a class="nav-link" id="payment_term" data-toggle="pill" href="#payment" role="tab" aria-selected="false">Payment Terms</a>
+                                                    </li>
+                                            <li class="nav-item">
+                                                    <a class="nav-link" id="terms_condition" data-toggle="pill" href="#termscondition" role="tab" aria-selected="false">Terms and Conditions</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                        <a class="nav-link" id="delivery_schedule" data-toggle="pill" href="#delivery" role="tab" aria-selected="false">Delivery Schedule</a>
+                                                    </li>
+                                                
+                                        </ul>
+                                        <div class="table-scroll">
+                                        <div class="tab-content m-t-10" id="pills-tabContent">
+                                            <div class="tab-pane fade active show" id="iteminfo" role="tabpanel" aria-labelledby="item_info">
+                                        
+                                                <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                                                  <h4 style="padding-top:10px;">{{'itemdetails' | translate}}</h4>
+                                    
+                                                 <div class="card-body border-top purchase-order px-0 py-2">
+                                    <!-- <div class="table-responsive"> -->
+                                      <table class="table table-striped custom-table">
+                                          <thead>
+                                              <tr style="background-color: #666666; color: #ffffff;">
+                                                  <th scope="col" style="width:14%;">{{'itemname' | translate}}</th>
+                                                  <th scope="col" style="width:14%;">{{'itemcode' | translate}}</th>
+                                                  <th scope="col" style="width:10%;">{{'hsncode' | translate}}</th>
+                                                  <th scope="col" style="width:7%;">{{'gst' | translate}}</th>
+                                                  <th scope="col" style="width:7%;">{{'unit' | translate}}</th>
+                                                  <th scope="col" style="width:14%;">{{'qty' | translate}}</th>
+                                                  <th scope="col" style="width:7%;">{{'rate' | translate}}</th>
+                                                  <th scope="col" style="width:10%;">{{'amount' | translate}}</th>
+                                                  <th scope="col" style="width:15%;">{{'remarks' | translate}}</th>
+                                                  <th scope="col" style="width:2%;text-align: center;">{{'action' | translate}}</th>
+                                                  
+                                              </tr>
+                                              
+                                          </thead>
+                                          <tbody class="font-sm">
+                                              <tr *ngFor="let item of items ; let i = index">
+                                                     
+                                    
+                                                      <td  *ngIf="item.id === editItemID">
+                                                        <select class="form-control form-control-sm custom-select" [(ngModel)]='item.item_name' [ngModelOptions]="{standalone: true}">
+                                                              <option value="Raw Material">Raw Material</option>
+                                                              <option value="Raw Material">Raw Material</option>
+                                                          </select>
+                                                      </td>
+                                                      <td  *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.item_name}}</td>
+                                                      <td  *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.item_code' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td   *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.item_code}}</td>
+                                                      <td  *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.hsn_code' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td   *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.hsn_code}}</td>
+                                                      <td  *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.gst' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td   *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.gst}}</td>
+                                                      <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.unit' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.unit}}</td>
+                                    
+                                                      <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.qty' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.qty | titlecase}}</td>
+                                                      <td *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.rate' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.rate | titlecase}}</td>
+                                    
+                                                       <td>{{item.amt| titlecase}}</td> 
+                                                       
+                                                      <td width="50%" *ngIf="item.id === editItemID"><input type="text" class="form-control w-100" [(ngModel)]='item.remarks' [ngModelOptions]="{standalone: true}"></td>
+                                                      <td width="50%" *ngIf="item.id !== editItemID" (dblclick)="editItem(item.id)">{{item.remarks | titlecase}}</td>
+                                                      <td style="width:60px;text-align: center;">
+                                                          <div>
+                                                              <i *ngIf="item.id === editItemID" class="fas fa-check customIcon" (click)="updateItem(item)"></i>
+                                                              <i *ngIf="item.id !== editItemID" class="fas fa-edit customIcon" (click)="editItem(item.id)"></i>
+                                                              <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeItem(i)"></i>
+                                                          </div>
+                                                      </td>
+                                                  </tr>
+                                                  
+                                                  <tr>
+                                                     
+                                                      <td>
+                                                        <select class="form-control form-control-sm custom-select" [(ngModel)]='newitem.item_name' [ngModelOptions]="{standalone: true}">
+                                                              <option value="Raw Material">Raw Material</option>
+                                                              <option value="Raw Material">Raw Material</option>
+                                                          </select>
+                                                      </td>
+                                                      <td><input type="text" class="form-control w-100" [(ngModel)]="newitem.item_code" [ngModelOptions]="{standalone: true}"></td>
+                                                      <td><input type="text" class="form-control w-100" [(ngModel)]="newitem.hsn_code" [ngModelOptions]="{standalone: true}"></td>
+                                                      <td><input type="text" class="form-control w-100" [(ngModel)]="newitem.gst" [ngModelOptions]="{standalone: true}"></td>
+                                                      <td><input type="text" class="form-control w-100" [(ngModel)]="newitem.unit" [ngModelOptions]="{standalone: true}"></td>
+                                                      <td>
+                                                          <input type="text" class="form-control w-100" [(ngModel)]="newitem.qty" [ngModelOptions]="{standalone: true}">
+                                                      </td>
+                                                      <td>
+                                                          <input type="text" class="form-control w-100" [(ngModel)]="newitem.rate" [ngModelOptions]="{standalone: true}">
+                                                      </td>
+                                                     
+                                                      <td>
+                                                          <input type="text" class="form-control w-100" [(ngModel)]="newitem.amt" [ngModelOptions]="{standalone: true}">
+                                                      </td>
+                                                    
+                                                      <td>
+                                                          <input type="text" class="form-control w-100" [(ngModel)]="newitem.remarks" (keyup.enter)="addItem(newitem)" [ngModelOptions]="{standalone: true}">
+                                                      </td>
+                                                      
+                                                      <td style="width:60px;text-align: center;">
+                                                          <i (click)="addItem(newitem)" class="fas fa-plus"></i>
+                                                      </td>
+                                                  </tr>
+                                              </tbody>
+                                         
+                                      </table>
+                                    <!-- </div> -->
+                                    </div>
+                                                  
+                                                </div>
+                                            </div>
+                                    
+                                        <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping_info">
+                                                    <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                                                     <h4 style="padding-top:10px;">{{'shippinginfo' | translate}}</h4>
+                                                       <div class="card-body border-top purchase-order px-0 py-2">
+                                                               <div class="table-wrapper-scroll-y">
+                                                                   <table class="table table-striped custom-table">
+                                                                       <thead>
+                                                                           <tr style="background-color: #666666; color: #ffffff;">
+                                                                               <th scope="col">{{'shipto' | translate}}</th>
+                                                                               <th scope="col" width="10%">{{'billto' | translate}}</th>
+                                                                               <th scope="col" style="width:5%;text-align: center;">{{'action' | translate}}</th>
+                                                                              
+                                                                           </tr>
+                                                                       </thead>
+                                                                       <tbody class="font-sm">
+                                                                       <tr *ngFor="let  shipping of shippings ; let i = index">
+                                                                             
+                                                   
+                                                                               <td *ngIf="shipping.id === editshippingID">
+                                                                                <select class="form-control form-control-sm custom-select">
+                                                                                      <option value="NCCMS">NCCMS</option>
+                                                                                  </select>
+                                                                               </td>
+                                                                               <td *ngIf="shipping.id !== editshippingID" (dblclick)="editShipping(shipping.id)">{{shipping.shipto}}</td>
+                                        
+                                                                        <td *ngIf="shipping.id === editshippingID">
+                                                                            <select class="form-control form-control-sm custom-select">
+                                                                                  <option value="NCCMS">NCCMS</option>
+                                                                              </select>
+                                                                        </td>
+                                                                        <td *ngIf="shipping.id !== editshippingID" (dblclick)="editShipping(shipping.id)">{{shipping.billto}}</td>
+                                                                              
+                                                                               <td style="width:60px;text-align: center;">
+                                                                                   <div>
+                                                                                       <i *ngIf="shipping.id === editshippingID" class="fas fa-check customIcon" (click)="updateShipping(shipping)"></i>
+                                                                                       <i *ngIf="shipping.id !== editshippingID" class="fas fa-edit customIcon" (click)="editShipping(shipping.id)"></i>
+                                                                                       <!-- <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removeShipping(i)"></i> -->
+                                                                                   </div>
+                                                                               </td>
+                                                                           </tr>
+                                                                           
+                                                                           <!-- <tr>
+                                                                                <td>
+                                                                                        <select class="select2 form-control form-control-sm custom-select" [(ngModel)]='newshipping.licencetype' [ngModelOptions]="{standalone: true}">
+                                                                                                <option>Select</option>
+                                                                                                <option value="Drug Licence">Drug Licence</option>
+                                                                                                <option value="Manufacturing">Manufacturing</option>
+                                                                                            </select>
+                                                                                    </td>
+                                                                               <td><input type="text" class="form-control w-100" [(ngModel)]="newshipping.licence_number" [ngModelOptions]="{standalone: true}"></td>
+                                                                              
+                                                                               <td style="width:60px;text-align: center;">
+                                                                                   <i (click)="addShipping()" class="fas fa-plus"></i>
+                                                                               </td>
+                                                                           </tr> -->
+                                                                       </tbody>
+                                                                   </table>
+                                                               </div>
+                                                           </div>
+                                                               </div>
+                                        </div>
+                                        
+                                         <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment_term">
+                                                            <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                                                             <h4 style="padding-top:10px;">{{'paymentterms' | translate}}</h4>
+                                                               <div class="card-body border-top purchase-order px-0 py-2">
+                                                                       <div class="table-wrapper-scroll-y">
+                                                                           <table class="table table-striped custom-table">
+                                                                               <thead>
+                                                                                   <tr style="background-color: #666666; color: #ffffff;">
+                                                                                       <th scope="col">{{'paymentterms' | translate}}</th>
+                                                                                       <th scope="col" style="width:5%;text-align: center;">{{'action' | translate}}</th>
+                                                                                      
+                                                                                   </tr>
+                                                                               </thead>
+                                                                               <tbody class="font-sm">
+                                                                               <tr *ngFor="let  paymentTerm of paymentTerms ; let i = index">
+                                                                                     
+                                                           
+                                                                                       <td *ngIf="paymentTerm.id === editpaymentTermID"><input type="text" class="form-control w-100" [(ngModel)]='paymentTerm.PaymentTerms' [ngModelOptions]="{standalone: true}"></td>
+                                                                                       <td *ngIf="paymentTerm.id !== editpaymentTermID" (dblclick)="editpaymnetTerm(paymentTerm.id)">{{paymentTerm.PaymentTerms}}</td>
+                                                           
+                                                                                      
+                                                                                       <td style="width:60px;text-align: center;">
+                                                                                           <div>
+                                                                                               <i *ngIf="paymentTerm.id === editpaymentTermID" class="fas fa-check customIcon" (click)="updatepaymnetTerm(paymentTerm)"></i>
+                                                                                               <i *ngIf="paymentTerm.id !== editpaymentTermID" class="fas fa-edit customIcon" (click)="editpaymnetTerm(paymentTerm.id)"></i>
+                                                                                               <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removepaymentTerm(i)"></i>
+                                                                                           </div>
+                                                                                       </td>
+                                                                                   </tr>
+                                                                                   
+                                                                                   <tr>
+                                                                                      
+                                                                                       <td><input type="text" class="form-control w-100" [(ngModel)]="newpaymentTerm.PaymentTerms" [ngModelOptions]="{standalone: true}"></td>
+                                                                                      
+                                                                                       <td style="width:60px;text-align: center;">
+                                                                                           <i (click)="addpaymnetTerm(newpaymentTerm)" class="fas fa-plus"></i>
+                                                                                       </td>
+                                                                                   </tr>
+                                                                               </tbody>
+                                                                           </table>
+                                                                       </div>
+                                                                   </div>
+                                                                       </div>
+                                                               </div>
+                                    
+                                            <div class="tab-pane fade" id="termscondition" role="tabpanel" aria-labelledby="terms_condition">
+                                         <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                                          <h4 style="padding-top:10px;">{{'termscondition' | translate}}</h4>
+                                            <div class="card-body border-top purchase-order px-0 py-2">
+                                                    <div class="table-wrapper-scroll-y">
+                                                        <table class="table table-striped custom-table">
+                                                            <thead>
+                                                                <tr style="background-color: #666666; color: #ffffff;">
+                                                                    <th scope="col">{{'termscondition' | translate}}</th>
+                                                                    <th scope="col" style="width:5%;text-align: center;">{{'action' | translate}}</th>
+                                                                   
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="font-sm">
+                                                            <tr *ngFor="let  termsCondition of termsConditions ; let i = index">
+                                                                  
+                                        
+                                                                    <td *ngIf="termsCondition.id === edittermsConditionID"><input type="text" class="form-control w-100" [(ngModel)]='termsCondition.TermsCondition' [ngModelOptions]="{standalone: true}"></td>
+                                                                    <td *ngIf="termsCondition.id !== edittermsConditionID" (dblclick)="edittermsCondition(termsCondition.id)">{{termsCondition.TermsCondition}}</td>
+                                        
+                                                                   
+                                                                    <td style="width:60px;text-align: center;">
+                                                                        <div>
+                                                                            <i *ngIf="termsCondition.id === edittermsConditionID" class="fas fa-check customIcon" (click)="updatetermsCondition(termsCondition)"></i>
+                                                                            <i *ngIf="termsCondition.id !== edittermsConditionID" class="fas fa-edit customIcon" (click)="edittermsCondition(termsCondition.id)"></i>
+                                                                            <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removetermsCondition(i)"></i>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                                <tr>
+                                                                   
+                                                                    <td><input type="text" class="form-control w-100" [(ngModel)]="newtermsCondition.TermsCondition" [ngModelOptions]="{standalone: true}"></td>
+                                                                   
+                                                                    <td style="width:60px;text-align: center;">
+                                                                        <i (click)="addtermsCondition(newtermsCondition)" class="fas fa-plus"></i>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                    </div>
+                                            </div>
+                                    
+                                            <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery_schedule">
+                                                    <div class="scroll-spy" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                                                     <h4 style="padding-top:10px;">{{'deliveryschedule' | translate}}</h4>
+                                                       <div class="card-body border-top purchase-order px-0 py-2">
+                                                               <div class="table-wrapper-scroll-y">
+                                                                   <table class="table table-striped custom-table">
+                                                                       <thead>
+                                                                           <tr style="background-color: #666666; color: #ffffff;">
+                                                                                <th scope="col" style="width:20%;">{{'itemname' | translate}}</th>
+                                                                                <th scope="col" style="width:20%;">{{'itemcode' | translate}}</th>
+                                                                               <th scope="col" style="width:20%;">{{'deliverydate' | translate}}</th>
+                                                                               <th scope="col" style="width:15%;">{{'quantity' | translate}}</th>
+                                                                               <th scope="col" style="width:20%;">{{'unit' | translate}}</th>
+                                                                               <th scope="col" style="width:5%;text-align: center;">{{'action' | translate}}</th>
+                                                                              
+                                                                           </tr>
+                                                                       </thead>
+                                                                       <tbody class="font-sm">
+                                                                       <tr *ngFor="let  deliverySchedule of deliverySchedules ; let i = index">
+                                                                             
+                                                                            <td *ngIf="deliverySchedule.id === editdeliveryScheduleID">
+                                                                                    <select class="form-control form-control-sm custom-select" [(ngModel)]='deliverySchedule.itemname' [ngModelOptions]="{standalone: true}">
+                                                                                              <option value="Raw Material">Raw Material</option>
+                                                                                              <option value="Raw Material">Raw Material</option>
+                                                                                          </select>
+                                                                            </td>
+                                                                            <td *ngIf="deliverySchedule.id !== editdeliveryScheduleID" (dblclick)="editdeliverySchedule(deliverySchedule.id)">{{deliverySchedule.itemname}}</td>
+
+                                                                            <td  *ngIf="deliverySchedule.id === editdeliveryScheduleID"><input type="text" class="form-control w-100" [(ngModel)]='deliverySchedule.itemcode' [ngModelOptions]="{standalone: true}"></td>
+                                                                            <td   *ngIf="deliverySchedule.id !== editdeliveryScheduleID" (dblclick)="editdeliverySchedule(deliverySchedule.id)">{{deliverySchedule.itemcode}}</td>
+                                                   
+                                                                               <td *ngIf="deliverySchedule.id === editdeliveryScheduleID">
+                                                                                    <div class="form-group">
+                                                                                            <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                                                                <input matInput [matDatepicker]="picker1" name="date" [(ngModel)]='deliverySchedule.date' [ngModelOptions]="{standalone: true}">
+                                                                                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                                                                <mat-datepicker #picker1></mat-datepicker>
+                                                                                            </mat-form-field>
+                                                                                        </div>
+                                                                                </td>
+                                                                               <td *ngIf="deliverySchedule.id !== editdeliveryScheduleID" (dblclick)="editdeliverySchedule(deliverySchedule.id)">{{deliverySchedule.date | date:'d/M/y'}}</td>
+                                        
+                                                                        <td *ngIf="deliverySchedule.id === editdeliveryScheduleID"><input type="text" class="form-control w-100" [(ngModel)]='deliverySchedule.quantity' [ngModelOptions]="{standalone: true}"></td>
+                                                                        <td *ngIf="deliverySchedule.id !== editdeliveryScheduleID" (dblclick)="editdeliverySchedule(deliverySchedule.id)">{{deliverySchedule.quantity}}</td>
+
+                                                                        <td *ngIf="deliverySchedule.id === editdeliveryScheduleID"><input type="text" class="form-control w-100" [(ngModel)]='deliverySchedule.units' [ngModelOptions]="{standalone: true}"></td>
+                                                                        <td *ngIf="deliverySchedule.id !== editdeliveryScheduleID" (dblclick)="editdeliverySchedule(deliverySchedule.id)">{{deliverySchedule.units}}</td>
+                                                                              
+                                                                               <td style="width:60px;text-align: center;">
+                                                                                   <div>
+                                                                                       <i *ngIf="deliverySchedule.id === editdeliveryScheduleID" class="fas fa-check customIcon" (click)="updatedeliverySchedule(deliverySchedule)"></i>
+                                                                                       <i *ngIf="deliverySchedule.id !== editdeliveryScheduleID" class="fas fa-edit customIcon" (click)="editdeliverySchedule(deliverySchedule.id)"></i>
+                                                                                       <i style="margin-left: 5px;" class="far fa-trash-alt customIcon" (click)="removedeliverySchedule(i)"></i>
+                                                                                   </div>
+                                                                               </td>
+                                                                           </tr>
+                                                                           
+                                                                           <tr>
+                                                                                <td>
+                                                                                        <select class="form-control form-control-sm custom-select" [(ngModel)]='newdeliverySchedule.itemname' [ngModelOptions]="{standalone: true}">
+                                                                                                <option value="Raw Material">Raw Material</option>
+                                                                                                <option value="Raw Material">Raw Material</option>
+                                                                                              </select>
+                                                                                        </td>
+                                                                                        <td><input type="text" class="form-control w-100" [(ngModel)]="newdeliverySchedule.itemcode" [ngModelOptions]="{standalone: true}"></td>
+                                                                                <td>
+                                                                                        <div class="form-group">
+                                                                                                <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                                                                                                    <input matInput [matDatepicker]="picker2" name="date" [(ngModel)]='newdeliverySchedule.date' [ngModelOptions]="{standalone: true}">
+                                                                                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                                                                </mat-form-field>
+                                                                                            </div>
+                                                                                    </td>
+                                                                               <td><input type="text" class="form-control w-100" [(ngModel)]="newdeliverySchedule.quantity" [ngModelOptions]="{standalone: true}"></td>
+                                                                               <td><input type="text" class="form-control w-100" [(ngModel)]="newdeliverySchedule.units" [ngModelOptions]="{standalone: true}"></td>
+                                                                              
+                                                                               <td style="width:60px;text-align: center;">
+                                                                                   <i (click)="adddeliverySchedule(newdeliverySchedule)" class="fas fa-plus"></i>
+                                                                               </td>
+                                                                           </tr>
+                                                                       </tbody>
+                                                                   </table>
+                                                               </div>
+                                                           </div>
+                                                               </div>
+                                                       </div>
+                                    
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+                            </div>
+                        </div>
+                                <div class="col-lg-3">
+                                    
+                                        <div class="border position-relative" style="background: #ffffcf;min-height:470px">
+                                            <h6 class="p-2 mb-0" style="background-color:#666;color:#fff;">Summary</h6>
+
+                                            <!-- <table class="table table-sm table-condensed font-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>V.No.</th>
+                                                        <th style="width: 130px;">Narration</th>
+                                                        <th>Amount</th>
+                                                        <th style="text-align:right;">D/C</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let staff of staffData | paginate: { itemsPerPage: itemPerPage, currentPage: p }">
+                                                        <td class="font-weight-sm">{{ staff.date | date : "MMM, dd" }} </td>
+                                                        <td>{{staff.id}}</td>
+                                                        <td><em class="text-truncate d-inline-block" style="width:130px;">{{staff.narration}}</em></td>
+                                                        <td><em>{{staff.debit}}</em></td>
+                                                        <td class="text-right"><em>Dr.</em></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table> -->
+                                            <!-- <div *ngIf="staffData != ''" class="row">
+                                                <div class="form-group col-sm-2" style="padding-right: 0px !important;">
+                                                    <select class="form-control" name="records" (change)="onChangePage($event.target.value)"> 
+                                                        <option value="5">5</option>
+                                                        <option value="10" selected>10</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                        </select>
+                                                </div>
+                                                <div class="col-sm-9 pb-3 text-dark font-weight-sb font-sm">
+                                                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                                                </div>
+                                            </div> -->
+                                            <!-- <mat-paginator *ngIf="staffData != ''" class="row" [length]="100"
+                                            [pageSize]="10"
+                                            [pageSizeOptions]="[5, 10, 25, 100]">
+                                </mat-paginator> -->
+                                        </div>
+                                    </div>
+</div>
+
+<div class="d-flex row">
+    <div class="col-lg-9">
+        
+    </div>
+    <div class="col-lg-3"><div class="my-1">
+        <button class="btn btn-sm btn-secondary rounded" routerLink="/purchase-order">{{'cancel' | translate}}</button> 
+        &nbsp;
+        <button  type="button" class="btn btn-sm btn-info rounded" (click)="savePurchase(newData)" [disabled]="purchaseForm.pristine || purchaseForm.invalid" >{{'save' | translate}}</button>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+    </div>
+    </form>

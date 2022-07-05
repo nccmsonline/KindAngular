@@ -2,10 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Injectable  } from '@angular/
 import { HttpClient } from '@angular/common/http';  
 import { ItemMasterService } from './item-master.service';
 import { Item } from './item.modal';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 import { AddNewItemMasterComponent } from './add-new-item-master/add-new-item-master.component';
 import { Subscription, Observable } from 'rxjs';
 
@@ -16,8 +13,8 @@ import { Subscription, Observable } from 'rxjs';
 })
 export class ItemMasterComponent implements OnInit {
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator:MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator:MatPaginator;
 
   // fieldArray: Array<any> = [];
   supplierCategoryArray: Array<any> = [];

@@ -12,7 +12,7 @@ import { environment } from '../../../../../environments/environment';
 })
 export class LeaveEntryComponent implements OnInit {
   original_url=environment.baseUrl;
-isAddNew:any;allData:any={};EmpNo:any;myDate = new Date();WorkingDate=new Date();
+isAddNew:any;allData:any={};EmpNo:any;myDate = new Date();
 isEditable:any;isLoadingResults:any;leaveform:any=[];userid:any;token:any;
 newData:any={};boid : any;FYUSER:any;ServerIP:any;datePipe = new DatePipe("en-US");EmpId:any;
 constructor(private http: HttpClient, public dialog: MatDialog) {
@@ -21,30 +21,17 @@ constructor(private http: HttpClient, public dialog: MatDialog) {
   this.ServerIP=CompanyData['SERVERIP'];
   this.FYUSER=CompanyData['FYUSER'];
   this.boid = CompanyData['BRANCHID'];
-  
-  this.WorkingDate= new Date(CompanyData['SEVERDATE']);
-  this.WorkingDate.setDate(this.WorkingDate.getDate() -8);
+  this.token = CompanyData['TOKEN'];
   let currentUser = sessionStorage.getItem("currentUser");
   currentUser = JSON.parse(currentUser);
   this.userid = currentUser['USERID'];
-  this.token = currentUser['TOKEN'];
+
   this.myDate= new Date(CompanyData['WORKINGDATE']);
   this.isAddNew=true;
  }
   ngOnInit() {
   }
-  refresh()
-  {
-    this.newData.EMPNO='';
-    this.newData.NAME='';
-    this.newData.DESIGNATION;
-    this.newData.LEAVEFROM='';
-    this.newData.DEPARTMENT='';
-    this.newData.LEAVETO='';
-    this.newData.REASONFORLEAVE='';
-    this.newData.ADDRESS='';
-    this.isAddNew=true;
-  }
+
   validateDetail(mode)
   {
   var flag:boolean;
@@ -85,10 +72,7 @@ constructor(private http: HttpClient, public dialog: MatDialog) {
     }
     //console.log("1", this.newData);
 }
-onDateChange()
-{
-  this.newData.LEAVETO=this.newData.LEAVEFROM;
-}
+
 saveLeaveRecord(mode)
 {
   var savedata:any={};
@@ -130,7 +114,9 @@ saveLeaveRecord(mode)
   saveList.push(savedata);
 
   const  params = new  HttpParams()
- 
+  .set('fyuser', this.FYUSER)
+  .set('serverip', this.ServerIP)
+  .set('boid', this.boid)
   .set('id', mId)
   .set('empno', this.EmpNo)
   .set('token', this.token)
@@ -143,7 +129,6 @@ this.http.post(this.original_url+"/hr/hr/saveLeaveForm", params.toString(), {
   this.allData=res;
   this.leaveform=this.allData.Table;
   this.newData={};
-  debugger;
   if (this.leaveform!=undefined)
   {
           const dialogRef = this.dialog.open(SuccessDialogComponent, {
@@ -180,12 +165,11 @@ error=>{
 }
 showLeaveRecord(data)
 {
- 
+  this.newData=data;
   //console.log("5", this.newData);
   debugger;
   if(data.APPROVEDBYAUTHORITY=="N")
   {
- //   this.newData=data;
     this.newData.ID= data.ID; 
     this.newData.LEAVEFROM= data.LEAVEFROM; 
     this.newData.LEAVETO=  data.LEAVETO; 
@@ -208,25 +192,10 @@ showLeaveRecord(data)
  showData()
  {
   this.isLoadingResults=true;
-  this.http.get(this.original_url+"/HR/HR/getEmployeeLeaveFormList?empno="+this.EmpNo+"&token="+this.token).subscribe((res)=> {
+  this.http.get(this.original_url+"/HR/HR/getEmployeeLeaveFormList?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empno="+this.EmpNo).subscribe((res: any[])=> {
     this.allData=res;
-   //his.newData=
-   this.allData=this.allData.Table[0];
-   
-   Object.assign(this.newData, {
-    EMPID:this.allData.EMPID,  
-    NAME:this.allData.NAME, 
-    DESIGNATION:this.allData.DESIGNATION, 
-    DEPARTMENT:this.allData.DEPARTMENT, 
-    LEAVEFROM: '',
-    LEAVETO:  '',
-    REASONFORLEAVE:'',
-    ADDRESS:''
- 
-   });
-   this.allData=res;
-    this.leaveform=this.allData.Table; 
-
+   this.newData=this.allData.Table[0];
+    this.leaveform=this.allData.Table1;
     this.isLoadingResults=false;
   },errr=>{
     const dialogRef = this.dialog.open(SuccessDialogComponent, {

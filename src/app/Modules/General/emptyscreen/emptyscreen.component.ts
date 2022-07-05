@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Global } from 'src/app/Global';
 
 @Component({
   selector: 'app-emptyscreen',
@@ -11,7 +10,6 @@ export class EmptyscreenComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
   }
 
 }

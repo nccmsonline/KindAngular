@@ -9,8 +9,7 @@ import {ConfirmationDialogService} from '../../../../Dialog/confirmation-dialog/
 import { Subscription, Observable,BehaviorSubject } from 'rxjs';
 declare var jQuery: any;
 import { CustomerMasterService } from '../customer-master.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import {formatDate } from '@angular/common';
 import {INgxSelectOption} from    '../../../../../assets/ngx-select/ngx-select.interfaces';
 import {SuccessDialogComponent} from '../.././../../Dialog/success-dialog/success-dialog.component';

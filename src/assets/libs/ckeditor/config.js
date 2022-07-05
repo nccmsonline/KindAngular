@@ -28,8 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removePlugins = 'elementspath,save,image,flash,iframe,link,smiley,tabletools,find,templates,about,maximize,showblocks,newpage,language';
-	config.removeButtons = 'Underline,Subscript,Superscript,Copy,Cut,Paste,Undo,Redo,Form,TextField,Textarea,Button,SelectAll,CreateDiv,PasteText,Select,HiddenField,,Radio,Checkbox,ImageButton,Anchor,BidiLtr,BidiRtl,Font,Format,Styles,Preview,Indent,Outdent';
+	config.removeButtons = 'Underline,Subscript,Superscript';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';

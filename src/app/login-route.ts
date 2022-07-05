@@ -10,9 +10,8 @@ export class LoginRoute implements CanActivate {
 	}
 
   canActivate(router: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-	//	console.log("my url", state.url);
+		console.log("my url", state.url);
 		this.redirectUrl = state.url;
-		
 		return this.checkLogin(this.redirectUrl);
 	}
 

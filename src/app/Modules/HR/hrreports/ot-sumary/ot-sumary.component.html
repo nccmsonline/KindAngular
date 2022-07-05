@@ -2,13 +2,12 @@
 
   <div class="form-group mr-2 ml-auto bd-highlight">
       <span class="d-flex">
-              <a skipLocationChange  [routerLink]="backto" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders">
+              <a [routerLink]="backto" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders">
                 <!-- <a  (click)="backtoSource()"  class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"> -->
                 <i  class="mdi mdi-keyboard-backspace"></i></a>
                   &nbsp;&nbsp;
           <button class="btn btn-primary btn-sm rounded waves-effect waves-light customButton" (click)="pdf.saveAs('OT Summary.pdf')"><i class="ti-download"></i>&nbsp;Download PDF</button>
           <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
-              <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="exportToExcelDetail()"  ><i class="fa fa-file-excel"></i>&nbsp;Ot Detail</button>
               <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" (click)="exportToExcel()"  ><i class="fa fa-file-excel"></i>&nbsp;{{'export'| translate}}</button>
           
           </div>
@@ -34,70 +33,38 @@
               <tr class="bg-sky border-lb">
                   <th scope="col" class="bg-sky border-lb" style="width: 90px;">Emp No.</th>
                   <th scope="col" class="bg-sky border-lb" style="width: 200px;">Name </th>
-                  <th *ngIf="DAY1=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center;background-color: tomato;">1 <br> {{DAY1}} </th>
-                  <th *ngIf="DAY1!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center;">1 <br> {{DAY1}} </th>
-                  <th *ngIf="DAY2=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align :center ;background-color: tomato;">2<br> {{DAY2}}</th >
-                    <th *ngIf="DAY2!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">2<br> {{DAY2}}</th >
-                    <th *ngIf="DAY3=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center;background-color: tomato;">3<br> {{DAY3}}</th >
-                      <th *ngIf="DAY3!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">3<br> {{DAY3}}</th >
-                      <th *ngIf="DAY4=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align :center ;background-color: tomato;">4<br> {{DAY4}}</th>
-                      <th *ngIf="DAY4!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">4<br> {{DAY4}}</th>
-                      <th *ngIf="DAY5=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align :center ;background-color: tomato;">5<br> {{DAY5}}</th>
-                      <th *ngIf="DAY5!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">5<br> {{DAY5}}</th>
-                      <th *ngIf="DAY6=='Sun'" scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center;background-color: tomato;">6<br> {{DAY6}}</th>
-                      <th *ngIf="DAY6!='Sun'" scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center">6<br> {{DAY6}}</th>
-                      <th *ngIf="DAY7=='Sun'" scope="col"  class="bg-sky border-lb" style="width: 70px;text-align :center ;background-color: tomato;">7<br> {{DAY7}}</th>
-                      <th *ngIf="DAY7!='Sun'" scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center">7<br> {{DAY7}}</th>
-                      <th *ngIf="DAY8=='Sun'" scope="col"  class="bg-sky border-lb" style="width: 70px;text-align :center ;background-color: tomato;">8<br> {{DAY8}}</th >
-                    
-                      <th *ngIf="DAY8!='Sun'" scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center">8<br> {{DAY8}}</th >
-                      <th *ngIf="DAY9=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">9<br> {{DAY9}}</th>
-                      <th *ngIf="DAY9!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">9<br> {{DAY9}}</th>
-                      <th *ngIf="DAY10=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">10<br> {{DAY10}}</th >
-                      <th *ngIf="DAY10!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">10<br> {{DAY10}}</th >
-                      <th *ngIf="DAY11=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">11<br> {{DAY11}}</th>
-                      <th *ngIf="DAY11!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">11<br> {{DAY11}}</th>
-                      <th *ngIf="DAY12=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">12<br> {{DAY12}}</th>
-                      <th *ngIf="DAY12!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">12<br> {{DAY12}}</th>
-                      <th *ngIf="DAY13=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">13<br> {{DAY13}}</th >
-                      <th *ngIf="DAY13!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">13<br> {{DAY13}}</th >
-                      <th *ngIf="DAY14=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">14<br> {{DAY14}}</th>
-                      <th *ngIf="DAY14!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">14<br> {{DAY14}}</th>
-                      <th *ngIf="DAY15=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">15<br> {{DAY15}}</th >
-                      <th *ngIf="DAY15!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">15<br> {{DAY15}}</th >
-                      <th *ngIf="DAY16=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">16<br> {{DAY16}}</th >
-                      <th *ngIf="DAY16!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">16<br> {{DAY16}}</th >
-                      <th *ngIf="DAY17=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">17<br> {{DAY17}}</th>
-                      <th *ngIf="DAY17!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">17<br> {{DAY17}}</th>
-                      <th *ngIf="DAY18=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">18<br> {{DAY18}}</th >
-                      <th *ngIf="DAY18!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">18<br> {{DAY18}}</th >
-                      <th *ngIf="DAY19=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">19<br> {{DAY19}}</th >
-                      <th *ngIf="DAY19!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">19<br> {{DAY19}}</th >
-                      <th *ngIf="DAY20=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">20<br> {{DAY20}}</th >
-                      <th *ngIf="DAY20!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">20<br> {{DAY20}}</th >
-                      <th *ngIf="DAY21=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">21<br> {{DAY21}}</th >
-                      <th *ngIf="DAY21!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">21<br> {{DAY21}}</th >
-                      <th *ngIf="DAY22=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">22<br> {{DAY22}}</th >
-                      <th *ngIf="DAY22!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">22<br> {{DAY22}}</th >
-                      <th *ngIf="DAY23=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">23<br> {{DAY23}}</th>
-                      <th *ngIf="DAY23!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">23<br> {{DAY23}}</th>
-                      <th *ngIf="DAY24=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center;background-color: tomato;">24<br> {{DAY24}}</th >
-                      <th *ngIf="DAY24!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">24<br> {{DAY24}}</th >
-                      <th *ngIf="DAY25=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">25<br> {{DAY25}}</th >
-                      <th *ngIf="DAY25!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">25<br> {{DAY25}}</th >
-                      <th *ngIf="DAY26=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">26<br> {{DAY26}}</th >
-                      <th *ngIf="DAY26!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">26<br> {{DAY26}}</th >
-                      <th *ngIf="DAY27=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align :center ;background-color: tomato;">27<br> {{DAY27}}</th>
-                      <th *ngIf="DAY27!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">27<br> {{DAY27}}</th>
-                      <th *ngIf="DAY28=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">28<br> {{DAY28}}</th>
-                      <th *ngIf="DAY28!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">28<br> {{DAY28}}</th>
-                      <th *ngIf="DAY29=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">29<br> {{DAY29}}</th >
-                      <th *ngIf="DAY29!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">29<br> {{DAY29}}</th >
-                      <th *ngIf="DAY30=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">30<br> {{DAY30}}</th >
-                      <th *ngIf="DAY30!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">30<br> {{DAY30}}</th >
-                      <th *ngIf="DAY31=='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center;background-color: tomato;">31<br> {{DAY31}}</th >
-                      <th *ngIf="DAY31!='Sun'" scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">31<br> {{DAY31}}</th >
-                      <th  scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">Total</th>
+                  <th scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">1</th>
+                  <th scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">2</th>
+                  <th scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">3</th>
+                  <th scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">4</th>
+                  <th scope="col" class="bg-sky border-lb" style="width: 70px;text-align : center">5</th>
+                  <th scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center">6</th>
+                  <th scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center">7</th>
+                  <th scope="col"  class="bg-sky border-lb" style="width: 70px;text-align : center">8</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">9</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">10</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">11</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">12</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">13</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">14</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">15</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">16</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">17</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">18</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">19</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">20</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">21</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">22</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">23</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">24</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">25</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">26</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">27</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">28</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">29</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">30</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">31</th>
+                  <th scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : center">Total</th>
               </tr>
 
             </thead>
@@ -106,69 +73,10 @@
             <tr *ngFor="let x of  ot.detail">
                 <td scope="col" class="bg-sky border-lb" style="width: 90px;"> {{x.EMPNO}}</td>
                 <td scope="col" class="bg-sky border-lb" style="width: 200px;">{{x.NAME}} </td>
-                <td *ngIf="DAY1=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY1">{{x.DAY1| number:'1.1-1'}}</div> </td>
-                <td *ngIf="DAY1!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY1">{{x.DAY1| number:'1.1-1'}}</div> </td>
-                <td *ngIf="DAY2=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY2">{{x.DAY2| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY2!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY2">{{x.DAY2| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY3=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY3">{{x.DAY3| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY3!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY3">{{x.DAY3| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY4=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY4">{{x.DAY4| number:'1.1-1'}}</div> </td>
-                <td *ngIf="DAY4!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY4">{{x.DAY4| number:'1.1-1'}}</div> </td>
-                <td *ngIf="DAY5=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY5">{{x.DAY5| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY5!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY5">{{x.DAY5| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY6=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY6">{{x.DAY6| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY6!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY6">{{x.DAY6| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY7=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY7">{{x.DAY7| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY7!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY7">{{x.DAY7| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY8=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY8">{{x.DAY8| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY8!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY8">{{x.DAY8| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY9=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY9">{{x.DAY9| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY9!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY9">{{x.DAY9| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY10=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY10">{{x.DAY10| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY10!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY10">{{x.DAY10| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY11=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY11">{{x.DAY11| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY11!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY11">{{x.DAY11| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY12=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY12">{{x.DAY12| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY12!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY12">{{x.DAY12| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY13=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY13">{{x.DAY13| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY13!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY13">{{x.DAY13| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY14=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY14">{{x.DAY14| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY14!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY14">{{x.DAY14| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY15=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY15">{{x.DAY15| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY15!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY15">{{x.DAY15| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY16=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY16">{{x.DAY16| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY16!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY16">{{x.DAY16| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY17=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY17">{{x.DAY17| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY17!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY17">{{x.DAY17| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY18=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY18">{{x.DAY18| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY18!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY18">{{x.DAY18| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY19=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY19">{{x.DAY19| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY19!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY19">{{x.DAY19| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY20=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY20">{{x.DAY20| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY20!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY20">{{x.DAY20| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY21=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY21">{{x.DAY21| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY21!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY21">{{x.DAY21| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY22=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY22">{{x.DAY22| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY22!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY22">{{x.DAY22| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY23=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY23">{{x.DAY23| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY23!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY23">{{x.DAY23| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY24=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY24">{{x.DAY24| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY24!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY24">{{x.DAY24| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY25=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY25">{{x.DAY25| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY25!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY25">{{x.DAY25| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY26=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY26">{{x.DAY26| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY26!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY26">{{x.DAY26| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY27=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY27">{{x.DAY27| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY27!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY27">{{x.DAY27| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY28=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY28">{{x.DAY28| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY28!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY28">{{x.DAY28| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY29=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY29">{{x.DAY29| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY29!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY29">{{x.DAY29| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY30=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY30">{{x.DAY30| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY30!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY30">{{x.DAY30| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY31=='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right;background-color: tomato;"><div *ngIf="x.DAY31">{{x.DAY31| number:'1.1-1'}}</div></td>
-                <td *ngIf="DAY31!='Sun'" scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY31">{{x.DAY31| number:'1.1-1'}}</div></td>
-                <!-- <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY4">{{x.DAY4| number:'1.1-1'}}</div> </td>
+                <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY1">{{x.DAY1| number:'1.1-1'}}</div> </td>
+                <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY2">{{x.DAY2| number:'1.1-1'}}</div></td>
+                <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY3">{{x.DAY3| number:'1.1-1'}}</div></td>
+                <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY4">{{x.DAY4| number:'1.1-1'}}</div> </td>
                 <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY5">{{x.DAY5| number:'1.1-1'}}</div></td>
                 <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY6">{{x.DAY6| number:'1.1-1'}}</div></td>
                 <td scope="col" class="bg-sky border-lb" style="width: 70px;text-align : right"><div *ngIf="x.DAY7">{{x.DAY7| number:'1.1-1'}}</div> </td>
@@ -195,7 +103,7 @@
                 <td scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : right"><div *ngIf="x.DAY28">{{x.DAY28| number:'1.1-1'}}</div></td>
                 <td scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : right"><div *ngIf="x.DAY29">{{x.DAY29| number:'1.1-1'}}</div></td>
                 <td scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : right"><div *ngIf="x.DAY30">{{x.DAY30| number:'1.1-1'}}</div> </td>
-                <td scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : right"><div *ngIf="x.DAY31">{{x.DAY31| number:'1.1-1'}}</div> </td> -->
+                <td scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : right"><div *ngIf="x.DAY31">{{x.DAY31| number:'1.1-1'}}</div> </td>
                 <td scope="col" class="bg-sky border-lb"  style="width: 70px;text-align : right"><div *ngIf="x.TOTAL">{{x.TOTAL| number:'1.1-1'}}</div> </td>
              </tr>
              <tr><td colspan="17" style="text-align : center"><b>Total</b></td>

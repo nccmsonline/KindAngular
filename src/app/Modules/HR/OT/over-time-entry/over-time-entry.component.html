@@ -25,15 +25,15 @@
                <div class="form-row mx-0 d-flex bd-highlight w-100">
                     <h4 class="card-title m-0">O.T. Entry</h4>
                         <div class="form-group mx-4 mb-2">
-                            <button *ngIf="isSave" type="submit" [disabled]="isLoadingResults"  class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="saveData()"  [disabled]="isdisabled">Save</button>
+                            <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="saveData()">Save</button>
                         </div>
                         <div class="form-group mx-4 mb-2">
                             <b>Dated</b>
                        </div>
                        <div class="col-sm-2  w-100">
-                        <!-- [min]="WorkingDate" readonly -->
+                  
                         <mat-form-field class="form-control py-1 mat-form-field-date-picker">
-                          <input matInput [matDatepicker]="picker4" name="OTDATE"  
+                          <input matInput [matDatepicker]="picker4" name="OTDATE" disabled
                               [(ngModel)]='newData.OTDATE' (change)="radioChange()"   (dateChange)="radioChange()"
                               [ngModelOptions]="{standalone: true}">
                           <mat-datepicker-toggle matSuffix [for]="picker4" ></mat-datepicker-toggle>
@@ -42,17 +42,15 @@
                   
                       </div>
                        <div class="form-group mx-4 mb-2">
-                        <button type="submit" [disabled]="isLoadingResults"  class="btn btn-sm rounded btn-warning waves-effect waves-ligh"  (click)="passedOTList()">Print Preview</button>
+                        <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="passedOTList()">Print Preview</button>
                     </div>
                     <div class="form-group mx-4 mb-2">
-                      <button type="submit"  [disabled]="isLoadingResults"  class="btn btn-sm rounded btn-success waves-effect waves-light"  (click)="passedOTsummary()">View O.T. Summary</button>
+                      <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light"  (click)="passedOTsummary()">View O.T. Summary</button>
                     </div>
-                    <div class="form-group mx-4 mb-2">
-                      <button type="submit" [disabled]="isLoadingResults"  class="btn btn-purple rounded btn-sm waves-effect waves-light"  (click)="EmployeeAbsentList()">Absent List</button>
-                    </div>    
+      
 
                     <div class="form-group mr-2 mb-2 ml-auto bd-highlight">
-                        <input type="text" [disabled]="isLoadingResults"  class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)"  placeholder="{{'search'|translate}}">
+                        <input type="text" class="form-control form-control-sm" (keyup)="applyFilter($event.target.value)"  placeholder="{{'search'|translate}}">
                     </div>
                </div>
            </div>
@@ -69,7 +67,7 @@
           <table mat-table [dataSource]="fieldArray" matSort class="mat-elevation-z8 table-striped w-100" #table>
                 <ng-container matColumnDef="EMPNO">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell">Emp No. </th>
-                        <td mat-cell *matCellDef="let element"> <mat-checkbox  [(ngModel)]="element.checked"  (change)="onChange($event, element)" ></mat-checkbox>  
+                        <td mat-cell *matCellDef="let element"> <mat-checkbox (change)="onChange($event, element)" ></mat-checkbox>  
                              {{element.EMPNO}}  </td>
                 </ng-container>
                 <ng-container matColumnDef="NAME">

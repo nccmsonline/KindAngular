@@ -1,0 +1,55 @@
+<form >
+    <div class="modal-header primary-bg py-2">
+        <button class="close text-white" mat-dialog-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="scroll-spy px-3 pb-3" style="height:170px; width: 500px">
+          <div class="card-body border-top item-master px-0 py-2">
+          <div class="form-inline">
+              <!-- <div class="form-group row col-12 mb-2 required"> -->
+                  <div class="form-group row col-12 mb-2 ">  
+                      <div class="col-sm-12 ">
+                       <b>{{newData.NAME}}</b>  
+                      </div>
+                    </div>
+                    
+
+              <div class="form-group row col-12 mb-2 ">  
+              <label for="inputEmail4" class="col-sm-3 text-right ">Cheque No.</label>
+              <div class="col-sm-5 d-flex">
+                  <input type="text"  class="form-control form-control-sm" name="Chequeno" [(ngModel)]="newData.CHEQUENO" />
+                    
+                  </div>
+            </div>
+            <div class="form-group row col-md-12 mb-2" >
+                <label for="inputEmail4" class="col-sm-3 text-right ">Cheque Dt.</label>
+                <div class="col-sm-5">
+                    <mat-form-field class="form-control py-1 mat-form-field-date-picker">
+                      <input matInput [matDatepicker]="picker4" name="TRANSDATE"
+                          [(ngModel)]='newData.TRANSDATE'
+                          [ngModelOptions]="{standalone: true}">
+                      <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                      <mat-datepicker #picker4></mat-datepicker>
+                   </mat-form-field>
+
+                  
+
+                </div>
+              </div>
+              <div class="form-group row col-12 mb-2 ">  
+                <label for="inputEmail4" class="col-sm-3 text-right ">Bank A/c</label>
+                <div class="col-sm-9 d-flex">
+                    <ngx-select class="ngx-custom-select-dropdown cheque-custom-drop" [ngModelOptions]="{standalone: true}" name="BANKACID"  
+                    [allowClear]="true" [(ngModel)]="newData.BANKACID"  [items]="accountHeadList" optionValueField="ACCOUNTID" optionTextField="ACCOUNTHEAD" placeholder=" Please Select account head"  >
+                    </ngx-select>
+                </div>
+              </div>
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-danger" mat-dialog-close>Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="amendCheque()">Ok</button>
+      </div>
+    </form>
