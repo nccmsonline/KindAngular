@@ -1,9 +1,6 @@
 import { Component, OnInit , ViewChild, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { SuccessDialogComponent } from '../.././../../Dialog/success-dialog/success-dialog.component';
@@ -15,11 +12,11 @@ import { environment } from '../../../../../environments/environment';
 })
 export class OverTimeAmendmentApprovalComponent implements OnInit {
   original_url=environment.baseUrl;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator:MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator:MatPaginator;
   userinfo : any; newData:any={};
   coid : any;datePipe = new DatePipe("en-US");
-  boid : any;empid:any; myDate = new Date();nextDate:Date;token:any;
+  boid : any;empid:any; myDate = new Date();nextDate:Date;
   userid:any;OTListToSave : Array<any>=[]; datetype: Array<any>=[];
   //rateAppDetail: RateApprovalModel[] = [];
   fieldArray = new MatTableDataSource<any>();
@@ -38,7 +35,6 @@ export class OverTimeAmendmentApprovalComponent implements OnInit {
     currentUser = JSON.parse(currentUser);
     this.empid = currentUser['EMPID'];
     this.userid = currentUser['USERID'];
-    this.token = currentUser['TOKEN'];
     this.empid=10195;
     this.TodayDay=this.datePipe.transform(this.myDate, 'dd-MMM-yyyy') ;
     this.gatDataOTList();
@@ -112,9 +108,11 @@ export class OverTimeAmendmentApprovalComponent implements OnInit {
     this.TodayDay=this.datePipe.transform(this.TodayDay, 'dd-MMM-yyyy') ;
 
     const params = new  HttpParams()
-  
+    .set('serverip', this.ServerIP)
+    .set('fyuser', this.FYUSER)
+    .set('boid', this.boid)
     .set('empid', this.empid)
-    .set('token', this.token)
+    .set('userid', this.userid)
     .set('flag', 'AA')
     .set('otdetail', JSON.stringify(savelist));
     this.http.post(this.original_url+"/hr/hr/EmployeeListOTPassing", params.toString(), {
@@ -160,7 +158,7 @@ export class OverTimeAmendmentApprovalComponent implements OnInit {
   gatDataOTList()
   {
     this.isLoadingResults=true;
-    this.http.get(this.original_url+"/hr/hr/getEmployeeListOT?empid="+ this.empid+"&dated="+this.TodayDay+"&IsConfirmed=AA"+"&token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/hr/hr/getEmployeeListOT?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+ this.empid+"&dated="+this.TodayDay+"&IsConfirmed=AA").subscribe((res)=>{
     this.data=res;
     this.itemDisplay=res;
     this.itemDisplay=this.itemDisplay.Table;

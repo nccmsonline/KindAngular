@@ -1,0 +1,73 @@
+/* @page { size: landscape; } */
+
+@media print{@page {size:Letter landscape}}
+
+.partyname{
+    position: fixed;top: 275px;left: 335px;
+    font-size: 14px;
+    font-weight: bold;   
+}
+.chequeAmt{
+    position: fixed;top: 310px;left: 370px;
+    font-size: 12px;
+    font-weight: bold;   
+}
+.chequeFigur{
+    position: fixed;top: 327px;left: 890px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+
+.payee{
+    position: fixed;top: 415px;left: 620px;
+    font-size: 16px;
+    text-decoration: underline;
+    font-weight: bold;   
+}
+
+
+.day1{
+    position: fixed;top: 227px;left: 815px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+
+.day2{
+    position: fixed;top: 227px;left: 837px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+
+.month1{
+    position: fixed;top: 227px;left: 863px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+.month2{
+    position: fixed;top: 227px;left: 885px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+
+.year1{
+    position: fixed;top: 227px;left: 910px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+.year2{
+    position: fixed;top: 227px;left: 932px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+
+.year3{
+    position: fixed;top: 227px;left: 957px;
+    font-size: 17px;
+    font-weight: bold;   
+}
+
+.year4{
+    position: fixed;top: 227px;left: 980px;
+    font-size: 17px;
+    font-weight: bold;   
+}

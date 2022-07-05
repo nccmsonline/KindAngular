@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { PlatformLocation } from '@angular/common';
 import { LoginService} from '../../Modules/General/login/login.service';
 import { EmployeeProfileComponent } from '../../Modules/HR/employee-profile/employee-profile.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material';
 import {MenuItem} from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import  {AddNewLoginComponent} from '../../Modules/General/login/add-new-login/add-new-login.component';
@@ -92,10 +92,7 @@ export class HeaderComponent implements OnInit {
 
 
   changeLogIn(){
-    let companyData =JSON.parse( sessionStorage.getItem("companyData"));
-   // this.newData.companyid=companyData['companyid'];
-
-    this.loginService.getBranchAndFyList( companyData['COMPANYID']).subscribe((response)=>{
+    this.loginService.getBranchAndFyList( this.ServerIP).subscribe((response)=>{
       this.table1=response;
       this.table1=this.table1.Table;
       this.table2=response;
@@ -105,9 +102,7 @@ export class HeaderComponent implements OnInit {
         data: {
          branch:this.table1,
          branch1:this.table2,
-         userid:this.userid,
-         companyid:companyData['COMPANYID'],
-         changelogin:'Y'
+         userid:this.userid
         }
         });
     });
@@ -133,7 +128,6 @@ export class HeaderComponent implements OnInit {
   logoutClick()
   {
     sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('currentBranch');
     sessionStorage.removeItem('branch1');
     sessionStorage.removeItem('branch2');
     this.router.navigate(['/login']);

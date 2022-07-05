@@ -1,4 +1,3 @@
-import { MatInputModule } from '@angular/material/input';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from './footer/footer.component';
@@ -11,15 +10,12 @@ import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { MiniSidebarDirective } from '../directives/mini-sidebar.directive';
 import { ScrollSpyDirective } from '../directives/scroll-spy.directive';
-import { MobileMiniSidebarDirective } from '../directives/mobile-mini-sidebar.directive';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     PanelMenuModule,
-    FormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -28,8 +24,8 @@ import { FormsModule } from '@angular/forms';
       }
     }),
   ],
-  declarations: [FooterComponent, HeaderComponent, SidebarComponent, MiniSidebarDirective, ScrollSpyDirective, MobileMiniSidebarDirective],
-  exports: [FooterComponent, HeaderComponent, SidebarComponent, MiniSidebarDirective, MobileMiniSidebarDirective]
+  declarations: [FooterComponent, HeaderComponent, SidebarComponent, MiniSidebarDirective, ScrollSpyDirective],
+  exports: [FooterComponent, HeaderComponent, SidebarComponent, MiniSidebarDirective]
 })
 export class LayoutModule { }
 export function HttpLoaderFactory(http: HttpClient) {

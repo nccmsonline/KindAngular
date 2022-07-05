@@ -5,7 +5,7 @@
             <div class="card-body border-bottom py-2">
                     <div class="d-md-flex align-items-center justify-content-between">
                         <div class="d-flex">
-                            <a skipLocationChange  [routerLink]="['/good-receipt']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i class="mdi mdi-keyboard-backspace"></i></a>
+                            <a [routerLink]="['/good-receipt']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i class="mdi mdi-keyboard-backspace"></i></a>
                             <h4 class="modal-title " id="exampleModalLabel">{{'newsreceiptnote' | translate}}</h4>
                         </div>
                         <!-- <div>
@@ -414,7 +414,7 @@
     
 </div>
 <div class="col-lg-3"><div class="my-1">
-    <button class="btn btn-sm btn-secondary rounded" routerLink="['/good-receipt']" skipLocationChange>{{'cancel' | translate}}</button> 
+    <button class="btn btn-sm btn-secondary rounded" routerLink="['/good-receipt']" >{{'cancel' | translate}}</button> 
     &nbsp;
     <button  type="button" class="btn btn-sm btn-info rounded" [disabled]="ReceiptForm.pristine || ReceiptForm.invalid"  (click)="savePurchase(newData)"  >{{'save' | translate}}</button>
     </div>

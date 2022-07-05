@@ -21,20 +21,12 @@
             Customer
         </div>
         <div class="col-sm-3">
-            <!-- <ngx-select class="ngx-custom-select-dropdown "
-            name="CUSTOMERID" [allowClear]="true" 
+            <ngx-select class="ngx-custom-select-dropdown "
+            name="CUSTOMERID" [allowClear]="true"
              [(ngModel)]="newData.CUSTOMERID"  [ngModelOptions]="{standalone: true}"
              [items]="customerList" optionValueField="CUSTOMERID" optionTextField="NAME" 
              placeholder="Select Customer">
-             </ngx-select> -->
-             <ng-select
-             [(ngModel)]="newData.CUSTOMERID" [ngModelOptions]="{standalone: true}"
-             [items]="customerList"  name="CUSTOMERID"
-             bindLabel="NAME"
-             bindValue="CUSTOMERID"
-             placeholder="Select Customer" 
-             class="form-control border-1 form-control-sm w-100 wi750px">
-             </ng-select>
+             </ngx-select>
         </div>
         <div class="col-sm-1">
             Bill Series
@@ -78,12 +70,7 @@
      
     <div class="card" >
       <div class="custom-invoice">
-        <div class="example-loading-shade" *ngIf="isLoadingResults">
-          <mat-spinner  [diameter]="40" *ngIf="isLoadingResults"></mat-spinner>
-         </div>
-         <div class="example-loading-shade" *ngIf="isLoadingResults">
-          <mat-spinner  [diameter]="60" *ngIf="isLoadingResults"></mat-spinner>
-         </div>
+
           <table class="custom-invoice-table" width="100%" cellspacing="0" cellpadding="0" border="2">
             <tbody>
 
@@ -102,11 +89,6 @@
                         Pening Customer Order Report 
                         </a>
                     </li>
-                    <li (dblclick)="printPendingOrderABCClassWise()">
-                      <a style="color: #0e43af !important; cursor: pointer !important;">
-                      Pening Customer Order Report ABC Class wise 
-                      </a>
-                  </li>
                        <li (dblclick)="prinDespatchedCustomerOrder()">
                         <a style="color: #0e43af !important; cursor: pointer !important;">
                         Despatched Customer Order Report 
@@ -123,8 +105,6 @@
                                                               </div></div>
                    </li>
                    <li (dblclick)="prinDespatchedByPOCustomerOrder()">
-                     
-                    
                       <div class="row">
                         <div class="col-md-4">
                      <a style="color: #0e43af !important; cursor: pointer !important;">
@@ -132,20 +112,6 @@
                     </div><div class="col-md-2">  <input style="text-align:right" type="text" class="form-control form-control-sm" name="CustomerPO"
                                                                  [(ngModel)]="newData.CustomerPO" [ngModelOptions]="{standalone: true}">
                                                                 </div></div>
-                     </li>
-                     <!-- <li (dblclick)="printOrder()"> -->
-                      <li (dblclick)="printOrder()">
-                      <div class="row">
-                        <div class="col-md-2">
-                     <a style="color: #0e43af !important; cursor: pointer !important;">
-                     Print Sale Order </a> 
-                    </div><div class="col-md-1">  <input style="text-align:right" type="text" class="form-control form-control-sm" name="ORDERNO"
-                           [(ngModel)]="newData.ORDERNO" [ngModelOptions]="{standalone: true}" placeholder="Order No.">
-                           </div>
-                          <div class="col-md-1">  <input style="text-align:right" type="text" class="form-control form-control-sm" name="IPONO"
-                            [(ngModel)]="newData.IPONO" [ngModelOptions]="{standalone: true}"  placeholder="IPO No.">
-                            </div>
-                         </div>
                      </li>
 
                   </ul>
@@ -160,91 +126,7 @@
   </div>
   </div>
 </div>
-<!--  -->
-<!-- <div >
-<div class="row" id="ravinderpal">
 
-  <div class="col-12">
-     
-    <div class="card" >
-      <div class="custom-invoice">
-
-          <table class="custom-invoice-table" width="100%" cellspacing="0" cellpadding="0">
-            <tbody>
-              <tr>
-                <td>
-                    <table style="width: 100%;" >
-                      <tr>
-                        <td colspan="2"><h4>{{companyName}}</h4></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2"><h5>{{Address1}}</h5></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2"><h5>{{Address2}}</h5></td>
-                      </tr>
-                      <tr>
-                        <td colspan="2"><h5>Customer Order</h5></td>
-                      </tr>
-                      <tr>
-                        <td style="width: 25%;" >Order Acceptance No.</td>
-                        <td><b>{{orderHeader.ORDERREFNO}}</b></td>
-                      </tr>
-                      <tr>
-                        <td style="width: 25%;" >Bill Type </td>
-                        <td><b>{{orderHeader.BILLSERIESDESC}}</b></td>
-                      </tr>
-                      <tr>
-                        <td style="width: 25%;" >IPO No. </td>
-                        <td><b>{{orderHeader.IPONO}}</b></td>
-                      </tr>
-                    </table>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <table style="width: 100%;" class="table table-sm custom-invoice-table table-bordered" cellspacing="0" cellpadding="0" border="1">
-                    <tr>
-                      <th  style="width: 20px;">Sr.</th>
-                      <th>Product </th>
-                      <th  style="width: 120px;">FinishingType </th>
-                      <th style="width: 80px;">Grade</th>
-                      <th style="width: 80px;">Thick - ness(mm) </th>
-                      <th style="width: 80px;">Stack Height(mm) </th>
-                      <th style="width: 80px;">Order Qty. (Pcs.)</th>
-                      <th style="width: 80px;">RequiredDly. Date </th>
-                      <th style="width: 100px;">Tentative Dt conf. by Mkt. </th>
-                      <th style="width: 100px;">Commited Dt. by Production</th>
-                    </tr>
-                    <tr *ngFor="let item of OrderDetail ; let i = index"> 
-                      <td>
-                        {{i+1}}
-                      </td>
-                      <td>{{item.ITEMCODE}}</td>
-                      <td>{{item.FINISHINGREQUIREDDESC}}</td>
-                      <td>{{item.METALGRADEDESC}}</td>
-                      <td>{{item.COILTHICKNESS}}</td>
-                      <td>{{item.PRODUCTHEIGHT}}</td>
-                      <td>{{item.ORDERQTYPCS}}</td>
-                      <td>{{item.DELIVERYDATEREQUESTED}}</td>
-                      <td>{{item.EXPECTEDDESPATCHDATE}}</td>
-                      <td>{{item.COMMITTEDDESPATCHDATE}}</td>
-
-                    </tr>
-                   
-                  </table>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-
-      </div>
- 
-  </div>
-  </div>
-</div>
-</div> -->
 </form>
 
 <app-footer></app-footer>

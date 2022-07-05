@@ -4,10 +4,7 @@ import { HttpClient } from '@angular/common/http';
 declare var $: any;
 declare var jQuery: any;
 
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 
 import { Subscription, Observable, from } from 'rxjs';
 import { Goods } from './goods.modal';
@@ -21,8 +18,8 @@ import {AddNewGoodsReceiptNoteComponent} from './add-new-goods-receipt-note/add-
   styleUrls: ['./goods-receipt-note.component.css']
 })
 export class GoodsReceiptNoteComponent implements OnInit {
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true })  paginator:MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator)  paginator:MatPaginator;
 
   onDataChanged: Observable<any>;
   displayedColumns: string[] = ['grnCat', 'grn_no', 'supplier', 'challan_no','gate_entry_no','date','bill_no','bill_amt'];

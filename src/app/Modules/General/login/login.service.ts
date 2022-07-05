@@ -3,12 +3,12 @@ import { Router} from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { environment } from '../../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  original_url=environment.baseUrl;
+
   onLoginChanged: BehaviorSubject<any> = new BehaviorSubject('');
   branch1FinacialID: BehaviorSubject<any> = new BehaviorSubject('');
   branch2FinacialID: BehaviorSubject<any> = new BehaviorSubject('');
@@ -29,11 +29,10 @@ export class LoginService {
     // );
     const  params = new  HttpParams()
     .set('UserName', data.UserName)
-    .set('Password', data.Password)
-    .set('companyid', data.COMPANYID);
+    .set('Password', data.Password);
    
     
-    return this.http.post(this.original_url+"/user/getFyData", params.toString(), {
+    return this.http.post(this.baseUrl+"/user/getFyData", params.toString(), {
        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
          }).pipe(
               map((data) => {
@@ -52,29 +51,21 @@ export class LoginService {
     //       return data;
     //     })
     // );
+
     // return this.http.post(this.baseUrl+"/user/getmenulist", params.toString(), {
     // headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     //   })
     //   .subscribe((res) => {
     //     return res;
     // });
-  }
-  getCompanyList()
-  {
-      return this.http.get(this.original_url+"/user/getCompanyData")
-      .pipe(
-        map((data) => {
-          console.log("1", data);
-          return data;
-        })
-    );
+    
   }
   
   getmenulist(userid,isadmin,boid)
   {
     console.log("1", "data");
     
-      return this.http.get(this.original_url+"/user/getmenulist?userId="+userid+"&isadmin="+isadmin+"&boid="+boid)
+      return this.http.get(this.baseUrl+"/user/getmenulist?userId="+userid+"&isadmin="+isadmin+"&boid="+boid)
       .pipe(
         map((data) => {
           console.log("1", data);
@@ -97,9 +88,10 @@ export class LoginService {
   }
 
 
-getBranchAndFyList(companyid)
+getBranchAndFyList(data)
 {
-    return this.http.get(this.original_url+"/user/getBranchAndFyList?companyid="+companyid)
+    console.log("data", data);
+    return this.http.get(this.baseUrl+"/user/getBranchAndFyList?serverip="+data)
     .pipe(
       map((data) => {
         console.log("1", data);
@@ -107,16 +99,4 @@ getBranchAndFyList(companyid)
       })
   );
 }
-getPartyDetail(gstin, mobile)
-{
-    
-    return this.http.get(this.original_url+"/master/getPartyDetail?gstin="+gstin+"&regMob="+mobile)
-    .pipe(
-      map((data) => {
-        console.log("1", data);
-        return data;
-      })
-  );
-}
-
 }

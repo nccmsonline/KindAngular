@@ -33,7 +33,7 @@
                        <div class="col-sm-2  w-100">
                   
                         <mat-form-field class="form-control py-1 mat-form-field-date-picker">
-                          <input matInput [matDatepicker]="picker4" name="OTDATE" [min]="WorkingDate" readonly
+                          <input matInput [matDatepicker]="picker4" name="OTDATE" disabled
                               [(ngModel)]='newData.OTDATE' (change)="radioChange()"   (dateChange)="radioChange()"
                               [ngModelOptions]="{standalone: true}">
                           <mat-datepicker-toggle matSuffix [for]="picker4" ></mat-datepicker-toggle>
@@ -109,8 +109,8 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true " class="bg-light" style="height:auto;"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;" (dblclick)="openDialog(row)" style="height:auto;"></tr>
             </table>
-            <mat-paginator [length]="10"
-            [pageSize]="100"
+            <mat-paginator [length]="100"
+            [pageSize]="15"
             [pageSizeOptions]="[5, 10, 25, 100]">
             </mat-paginator>
 

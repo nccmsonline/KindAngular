@@ -55,7 +55,7 @@
               </mat-form-field>
             </div>
             <div class="col-sm-2">
-              <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" skipLocationChange  [routerLink]="['/add-new-customer-order/0/new']"><i class="ti-plus"></i>&nbsp;Order</button>
+              <button type="submit" class="btn btn-sm rounded btn-info waves-effect waves-light" [routerLink]="['/add-new-customer-order/0/new']"><i class="ti-plus"></i>&nbsp;Order</button>
            </div>
             <div class="col-sm-4">
                     <input type="text" class="form-control form-control-sl col-sm-12" (keyup)="applyFilter($event.target.value)"  placeholder="Search">
@@ -113,7 +113,7 @@
 
                   <ng-container matColumnDef="print">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header class="py-1 font-weight-bold text-dark sticky-cell" style="width:5%"></th>
-                      <a href=""><td mat-cell *matCellDef="let element"><i class="fa fa-print" (click)="printOrder(element.ORDERNO)"></i></td></a>  
+                      <a href=""><td mat-cell *matCellDef="let element"><i class="fa fa-print" [routerLink]="'/cust-order-print/'+element.oaid"></i></td></a>  
                   </ng-container>
                   
                   <tr mat-header-row *matHeaderRowDef="displayedColumns ; sticky: true" class="bg-light" style="height:auto;"></tr>

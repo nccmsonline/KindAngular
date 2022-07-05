@@ -1,8 +1,7 @@
 import { Component, OnInit, Inject,OnDestroy } from '@angular/core';
 import { AccountGroupMasterService } from '../account-group-master.service';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import {ConfirmationDialogComponent} from '../../../../Dialog/confirmation-dialog/confirmation-dialog.component'

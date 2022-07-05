@@ -42,26 +42,9 @@
                 <div class="form-group row col-12 mb-2 required">
                     <label  class="col-sm-4 text-right">Customer Category</label>
                     <div class="col-sm-3">
-                        <!-- <select class="select2 form-control form-control-sm custom-select" name="categoryid" [(ngModel)]="newData.categoryid" formControlName="categoryid">
+                        <select class="select2 form-control form-control-sm custom-select" name="categoryid" [(ngModel)]="newData.categoryid" formControlName="categoryid">
                                 <option *ngFor="let prod of customercategory" [value]='prod.id' value='{{prod.id}}'>{{prod.categoryname}} </option>
-                        </select> -->
-                        <!-- (remove)="remove($event)" (change)="onOAChange($event)" -->
-                        <ng-select
-                        class="form-control custom-slect-box error-border form-control-sm w-100 "
-                        [(ngModel)]='newData.categoryid' name="oaid"
-                        formControlName="categoryid"
-                        [virtualScroll]="false" [multiple]="true"
-                        [searchable]="true" 
-                        [closeOnSelect]="false" 
-                        [items]="customercategory" bindLabel="categoryname" bindValue="oaid"
-                        placeholder="Select O.A.">
-                        <ng-template ng-header-tmp>
-                                <ng-template ng-option-tmp let-item="item">
-                                            {{item.categoryname}}
-                                </ng-template>
-                        </ng-template>
-                    </ng-select>
-
+                        </select>
                     </div>
                     <label class="col-sm-2 text-right" for="inputPassword4">Vendor Code</label>
                         <div class="col-sm-3 d-flex">

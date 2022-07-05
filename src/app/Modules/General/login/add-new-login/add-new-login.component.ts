@@ -1,16 +1,13 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import { Router} from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 //import { MyserviceService } from '../../../../myservice.service';
-// import { checkAndUpdatePureExpressionInline } from '@angular/core/src/view/pure_expression';
+import { checkAndUpdatePureExpressionInline } from '@angular/core/src/view/pure_expression';
 import { LoginService} from '../login.service';
 import { SuccessDialogComponent } from '../../../../Dialog/success-dialog/success-dialog.component';
-import { environment } from '../../../../../environments/environment';
-import { Global } from 'src/app/Global';
 @Component({
   selector: 'app-add-new-login',
   templateUrl: './add-new-login.component.html',
@@ -18,7 +15,6 @@ import { Global } from 'src/app/Global';
  
 })
 export class AddNewLoginComponent implements OnInit {
-  original_url=environment.baseUrl;
   newData: any={}; 
   Logincredentials: FormGroup;
   // private _appComponent:AppComponent;
@@ -30,8 +26,6 @@ export class AddNewLoginComponent implements OnInit {
   username:any;mainmenulist:any=[];allData:any;
   isadmin:any;IsAdmin:any;accToken:any;
   show:any;boid:any;isclicked:boolean;
-  isLoadingResults=false;
-
   constructor(
     @Inject('BASE_URL') private baseUrl : string,
     private router: Router,
@@ -39,11 +33,9 @@ export class AddNewLoginComponent implements OnInit {
     public dialogRef: MatDialogRef<AddNewLoginComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private http: HttpClient,
-    private global: Global,
     //private mydata:MyserviceService,
     private loginService:LoginService
   ) {
-    
     this.isclicked=false;
     this.createForm();
     console.log("data", data);
@@ -51,13 +43,7 @@ export class AddNewLoginComponent implements OnInit {
     this.branch1=data.branch;
     this.branch2=data;
     this.branch2=data.branch1;
-    let tmp:any={};
-    tmp=this.branch2[0];
-    this.newData.financialyear=tmp.FYID;
     this.userid=data.userid;
-    this.newData.companyid=data.companyid;
-     this.newData.changelogin=data.changelogin;
-    
     console.log("branch",this.branch1)
     console.log("userid",this.userid)
    }
@@ -75,7 +61,6 @@ export class AddNewLoginComponent implements OnInit {
     });
   }
   login(data){
-    this.isLoadingResults=true;
     this.isclicked=true;
     let login = sessionStorage.getItem("currentUser");
     this.userinfo = JSON.parse(login);
@@ -83,20 +68,10 @@ export class AddNewLoginComponent implements OnInit {
     this.accToken=this.userinfo['TOKEN'];
     this.getFillFyData(data)
       .subscribe((response) => {
-
-        console.log("my tok",response);
         this.loginValue = response;
         this.loginValue = this.loginValue.Table;
         this.loginValue = this.loginValue[0];
         this.boid=this.loginValue.BRANCHID;
-        let toek1=this.loginValue.TOKEN;
-        let login1 = sessionStorage.getItem("currentUser");
-        let userinfo1 = JSON.parse(login1);
-        debugger;
-        userinfo1['TOKEN']=toek1;
-        sessionStorage.removeItem('currentUser');
-        sessionStorage.setItem('currentUser', JSON.stringify(userinfo1));
-
         sessionStorage.setItem('currentBranch', JSON.stringify(this.loginValue));
         this.show= true;
         this.loginService.getUrl(this.show, this.userinfo,  this.loginValue);
@@ -106,22 +81,20 @@ export class AddNewLoginComponent implements OnInit {
         
        
         this.IsAdmin= this.userinfo['ISADMIN'];
-        sessionStorage.setItem('languageSet', 'en');
+
         this.loginService.getmenulist(this.userid,this.IsAdmin,this.boid)
         .subscribe((response) => {
           this.allData=response;
        
                this.mainmenulist=this.allData;
                sessionStorage.setItem('menuList', JSON.stringify(this.mainmenulist));
-                console.log("menu",response); 
-                this.router.navigate(['/management-planner']);
+                console.log("menu",response);
+                this.router.navigate(['/home']);
                 this.dialogRef.close();
                 this.isclicked=false;
-                this.global.afterLogin.next();
-                // this.AppUser.companyName=".";
         });
-       
-               this.isLoadingResults=false;
+        
+
        });
 
   }
@@ -135,7 +108,7 @@ export class AddNewLoginComponent implements OnInit {
 
   getFillFyData(data)
   {
-      return this.http.get(this.original_url+"/User/getLogingDetail?branchid="+data.branch+"&fyid="+data.financialyear+"&userid="+this.userid+"&token="+this.accToken+"&macadd=abcd&companyid="+data.companyid+"&changelogin="+data.changelogin)
+      return this.http.get(this.baseUrl+"/User/getLogingDetail?branchid="+data.branch+"&fyid="+data.financialyear+"&userid="+this.userid+"&token="+this.accToken+"&macadd=abcd")
       .pipe(
         map((data) => {
           return data;

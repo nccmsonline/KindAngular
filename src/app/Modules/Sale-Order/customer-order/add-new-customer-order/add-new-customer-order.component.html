@@ -23,17 +23,16 @@
               <div class="card-body border-bottom py-2">
                   <div class="d-md-flex align-items-center justify-content-between">
                       <div class="d-flex">
-                          <a skipLocationChange  [routerLink]="['/customer-order']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
+                          <a [routerLink]="['/customer-order']" class="btn btn-sm rounded btn-warning mr-3" title="Back to Orders"><i
                                   class="mdi mdi-keyboard-backspace"></i></a>
                           <h4 class="card-title m-0">Customer Order</h4>
                       </div>
                       <div class="col-md-2">
                         
                         <button *ngIf="!isAddNew" type="submit" (click)="addNewOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" > Add New</button>&nbsp;
-                        <button *ngIf="isAddNew" type="submit" (click)="saveSaleOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" [disabled]="isLoadingResults" >Save</button>
-                        <button *ngIf="isEditable" type="submit" (click)="updateSaleOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" [disabled]="isLoadingResults">Update</button>
-                        <button *ngIf="routeAction != 'new'"  type="button" class="btn btn-sm btn-secondary rounded" (click)="printOrder()">{{'print'|translate}}</button> 
-                    </div>
+                        <button *ngIf="isAddNew" type="submit" (click)="saveSaleOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Save</button>
+                        <button *ngIf="isEditable" type="submit" (click)="updateSaleOrder()"  class="btn btn-sm rounded btn-info waves-effect waves-light" >Update</button>
+                      </div>
                   </div>
               </div>
               <div class="col-md-12">
@@ -87,15 +86,15 @@
                            placeholder="Select Customer">
                        </ng-select> -->
 
-                           <ng-select
-                            [(ngModel)]="newData.CUSTOMERID" [ngModelOptions]="{standalone: true}"
-                            [items]="customerList"
-                                bindLabel="NAME"
-                                bindValue="CUSTOMERID"
-                                placeholder="Select Customer"
-                                (ngModelChange)="onCustomerChange(newData, $event)"  [disabled]="disableDropDown"
-                                class="form-control border-1 form-control-sm w-100">
-                            </ng-select>
+                       <ng-select
+                       [(ngModel)]="newData.CUSTOMERID" [ngModelOptions]="{standalone: true}"
+                       [items]="customerList"
+                           bindLabel="NAME"
+                           bindValue="CUSTOMERID"
+                           placeholder="Select Customer"
+                           (ngModelChange)="onCustomerChange(newData, $event)"  [disabled]="disableDropDown"
+                           class="form-control border-1 form-control-sm w-100">
+                       </ng-select>
                         </div>
                     </div>
                     <div class="row m-1">
@@ -250,7 +249,6 @@
                                  [items]="productNameList" optionValueField="ITEMID" optionTextField="ITEMNAME"
                                  placeholder="Select Product Name">
                              </ngx-select> -->
-                             
                              <ng-select
                              [(ngModel)]="rowDetail.ITEMID" [ngModelOptions]="{standalone: true}"
                              [items]="productCodeList" name="ITEMID"
@@ -285,7 +283,7 @@
                             <div class="col-md-2">
                                 <input style="text-align:right" type="text" class="form-control form-control-sm" name="RATE"
                                 [(ngModel)]="rowDetail.RATE" [ngModelOptions]="{standalone: true}"
-                                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">
                             </div>
                             <div class="col-md-3">
                                     <mat-radio-group class="example-radio-group" [(ngModel)]="rowDetail.UOM"  [ngModelOptions]="{standalone: true}" style="font-size:13px">

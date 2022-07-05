@@ -1,24 +1,7 @@
 import {
-    AfterContentChecked,
-    DoCheck,
-    Input,
-    Output,
-    ViewChild,
-    Component,
-    ElementRef,
-    EventEmitter,
-    forwardRef,
-    HostListener,
-    IterableDiffer,
-    IterableDiffers,
-    ChangeDetectorRef,
-    ContentChild,
-    TemplateRef,
-    Optional,
-    Inject,
-    InjectionToken,
-    ChangeDetectionStrategy,
-    OnDestroy
+    AfterContentChecked, DoCheck, Input, Output, ViewChild,
+    Component, ElementRef, EventEmitter, forwardRef, HostListener, IterableDiffer, IterableDiffers, ChangeDetectorRef, ContentChild,
+    TemplateRef, Optional, Inject, InjectionToken, ChangeDetectionStrategy
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
@@ -27,11 +10,7 @@ import {tap, filter, map, share, flatMap, toArray, distinctUntilChanged} from 'r
 import * as lodashNs from 'lodash';
 import * as escapeStringNs from 'escape-string-regexp';
 import {NgxSelectOptGroup, NgxSelectOption, TSelectOption} from './ngx-select.classes';
-import {
-    NgxSelectOptionDirective,
-    NgxSelectOptionNotFoundDirective,
-    NgxSelectOptionSelectedDirective
-} from './ngx-templates.directive';
+import {NgxSelectOptionDirective, NgxSelectOptionNotFoundDirective, NgxSelectOptionSelectedDirective} from './ngx-templates.directive';
 import {INgxOptionNavigated, INgxSelectOption, INgxSelectOptions} from './ngx-select.interfaces';
 
 const _ = lodashNs;
@@ -48,7 +27,7 @@ enum ENavigation {
     firstSelected, firstIfOptionActiveInvisible
 }
 
-function propertyExists(obj: object, propertyName: string) {
+function propertyExists(obj: Object, propertyName: string) {
     return propertyName in obj;
 }
 
@@ -65,7 +44,7 @@ function propertyExists(obj: object, propertyName: string) {
         }
     ]
 })
-export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccessor, DoCheck, AfterContentChecked, OnDestroy {
+export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccessor, DoCheck, AfterContentChecked {
     @Input() public items: any[];
     @Input() public optionValueField = 'id';
     @Input() public optionTextField = 'text';
@@ -84,9 +63,6 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
     @Input() public size: 'small' | 'default' | 'large' = 'default';
     @Input() public searchCallback: (search: string, item: INgxSelectOption) => boolean;
     @Input() public autoActiveOnMouseEnter = true;
-    @Input() public showOptionNotFoundForEmptyItems = false;
-    @Input() public isFocused = false;
-    @Input() public keepSelectMenuOpened = false;
     public keyCodeToRemoveSelected = 'Delete';
     public keyCodeToOptionsOpen = ['Enter', 'NumpadEnter'];
     public keyCodeToOptionsClose = 'Escape';
@@ -106,17 +82,13 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
     @Output() public navigated = new EventEmitter<INgxOptionNavigated>();
     @Output() public selectionChanges = new EventEmitter<INgxSelectOption[]>();
 
-    @ViewChild('main', {static: true}) protected mainElRef: ElementRef;
-    @ViewChild('input') public inputElRef: ElementRef;
+    @ViewChild('main') protected mainElRef: ElementRef;
+    @ViewChild('input') protected inputElRef: ElementRef;
     @ViewChild('choiceMenu') protected choiceMenuElRef: ElementRef;
 
-    @ContentChild(NgxSelectOptionDirective, {read: TemplateRef, static: true}) templateOption: NgxSelectOptionDirective;
-
-    @ContentChild(NgxSelectOptionSelectedDirective, {read: TemplateRef, static: true})
-    templateSelectedOption: NgxSelectOptionSelectedDirective;
-
-    @ContentChild(NgxSelectOptionNotFoundDirective, {read: TemplateRef, static: true})
-    templateOptionNotFound: NgxSelectOptionNotFoundDirective;
+    @ContentChild(NgxSelectOptionDirective, {read: TemplateRef}) templateOption: NgxSelectOptionDirective;
+    @ContentChild(NgxSelectOptionSelectedDirective, {read: TemplateRef}) templateSelectedOption: NgxSelectOptionSelectedDirective;
+    @ContentChild(NgxSelectOptionNotFoundDirective, {read: TemplateRef}) templateOptionNotFound: NgxSelectOptionNotFoundDirective;
 
     public optionsOpened = false;
     public optionsFiltered: TSelectOption[];
@@ -138,6 +110,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
     private cacheElementOffsetTop: number;
 
     private _focusToInput = false;
+    public isFocused = false;
 
     /** @internal */
     public get inputText() {
@@ -261,7 +234,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
         });
     }
 
-    public setFormControlSize(otherClassNames: object = {}, useFormControl: boolean = true) {
+    public setFormControlSize(otherClassNames: Object = {}, useFormControl: boolean = true) {
         const formControlExtraClasses = useFormControl ? {
             'form-control-sm input-sm': this.size === 'small',
             'form-control-lg input-lg': this.size === 'large'
@@ -306,7 +279,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
         }
 
         return from(this.optionsFiltered).pipe(
-            flatMap<TSelectOption, any>((option: TSelectOption) =>
+            flatMap<TSelectOption, NgxSelectOption>((option: TSelectOption) =>
                 option instanceof NgxSelectOption ? of(option) :
                     (option instanceof NgxSelectOptGroup ? from(option.optionsFiltered) : EMPTY)
             ),
@@ -342,10 +315,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
                         }
                         break;
                     case ENavigation.firstIfOptionActiveInvisible:
-                        let idxOfOptionActive = -1;
-                        if (this.optionActive) {
-                            idxOfOptionActive = options.indexOf(options.find(x => x.value === this.optionActive.value));
-                        }
+                        const idxOfOptionActive = options.indexOf(this.optionActive);
                         navigated.index = idxOfOptionActive > 0 ? idxOfOptionActive : 0;
                         break;
                 }
@@ -382,10 +352,6 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
             }
 
         }
-    }
-
-    public ngOnDestroy(): void {
-        this.cd.detach();
     }
 
     public canClearNotMultiple(): boolean {
@@ -455,7 +421,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
     public inputKeyUp(value: string = '', event: KeyboardEvent) {
         if (event.code === this.keyCodeToOptionsClose) {
             this.optionsClose(/*true*/);
-        } else if (this.optionsOpened && (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowDown'].indexOf(event.code) === -1)/*ignore arrows*/) {
+        } else if (this.optionsOpened) {
             this.typed.emit(value);
         } else if (!this.optionsOpened && value) {
             this.optionsOpen(value);
@@ -491,9 +457,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
         if (option && !option.disabled) {
             this.subjOptionsSelected.next((this.multiple ? this.subjOptionsSelected.value : []).concat([option]));
             this.select.emit(option.value);
-            if (!this.keepSelectMenuOpened) {
-                this.optionsClose(/*true*/);
-            }
+            this.optionsClose(/*true*/);
             this.onTouched();
         }
     }
@@ -543,9 +507,9 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
 
         return options.filter((option: TSelectOption) => {
             if (option instanceof NgxSelectOption) {
-                return filterOption(option as NgxSelectOption);
+                return filterOption(<NgxSelectOption>option);
             } else if (option instanceof NgxSelectOptGroup) {
-                const subOp = option as NgxSelectOptGroup;
+                const subOp = <NgxSelectOptGroup>option;
                 subOp.filter((subOption: NgxSelectOption) => filterOption(subOption));
                 return subOp.optionsFiltered.length;
             }
@@ -562,10 +526,6 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
                 container.scrollTop = this.cacheElementOffsetTop + element.offsetHeight - container.clientHeight;
             }
         }
-    }
-
-    public showChoiceMenu(): boolean {
-        return this.optionsOpened && (!!this.subjOptions.value.length || this.showOptionNotFoundForEmptyItems);
     }
 
     public optionsOpen(search: string = '') {
@@ -600,6 +560,7 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
     private buildOptions(data: any[]): Array<NgxSelectOption | NgxSelectOptGroup> {
         const result: Array<NgxSelectOption | NgxSelectOptGroup> = [];
         if (Array.isArray(data)) {
+            let option: NgxSelectOption;
             data.forEach((item: any) => {
                 const isOptGroup = typeof item === 'object' && item !== null &&
                     propertyExists(item, this.optGroupLabelField) && propertyExists(item, this.optGroupOptionsField) &&
@@ -607,17 +568,13 @@ export class NgxSelectComponent implements INgxSelectOptions, ControlValueAccess
                 if (isOptGroup) {
                     const optGroup = new NgxSelectOptGroup(item[this.optGroupLabelField]);
                     item[this.optGroupOptionsField].forEach((subOption: NgxSelectOption) => {
-                        const opt = this.buildOption(subOption, optGroup);
-                        if (opt) {
-                            optGroup.options.push(opt);
+                        if (option = this.buildOption(subOption, optGroup)) {
+                            optGroup.options.push(option);
                         }
                     });
                     result.push(optGroup);
-                } else {
-                    const option = this.buildOption(item, null);
-                    if (option) {
-                        result.push(option);
-                    }
+                } else if (option = this.buildOption(item, null)) {
+                    result.push(option);
                 }
             });
         }

@@ -1,10 +1,6 @@
 import { Component, OnInit , ViewChild, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { DateAdapter } from '@angular/material/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource,MatPaginator, DateAdapter } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { SuccessDialogComponent } from '../.././../../Dialog/success-dialog/success-dialog.component';
@@ -19,17 +15,16 @@ import { environment } from '../../../../../environments/environment';
 })
 export class OverTimeEntryComponent implements OnInit {
   original_url=environment.baseUrl;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator:MatPaginator;
-  userinfo : any; newData:any={};WorkingDate=new Date();
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator:MatPaginator;
+  userinfo : any; newData:any={};
   coid : any;datePipe = new DatePipe("en-US");
   boid : any;empid:any; myDate = new Date();nextDate:Date;
-  userid:any;OTListToSave : Array<any>=[]; datetype: Array<any>=[];token:any;
+  userid:any;OTListToSave : Array<any>=[]; datetype: Array<any>=[];
   //rateAppDetail: RateApprovalModel[] = [];
-  isSave=true;
   fieldArray = new MatTableDataSource<any>();isLoadingResults:boolean;
   displayedColumns: string[] = [ 'EMPNO','NAME','DEPTNAME','DATED','OTHRS','REMARKS'];
-  data:any;FYUSER:any;ServerIP:any;TodayDay:any;dated:any;isdisabled=false;
+  data:any;FYUSER:any;ServerIP:any;TodayDay:any;dated:any;
   itemDisplay: any;dateFormControl = new FormControl(new Date());
   constructor(private router: Router,private http: HttpClient,  public dialog: MatDialog,) { 
     //
@@ -43,10 +38,8 @@ export class OverTimeEntryComponent implements OnInit {
     currentUser = JSON.parse(currentUser);
     this.empid = currentUser['EMPID'];
     this.userid = currentUser['USERID'];
-    this.token = currentUser['TOKEN'];
-    this.WorkingDate= new Date(CompanyData['SEVERDATE']);
-    this.WorkingDate.setDate(this.WorkingDate.getDate() -4);
-    
+
+
     //var TodayDate = new FormControl(CompanyData['WORKINGDATE']);
     //this.empid=10195;
 
@@ -82,16 +75,17 @@ export class OverTimeEntryComponent implements OnInit {
   }
   radioChange()
   {
-    if(this.WorkingDate>this.newData.OTDATE && this.empid!=10195 )
-    {
-      this.isSave=false;
-    }
-    else
-    {
-      this.isSave=true;
-    }
     console.log("date changed");
     this.TodayDay=this.datePipe.transform(this.newData.OTDATE, 'dd-MMM-yyyy');
+
+  //  if(this.newData.datetype=="K")
+  //  {
+  //    this.TodayDay=this.datePipe.transform(this.nextDate , 'dd-MMM-yyyy') ;
+  //  }
+  //  else
+  //  {
+  //    this.TodayDay=this.datePipe.transform(this.myDate , 'dd-MMM-yyyy') ;
+  //  }
     this.gatDataOTList();
   }
   applyFilter(filterValue: string) {
@@ -107,24 +101,24 @@ export class OverTimeEntryComponent implements OnInit {
   }
   openDialog(data): void {
     
-    // var empid= data.EMPID;
-    // console.log("empid",empid);
-    // const dialogRef = this.dialog.open(EmployeeProfileComponent, {
-    //   data: {empid: empid}
-    // });
+    var empid= data.EMPID;
+    console.log("empid",empid);
+    const dialogRef = this.dialog.open(EmployeeProfileComponent, {
+     // width: '600px',
+      data: {empid: empid}
+    });
   }
 
   passedOTList()
   {
     var orderfilter:any={};
     orderfilter={
-     source:'/OTEntry',
     fromDate:this.datePipe.transform(this.newData.OTDATE, 'dd-MMM-yyyy'),
     toDate:this.datePipe.transform(this.newData.OTDATE, 'dd-MMM-yyyy'),
     empid:this.empid};
   
     sessionStorage.setItem('otfilter', JSON.stringify(orderfilter));
-    this.router.navigate(['/passed-ot-list-report'], {skipLocationChange:true});
+    this.router.navigate(['/passed-ot-list-report']);
   }
 
   passedOTsummary()
@@ -143,69 +137,50 @@ export class OverTimeEntryComponent implements OnInit {
     source:'/OTEntry'};
   
     sessionStorage.setItem('otfilter', JSON.stringify(orderfilter));
-    this.router.navigate(['/passed-ot-list-summary'], {skipLocationChange:true});
+    this.router.navigate(['/passed-ot-list-summary']);
   }
 
-  EmployeeAbsentList()
-  {
-    var pdate =new Date(this.TodayDay);
-    var y=pdate.getFullYear(),m=pdate.getMonth();
-    var firstDate=new Date(y,m,1);
-    var secondDate=new Date(y,m+1,0);
-    debugger
-    if(secondDate>pdate)
-    {
-      secondDate=this.TodayDay ;
-    }
-    var orderfilter:any={};
-    orderfilter={
-    fromDate:this.datePipe.transform(firstDate, 'dd-MMM-yyyy'),
-    toDate:this.datePipe.transform(secondDate, 'dd-MMM-yyyy'),
-    empid:this.empid,
-    source:'/OTEntry'};
-  
-    sessionStorage.setItem('otfilter', JSON.stringify(orderfilter));
-    this.router.navigate(['/employee-absent-list'], {skipLocationChange:true});
-  }
+
   saveData()
   {
-    this.isLoadingResults=true;
+    
     var savelist : Array<any>=[]; var flag:boolean;
     flag=false;
-  
-   this.fieldArray.data.forEach((el)=>{
-      if(el.checked==true)
+    this.OTListToSave.forEach((el)=>{
+      if((el.REMARKS==''||el.REMARKS==undefined) && el.OTHRS>0)
       {
-        if((el.REMARKS==''||el.REMARKS==undefined) && el.OTHRS>0)
-        {
-          flag=true;
-        }
-        if(el.OTHRS>0 && el.ISCONFIRMED=="N")
-        {
-          el.DATED=this.datePipe.transform(el.DATED, 'dd-MMM-yyyy') ;
-          el.EDATE=this.datePipe.transform(this.myDate, 'dd-MMM-yyyy') ;
-          savelist.push(el);
-        }
+        flag=true;
       }
-    });
+        
+
+      if(el.OTHRS>0 && el.ISCONFIRMED=="N")
+      {
+        el.DATED=this.datePipe.transform(el.DATED, 'dd-MMM-yyyy') ;
+        el.EDATE=this.datePipe.transform(this.myDate, 'dd-MMM-yyyy') ;
+        savelist.push(el);
+      }
+    }); 
+
    if( savelist.length<=0)
    {
      this.WrongDetailDialog('Sorry, Nothing to save.');
-     this.isLoadingResults=false;
+
    }
    else if( flag)
    {
      this.WrongDetailDialog('Sorry,OT reason not entred');
-     this.isLoadingResults=false;
+     
    }
    else
    {
+    this.isLoadingResults=true;
     
-    this.isdisabled=true;
     const params = new  HttpParams()
-   
+    .set('serverip', this.ServerIP)
+    .set('fyuser', this.FYUSER)
+    .set('boid', this.boid)
     .set('empid', this.empid)
-    .set('token', this.token)
+    .set('userid', this.userid)
     .set('dated', this.TodayDay)
     .set('otdetail', JSON.stringify(savelist));
     this.http.post(this.original_url+"/hr/hr/OTEntryData", params.toString(), {
@@ -225,7 +200,6 @@ export class OverTimeEntryComponent implements OnInit {
        console.log("res",res);
        this.OTListToSave=[];
        this.isLoadingResults=false;
-       this.isdisabled=false;
     },
     error=>{
       var erroremsg:any;
@@ -238,7 +212,6 @@ export class OverTimeEntryComponent implements OnInit {
        }
      });
      this.isLoadingResults=false;
-     this.isdisabled=false;
     });
    }
    console.log("this.other", this.OTListToSave);
@@ -250,7 +223,7 @@ export class OverTimeEntryComponent implements OnInit {
     // });
     this.isLoadingResults=true;
     console.log("sdskdjks k",this.original_url+"/hr/hr/getEmployeeListOT?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+ this.empid+"&dated="+this.TodayDay);
-    this.http.get(this.original_url+"/hr/hr/getEmployeeListOT?empid="+ this.empid+"&dated="+this.TodayDay+"&token="+this.token).subscribe((res)=>{
+    this.http.get(this.original_url+"/hr/hr/getEmployeeListOT?serverip="+this.ServerIP+"&fyuser="+this.FYUSER+"&boid="+this.boid+"&empid="+ this.empid+"&dated="+this.TodayDay).subscribe((res)=>{
     this.data=res;
     this.itemDisplay=res;
     this.itemDisplay=this.itemDisplay.Table;

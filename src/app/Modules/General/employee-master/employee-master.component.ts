@@ -9,10 +9,7 @@ import { Employee} from  './employee.modal';
 import {NewEmployeeMasterComponent} from './new-employee-master/new-employee-master.component'
 
 import { animate } from '@angular/animations';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog, MAT_DIALOG_DATA, MatSort, MatTableDataSource,MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-employee-master',
@@ -21,8 +18,8 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class EmployeeMasterComponent implements OnInit {
   
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator:MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator:MatPaginator;
 
   //fieldArray: Array<any> = [];
   displayedColumns: string[] = [ 'customer_name', 'customer_address','customer_gstIN'];
